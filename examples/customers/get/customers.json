@@ -6,7 +6,7 @@
         "name": "Mark Liu",
         "max_risk_score": "N/A",
         "labels": [],
-        "status": "active",
+        "is_active": true,
         "created_at": "2018-11-13T20:20:39+00:00"
       },
       {
@@ -16,7 +16,7 @@
         "labels": [
           "Gambling"
         ],
-        "status": "inactive",
+        "is_active": false,
         "created_at": "2018-11-15T20:20:39+00:00",
         "last_screened": "2018-11-15T20:20:39+00:00"
       }

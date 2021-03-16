@@ -17,8 +17,7 @@
       "type": "object",
       "properties": {
         "id_type": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "./national_id_type.json"
         },
         "id_number": {
           "type": "string",
@@ -59,8 +58,7 @@
       "type": "object",
       "properties": {
         "type": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "./address_type.json"
         },
         "country": {
           "$ref": "../../common/country.json"

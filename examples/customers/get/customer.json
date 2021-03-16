@@ -6,7 +6,7 @@
       "customer_id": "123456",
       "name": "Mark Liu",
       "national": {
-        "id_type": "passport number",
+        "id_type": 0,
         "id_number": "1234567",
         "country": "TW",
         "registration_authority": "coolbitx"
@@ -16,7 +16,7 @@
         "date": "2020-01-01T...."
       },
       "address": {
-        "type": "xxx",
+        "type": 0,
         "country": "TW"
       },
       "assets": [

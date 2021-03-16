@@ -22,8 +22,8 @@
           "minLength": 1
         }
       },
-      "status": {
-        "$ref": "../../common/vasp_status.json"
+      "is_active": {
+        "type": "boolean"
       },
       "created_at": {
         "$ref": "../../common/date.json"
@@ -37,7 +37,7 @@
       "name",
       "max_risk_score",
       "labels",
-      "status",
+      "is_active",
       "created_at"
     ],
     "additionalProperties": false
