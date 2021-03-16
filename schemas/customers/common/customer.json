@@ -1,0 +1,163 @@
+{
+  "title": "customer",
+  "type": "object",
+  "properties": {
+    "customer_type": {
+      "$ref": "../common/customer_type.json"
+    },
+    "customer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "national": {
+      "type": "object",
+      "properties": {
+        "id_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country": {
+          "$ref": "../../common/country.json"
+        },
+        "registration_authority": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id_type",
+        "id_number"
+      ],
+      "additionalProperties": false
+    },
+    "birth": {
+      "type": "object",
+      "properties": {
+        "place": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "../../common/date.json"
+        }
+      },
+      "required": [
+        "place",
+        "date"
+      ],
+      "additionalProperties": false
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country": {
+          "$ref": "../../common/country.json"
+        },
+        "department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sub_department": {
+          "type": "string",
+          "minLength": 1
+        },
+        "street_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "building_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "building_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "floor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "post_box": {
+          "type": "string",
+          "minLength": 1
+        },
+        "room": {
+          "type": "string",
+          "minLength": 1
+        },
+        "post_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "town_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "town_location_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "district_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "country_sub_division": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address_line": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "type",
+        "country"
+      ],
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "currency_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "address": {
+            "type": "string",
+            "minLength": 1
+          },
+          "extra_info": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "currency_id",
+          "address"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "customer_type",
+    "customer_id",
+    "name"
+  ],
+  "additionalProperties": false
+}

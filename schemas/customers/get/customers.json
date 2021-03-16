@@ -1,0 +1,45 @@
+{
+  "title": "get/customers",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "$ref": "../../common/id.json"
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "max_risk_score": {
+        "type": "string",
+        "minLength": 1
+      },
+      "labels": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "status": {
+        "$ref": "../../common/vasp_status.json"
+      },
+      "created_at": {
+        "$ref": "../../common/date.json"
+      },
+      "last_screened": {
+        "$ref": "../../common/date.json"
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "max_risk_score",
+      "labels",
+      "status",
+      "created_at"
+    ],
+    "additionalProperties": false
+  }
+}

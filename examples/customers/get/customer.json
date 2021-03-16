@@ -1,0 +1,37 @@
+{
+  "response": {
+    "value": {
+      "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+      "customer_type": 0,
+      "customer_id": "123456",
+      "name": "Mark Liu",
+      "national": {
+        "id_type": "passport number",
+        "id_number": "1234567",
+        "country": "TW",
+        "registration_authority": "coolbitx"
+      },
+      "birth": {
+        "place": "Taiwan",
+        "date": "2020-01-01T...."
+      },
+      "address": {
+        "type": "xxx",
+        "country": "TW"
+      },
+      "assets": [
+        {
+          "currency_id": "sygna.0x8000000",
+          "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+        },
+        {
+          "currency_id": "sygna.0x8000090",
+          "address": "rEepZ4ok2UWuvBedU54XjfjxeiePexxEsq",
+          "extra_info": {
+            "tag": "abc"
+          }
+        }
+      ]
+    }
+  }
+}

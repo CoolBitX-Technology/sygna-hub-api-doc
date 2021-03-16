@@ -1,0 +1,1223 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "Sygna Hub API",
+    "description": "",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.gate.sygna.io/v1",
+      "description": "Bridge develope server"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "get": {
+        "description": "Get all customers",
+        "summary": "get /customers",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "get /customers",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "id. case insensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "name. case insensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "Mark Liu"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "status. case insensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "active"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "label",
+            "description": "label. case insensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "Gambling"
+              }
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of object containing information of one or more customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "get/customers",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "title": "id",
+                        "description": "unique id",
+                        "type": "string",
+                        "minLength": 36,
+                        "maxLength": 36,
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "max_risk_score": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "labels": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "status": {
+                        "title": "status",
+                        "description": "vasp status",
+                        "type": "string",
+                        "minLength": 1,
+                        "format": "uuid"
+                      },
+                      "created_at": {
+                        "title": "date",
+                        "description": "date",
+                        "type": "string",
+                        "minLength": 1,
+                        "format": "date-time"
+                      },
+                      "last_screened": {
+                        "title": "date",
+                        "description": "date",
+                        "type": "string",
+                        "minLength": 1,
+                        "format": "date-time"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "max_risk_score",
+                      "labels",
+                      "status",
+                      "created_at"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      {
+                        "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                        "name": "Mark Liu",
+                        "max_risk_score": "N/A",
+                        "labels": [],
+                        "status": "active",
+                        "created_at": "2018-11-13T20:20:39+00:00"
+                      },
+                      {
+                        "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+                        "name": "Andy Liu",
+                        "max_risk_score": "8.5",
+                        "labels": [
+                          "Gambling"
+                        ],
+                        "status": "inactive",
+                        "created_at": "2018-11-15T20:20:39+00:00",
+                        "last_screened": "2018-11-15T20:20:39+00:00"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post customers",
+        "summary": "post /customers",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "post /customers",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "post/customers",
+                "type": "array",
+                "items": {
+                  "title": "customer",
+                  "type": "object",
+                  "properties": {
+                    "customer_type": {
+                      "title": "customer_type",
+                      "description": "customer type. 0: legal person ; 1: nature person",
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ]
+                    },
+                    "customer_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "national": {
+                      "type": "object",
+                      "properties": {
+                        "id_type": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "id_number": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "country": {
+                          "type": "string",
+                          "minLength": 2,
+                          "description": "iso2"
+                        },
+                        "registration_authority": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id_type",
+                        "id_number"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "birth": {
+                      "type": "object",
+                      "properties": {
+                        "place": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "date": {
+                          "title": "date",
+                          "description": "date",
+                          "type": "string",
+                          "minLength": 1,
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "place",
+                        "date"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "country": {
+                          "type": "string",
+                          "minLength": 2,
+                          "description": "iso2"
+                        },
+                        "department": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "sub_department": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "street_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "building_number": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "building_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "floor": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "post_box": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "room": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "post_code": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "town_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "town_location_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "district_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "country_sub_division": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "address_line": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "country"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "assets": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "currency_id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "address": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "extra_info": {
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "currency_id",
+                          "address"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "customer_type",
+                    "customer_id",
+                    "name"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "patch customers",
+        "summary": "patch /customers",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "patch /customers",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "patch/customers",
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "id": {
+                          "title": "id",
+                          "description": "unique id",
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    },
+                    {
+                      "title": "customer",
+                      "type": "object",
+                      "properties": {
+                        "customer_type": {
+                          "title": "customer_type",
+                          "description": "customer type. 0: legal person ; 1: nature person",
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        },
+                        "customer_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "national": {
+                          "type": "object",
+                          "properties": {
+                            "id_type": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "id_number": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country": {
+                              "type": "string",
+                              "minLength": 2,
+                              "description": "iso2"
+                            },
+                            "registration_authority": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id_type",
+                            "id_number"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "birth": {
+                          "type": "object",
+                          "properties": {
+                            "place": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "date": {
+                              "title": "date",
+                              "description": "date",
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "date-time"
+                            }
+                          },
+                          "required": [
+                            "place",
+                            "date"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "address": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country": {
+                              "type": "string",
+                              "minLength": 2,
+                              "description": "iso2"
+                            },
+                            "department": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sub_department": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "street_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "building_number": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "building_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "floor": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "post_box": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "room": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "post_code": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "town_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "town_location_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "district_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country_sub_division": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "address_line": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "country"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "assets": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "currency_id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "address": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "extra_info": {
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "currency_id",
+                              "address"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "customer_type",
+                        "customer_id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of update ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "description": "Get all customers",
+        "summary": "get customers/{id}",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "get customer/{id}",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "id. case insensitive",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of object containing information of one or more customers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "get/customer/{id}",
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "properties": {
+                        "id": {
+                          "title": "id",
+                          "description": "unique id",
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    },
+                    {
+                      "title": "customer",
+                      "type": "object",
+                      "properties": {
+                        "customer_type": {
+                          "title": "customer_type",
+                          "description": "customer type. 0: legal person ; 1: nature person",
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        },
+                        "customer_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "national": {
+                          "type": "object",
+                          "properties": {
+                            "id_type": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "id_number": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country": {
+                              "type": "string",
+                              "minLength": 2,
+                              "description": "iso2"
+                            },
+                            "registration_authority": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id_type",
+                            "id_number"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "birth": {
+                          "type": "object",
+                          "properties": {
+                            "place": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "date": {
+                              "title": "date",
+                              "description": "date",
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "date-time"
+                            }
+                          },
+                          "required": [
+                            "place",
+                            "date"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "address": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country": {
+                              "type": "string",
+                              "minLength": 2,
+                              "description": "iso2"
+                            },
+                            "department": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sub_department": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "street_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "building_number": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "building_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "floor": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "post_box": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "room": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "post_code": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "town_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "town_location_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "district_name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "country_sub_division": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "address_line": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "country"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "assets": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "currency_id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "address": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "extra_info": {
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "currency_id",
+                              "address"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "customer_type",
+                        "customer_id",
+                        "name"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "customer_type": 0,
+                      "customer_id": "123456",
+                      "name": "Mark Liu",
+                      "national": {
+                        "id_type": "passport number",
+                        "id_number": "1234567",
+                        "country": "TW",
+                        "registration_authority": "coolbitx"
+                      },
+                      "birth": {
+                        "place": "Taiwan",
+                        "date": "2020-01-01T...."
+                      },
+                      "address": {
+                        "type": "xxx",
+                        "country": "TW"
+                      },
+                      "assets": [
+                        {
+                          "currency_id": "sygna.0x8000000",
+                          "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+                        },
+                        {
+                          "currency_id": "sygna.0x8000090",
+                          "address": "rEepZ4ok2UWuvBedU54XjfjxeiePexxEsq",
+                          "extra_info": {
+                            "tag": "abc"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Hub"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "customer": {
+        "title": "get/customer/{id}",
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "id": {
+                "title": "id",
+                "description": "unique id",
+                "type": "string",
+                "minLength": 36,
+                "maxLength": 36,
+                "format": "uuid"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          {
+            "title": "customer",
+            "type": "object",
+            "properties": {
+              "customer_type": {
+                "title": "customer_type",
+                "description": "customer type. 0: legal person ; 1: nature person",
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              },
+              "customer_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "national": {
+                "type": "object",
+                "properties": {
+                  "id_type": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "id_number": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "country": {
+                    "type": "string",
+                    "minLength": 2,
+                    "description": "iso2"
+                  },
+                  "registration_authority": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id_type",
+                  "id_number"
+                ],
+                "additionalProperties": false
+              },
+              "birth": {
+                "type": "object",
+                "properties": {
+                  "place": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "date": {
+                    "title": "date",
+                    "description": "date",
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "date-time"
+                  }
+                },
+                "required": [
+                  "place",
+                  "date"
+                ],
+                "additionalProperties": false
+              },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "country": {
+                    "type": "string",
+                    "minLength": 2,
+                    "description": "iso2"
+                  },
+                  "department": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sub_department": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "street_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "building_number": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "building_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "floor": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "post_box": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "room": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "post_code": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "town_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "town_location_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "district_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "country_sub_division": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "address_line": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "country"
+                ],
+                "additionalProperties": false
+              },
+              "assets": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "currency_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "extra_info": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "currency_id",
+                    "address"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "customer_type",
+              "customer_id",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "customers": {
+        "title": "get/customers",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "id",
+              "description": "unique id",
+              "type": "string",
+              "minLength": 36,
+              "maxLength": 36,
+              "format": "uuid"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "max_risk_score": {
+              "type": "string",
+              "minLength": 1
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "status": {
+              "title": "status",
+              "description": "vasp status",
+              "type": "string",
+              "minLength": 1,
+              "format": "uuid"
+            },
+            "created_at": {
+              "title": "date",
+              "description": "date",
+              "type": "string",
+              "minLength": 1,
+              "format": "date-time"
+            },
+            "last_screened": {
+              "title": "date",
+              "description": "date",
+              "type": "string",
+              "minLength": 1,
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "max_risk_score",
+            "labels",
+            "status",
+            "created_at"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "Sygna Hub API",
+    "description": "",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.gate.sygna.io/v1",
+      "description": "Bridge develope server"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "$ref": "./paths/customers.json"
+    },
+    "/customers/{id}": {
+      "$ref": "./paths/customer.json"
+    }
+  },
+  "tags": [
+    {
+      "name": "Hub"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "customer": {
+        "$ref": "./schemas/customers/get/customer.json"
+      },
+      "customers": {
+        "$ref": "./schemas/customers/get/customers.json"
+      }
+    }
+  }
+}

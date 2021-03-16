@@ -1,0 +1,7 @@
+{
+  "title": "status",
+  "description": "vasp status",
+  "type": "string",
+  "minLength": 1,
+  "format": "uuid"
+}

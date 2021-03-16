@@ -1,0 +1,21 @@
+{
+  "title": "patch/customers",
+  "type": "array",
+  "items": {
+    "allOf": [
+      {
+        "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      {
+        "$ref": "../common/customer.json"
+      }
+    ]
+  }
+}
