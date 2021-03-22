@@ -1,0 +1,22 @@
+{
+  "title": "services",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "allOf": [
+      {
+        "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      {
+        "$ref": "../common/service.json"
+      }
+    ]
+  }
+}

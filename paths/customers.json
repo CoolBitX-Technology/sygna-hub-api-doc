@@ -42,14 +42,14 @@
       },
       {
         "in": "query",
-        "name": "status",
+        "name": "is_active",
         "description": "status. case insensitive",
         "required": false,
         "schema": {
           "type": "array",
           "items": {
-            "type": "string",
-            "example": "active"
+            "type": "boolean",
+            "example": true
           }
         }
       },

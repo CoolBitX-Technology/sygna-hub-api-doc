@@ -13,6 +13,248 @@
     }
   ],
   "paths": {
+    "/users": {
+      "get": {
+        "description": "Get all users and it should be called by admin",
+        "summary": "get /users",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "get /users",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "id. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "account",
+            "description": "account. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "email",
+              "example": "abc@gmail.com"
+            }
+          },
+          {
+            "in": "query",
+            "name": "is_active",
+            "description": "status. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "boolean",
+                "example": true
+              }
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of object containing information of one or more users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "users",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "properties": {
+                          "id": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          },
+                          "authentication": {
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      {
+                        "title": "user",
+                        "type": "object",
+                        "properties": {
+                          "account": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "is_active": {
+                            "type": "boolean"
+                          },
+                          "role_id": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "0:admin ; 1:normal user"
+                          }
+                        },
+                        "required": [
+                          "account",
+                          "is_active",
+                          "role_id"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "faccac9e-f4e4-48c0-a859-012ef04c2a35",
+                          "account": "defg@gmail.com",
+                          "is_active": true,
+                          "authentication": null
+                        }
+                      ],
+                      "paging": {
+                        "has_next": false,
+                        "limit": 20,
+                        "offset": 0,
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post users and it should be called by admin",
+        "summary": "post /users",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "post /users",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password_hashed",
+            "description": "password hashed or not",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "users",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "properties": {
+                        "password": {
+                          "type": "string",
+                          "minLength": 8
+                        }
+                      },
+                      "required": [
+                        "password"
+                      ]
+                    },
+                    {
+                      "title": "user",
+                      "type": "object",
+                      "properties": {
+                        "account": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "is_active": {
+                          "type": "boolean"
+                        },
+                        "role_id": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "description": "0:admin ; 1:normal user"
+                        }
+                      },
+                      "required": [
+                        "account",
+                        "is_active",
+                        "role_id"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/customers": {
       "get": {
         "description": "Get all customers",
@@ -57,14 +299,14 @@
           },
           {
             "in": "query",
-            "name": "status",
+            "name": "is_active",
             "description": "status. case insensitive",
             "required": false,
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "example": "active"
+                "type": "boolean",
+                "example": true
               }
             }
           },
@@ -148,27 +390,35 @@
                 },
                 "examples": {
                   "response": {
-                    "value": [
-                      {
-                        "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
-                        "name": "Mark Liu",
-                        "max_risk_score": "N/A",
-                        "labels": [],
-                        "is_active": true,
-                        "created_at": "2018-11-13T20:20:39+00:00"
-                      },
-                      {
-                        "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
-                        "name": "Andy Liu",
-                        "max_risk_score": "8.5",
-                        "labels": [
-                          "Gambling"
-                        ],
-                        "is_active": false,
-                        "created_at": "2018-11-15T20:20:39+00:00",
-                        "last_screened": "2018-11-15T20:20:39+00:00"
+                    "value": {
+                      "data": [
+                        {
+                          "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                          "name": "Mark Liu",
+                          "max_risk_score": "N/A",
+                          "labels": [],
+                          "is_active": true,
+                          "created_at": "2018-11-13T20:20:39+00:00"
+                        },
+                        {
+                          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+                          "name": "Andy Liu",
+                          "max_risk_score": "8.5",
+                          "labels": [
+                            "Gambling"
+                          ],
+                          "is_active": false,
+                          "created_at": "2018-11-15T20:20:39+00:00",
+                          "last_screened": "2018-11-15T20:20:39+00:00"
+                        }
+                      ],
+                      "paging": {
+                        "has_next": false,
+                        "limit": 20,
+                        "offset": 0,
+                        "total": 2
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -221,7 +471,7 @@
                       "properties": {
                         "id_type": {
                           "title": "national id type",
-                          "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
+                          "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
                           "type": "integer",
                           "enum": [
                             0,
@@ -282,7 +532,7 @@
                       "properties": {
                         "type": {
                           "title": "address type",
-                          "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto AddressTypeCode",
+                          "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto AddressTypeCode",
                           "type": "integer",
                           "enum": [
                             0,
@@ -489,7 +739,7 @@
                           "properties": {
                             "id_type": {
                               "title": "national id type",
-                              "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
+                              "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
                               "type": "integer",
                               "enum": [
                                 0,
@@ -550,7 +800,7 @@
                           "properties": {
                             "type": {
                               "title": "address type",
-                              "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto AddressTypeCode",
+                              "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto AddressTypeCode",
                               "type": "integer",
                               "enum": [
                                 0,
@@ -776,7 +1026,7 @@
                           "properties": {
                             "id_type": {
                               "title": "national id type",
-                              "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
+                              "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
                               "type": "integer",
                               "enum": [
                                 0,
@@ -837,7 +1087,7 @@
                           "properties": {
                             "type": {
                               "title": "address type",
-                              "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto AddressTypeCode",
+                              "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto AddressTypeCode",
                               "type": "integer",
                               "enum": [
                                 0,
@@ -990,6 +1240,264 @@
           }
         }
       }
+    },
+    "/services": {
+      "get": {
+        "description": "Get all services and it should be called by admin",
+        "summary": "get /services",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "get /services",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "id. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "provider case sensitive",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Sygna Bridge"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "type case sensitive",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Travel Rule"
+            }
+          },
+          {
+            "in": "query",
+            "name": "is_active",
+            "description": "status. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "boolean",
+                "example": true
+              }
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of object containing information of one or more services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "services",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      {
+                        "properties": {
+                          "id": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ]
+                      },
+                      {
+                        "title": "service",
+                        "type": "object",
+                        "properties": {
+                          "provider": {
+                            "type": "string",
+                            "minimum": 1
+                          },
+                          "type": {
+                            "type": "string",
+                            "minimum": 1
+                          },
+                          "credential": {
+                            "type": "object",
+                            "minProperties": 1
+                          },
+                          "is_active": {
+                            "type": "boolean"
+                          },
+                          "start_time": {
+                            "title": "date",
+                            "description": "date",
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "date-time"
+                          },
+                          "end_time": {
+                            "title": "date",
+                            "description": "date",
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "date-time"
+                          }
+                        },
+                        "required": [
+                          "provider",
+                          "type",
+                          "credential",
+                          "is_active"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+                          "provider": "Sygna Bridge",
+                          "type": "Travel Rule",
+                          "is_active": true,
+                          "start_time": "2021-03-04 ...",
+                          "end_time": "2022-03-04 ..."
+                        }
+                      ],
+                      "paging": {
+                        "has_next": false,
+                        "limit": 20,
+                        "offset": 0,
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post services and it should be called by admin",
+        "summary": "post /services",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "post /services",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "services",
+                "type": "array",
+                "items": {
+                  "title": "service",
+                  "type": "object",
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "minimum": 1
+                    },
+                    "type": {
+                      "type": "string",
+                      "minimum": 1
+                    },
+                    "credential": {
+                      "type": "object",
+                      "minProperties": 1
+                    },
+                    "is_active": {
+                      "type": "boolean"
+                    },
+                    "start_time": {
+                      "title": "date",
+                      "description": "date",
+                      "type": "string",
+                      "minLength": 1,
+                      "format": "date-time"
+                    },
+                    "end_time": {
+                      "title": "date",
+                      "description": "date",
+                      "type": "string",
+                      "minLength": 1,
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "provider",
+                    "type",
+                    "credential",
+                    "is_active"
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "tags": [
@@ -1056,7 +1564,7 @@
                 "properties": {
                   "id_type": {
                     "title": "national id type",
-                    "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
+                    "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto NationalIdentifierTypeCode",
                     "type": "integer",
                     "enum": [
                       0,
@@ -1117,7 +1625,7 @@
                 "properties": {
                   "type": {
                     "title": "address type",
-                    "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto AddressTypeCode",
+                    "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto AddressTypeCode",
                     "type": "integer",
                     "enum": [
                       0,
@@ -1284,6 +1792,121 @@
             "created_at"
           ],
           "additionalProperties": false
+        }
+      },
+      "users": {
+        "title": "users",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "allOf": [
+            {
+              "properties": {
+                "id": {
+                  "title": "id",
+                  "description": "unique id",
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "format": "uuid"
+                },
+                "authentication": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "title": "user",
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "is_active": {
+                  "type": "boolean"
+                },
+                "role_id": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "0:admin ; 1:normal user"
+                }
+              },
+              "required": [
+                "account",
+                "is_active",
+                "role_id"
+              ]
+            }
+          ]
+        }
+      },
+      "services": {
+        "title": "services",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "allOf": [
+            {
+              "properties": {
+                "id": {
+                  "title": "id",
+                  "description": "unique id",
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "id"
+              ]
+            },
+            {
+              "title": "service",
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "minimum": 1
+                },
+                "type": {
+                  "type": "string",
+                  "minimum": 1
+                },
+                "credential": {
+                  "type": "object",
+                  "minProperties": 1
+                },
+                "is_active": {
+                  "type": "boolean"
+                },
+                "start_time": {
+                  "title": "date",
+                  "description": "date",
+                  "type": "string",
+                  "minLength": 1,
+                  "format": "date-time"
+                },
+                "end_time": {
+                  "title": "date",
+                  "description": "date",
+                  "type": "string",
+                  "minLength": 1,
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "provider",
+                "type",
+                "credential",
+                "is_active"
+              ]
+            }
+          ]
         }
       }
     }

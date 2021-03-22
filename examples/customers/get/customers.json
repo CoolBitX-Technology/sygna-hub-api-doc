@@ -1,25 +1,33 @@
 {
   "response": {
-    "value": [
-      {
-        "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
-        "name": "Mark Liu",
-        "max_risk_score": "N/A",
-        "labels": [],
-        "is_active": true,
-        "created_at": "2018-11-13T20:20:39+00:00"
-      },
-      {
-        "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
-        "name": "Andy Liu",
-        "max_risk_score": "8.5",
-        "labels": [
-          "Gambling"
-        ],
-        "is_active": false,
-        "created_at": "2018-11-15T20:20:39+00:00",
-        "last_screened": "2018-11-15T20:20:39+00:00"
+    "value": {
+      "data": [
+        {
+          "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+          "name": "Mark Liu",
+          "max_risk_score": "N/A",
+          "labels": [],
+          "is_active": true,
+          "created_at": "2018-11-13T20:20:39+00:00"
+        },
+        {
+          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+          "name": "Andy Liu",
+          "max_risk_score": "8.5",
+          "labels": [
+            "Gambling"
+          ],
+          "is_active": false,
+          "created_at": "2018-11-15T20:20:39+00:00",
+          "last_screened": "2018-11-15T20:20:39+00:00"
+        }
+      ],
+      "paging": {
+        "has_next": false,
+        "limit": 20,
+        "offset": 0,
+        "total": 2
       }
-    ]
+    }
   }
 }

@@ -13,11 +13,17 @@
     }
   ],
   "paths": {
+    "/users": {
+      "$ref": "./paths/users.json"
+    },
     "/customers": {
       "$ref": "./paths/customers.json"
     },
     "/customers/{id}": {
       "$ref": "./paths/customer.json"
+    },
+    "/services": {
+      "$ref": "./paths/services.json"
     }
   },
   "tags": [
@@ -44,6 +50,12 @@
       },
       "customers": {
         "$ref": "./schemas/customers/get/customers.json"
+      },
+      "users": {
+        "$ref": "./schemas/users/get/users.json"
+      },
+      "services": {
+        "$ref": "./schemas/services/get/services.json"
       }
     }
   }

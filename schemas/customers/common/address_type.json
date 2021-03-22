@@ -1,6 +1,6 @@
 {
   "title": "address type",
-  "description": "refer https://github.com/trisacrypto/trisa/blob/28b56b23c3009205d78fac8920e8fa79fac2957f/proto/ivms101/ivms101.proto AddressTypeCode",
+  "description": "refer https://github.com/trisacrypto/trisa/blob/master/proto/ivms101/ivms101.proto AddressTypeCode",
   "type": "integer",
   "enum": [
     0,

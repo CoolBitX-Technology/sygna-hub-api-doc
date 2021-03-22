@@ -1,0 +1,121 @@
+{
+  "get": {
+    "description": "Get all services and it should be called by admin",
+    "summary": "get /services",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "get /services",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "in": "query",
+        "name": "id",
+        "description": "id. case sensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+          }
+        }
+      },
+      {
+        "in": "query",
+        "name": "provider",
+        "description": "provider case sensitive",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "Sygna Bridge"
+        }
+      },
+      {
+        "in": "query",
+        "name": "type",
+        "description": "type case sensitive",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "Travel Rule"
+        }
+      },
+      {
+        "in": "query",
+        "name": "is_active",
+        "description": "status. case sensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+    ],
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of object containing information of one or more services",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/services/get/services.json"
+            },
+            "examples": {
+              "$ref": "../examples/services/get/services.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "post": {
+    "description": "post services and it should be called by admin",
+    "summary": "post /services",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "post /services",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/services/post/services.json"
+          }
+        }
+      },
+      "required": true
+    },
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of insert ids",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/common/ids.json"
+            },
+            "examples": {
+              "$ref": "../examples/common/ids.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

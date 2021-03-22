@@ -1,0 +1,23 @@
+{
+  "title": "users",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "allOf": [
+      {
+        "properties": {
+          "password": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "password"
+        ]
+      },
+      {
+        "$ref": "../common/user.json"
+      }
+    ]
+  }
+}

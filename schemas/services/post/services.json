@@ -1,0 +1,7 @@
+{
+  "title": "services",
+  "type": "array",
+  "items": {
+    "$ref": "../common/service.json"
+  }
+}
