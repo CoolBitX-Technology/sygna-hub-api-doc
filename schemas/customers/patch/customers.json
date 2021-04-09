@@ -7,10 +7,14 @@
         "properties": {
           "id": {
             "$ref": "../../common/id.json"
+          },
+          "is_active": {
+            "type": "boolean"
           }
         },
         "required": [
-          "id"
+          "id",
+          "is_active"
         ]
       },
       {

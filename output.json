@@ -364,14 +364,14 @@
                       },
                       "created_at": {
                         "title": "date",
-                        "description": "date",
+                        "description": "ISO8601 time format",
                         "type": "string",
                         "minLength": 1,
                         "format": "date-time"
                       },
                       "last_screened": {
                         "title": "date",
-                        "description": "date",
+                        "description": "ISO8601 time format",
                         "type": "string",
                         "minLength": 1,
                         "format": "date-time"
@@ -398,7 +398,7 @@
                           "max_risk_score": "N/A",
                           "labels": [],
                           "is_active": true,
-                          "created_at": "2018-11-13T20:20:39+00:00"
+                          "created_at": "2021-04-05T00:48:26Z"
                         },
                         {
                           "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
@@ -408,8 +408,8 @@
                             "Gambling"
                           ],
                           "is_active": false,
-                          "created_at": "2018-11-15T20:20:39+00:00",
-                          "last_screened": "2018-11-15T20:20:39+00:00"
+                          "created_at": "2021-04-05T00:48:26Z",
+                          "last_screened": "2021-04-05T00:48:26Z"
                         }
                       ],
                       "paging": {
@@ -451,7 +451,7 @@
                   "properties": {
                     "customer_type": {
                       "title": "customer_type",
-                      "description": "customer type. 0: legal person ; 1: nature person",
+                      "description": "customer type. 0: nature person ; 1: legal person",
                       "type": "integer",
                       "enum": [
                         0,
@@ -515,7 +515,7 @@
                         },
                         "date": {
                           "title": "date",
-                          "description": "date",
+                          "description": "ISO8601 time format",
                           "type": "string",
                           "minLength": 1,
                           "format": "date-time"
@@ -707,10 +707,14 @@
                           "minLength": 36,
                           "maxLength": 36,
                           "format": "uuid"
+                        },
+                        "is_active": {
+                          "type": "boolean"
                         }
                       },
                       "required": [
-                        "id"
+                        "id",
+                        "is_active"
                       ]
                     },
                     {
@@ -719,7 +723,7 @@
                       "properties": {
                         "customer_type": {
                           "title": "customer_type",
-                          "description": "customer type. 0: legal person ; 1: nature person",
+                          "description": "customer type. 0: nature person ; 1: legal person",
                           "type": "integer",
                           "enum": [
                             0,
@@ -783,7 +787,7 @@
                             },
                             "date": {
                               "title": "date",
-                              "description": "date",
+                              "description": "ISO8601 time format",
                               "type": "string",
                               "minLength": 1,
                               "format": "date-time"
@@ -1006,7 +1010,7 @@
                       "properties": {
                         "customer_type": {
                           "title": "customer_type",
-                          "description": "customer type. 0: legal person ; 1: nature person",
+                          "description": "customer type. 0: nature person ; 1: legal person",
                           "type": "integer",
                           "enum": [
                             0,
@@ -1070,7 +1074,7 @@
                             },
                             "date": {
                               "title": "date",
-                              "description": "date",
+                              "description": "ISO8601 time format",
                               "type": "string",
                               "minLength": 1,
                               "format": "date-time"
@@ -1213,7 +1217,7 @@
                       },
                       "birth": {
                         "place": "Taiwan",
-                        "date": "2020-01-01T...."
+                        "date": "2021-04-09T08:49:35.349Z"
                       },
                       "address": {
                         "type": 0,
@@ -1352,14 +1356,14 @@
                           },
                           "start_time": {
                             "title": "date",
-                            "description": "date",
+                            "description": "ISO8601 time format",
                             "type": "string",
                             "minLength": 1,
                             "format": "date-time"
                           },
                           "end_time": {
                             "title": "date",
-                            "description": "date",
+                            "description": "ISO8601 time format",
                             "type": "string",
                             "minLength": 1,
                             "format": "date-time"
@@ -1384,8 +1388,8 @@
                           "provider": "Sygna Bridge",
                           "type": "Travel Rule",
                           "is_active": true,
-                          "start_time": "2021-03-04 ...",
-                          "end_time": "2022-03-04 ..."
+                          "start_time": "2021-04-09T08:49:35.349Z",
+                          "end_time": "2022-04-09T08:49:35.349Z"
                         }
                       ],
                       "paging": {
@@ -1442,14 +1446,14 @@
                     },
                     "start_time": {
                       "title": "date",
-                      "description": "date",
+                      "description": "ISO8601 time format",
                       "type": "string",
                       "minLength": 1,
                       "format": "date-time"
                     },
                     "end_time": {
                       "title": "date",
-                      "description": "date",
+                      "description": "ISO8601 time format",
                       "type": "string",
                       "minLength": 1,
                       "format": "date-time"
@@ -1544,7 +1548,7 @@
             "properties": {
               "customer_type": {
                 "title": "customer_type",
-                "description": "customer type. 0: legal person ; 1: nature person",
+                "description": "customer type. 0: nature person ; 1: legal person",
                 "type": "integer",
                 "enum": [
                   0,
@@ -1608,7 +1612,7 @@
                   },
                   "date": {
                     "title": "date",
-                    "description": "date",
+                    "description": "ISO8601 time format",
                     "type": "string",
                     "minLength": 1,
                     "format": "date-time"
@@ -1770,14 +1774,14 @@
             },
             "created_at": {
               "title": "date",
-              "description": "date",
+              "description": "ISO8601 time format",
               "type": "string",
               "minLength": 1,
               "format": "date-time"
             },
             "last_screened": {
               "title": "date",
-              "description": "date",
+              "description": "ISO8601 time format",
               "type": "string",
               "minLength": 1,
               "format": "date-time"
@@ -1886,14 +1890,14 @@
                 },
                 "start_time": {
                   "title": "date",
-                  "description": "date",
+                  "description": "ISO8601 time format",
                   "type": "string",
                   "minLength": 1,
                   "format": "date-time"
                 },
                 "end_time": {
                   "title": "date",
-                  "description": "date",
+                  "description": "ISO8601 time format",
                   "type": "string",
                   "minLength": 1,
                   "format": "date-time"
