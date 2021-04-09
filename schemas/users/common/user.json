@@ -1,0 +1,23 @@
+{
+  "title": "user",
+  "type": "object",
+  "properties": {
+    "account": {
+      "type": "string",
+      "format": "email"
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "role_id": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "0:admin ; 1:normal user"
+    }
+  },
+  "required": [
+    "account",
+    "is_active",
+    "role_id"
+  ]
+}

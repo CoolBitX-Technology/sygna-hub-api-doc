@@ -1,0 +1,22 @@
+{
+  "response": {
+    "value": {
+      "data": [
+        {
+          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+          "provider": "Sygna Bridge",
+          "type": "Travel Rule",
+          "is_active": true,
+          "start_time": "2021-04-09T08:49:35.349Z",
+          "end_time": "2022-04-09T08:49:35.349Z"
+        }
+      ],
+      "paging": {
+        "has_next": false,
+        "limit": 20,
+        "offset": 0,
+        "total": 1
+      }
+    }
+  }
+}

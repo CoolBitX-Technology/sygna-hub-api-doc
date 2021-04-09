@@ -1,0 +1,19 @@
+{
+  "title": "get/customer/{id}",
+  "type": "object",
+  "allOf": [
+    {
+      "properties": {
+        "id": {
+          "$ref": "../../common/id.json"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "$ref": "../common/customer.json"
+    }
+  ]
+}

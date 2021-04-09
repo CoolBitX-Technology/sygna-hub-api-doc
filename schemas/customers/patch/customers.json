@@ -1,0 +1,25 @@
+{
+  "title": "patch/customers",
+  "type": "array",
+  "items": {
+    "allOf": [
+      {
+        "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "is_active"
+        ]
+      },
+      {
+        "$ref": "../common/customer.json"
+      }
+    ]
+  }
+}

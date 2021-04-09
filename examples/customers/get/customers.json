@@ -1,0 +1,33 @@
+{
+  "response": {
+    "value": {
+      "data": [
+        {
+          "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+          "name": "Mark Liu",
+          "max_risk_score": "N/A",
+          "labels": [],
+          "is_active": true,
+          "created_at": "2021-04-05T00:48:26Z"
+        },
+        {
+          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+          "name": "Andy Liu",
+          "max_risk_score": "8.5",
+          "labels": [
+            "Gambling"
+          ],
+          "is_active": false,
+          "created_at": "2021-04-05T00:48:26Z",
+          "last_screened": "2021-04-05T00:48:26Z"
+        }
+      ],
+      "paging": {
+        "has_next": false,
+        "limit": 20,
+        "offset": 0,
+        "total": 2
+      }
+    }
+  }
+}

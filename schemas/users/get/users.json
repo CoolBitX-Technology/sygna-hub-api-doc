@@ -1,0 +1,25 @@
+{
+  "title": "users",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "allOf": [
+      {
+        "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          },
+          "authentication": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      {
+        "$ref": "../common/user.json"
+      }
+    ]
+  }
+}

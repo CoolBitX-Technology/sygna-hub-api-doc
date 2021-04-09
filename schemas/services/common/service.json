@@ -1,0 +1,33 @@
+{
+  "title": "service",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "minimum": 1
+    },
+    "type": {
+      "type": "string",
+      "minimum": 1
+    },
+    "credential": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "start_time": {
+      "$ref": "../../common/date.json"
+    },
+    "end_time": {
+      "$ref": "../../common/date.json"
+    }
+  },
+  "required": [
+    "provider",
+    "type",
+    "credential",
+    "is_active"
+  ]
+}

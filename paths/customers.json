@@ -1,0 +1,167 @@
+{
+  "get": {
+    "description": "Get all customers",
+    "summary": "get /customers",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "get /customers",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "in": "query",
+        "name": "id",
+        "description": "id. case insensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+          }
+        }
+      },
+      {
+        "in": "query",
+        "name": "name",
+        "description": "name. case insensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "Mark Liu"
+          }
+        }
+      },
+      {
+        "in": "query",
+        "name": "is_active",
+        "description": "status. case insensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      {
+        "in": "query",
+        "name": "label",
+        "description": "label. case insensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "Gambling"
+          }
+        }
+      }
+    ],
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of object containing information of one or more customers",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/customers/get/customers.json"
+            },
+            "examples": {
+              "$ref": "../examples/customers/get/customers.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "post": {
+    "description": "post customers",
+    "summary": "post /customers",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "post /customers",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/customers/post/customers.json"
+          }
+        }
+      },
+      "required": true
+    },
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of insert ids",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/common/ids.json"
+            },
+            "examples": {
+              "$ref": "../examples/common/ids.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "patch": {
+    "description": "patch customers",
+    "summary": "patch /customers",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "patch /customers",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/customers/patch/customers.json"
+          }
+        }
+      },
+      "required": true
+    },
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of update ids",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/common/ids.json"
+            },
+            "examples": {
+              "$ref": "../examples/common/ids.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

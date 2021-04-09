@@ -1,0 +1,7 @@
+{
+  "title": "ids",
+  "type": "array",
+  "items": {
+    "$ref": "./id.json"
+  }
+}
