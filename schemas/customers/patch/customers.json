@@ -15,7 +15,8 @@
         "required": [
           "id",
           "is_active"
-        ]
+        ],
+        "additionalProperties": false
       },
       {
         "$ref": "../common/customer.json"

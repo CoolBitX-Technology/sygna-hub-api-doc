@@ -1,0 +1,7 @@
+{
+  "title": "transactions",
+  "type": "array",
+  "items": {
+    "$ref": "../common/transaction.json"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "response": {
+    "value": {
+      "data": [
+        {
+          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+          "direction": 0,
+          "customer_name": "Tom",
+          "currency_id": "sygna:0x8000003c",
+          "txid": "0x18801eadd20de67753c0b9e201049811d51000c51163091c593d7dc7198f8bee",
+          "amount": "1",
+          "usd_amount": "2000",
+          "created_at": "2021-04-09T08:49:35.349Z",
+          "status": 0,
+          "assets": [
+            {
+              "id": "b83176a9-df51-46c6-a0b9-2232fff0c399",
+              "vasp_code": "VASPSIT1",
+              "address": "0x663b7f8422f1f72706763697692fa8b92f1c9753",
+              "extra_info": null,
+              "labels": [],
+              "created_at": "2021-04-09T08:49:35.349Z",
+              "last_screened": "2021-04-09T08:49:35.349Z"
+            },
+            {
+              "id": "69acd03b-c616-41ad-b676-0db791be30fa",
+              "vasp_code": "VASPSIT2",
+              "address": "0xf66852bc122fd40bfecc63cd48217e88bda12109",
+              "extra_info": null,
+              "labels": [
+                "exchange"
+              ],
+              "created_at": "2021-04-09T08:49:35.349Z",
+              "last_screened": "2021-04-09T08:49:35.349Z"
+            }
+          ]
+        }
+      ],
+      "paging": {
+        "has_next": false,
+        "limit": 20,
+        "offset": 0,
+        "total": 1
+      }
+    }
+  }
+}

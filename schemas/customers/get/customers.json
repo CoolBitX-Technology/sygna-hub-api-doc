@@ -29,7 +29,7 @@
         "$ref": "../../common/date.json"
       },
       "last_screened": {
-        "$ref": "../../common/date.json"
+        "$ref": "../../common/date_nullable.json"
       }
     },
     "required": [
