@@ -1799,16 +1799,24 @@
                       "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                     },
                     "originator": {
-                      "type": "array",
-                      "minItems": 1,
-                      "items": {
-                        "title": "id",
-                        "description": "unique id",
-                        "type": "string",
-                        "minLength": 36,
-                        "maxLength": 36,
-                        "format": "uuid"
-                      }
+                      "type": "object",
+                      "properties": {
+                        "assets": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          }
+                        }
+                      },
+                      "required": [
+                        "assets"
+                      ]
                     },
                     "beneficiary": {
                       "type": "object",

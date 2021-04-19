@@ -14,11 +14,19 @@
       "$ref": "../../common/currency_id.json"
     },
     "originator": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "../../common/id.json"
-      }
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "../../common/id.json"
+          }
+        }
+      },
+      "required": [
+        "assets"
+      ]
     },
     "beneficiary": {
       "type": "object",
