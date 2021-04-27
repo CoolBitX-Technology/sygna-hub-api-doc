@@ -1,7 +1,7 @@
 {
-  "title": "currency id",
-  "description": "unique id for currency",
+  "title": "country code",
+  "description": "ISO2 country code",
   "type": "string",
-  "minLength": 16,
-  "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+  "minLength": 2,
+  "pattern": "^[A-Z]{2}$"
 }
