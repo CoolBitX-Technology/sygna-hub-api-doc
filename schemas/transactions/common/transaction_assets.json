@@ -1,0 +1,42 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "$ref": "../../common/id.json"
+      },
+      "vasp_code": {
+        "$ref": "../../common/vasp_code.json"
+      },
+      "address": {
+        "type": "string"
+      },
+      "extra_info": {
+        "type": "object"
+      },
+      "risk_score": {
+        "type": "null"
+      },
+      "labels": {
+        "$ref": "../../common/labels.json"
+      },
+      "created_at": {
+        "type": "string"
+      },
+      "last_screened": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "vasp_code",
+      "address",
+      "extra_info",
+      "risk_score",
+      "labels",
+      "created_at",
+      "last_screened"
+    ]
+  }
+}

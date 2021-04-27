@@ -1,0 +1,299 @@
+{
+  "title": "get/customer/{id}",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "../../common/id.json"
+    },
+    "vasp_code": {
+      "$ref": "../../common/vasp_code.json"
+    },
+    "txid": {
+      "$ref": "../common/txid_nullable.json"
+    },
+    "direction": {
+      "$ref": "../common/direction.json"
+    },
+    "amount": {
+      "$ref": "../common/string_amount.json"
+    },
+    "value_usd": {
+      "$ref": "../common/string_amount.json"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "currency_id": {
+      "$ref": "../../common/currency_id.json"
+    },
+    "originator_info": {
+      "type": "object",
+      "properties": {
+        "vasp_code": {
+          "type": "string"
+        },
+        "private_info": {
+          "type": "object",
+          "properties": {
+            "account_numbers": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "originator_persons": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "natural_person": {
+                      "type": "object",
+                      "properties": {
+                        "date_and_place_of_birth": {
+                          "$ref": "../common/ivms/birth.json"
+                        },
+                        "geographic_addresses": {
+                          "$ref": "../common/ivms/address.json"
+                        },
+                        "name": {
+                          "type": "object",
+                          "properties": {
+                            "name_identifiers": {
+                              "type": "array",
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "name_identifier_type": {
+                                      "type": "string"
+                                    },
+                                    "primary_identifier": {
+                                      "type": "string"
+                                    },
+                                    "secondary_identifier": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "name_identifier_type",
+                                    "primary_identifier",
+                                    "secondary_identifier"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name_identifiers"
+                          ]
+                        },
+                        "national_identification": {
+                          "$ref": "../common/ivms/national_id.json"
+                        }
+                      },
+                      "required": [
+                        "date_and_place_of_birth",
+                        "geographic_addresses",
+                        "name",
+                        "national_identification"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "natural_person"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "account_numbers",
+            "originator_persons"
+          ]
+        }
+      },
+      "required": [
+        "vasp_code",
+        "private_info"
+      ]
+    },
+    "beneficairy_info": {
+      "type": "object",
+      "properties": {
+        "vasp_code": {
+          "type": "string"
+        },
+        "private_info": {
+          "type": "object",
+          "properties": {
+            "account_numbers": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "beneficiary_persons": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "natural_person": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "object",
+                          "properties": {
+                            "name_identifiers": {
+                              "type": "array",
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "name_identifier_type": {
+                                      "type": "string"
+                                    },
+                                    "primary_identifier": {
+                                      "type": "string"
+                                    },
+                                    "secondary_identifier": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "name_identifier_type",
+                                    "primary_identifier",
+                                    "secondary_identifier"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name_identifiers"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "natural_person"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "account_numbers",
+            "beneficiary_persons"
+          ]
+        },
+        "name_matched": {
+          "type": "boolean"
+        },
+        "address_matched": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "vasp_code",
+        "private_info",
+        "name_matched",
+        "address_matched"
+      ]
+    },
+    "performed_at": {
+      "type": "string"
+    },
+    "performed_by": {
+      "type": "string"
+    },
+    "expire_date": {
+      "type": "null"
+    },
+    "counter_party_vasp_info": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "license_registration_id": {
+          "type": "string"
+        },
+        "regulatory_status": {
+          "type": "string"
+        },
+        "supervisory_authority": {
+          "type": "string"
+        },
+        "vasp_code": {
+          "type": "string"
+        },
+        "vasp_legal_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "country",
+        "license_registration_id",
+        "regulatory_status",
+        "supervisory_authority",
+        "vasp_code",
+        "vasp_legal_name"
+      ]
+    },
+    "permission_status": {
+      "type": "integer"
+    },
+    "reject_code": {
+      "type": "string"
+    },
+    "reject_message": {
+      "type": "string"
+    },
+    "assets": {
+      "$ref": "../common/transaction_assets.json"
+    },
+    "error": {
+      "type": "null"
+    },
+    "high_risk": {
+      "type": "boolean"
+    },
+    "max_risk_score": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "id",
+    "vasp_code",
+    "txid",
+    "direction",
+    "amount",
+    "status",
+    "currency_id",
+    "originator_info",
+    "beneficairy_info",
+    "performed_at",
+    "performed_by",
+    "expire_date",
+    "counter_party_vasp_info",
+    "permission_status",
+    "reject_code",
+    "reject_message",
+    "assets",
+    "error",
+    "high_risk",
+    "value_usd",
+    "max_risk_score"
+  ]
+}

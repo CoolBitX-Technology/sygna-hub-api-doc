@@ -16,11 +16,7 @@
         "minLength": 1
       },
       "labels": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "minLength": 1
-        }
+        "$ref": "../../common/labels.json"
       },
       "is_active": {
         "type": "boolean"

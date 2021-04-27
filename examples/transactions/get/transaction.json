@@ -1,0 +1,133 @@
+{
+  "response": {
+    "value": {
+      "data": {
+        "id": "cc17811f-5836-44a4-b1f2-3bb635db0602",
+        "vasp_code": "FRNKBDTA",
+        "txid": null,
+        "direction": 1,
+        "amount": "3.33",
+        "status": 1,
+        "currency_id": "sygna:0x80000000",
+        "originator_info": {
+          "vasp_code": "FRNKBDTE",
+          "private_info": {
+            "account_numbers": [
+              "33NZVMEpS5AE6dFnFcyFRNE6UbhBmSLRBU"
+            ],
+            "originator_persons": [
+              {
+                "natural_person": {
+                  "date_and_place_of_birth": {
+                    "date_of_birth": "2000-01-01",
+                    "place_of_birth": "taipei"
+                  },
+                  "geographic_addresses": [
+                    {
+                      "address_line": [
+                        "fake address line"
+                      ],
+                      "address_type": "HOME",
+                      "building_name": "Valleys Mouse",
+                      "building_number": "720",
+                      "country": "Cote d'Ivoire",
+                      "country_sub_division": "Spain",
+                      "department": "Universal THX",
+                      "district_name": "Delaware",
+                      "floor": "14",
+                      "post_box": "385",
+                      "post_code": "50",
+                      "street_name": "Lueilwitz Villages",
+                      "sub_department": "TCP Streets",
+                      "town_location_name": "New Jersey",
+                      "town_name": "New Hampshire"
+                    }
+                  ],
+                  "name": {
+                    "name_identifiers": [
+                      {
+                        "name_identifier_type": "LEGL",
+                        "primary_identifier": "Calvin",
+                        "secondary_identifier": "Runte"
+                      }
+                    ]
+                  },
+                  "national_identification": {
+                    "national_identifier": "7sq1oxgvuv",
+                    "national_identifier_type": "CCPT",
+                    "registration_authority": "User Concrete application"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "beneficairy_info": {
+          "vasp_code": "FRNKBDTA",
+          "private_info": {
+            "account_numbers": [
+              "bc1qx65xcxz6dfsge2g4eaerercslh83y66wrpm79r"
+            ],
+            "beneficiary_persons": [
+              {
+                "natural_person": {
+                  "name": {
+                    "name_identifiers": [
+                      {
+                        "name_identifier_type": "LEGL",
+                        "primary_identifier": "Duane",
+                        "secondary_identifier": "Mayert III"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "name_matched": false,
+          "address_matched": true
+        },
+        "performed_at": "2021-04-27T01:50:46Z",
+        "performed_by": "Auto Deposit",
+        "expire_date": null,
+        "counter_party_vasp_info": {
+          "country": "",
+          "license_registration_id": "",
+          "regulatory_status": "Not Regulated Yet",
+          "supervisory_authority": "",
+          "vasp_code": "FRNKBDTE",
+          "vasp_legal_name": "Frank Test Bundle Gate"
+        },
+        "permission_status": 1,
+        "reject_code": "BVRC007",
+        "reject_message": "beneficiary_name_unmatched",
+        "assets": [
+          {
+            "id": "6b40d27d-0476-4581-b409-28b8d377ea75",
+            "vasp_code": "FRNKBDTE",
+            "address": "33NZVMEpS5AE6dFnFcyFRNE6UbhBmSLRBU",
+            "extra_info": {},
+            "risk_score": null,
+            "labels": [],
+            "created_at": "2021-04-27T01:50:49Z",
+            "last_screened": "2021-04-27T01:50:46Z"
+          },
+          {
+            "id": "1ebb2119-b9a7-4498-9f85-4c41493824d6",
+            "vasp_code": "FRNKBDTA",
+            "address": "bc1qx65xcxz6dfsge2g4eaerercslh83y66wrpm79r",
+            "extra_info": {},
+            "risk_score": null,
+            "labels": [],
+            "created_at": "2021-04-27T01:50:49Z",
+            "last_screened": null
+          }
+        ],
+        "error": null,
+        "high_risk": false,
+        "value_usd": "178227.30088072400202",
+        "max_risk_score": null
+      }
+    }
+  }
+}

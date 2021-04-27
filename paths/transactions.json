@@ -1,11 +1,11 @@
 {
   "get": {
-    "description": "Get all transactions",
-    "summary": "get /transactions",
+    "description": "Get transaction detail",
+    "summary": "get /transactions/{id}",
     "tags": [
       "Hub"
     ],
-    "operationId": "get /transactions",
+    "operationId": "get /transactions/{id}",
     "security": [
       {
         "ApiKeyAuth": [],
@@ -14,17 +14,24 @@
     ],
     "parameters": [
       {
-        "in": "query",
+        "in": "path",
         "name": "id",
         "description": "id. case sensitive",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+        }
+      },
+      {
+        "in": "query",
+        "name": "sync_rate",
+        "description": "fetch latest exchange rate",
         "required": false,
         "schema": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "uuid",
-            "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
-          }
+          "type": "bool",
+          "example": true
         }
       }
     ],
@@ -35,50 +42,10 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/transactions/get/transactions.json"
+              "$ref": "../schemas/transactions/get/transaction.json"
             },
             "examples": {
-              "$ref": "../examples/transactions/get/transactions.json"
-            }
-          }
-        }
-      }
-    }
-  },
-  "post": {
-    "description": "post transactions",
-    "summary": "post /transactions",
-    "tags": [
-      "Hub"
-    ],
-    "operationId": "post /transactions",
-    "security": [
-      {
-        "ApiKeyAuth": [],
-        "bearerAuth": []
-      }
-    ],
-    "requestBody": {
-      "content": {
-        "application/json": {
-          "schema": {
-            "$ref": "../schemas/transactions/post/transactions.json"
-          }
-        }
-      },
-      "required": true
-    },
-    "deprecated": false,
-    "responses": {
-      "200": {
-        "description": "An array of insert ids",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "../schemas/common/ids.json"
-            },
-            "examples": {
-              "$ref": "../examples/common/ids.json"
+              "$ref": "../examples/transactions/get/transaction.json"
             }
           }
         }

@@ -9,12 +9,7 @@
         "$ref": "../../common/id.json"
       },
       "direction": {
-        "description": "0: withdraw ; 1: deposit",
-        "type": "integer",
-        "enum": [
-          0,
-          1
-        ]
+        "$ref": "../common/direction.json"
       },
       "customer_name": {
         "type": "string",
@@ -24,17 +19,13 @@
         "$ref": "../../common/currency_id.json"
       },
       "txid": {
-        "type": "string",
-        "minLength": 1,
-        "nullable": true
+        "$ref": "../common/txid_nullable.json"
       },
       "amount": {
-        "type": "string",
-        "minLength": 1
+        "$ref": "../common/string_amount.json"
       },
       "usd_amount": {
-        "type": "string",
-        "minLength": 1
+        "$ref": "../common/string_amount.json"
       },
       "created_at": {
         "$ref": "../../common/date.json"
@@ -69,11 +60,7 @@
               "type": "object"
             },
             "labels": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
+              "$ref": "../../common/labels.json"
             },
             "created_at": {
               "$ref": "../../common/date.json"

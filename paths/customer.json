@@ -1,11 +1,11 @@
 {
   "get": {
     "description": "Get all customers",
-    "summary": "get customers/{id}",
+    "summary": "get /customers/{id}",
     "tags": [
       "Hub"
     ],
-    "operationId": "get customer/{id}",
+    "operationId": "get /customer/{id}",
     "security": [
       {
         "ApiKeyAuth": [],
