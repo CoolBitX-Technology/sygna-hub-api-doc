@@ -1,0 +1,109 @@
+{
+  "title": "transactions",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$ref": "../../common/id.json"
+      },
+      "direction": {
+        "description": "0: withdraw ; 1: deposit",
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "customer_name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "currency_id": {
+        "$ref": "../../common/currency_id.json"
+      },
+      "txid": {
+        "type": "string",
+        "minLength": 1,
+        "nullable": true
+      },
+      "amount": {
+        "type": "string",
+        "minLength": 1
+      },
+      "usd_amount": {
+        "type": "string",
+        "minLength": 1
+      },
+      "created_at": {
+        "$ref": "../../common/date.json"
+      },
+      "status": {
+        "description": "0: processing ; 1: blocked ; 2: pending on beneficiary",
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "assets": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "$ref": "../../common/id.json"
+            },
+            "vasp_code": {
+              "$ref": "../../common/vasp_code.json"
+            },
+            "address": {
+              "type": "string",
+              "minLength": 1
+            },
+            "extra_info": {
+              "type": "object"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "created_at": {
+              "$ref": "../../common/date.json"
+            },
+            "last_screened": {
+              "$ref": "../../common/date_nullable.json"
+            }
+          },
+          "required": [
+            "id",
+            "vasp_code",
+            "address",
+            "extra_info",
+            "labels",
+            "created_at",
+            "last_screened"
+          ]
+        }
+      }
+    },
+    "required": [
+      "id",
+      "direction",
+      "customer_name",
+      "txid",
+      "amount",
+      "usd_amount",
+      "created_at",
+      "status",
+      "assets"
+    ]
+  }
+}

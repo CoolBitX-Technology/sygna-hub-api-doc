@@ -24,6 +24,18 @@
     },
     "/services": {
       "$ref": "./paths/services.json"
+    },
+    "/transactions": {
+      "$ref": "./paths/transactions.json"
+    },
+    "/transactions/confirm": {
+      "$ref": "./paths/transactions_confirm.json"
+    },
+    "/transactions/permission": {
+      "$ref": "./paths/transactions_permission.json"
+    },
+    "/transactions/txid": {
+      "$ref": "./paths/transactions_txid.json"
     }
   },
   "tags": [

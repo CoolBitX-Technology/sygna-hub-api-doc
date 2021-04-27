@@ -1,14 +1,15 @@
 {
   "title": "service",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "provider": {
       "type": "string",
-      "minimum": 1
+      "minLength": 1
     },
     "type": {
       "type": "string",
-      "minimum": 1
+      "minLength": 1
     },
     "credential": {
       "type": "object",
@@ -18,10 +19,10 @@
       "type": "boolean"
     },
     "start_time": {
-      "$ref": "../../common/date.json"
+      "$ref": "../../common/date_nullable.json"
     },
     "end_time": {
-      "$ref": "../../common/date.json"
+      "$ref": "../../common/date_nullable.json"
     }
   },
   "required": [

@@ -1,0 +1,88 @@
+{
+  "get": {
+    "description": "Get all transactions",
+    "summary": "get /transactions",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "get /transactions",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "in": "query",
+        "name": "id",
+        "description": "id. case sensitive",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid",
+            "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+          }
+        }
+      }
+    ],
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of object containing information of one or more transaction",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/transactions/get/transactions.json"
+            },
+            "examples": {
+              "$ref": "../examples/transactions/get/transactions.json"
+            }
+          }
+        }
+      }
+    }
+  },
+  "post": {
+    "description": "post transactions",
+    "summary": "post /transactions",
+    "tags": [
+      "Hub"
+    ],
+    "operationId": "post /transactions",
+    "security": [
+      {
+        "ApiKeyAuth": [],
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../schemas/transactions/post/transactions.json"
+          }
+        }
+      },
+      "required": true
+    },
+    "deprecated": false,
+    "responses": {
+      "200": {
+        "description": "An array of insert ids",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../schemas/common/ids.json"
+            },
+            "examples": {
+              "$ref": "../examples/common/ids.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

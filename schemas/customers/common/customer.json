@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "customer_type": {
-      "$ref": "../common/customer_type.json"
+      "$ref": "../../common/customer_type.json"
     },
     "customer_id": {
       "type": "string",
@@ -133,8 +133,7 @@
         "type": "object",
         "properties": {
           "currency_id": {
-            "type": "string",
-            "minLength": 1
+            "$ref": "../../common/currency_id.json"
           },
           "address": {
             "type": "string",

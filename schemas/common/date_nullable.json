@@ -1,0 +1,7 @@
+{
+  "title": "date",
+  "description": "ISO8601 time format",
+  "type": "string",
+  "format": "date-time",
+  "nullable": true
+}

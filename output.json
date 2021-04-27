@@ -373,8 +373,8 @@
                         "title": "date",
                         "description": "ISO8601 time format",
                         "type": "string",
-                        "minLength": 1,
-                        "format": "date-time"
+                        "format": "date-time",
+                        "nullable": true
                       }
                     },
                     "required": [
@@ -491,9 +491,11 @@
                           "minLength": 1
                         },
                         "country": {
+                          "title": "currency id",
+                          "description": "unique id for currency",
                           "type": "string",
-                          "minLength": 2,
-                          "description": "iso2"
+                          "minLength": 16,
+                          "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                         },
                         "registration_authority": {
                           "type": "string",
@@ -541,9 +543,11 @@
                           ]
                         },
                         "country": {
+                          "title": "currency id",
+                          "description": "unique id for currency",
                           "type": "string",
-                          "minLength": 2,
-                          "description": "iso2"
+                          "minLength": 16,
+                          "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                         },
                         "department": {
                           "type": "string",
@@ -615,8 +619,11 @@
                         "type": "object",
                         "properties": {
                           "currency_id": {
+                            "title": "currency id",
+                            "description": "unique id for sygna supported currencies",
                             "type": "string",
-                            "minLength": 1
+                            "minLength": 16,
+                            "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                           },
                           "address": {
                             "type": "string",
@@ -715,7 +722,8 @@
                       "required": [
                         "id",
                         "is_active"
-                      ]
+                      ],
+                      "additionalProperties": false
                     },
                     {
                       "title": "customer",
@@ -763,9 +771,11 @@
                               "minLength": 1
                             },
                             "country": {
+                              "title": "currency id",
+                              "description": "unique id for currency",
                               "type": "string",
-                              "minLength": 2,
-                              "description": "iso2"
+                              "minLength": 16,
+                              "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                             },
                             "registration_authority": {
                               "type": "string",
@@ -813,9 +823,11 @@
                               ]
                             },
                             "country": {
+                              "title": "currency id",
+                              "description": "unique id for currency",
                               "type": "string",
-                              "minLength": 2,
-                              "description": "iso2"
+                              "minLength": 16,
+                              "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                             },
                             "department": {
                               "type": "string",
@@ -887,8 +899,11 @@
                             "type": "object",
                             "properties": {
                               "currency_id": {
+                                "title": "currency id",
+                                "description": "unique id for sygna supported currencies",
                                 "type": "string",
-                                "minLength": 1
+                                "minLength": 16,
+                                "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                               },
                               "address": {
                                 "type": "string",
@@ -988,6 +1003,7 @@
                 "schema": {
                   "title": "get/customer/{id}",
                   "type": "object",
+                  "additionalProperties": false,
                   "allOf": [
                     {
                       "properties": {
@@ -1050,9 +1066,11 @@
                               "minLength": 1
                             },
                             "country": {
+                              "title": "currency id",
+                              "description": "unique id for currency",
                               "type": "string",
-                              "minLength": 2,
-                              "description": "iso2"
+                              "minLength": 16,
+                              "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                             },
                             "registration_authority": {
                               "type": "string",
@@ -1100,9 +1118,11 @@
                               ]
                             },
                             "country": {
+                              "title": "currency id",
+                              "description": "unique id for currency",
                               "type": "string",
-                              "minLength": 2,
-                              "description": "iso2"
+                              "minLength": 16,
+                              "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                             },
                             "department": {
                               "type": "string",
@@ -1174,8 +1194,11 @@
                             "type": "object",
                             "properties": {
                               "currency_id": {
+                                "title": "currency id",
+                                "description": "unique id for sygna supported currencies",
                                 "type": "string",
-                                "minLength": 1
+                                "minLength": 16,
+                                "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                               },
                               "address": {
                                 "type": "string",
@@ -1319,6 +1342,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
+                    "additionalProperties": false,
                     "allOf": [
                       {
                         "properties": {
@@ -1338,14 +1362,15 @@
                       {
                         "title": "service",
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "provider": {
                             "type": "string",
-                            "minimum": 1
+                            "minLength": 1
                           },
                           "type": {
                             "type": "string",
-                            "minimum": 1
+                            "minLength": 1
                           },
                           "credential": {
                             "type": "object",
@@ -1358,15 +1383,15 @@
                             "title": "date",
                             "description": "ISO8601 time format",
                             "type": "string",
-                            "minLength": 1,
-                            "format": "date-time"
+                            "format": "date-time",
+                            "nullable": true
                           },
                           "end_time": {
                             "title": "date",
                             "description": "ISO8601 time format",
                             "type": "string",
-                            "minLength": 1,
-                            "format": "date-time"
+                            "format": "date-time",
+                            "nullable": true
                           }
                         },
                         "required": [
@@ -1428,14 +1453,15 @@
                 "items": {
                   "title": "service",
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "provider": {
                       "type": "string",
-                      "minimum": 1
+                      "minLength": 1
                     },
                     "type": {
                       "type": "string",
-                      "minimum": 1
+                      "minLength": 1
                     },
                     "credential": {
                       "type": "object",
@@ -1448,15 +1474,15 @@
                       "title": "date",
                       "description": "ISO8601 time format",
                       "type": "string",
-                      "minLength": 1,
-                      "format": "date-time"
+                      "format": "date-time",
+                      "nullable": true
                     },
                     "end_time": {
                       "title": "date",
                       "description": "ISO8601 time format",
                       "type": "string",
-                      "minLength": 1,
-                      "format": "date-time"
+                      "format": "date-time",
+                      "nullable": true
                     }
                   },
                   "required": [
@@ -1464,6 +1490,645 @@
                     "type",
                     "credential",
                     "is_active"
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "description": "Get all transactions",
+        "summary": "get /transactions",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "get /transactions",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "id. case sensitive",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid",
+                "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
+              }
+            }
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of object containing information of one or more transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "transactions",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "title": "id",
+                        "description": "unique id",
+                        "type": "string",
+                        "minLength": 36,
+                        "maxLength": 36,
+                        "format": "uuid"
+                      },
+                      "direction": {
+                        "description": "0: withdraw ; 1: deposit",
+                        "type": "integer",
+                        "enum": [
+                          0,
+                          1
+                        ]
+                      },
+                      "customer_name": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "currency_id": {
+                        "title": "currency id",
+                        "description": "unique id for sygna supported currencies",
+                        "type": "string",
+                        "minLength": 16,
+                        "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                      },
+                      "txid": {
+                        "type": "string",
+                        "minLength": 1,
+                        "nullable": true
+                      },
+                      "amount": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "usd_amount": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "created_at": {
+                        "title": "date",
+                        "description": "ISO8601 time format",
+                        "type": "string",
+                        "minLength": 1,
+                        "format": "date-time"
+                      },
+                      "status": {
+                        "description": "0: processing ; 1: blocked ; 2: pending on beneficiary",
+                        "type": "integer",
+                        "enum": [
+                          0,
+                          1,
+                          2
+                        ]
+                      },
+                      "assets": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "title": "id",
+                              "description": "unique id",
+                              "type": "string",
+                              "minLength": 36,
+                              "maxLength": 36,
+                              "format": "uuid"
+                            },
+                            "vasp_code": {
+                              "title": "vasp code",
+                              "description": "vasp code",
+                              "type": "string",
+                              "minLength": 8
+                            },
+                            "address": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "extra_info": {
+                              "type": "object"
+                            },
+                            "labels": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "created_at": {
+                              "title": "date",
+                              "description": "ISO8601 time format",
+                              "type": "string",
+                              "minLength": 1,
+                              "format": "date-time"
+                            },
+                            "last_screened": {
+                              "title": "date",
+                              "description": "ISO8601 time format",
+                              "type": "string",
+                              "format": "date-time",
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "vasp_code",
+                            "address",
+                            "extra_info",
+                            "labels",
+                            "created_at",
+                            "last_screened"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "direction",
+                      "customer_name",
+                      "txid",
+                      "amount",
+                      "usd_amount",
+                      "created_at",
+                      "status",
+                      "assets"
+                    ]
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
+                          "direction": 0,
+                          "customer_name": "Tom",
+                          "currency_id": "sygna:0x8000003c",
+                          "txid": "0x18801eadd20de67753c0b9e201049811d51000c51163091c593d7dc7198f8bee",
+                          "amount": "1",
+                          "usd_amount": "2000",
+                          "created_at": "2021-04-09T08:49:35.349Z",
+                          "status": 0,
+                          "assets": [
+                            {
+                              "id": "b83176a9-df51-46c6-a0b9-2232fff0c399",
+                              "vasp_code": "VASPSIT1",
+                              "address": "0x663b7f8422f1f72706763697692fa8b92f1c9753",
+                              "extra_info": null,
+                              "labels": [],
+                              "created_at": "2021-04-09T08:49:35.349Z",
+                              "last_screened": "2021-04-09T08:49:35.349Z"
+                            },
+                            {
+                              "id": "69acd03b-c616-41ad-b676-0db791be30fa",
+                              "vasp_code": "VASPSIT2",
+                              "address": "0xf66852bc122fd40bfecc63cd48217e88bda12109",
+                              "extra_info": null,
+                              "labels": [
+                                "exchange"
+                              ],
+                              "created_at": "2021-04-09T08:49:35.349Z",
+                              "last_screened": "2021-04-09T08:49:35.349Z"
+                            }
+                          ]
+                        }
+                      ],
+                      "paging": {
+                        "has_next": false,
+                        "limit": 20,
+                        "offset": 0,
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post transactions",
+        "summary": "post /transactions",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "post /transactions",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "transactions",
+                "type": "array",
+                "items": {
+                  "title": "transaction",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "customer_id": {
+                      "title": "id",
+                      "description": "unique id",
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "format": "uuid"
+                    },
+                    "amount": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "currency_id": {
+                      "title": "currency id",
+                      "description": "unique id for sygna supported currencies",
+                      "type": "string",
+                      "minLength": 16,
+                      "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                    },
+                    "originator": {
+                      "type": "object",
+                      "properties": {
+                        "assets": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          }
+                        }
+                      },
+                      "required": [
+                        "assets"
+                      ]
+                    },
+                    "beneficiary": {
+                      "type": "object",
+                      "properties": {
+                        "customer_type": {
+                          "title": "customer_type",
+                          "description": "customer type. 0: nature person ; 1: legal person",
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        },
+                        "vasp_code": {
+                          "title": "vasp code",
+                          "description": "vasp code",
+                          "type": "string",
+                          "minLength": 8
+                        },
+                        "private_info": {
+                          "type": "object",
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "first_name": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "last_name": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "first_name",
+                                "last_name"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "legal_name": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "legal_name"
+                              ]
+                            }
+                          ]
+                        },
+                        "addrs": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "address": {
+                                "type": "string",
+                                "minItems": 1
+                              },
+                              "extra_info": {
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "address"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "customer_type",
+                        "vasp_code",
+                        "private_info",
+                        "addrs"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "currency_id",
+                    "originator",
+                    "beneficiary"
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/confirm": {
+      "patch": {
+        "description": "confirm transaction",
+        "summary": "patch transactions/confirm",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "patch transactions/confirm",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ids",
+                "type": "array",
+                "items": {
+                  "title": "id",
+                  "description": "unique id",
+                  "type": "string",
+                  "minLength": 36,
+                  "maxLength": 36,
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/permission": {
+      "patch": {
+        "description": "permission transaction",
+        "summary": "patch transactions/permission",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "patch transactions/permission",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "transactions",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "title": "id",
+                      "description": "unique id",
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "format": "uuid"
+                    },
+                    "permission_status": {
+                      "type": "integer",
+                      "description": "0:approve ; 1 :reject",
+                      "enum": [
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "permission_status"
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "An array of insert ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ids",
+                  "type": "array",
+                  "items": {
+                    "title": "id",
+                    "description": "unique id",
+                    "type": "string",
+                    "minLength": 36,
+                    "maxLength": 36,
+                    "format": "uuid"
+                  }
+                },
+                "examples": {
+                  "response": {
+                    "value": [
+                      "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
+                      "9a86fd72-4958-4106-b9cc-f113e46e9c5d"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/txid": {
+      "patch": {
+        "description": "txid transaction",
+        "summary": "patch transactions/txid",
+        "tags": [
+          "Hub"
+        ],
+        "operationId": "patch transactions/txid",
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "transactions",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "title": "id",
+                      "description": "unique id",
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "format": "uuid"
+                    },
+                    "txid": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "txid"
                   ]
                 }
               }
@@ -1526,6 +2191,7 @@
       "customer": {
         "title": "get/customer/{id}",
         "type": "object",
+        "additionalProperties": false,
         "allOf": [
           {
             "properties": {
@@ -1588,9 +2254,11 @@
                     "minLength": 1
                   },
                   "country": {
+                    "title": "currency id",
+                    "description": "unique id for currency",
                     "type": "string",
-                    "minLength": 2,
-                    "description": "iso2"
+                    "minLength": 16,
+                    "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                   },
                   "registration_authority": {
                     "type": "string",
@@ -1638,9 +2306,11 @@
                     ]
                   },
                   "country": {
+                    "title": "currency id",
+                    "description": "unique id for currency",
                     "type": "string",
-                    "minLength": 2,
-                    "description": "iso2"
+                    "minLength": 16,
+                    "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                   },
                   "department": {
                     "type": "string",
@@ -1712,8 +2382,11 @@
                   "type": "object",
                   "properties": {
                     "currency_id": {
+                      "title": "currency id",
+                      "description": "unique id for sygna supported currencies",
                       "type": "string",
-                      "minLength": 1
+                      "minLength": 16,
+                      "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                     },
                     "address": {
                       "type": "string",
@@ -1783,8 +2456,8 @@
               "title": "date",
               "description": "ISO8601 time format",
               "type": "string",
-              "minLength": 1,
-              "format": "date-time"
+              "format": "date-time",
+              "nullable": true
             }
           },
           "required": [
@@ -1853,6 +2526,7 @@
         "type": "array",
         "items": {
           "type": "object",
+          "additionalProperties": false,
           "allOf": [
             {
               "properties": {
@@ -1872,14 +2546,15 @@
             {
               "title": "service",
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "provider": {
                   "type": "string",
-                  "minimum": 1
+                  "minLength": 1
                 },
                 "type": {
                   "type": "string",
-                  "minimum": 1
+                  "minLength": 1
                 },
                 "credential": {
                   "type": "object",
@@ -1892,15 +2567,15 @@
                   "title": "date",
                   "description": "ISO8601 time format",
                   "type": "string",
-                  "minLength": 1,
-                  "format": "date-time"
+                  "format": "date-time",
+                  "nullable": true
                 },
                 "end_time": {
                   "title": "date",
                   "description": "ISO8601 time format",
                   "type": "string",
-                  "minLength": 1,
-                  "format": "date-time"
+                  "format": "date-time",
+                  "nullable": true
                 }
               },
               "required": [

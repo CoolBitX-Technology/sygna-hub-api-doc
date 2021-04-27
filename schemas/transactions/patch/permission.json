@@ -1,0 +1,25 @@
+{
+  "title": "transactions",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$ref": "../../common/id.json"
+      },
+      "permission_status": {
+        "type": "integer",
+        "description": "0:approve ; 1 :reject",
+        "enum": [
+          0,
+          1
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "permission_status"
+    ]
+  }
+}
