@@ -34,86 +34,7 @@
           "type": "string"
         },
         "private_info": {
-          "type": "object",
-          "properties": {
-            "account_numbers": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "originator_persons": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "natural_person": {
-                      "type": "object",
-                      "properties": {
-                        "date_and_place_of_birth": {
-                          "$ref": "../common/ivms/birth.json"
-                        },
-                        "geographic_addresses": {
-                          "$ref": "../common/ivms/address.json"
-                        },
-                        "name": {
-                          "type": "object",
-                          "properties": {
-                            "name_identifiers": {
-                              "type": "array",
-                              "items": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "name_identifier_type": {
-                                      "type": "string"
-                                    },
-                                    "primary_identifier": {
-                                      "type": "string"
-                                    },
-                                    "secondary_identifier": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "name_identifier_type",
-                                    "primary_identifier",
-                                    "secondary_identifier"
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name_identifiers"
-                          ]
-                        },
-                        "national_identification": {
-                          "$ref": "../common/ivms/national_id.json"
-                        }
-                      },
-                      "required": [
-                        "date_and_place_of_birth",
-                        "geographic_addresses",
-                        "name",
-                        "national_identification"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "natural_person"
-                  ]
-                }
-              ]
-            }
-          },
-          "required": [
-            "account_numbers",
-            "originator_persons"
-          ]
+          "$ref": "../common/ivms.json#/definitions/Originator"
         }
       },
       "required": [
@@ -128,74 +49,7 @@
           "type": "string"
         },
         "private_info": {
-          "type": "object",
-          "properties": {
-            "account_numbers": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "beneficiary_persons": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "natural_person": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "object",
-                          "properties": {
-                            "name_identifiers": {
-                              "type": "array",
-                              "items": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "name_identifier_type": {
-                                      "type": "string"
-                                    },
-                                    "primary_identifier": {
-                                      "type": "string"
-                                    },
-                                    "secondary_identifier": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "name_identifier_type",
-                                    "primary_identifier",
-                                    "secondary_identifier"
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          "required": [
-                            "name_identifiers"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "name"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "natural_person"
-                  ]
-                }
-              ]
-            }
-          },
-          "required": [
-            "account_numbers",
-            "beneficiary_persons"
-          ]
+          "$ref": "../common/ivms.json#/definitions/Beneficiary"
         },
         "name_matched": {
           "type": "boolean"
@@ -206,9 +60,7 @@
       },
       "required": [
         "vasp_code",
-        "private_info",
-        "name_matched",
-        "address_matched"
+        "private_info"
       ]
     },
     "performed_at": {

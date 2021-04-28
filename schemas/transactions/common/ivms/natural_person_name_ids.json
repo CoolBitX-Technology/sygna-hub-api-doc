@@ -1,0 +1,21 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name_identifier_type": {
+        "type": "string"
+      },
+      "primary_identifier": {
+        "type": "string"
+      },
+      "secondary_identifier": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "name_identifier_type",
+      "primary_identifier"
+    ]
+  }
+}
