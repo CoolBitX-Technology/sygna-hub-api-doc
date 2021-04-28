@@ -31,13 +31,7 @@
         "$ref": "../../common/date.json"
       },
       "status": {
-        "description": "0: processing ; 1: blocked ; 2: pending on beneficiary",
-        "type": "integer",
-        "enum": [
-          0,
-          1,
-          2
-        ]
+        "$ref": "../common/status.json"
       },
       "assets": {
         "type": "array",

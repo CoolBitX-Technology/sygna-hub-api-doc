@@ -22,7 +22,7 @@
       "$ref": "../common/string_amount.json"
     },
     "status": {
-      "type": "integer"
+      "$ref": "../common/status.json"
     },
     "currency_id": {
       "$ref": "../../common/currency_id.json"
@@ -64,13 +64,13 @@
       ]
     },
     "performed_at": {
-      "type": "string"
+      "$ref": "../../common/date.json"
     },
     "performed_by": {
       "type": "string"
     },
     "expire_date": {
-      "type": "null"
+      "$ref": "../../common/date_nullable.json"
     },
     "counter_party_vasp_info": {
       "type": "object",
