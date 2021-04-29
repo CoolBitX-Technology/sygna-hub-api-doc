@@ -31,7 +31,7 @@
       "type": "object",
       "properties": {
         "vasp_code": {
-          "type": "string"
+          "$ref": "../../common/vasp_code.json"
         },
         "private_info": {
           "$ref": "../../common/ivms.json#/definitions/Originator"
@@ -46,7 +46,7 @@
       "type": "object",
       "properties": {
         "vasp_code": {
-          "type": "string"
+          "$ref": "../../common/vasp_code.json"
         },
         "private_info": {
           "$ref": "../../common/ivms.json#/definitions/Beneficiary"

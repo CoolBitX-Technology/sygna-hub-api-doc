@@ -16,14 +16,13 @@
         "type": "object"
       },
       "risk_score": {
-        "type": "string",
-        "nullable": true
+        "$ref": "../../common/risk_score.json"
       },
       "labels": {
         "$ref": "../../common/labels.json"
       },
       "created_at": {
-        "type": "string"
+        "$ref": "../../common/date.json"
       },
       "last_screened": {
         "$ref": "../../common/date_nullable.json"
