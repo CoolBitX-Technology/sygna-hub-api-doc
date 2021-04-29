@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "bundle": "npx swagger-cli bundle --dereference  ./index.json -o output.json"
+    "bundle": "npx swagger-cli bundle --dereference  ./index.json -o output.json",
+    "validate": "npx swagger-cli validate output.json"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/CoolBitX-Technology/sygna-bundle-api-doc#readme",
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4"
+  },
+  "dependencies": {
+    "husky": "^6.0.0"
   }
 }

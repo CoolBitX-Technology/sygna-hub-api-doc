@@ -457,6 +457,7 @@
                         {
                           "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
                           "name": "Mark Liu",
+                          "avg_risk_score": null,
                           "max_risk_score": null,
                           "labels": [],
                           "is_active": true,
@@ -465,6 +466,7 @@
                         {
                           "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
                           "name": "Andy Liu",
+                          "avg_risk_score": 8.5,
                           "max_risk_score": 8.5,
                           "labels": [
                             "Gambling"
@@ -1972,7 +1974,7 @@
                           "currency_id": "sygna:0x8000003c",
                           "txid": "0x18801eadd20de67753c0b9e201049811d51000c51163091c593d7dc7198f8bee",
                           "value": "1",
-                          "usd_value": "2000",
+                          "value_usd": "2000",
                           "created_at": "2021-04-09T08:49:35.349Z",
                           "status": 0,
                           "assets": [
@@ -2311,7 +2313,10 @@
                           "type": "object",
                           "properties": {
                             "vasp_code": {
-                              "type": "string"
+                              "title": "vasp code",
+                              "description": "vasp code",
+                              "type": "string",
+                              "minLength": 8
                             },
                             "private_info": {
                               "title": "Originator",
@@ -2727,7 +2732,10 @@
                           "type": "object",
                           "properties": {
                             "vasp_code": {
-                              "type": "string"
+                              "title": "vasp code",
+                              "description": "vasp code",
+                              "type": "string",
+                              "minLength": 8
                             },
                             "private_info": {
                               "title": "Beneficiary",
@@ -3230,7 +3238,8 @@
                                 "type": "object"
                               },
                               "risk_score": {
-                                "type": "string",
+                                "type": "number",
+                                "minimum": 0,
                                 "nullable": true
                               },
                               "labels": {
@@ -3241,7 +3250,11 @@
                                 }
                               },
                               "created_at": {
-                                "type": "string"
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "minLength": 1,
+                                "format": "date-time"
                               },
                               "last_screened": {
                                 "title": "date",
@@ -3571,7 +3584,7 @@
                                       "address_type": "BIZZ",
                                       "building_name": "Officer Missouri",
                                       "building_number": "809",
-                                      "country": "Mozambique",
+                                      "country": "TW",
                                       "country_sub_division": "Barbados",
                                       "department": "Assistant customized",
                                       "district_name": "Delaware",
@@ -3692,7 +3705,7 @@
                             "address_type": "HOME",
                             "building_name": "infrastructures Buckinghamshire",
                             "building_number": "754",
-                            "country": "Falkland Islands (Malvinas)",
+                            "country": "TW",
                             "country_sub_division": "Saint Barthelemy",
                             "department": "Bedfordshire TCP",
                             "district_name": "Hawaii",
