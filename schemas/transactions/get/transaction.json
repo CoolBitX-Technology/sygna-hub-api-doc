@@ -107,10 +107,12 @@
       "type": "integer"
     },
     "reject_code": {
-      "type": "string"
+      "type": "string",
+      "nullable": true
     },
     "reject_message": {
-      "type": "string"
+      "type": "string",
+      "nullable": true
     },
     "assets": {
       "$ref": "../common/transaction_assets.json"
@@ -125,8 +127,7 @@
       "type": "boolean"
     },
     "max_risk_score": {
-      "type": "string",
-      "nullable": true
+      "$ref": "../../common/risk_score.json"
     }
   },
   "required": [

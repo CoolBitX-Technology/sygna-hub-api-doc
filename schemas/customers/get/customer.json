@@ -1,5 +1,5 @@
 {
-  "title": "get/transactions/{id}",
+  "title": "get/customers/{id}",
   "type": "object",
   "additionalProperties": false,
   "allOf": [

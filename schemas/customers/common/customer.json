@@ -2,6 +2,9 @@
   "title": "customer",
   "type": "object",
   "properties": {
+    "vasp_code": {
+      "$ref": "../../common/vasp_code.json"
+    },
     "customer_type": {
       "$ref": "../../common/customer_type.json"
     },
@@ -12,6 +15,9 @@
     "name": {
       "type": "string",
       "minLength": 1
+    },
+    "is_active": {
+      "type": "boolean"
     },
     "national": {
       "$ref": "../../common/ivms.json#/definitions/NationalIdentification",
@@ -25,12 +31,27 @@
       "$ref": "../../common/ivms.json#/definitions/Address",
       "additionalProperties": false
     },
+    "max_risk_score": {
+      "$ref": "../../common/risk_score.json"
+    },
+    "avg_risk_score": {
+      "$ref": "../../common/risk_score.json"
+    },
+    "labels": {
+      "$ref": "../../common/labels.json"
+    },
+    "last_screened": {
+      "$ref": "../../common/date_nullable.json"
+    },
     "assets": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
         "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          },
           "currency_id": {
             "$ref": "../../common/currency_id.json"
           },
@@ -40,6 +61,26 @@
           },
           "extra_info": {
             "type": "object"
+          },
+          "risk_score": {
+            "$ref": "../../common/risk_score.json"
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value_usd": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labels": {
+            "$ref": "../../common/labels.json"
+          },
+          "last_screened": {
+            "$ref": "../../common/date_nullable.json"
+          },
+          "created_at": {
+            "$ref": "../../common/date.json"
           }
         },
         "required": [
@@ -51,9 +92,14 @@
     }
   },
   "required": [
+    "vasp_code",
     "customer_type",
     "customer_id",
-    "name"
+    "name",
+    "is_active",
+    "max_risk_score",
+    "avg_risk_score",
+    "labels"
   ],
   "additionalProperties": false
 }

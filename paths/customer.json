@@ -1,6 +1,6 @@
 {
   "get": {
-    "description": "Get all customers",
+    "description": "Get customer detail",
     "summary": "get /customers/{id}",
     "tags": [
       "Hub"
@@ -32,7 +32,12 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/customers/get/customer.json"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "../schemas/customers/get/customer.json"
+                }
+              }
             },
             "examples": {
               "$ref": "../examples/customers/get/customer.json"

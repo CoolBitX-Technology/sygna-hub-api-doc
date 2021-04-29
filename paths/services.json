@@ -59,7 +59,7 @@
             "example": true
           }
         }
-      },
+      }
     ],
     "deprecated": false,
     "responses": {
@@ -68,7 +68,15 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/services/get/services.json"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "../schemas/services/get/services.json"
+                },
+                "paging": {
+                  "$ref": "../schemas/common/paging.json"
+                }
+              }
             },
             "examples": {
               "$ref": "../examples/services/get/services.json"

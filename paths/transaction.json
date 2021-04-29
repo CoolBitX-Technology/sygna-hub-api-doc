@@ -42,7 +42,12 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/transactions/get/transaction.json"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "../schemas/transactions/get/transaction.json"
+                }
+              }
             },
             "examples": {
               "$ref": "../examples/transactions/get/transaction.json"

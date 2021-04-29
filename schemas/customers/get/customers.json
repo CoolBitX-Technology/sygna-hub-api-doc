@@ -12,8 +12,10 @@
         "minLength": 1
       },
       "max_risk_score": {
-        "type": "string",
-        "minLength": 1
+        "$ref": "../../common/risk_score.json"
+      },
+      "avg_risk_score": {
+        "$ref": "../../common/risk_score.json"
       },
       "labels": {
         "$ref": "../../common/labels.json"

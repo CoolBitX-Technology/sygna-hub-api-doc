@@ -74,53 +74,81 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "users",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "allOf": [
-                      {
-                        "properties": {
-                          "id": {
-                            "title": "id",
-                            "description": "unique id",
-                            "type": "string",
-                            "minLength": 36,
-                            "maxLength": 36,
-                            "format": "uuid"
-                          },
-                          "authentication": {
-                            "type": "object"
-                          }
-                        },
-                        "required": [
-                          "id"
-                        ]
-                      },
-                      {
-                        "title": "user",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "title": "users",
+                      "type": "array",
+                      "items": {
                         "type": "object",
-                        "properties": {
-                          "account": {
-                            "type": "string",
-                            "format": "email"
+                        "allOf": [
+                          {
+                            "properties": {
+                              "id": {
+                                "title": "id",
+                                "description": "unique id",
+                                "type": "string",
+                                "minLength": 36,
+                                "maxLength": 36,
+                                "format": "uuid"
+                              },
+                              "authentication": {
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "id"
+                            ]
                           },
-                          "is_active": {
-                            "type": "boolean"
-                          },
-                          "role_id": {
-                            "type": "integer",
-                            "minimum": 0,
-                            "description": "0:admin ; 1:normal user"
+                          {
+                            "title": "user",
+                            "type": "object",
+                            "properties": {
+                              "account": {
+                                "type": "string",
+                                "format": "email"
+                              },
+                              "is_active": {
+                                "type": "boolean"
+                              },
+                              "role_id": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "description": "0:admin ; 1:normal user"
+                              }
+                            },
+                            "required": [
+                              "account",
+                              "is_active",
+                              "role_id"
+                            ]
                           }
-                        },
-                        "required": [
-                          "account",
-                          "is_active",
-                          "role_id"
                         ]
                       }
-                    ]
+                    },
+                    "paging": {
+                      "type": "object",
+                      "properties": {
+                        "has_next": {
+                          "type": "boolean"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "has_next",
+                        "limit",
+                        "offset",
+                        "total"
+                      ]
+                    }
                   }
                 },
                 "examples": {
@@ -331,61 +359,95 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "get/customers",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "title": "id",
-                        "description": "unique id",
-                        "type": "string",
-                        "minLength": 36,
-                        "maxLength": 36,
-                        "format": "uuid"
-                      },
-                      "name": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "max_risk_score": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "labels": {
-                        "type": "array",
-                        "items": {
-                          "type": "string",
-                          "minLength": 1
-                        }
-                      },
-                      "is_active": {
-                        "type": "boolean"
-                      },
-                      "created_at": {
-                        "title": "date",
-                        "description": "ISO8601 time format",
-                        "type": "string",
-                        "minLength": 1,
-                        "format": "date-time"
-                      },
-                      "last_screened": {
-                        "title": "date",
-                        "description": "ISO8601 time format",
-                        "type": "string",
-                        "format": "date-time",
-                        "nullable": true
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "title": "get/customers",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "max_risk_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "nullable": true
+                          },
+                          "avg_risk_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "nullable": true
+                          },
+                          "labels": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "is_active": {
+                            "type": "boolean"
+                          },
+                          "created_at": {
+                            "title": "date",
+                            "description": "ISO8601 time format",
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "date-time"
+                          },
+                          "last_screened": {
+                            "title": "date",
+                            "description": "ISO8601 time format",
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "max_risk_score",
+                          "labels",
+                          "is_active",
+                          "created_at"
+                        ],
+                        "additionalProperties": false
                       }
                     },
-                    "required": [
-                      "id",
-                      "name",
-                      "max_risk_score",
-                      "labels",
-                      "is_active",
-                      "created_at"
-                    ],
-                    "additionalProperties": false
+                    "paging": {
+                      "type": "object",
+                      "properties": {
+                        "has_next": {
+                          "type": "boolean"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "has_next",
+                        "limit",
+                        "offset",
+                        "total"
+                      ]
+                    }
                   }
                 },
                 "examples": {
@@ -395,7 +457,7 @@
                         {
                           "id": "b2af7e51-03b1-4986-a0c2-28411a4be8cb",
                           "name": "Mark Liu",
-                          "max_risk_score": "N/A",
+                          "max_risk_score": null,
                           "labels": [],
                           "is_active": true,
                           "created_at": "2021-04-05T00:48:26Z"
@@ -403,7 +465,7 @@
                         {
                           "id": "9a86fd72-4958-4106-b9cc-f113e46e9c5d",
                           "name": "Andy Liu",
-                          "max_risk_score": "8.5",
+                          "max_risk_score": 8.5,
                           "labels": [
                             "Gambling"
                           ],
@@ -449,6 +511,12 @@
                   "title": "customer",
                   "type": "object",
                   "properties": {
+                    "vasp_code": {
+                      "title": "vasp code",
+                      "description": "vasp code",
+                      "type": "string",
+                      "minLength": 8
+                    },
                     "customer_type": {
                       "title": "customer_type",
                       "description": "customer type. 0: nature person ; 1: legal person",
@@ -465,6 +533,9 @@
                     "name": {
                       "type": "string",
                       "minLength": 1
+                    },
+                    "is_active": {
+                      "type": "boolean"
                     },
                     "national": {
                       "additionalProperties": false,
@@ -575,12 +646,44 @@
                         }
                       }
                     },
+                    "max_risk_score": {
+                      "type": "number",
+                      "minimum": 0,
+                      "nullable": true
+                    },
+                    "avg_risk_score": {
+                      "type": "number",
+                      "minimum": 0,
+                      "nullable": true
+                    },
+                    "labels": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "last_screened": {
+                      "title": "date",
+                      "description": "ISO8601 time format",
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
                     "assets": {
                       "type": "array",
                       "minItems": 1,
                       "items": {
                         "type": "object",
                         "properties": {
+                          "id": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
+                          },
                           "currency_id": {
                             "title": "currency id",
                             "description": "unique id for sygna supported currencies",
@@ -594,6 +697,40 @@
                           },
                           "extra_info": {
                             "type": "object"
+                          },
+                          "risk_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "nullable": true
+                          },
+                          "value": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "value_usd": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "labels": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "last_screened": {
+                            "title": "date",
+                            "description": "ISO8601 time format",
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "created_at": {
+                            "title": "date",
+                            "description": "ISO8601 time format",
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -605,9 +742,14 @@
                     }
                   },
                   "required": [
+                    "vasp_code",
                     "customer_type",
                     "customer_id",
-                    "name"
+                    "name",
+                    "is_active",
+                    "max_risk_score",
+                    "avg_risk_score",
+                    "labels"
                   ],
                   "additionalProperties": false
                 }
@@ -692,6 +834,12 @@
                       "title": "customer",
                       "type": "object",
                       "properties": {
+                        "vasp_code": {
+                          "title": "vasp code",
+                          "description": "vasp code",
+                          "type": "string",
+                          "minLength": 8
+                        },
                         "customer_type": {
                           "title": "customer_type",
                           "description": "customer type. 0: nature person ; 1: legal person",
@@ -708,6 +856,9 @@
                         "name": {
                           "type": "string",
                           "minLength": 1
+                        },
+                        "is_active": {
+                          "type": "boolean"
                         },
                         "national": {
                           "additionalProperties": false,
@@ -818,12 +969,44 @@
                             }
                           }
                         },
+                        "max_risk_score": {
+                          "type": "number",
+                          "minimum": 0,
+                          "nullable": true
+                        },
+                        "avg_risk_score": {
+                          "type": "number",
+                          "minimum": 0,
+                          "nullable": true
+                        },
+                        "labels": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "last_screened": {
+                          "title": "date",
+                          "description": "ISO8601 time format",
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
                         "assets": {
                           "type": "array",
                           "minItems": 1,
                           "items": {
                             "type": "object",
                             "properties": {
+                              "id": {
+                                "title": "id",
+                                "description": "unique id",
+                                "type": "string",
+                                "minLength": 36,
+                                "maxLength": 36,
+                                "format": "uuid"
+                              },
                               "currency_id": {
                                 "title": "currency id",
                                 "description": "unique id for sygna supported currencies",
@@ -837,6 +1020,40 @@
                               },
                               "extra_info": {
                                 "type": "object"
+                              },
+                              "risk_score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "nullable": true
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "value_usd": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "last_screened": {
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              },
+                              "created_at": {
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "minLength": 1,
+                                "format": "date-time"
                               }
                             },
                             "required": [
@@ -848,9 +1065,14 @@
                         }
                       },
                       "required": [
+                        "vasp_code",
                         "customer_type",
                         "customer_id",
-                        "name"
+                        "name",
+                        "is_active",
+                        "max_risk_score",
+                        "avg_risk_score",
+                        "labels"
                       ],
                       "additionalProperties": false
                     }
@@ -895,7 +1117,7 @@
     },
     "/customers/{id}": {
       "get": {
-        "description": "Get all customers",
+        "description": "Get customer detail",
         "summary": "get /customers/{id}",
         "tags": [
           "Hub"
@@ -927,192 +1149,277 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "get/transactions/{id}",
                   "type": "object",
-                  "additionalProperties": false,
-                  "allOf": [
-                    {
-                      "properties": {
-                        "id": {
-                          "title": "id",
-                          "description": "unique id",
-                          "type": "string",
-                          "minLength": 36,
-                          "maxLength": 36,
-                          "format": "uuid"
-                        }
-                      },
-                      "required": [
-                        "id"
-                      ]
-                    },
-                    {
-                      "title": "customer",
+                  "properties": {
+                    "data": {
+                      "title": "get/customers/{id}",
                       "type": "object",
-                      "properties": {
-                        "customer_type": {
-                          "title": "customer_type",
-                          "description": "customer type. 0: nature person ; 1: legal person",
-                          "type": "integer",
-                          "enum": [
-                            0,
-                            1
+                      "additionalProperties": false,
+                      "allOf": [
+                        {
+                          "properties": {
+                            "id": {
+                              "title": "id",
+                              "description": "unique id",
+                              "type": "string",
+                              "minLength": 36,
+                              "maxLength": 36,
+                              "format": "uuid"
+                            }
+                          },
+                          "required": [
+                            "id"
                           ]
                         },
-                        "customer_id": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "name": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "national": {
-                          "additionalProperties": false,
-                          "title": "NationalIdentification",
+                        {
+                          "title": "customer",
                           "type": "object",
                           "properties": {
-                            "national_identifier": {
-                              "type": "string"
-                            },
-                            "national_identifier_type": {
-                              "title": "NationalIdentifierTypeCode",
+                            "vasp_code": {
+                              "title": "vasp code",
+                              "description": "vasp code",
                               "type": "string",
+                              "minLength": 8
+                            },
+                            "customer_type": {
+                              "title": "customer_type",
+                              "description": "customer type. 0: nature person ; 1: legal person",
+                              "type": "integer",
                               "enum": [
-                                "ARNU",
-                                "CCPT",
-                                "RAID",
-                                "DRLC",
-                                "FIIN",
-                                "TXID",
-                                "SOCS",
-                                "IDCD",
-                                "LEIX",
-                                "MISC"
+                                0,
+                                1
                               ]
                             },
-                            "country_of_issue": {
-                              "type": "string"
-                            },
-                            "registration_authority": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "birth": {
-                          "additionalProperties": false,
-                          "title": "DateAndPlaceOfBirth",
-                          "type": "object",
-                          "properties": {
-                            "date_of_birth": {
-                              "type": "string"
-                            },
-                            "place_of_birth": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "address": {
-                          "additionalProperties": false,
-                          "title": "Address",
-                          "type": "object",
-                          "properties": {
-                            "address_type": {
-                              "title": "AddressTypeCode",
+                            "customer_id": {
                               "type": "string",
-                              "enum": [
-                                "HOME",
-                                "BIZZ",
-                                "GEOG"
-                              ]
+                              "minLength": 1
                             },
-                            "department": {
-                              "type": "string"
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
                             },
-                            "sub_department": {
-                              "type": "string"
+                            "is_active": {
+                              "type": "boolean"
                             },
-                            "street_name": {
-                              "type": "string"
+                            "national": {
+                              "additionalProperties": false,
+                              "title": "NationalIdentification",
+                              "type": "object",
+                              "properties": {
+                                "national_identifier": {
+                                  "type": "string"
+                                },
+                                "national_identifier_type": {
+                                  "title": "NationalIdentifierTypeCode",
+                                  "type": "string",
+                                  "enum": [
+                                    "ARNU",
+                                    "CCPT",
+                                    "RAID",
+                                    "DRLC",
+                                    "FIIN",
+                                    "TXID",
+                                    "SOCS",
+                                    "IDCD",
+                                    "LEIX",
+                                    "MISC"
+                                  ]
+                                },
+                                "country_of_issue": {
+                                  "type": "string"
+                                },
+                                "registration_authority": {
+                                  "type": "string"
+                                }
+                              }
                             },
-                            "building_number": {
-                              "type": "string"
+                            "birth": {
+                              "additionalProperties": false,
+                              "title": "DateAndPlaceOfBirth",
+                              "type": "object",
+                              "properties": {
+                                "date_of_birth": {
+                                  "type": "string"
+                                },
+                                "place_of_birth": {
+                                  "type": "string"
+                                }
+                              }
                             },
-                            "building_name": {
-                              "type": "string"
+                            "address": {
+                              "additionalProperties": false,
+                              "title": "Address",
+                              "type": "object",
+                              "properties": {
+                                "address_type": {
+                                  "title": "AddressTypeCode",
+                                  "type": "string",
+                                  "enum": [
+                                    "HOME",
+                                    "BIZZ",
+                                    "GEOG"
+                                  ]
+                                },
+                                "department": {
+                                  "type": "string"
+                                },
+                                "sub_department": {
+                                  "type": "string"
+                                },
+                                "street_name": {
+                                  "type": "string"
+                                },
+                                "building_number": {
+                                  "type": "string"
+                                },
+                                "building_name": {
+                                  "type": "string"
+                                },
+                                "floor": {
+                                  "type": "string"
+                                },
+                                "post_box": {
+                                  "type": "string"
+                                },
+                                "room": {
+                                  "type": "string"
+                                },
+                                "post_code": {
+                                  "type": "string"
+                                },
+                                "town_name": {
+                                  "type": "string"
+                                },
+                                "town_location_name": {
+                                  "type": "string"
+                                },
+                                "district_name": {
+                                  "type": "string"
+                                },
+                                "country_sub_division": {
+                                  "type": "string"
+                                },
+                                "address_line": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "country": {
+                                  "type": "string"
+                                }
+                              }
                             },
-                            "floor": {
-                              "type": "string"
+                            "max_risk_score": {
+                              "type": "number",
+                              "minimum": 0,
+                              "nullable": true
                             },
-                            "post_box": {
-                              "type": "string"
+                            "avg_risk_score": {
+                              "type": "number",
+                              "minimum": 0,
+                              "nullable": true
                             },
-                            "room": {
-                              "type": "string"
-                            },
-                            "post_code": {
-                              "type": "string"
-                            },
-                            "town_name": {
-                              "type": "string"
-                            },
-                            "town_location_name": {
-                              "type": "string"
-                            },
-                            "district_name": {
-                              "type": "string"
-                            },
-                            "country_sub_division": {
-                              "type": "string"
-                            },
-                            "address_line": {
+                            "labels": {
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              }
-                            },
-                            "country": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "assets": {
-                          "type": "array",
-                          "minItems": 1,
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "currency_id": {
-                                "title": "currency id",
-                                "description": "unique id for sygna supported currencies",
-                                "type": "string",
-                                "minLength": 16,
-                                "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
-                              },
-                              "address": {
                                 "type": "string",
                                 "minLength": 1
-                              },
-                              "extra_info": {
-                                "type": "object"
                               }
                             },
-                            "required": [
-                              "currency_id",
-                              "address"
-                            ],
-                            "additionalProperties": false
-                          }
+                            "last_screened": {
+                              "title": "date",
+                              "description": "ISO8601 time format",
+                              "type": "string",
+                              "format": "date-time",
+                              "nullable": true
+                            },
+                            "assets": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "title": "id",
+                                    "description": "unique id",
+                                    "type": "string",
+                                    "minLength": 36,
+                                    "maxLength": 36,
+                                    "format": "uuid"
+                                  },
+                                  "currency_id": {
+                                    "title": "currency id",
+                                    "description": "unique id for sygna supported currencies",
+                                    "type": "string",
+                                    "minLength": 16,
+                                    "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                                  },
+                                  "address": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "extra_info": {
+                                    "type": "object"
+                                  },
+                                  "risk_score": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "nullable": true
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "value_usd": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "labels": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "last_screened": {
+                                    "title": "date",
+                                    "description": "ISO8601 time format",
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "nullable": true
+                                  },
+                                  "created_at": {
+                                    "title": "date",
+                                    "description": "ISO8601 time format",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "format": "date-time"
+                                  }
+                                },
+                                "required": [
+                                  "currency_id",
+                                  "address"
+                                ],
+                                "additionalProperties": false
+                              }
+                            }
+                          },
+                          "required": [
+                            "vasp_code",
+                            "customer_type",
+                            "customer_id",
+                            "name",
+                            "is_active",
+                            "max_risk_score",
+                            "avg_risk_score",
+                            "labels"
+                          ],
+                          "additionalProperties": false
                         }
-                      },
-                      "required": [
-                        "customer_type",
-                        "customer_id",
-                        "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     }
-                  ]
+                  }
                 },
                 "examples": {
                   "response": {
@@ -1227,70 +1534,98 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "services",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "allOf": [
-                      {
-                        "properties": {
-                          "id": {
-                            "title": "id",
-                            "description": "unique id",
-                            "type": "string",
-                            "minLength": 36,
-                            "maxLength": 36,
-                            "format": "uuid"
-                          }
-                        },
-                        "required": [
-                          "id"
-                        ]
-                      },
-                      {
-                        "title": "service",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "title": "services",
+                      "type": "array",
+                      "items": {
                         "type": "object",
                         "additionalProperties": false,
-                        "properties": {
-                          "provider": {
-                            "type": "string",
-                            "minLength": 1
+                        "allOf": [
+                          {
+                            "properties": {
+                              "id": {
+                                "title": "id",
+                                "description": "unique id",
+                                "type": "string",
+                                "minLength": 36,
+                                "maxLength": 36,
+                                "format": "uuid"
+                              }
+                            },
+                            "required": [
+                              "id"
+                            ]
                           },
-                          "type": {
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "credential": {
+                          {
+                            "title": "service",
                             "type": "object",
-                            "minProperties": 1
-                          },
-                          "is_active": {
-                            "type": "boolean"
-                          },
-                          "start_time": {
-                            "title": "date",
-                            "description": "ISO8601 time format",
-                            "type": "string",
-                            "format": "date-time",
-                            "nullable": true
-                          },
-                          "end_time": {
-                            "title": "date",
-                            "description": "ISO8601 time format",
-                            "type": "string",
-                            "format": "date-time",
-                            "nullable": true
+                            "additionalProperties": false,
+                            "properties": {
+                              "provider": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "credential": {
+                                "type": "object",
+                                "minProperties": 1
+                              },
+                              "is_active": {
+                                "type": "boolean"
+                              },
+                              "start_time": {
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              },
+                              "end_time": {
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "provider",
+                              "type",
+                              "credential",
+                              "is_active"
+                            ]
                           }
-                        },
-                        "required": [
-                          "provider",
-                          "type",
-                          "credential",
-                          "is_active"
                         ]
                       }
-                    ]
+                    },
+                    "paging": {
+                      "type": "object",
+                      "properties": {
+                        "has_next": {
+                          "type": "boolean"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "has_next",
+                        "limit",
+                        "offset",
+                        "total"
+                      ]
+                    }
                   }
                 },
                 "examples": {
@@ -1455,147 +1790,175 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "transactions",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "id": {
-                        "title": "id",
-                        "description": "unique id",
-                        "type": "string",
-                        "minLength": 36,
-                        "maxLength": 36,
-                        "format": "uuid"
-                      },
-                      "direction": {
-                        "description": "0: withdraw ; 1: deposit",
-                        "type": "integer",
-                        "enum": [
-                          0,
-                          1
-                        ]
-                      },
-                      "customer_name": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "currency_id": {
-                        "title": "currency id",
-                        "description": "unique id for sygna supported currencies",
-                        "type": "string",
-                        "minLength": 16,
-                        "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
-                      },
-                      "txid": {
-                        "type": "string",
-                        "minLength": 1,
-                        "nullable": true
-                      },
-                      "value": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "value_usd": {
-                        "type": "string",
-                        "minLength": 1
-                      },
-                      "created_at": {
-                        "title": "date",
-                        "description": "ISO8601 time format",
-                        "type": "string",
-                        "minLength": 1,
-                        "format": "date-time"
-                      },
-                      "status": {
-                        "description": "0: processing; 1: blocked; 2: pending on beneficiary; 3: pending on beneficiary failed; 4: pending on originator; 5: pending on originator failed; 6: confirmed; 7: confirm failed; 8: rejected;",
-                        "type": "integer",
-                        "enum": [
-                          0,
-                          1,
-                          2,
-                          3,
-                          4,
-                          5,
-                          6,
-                          7,
-                          8
-                        ]
-                      },
-                      "assets": {
-                        "type": "array",
-                        "minItems": 2,
-                        "items": {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "properties": {
-                            "id": {
-                              "title": "id",
-                              "description": "unique id",
-                              "type": "string",
-                              "minLength": 36,
-                              "maxLength": 36,
-                              "format": "uuid"
-                            },
-                            "vasp_code": {
-                              "title": "vasp code",
-                              "description": "vasp code",
-                              "type": "string",
-                              "minLength": 8
-                            },
-                            "address": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "extra_info": {
-                              "type": "object"
-                            },
-                            "labels": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "minLength": 1
-                              }
-                            },
-                            "created_at": {
-                              "title": "date",
-                              "description": "ISO8601 time format",
-                              "type": "string",
-                              "minLength": 1,
-                              "format": "date-time"
-                            },
-                            "last_screened": {
-                              "title": "date",
-                              "description": "ISO8601 time format",
-                              "type": "string",
-                              "format": "date-time",
-                              "nullable": true
-                            }
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "title": "transactions",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "title": "id",
+                            "description": "unique id",
+                            "type": "string",
+                            "minLength": 36,
+                            "maxLength": 36,
+                            "format": "uuid"
                           },
-                          "required": [
-                            "id",
-                            "vasp_code",
-                            "address",
-                            "extra_info",
-                            "labels",
-                            "created_at",
-                            "last_screened"
-                          ]
-                        }
+                          "direction": {
+                            "description": "0: withdraw ; 1: deposit",
+                            "type": "integer",
+                            "enum": [
+                              0,
+                              1
+                            ]
+                          },
+                          "customer_name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "currency_id": {
+                            "title": "currency id",
+                            "description": "unique id for sygna supported currencies",
+                            "type": "string",
+                            "minLength": 16,
+                            "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                          },
+                          "txid": {
+                            "type": "string",
+                            "minLength": 1,
+                            "nullable": true
+                          },
+                          "value": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "value_usd": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "created_at": {
+                            "title": "date",
+                            "description": "ISO8601 time format",
+                            "type": "string",
+                            "minLength": 1,
+                            "format": "date-time"
+                          },
+                          "status": {
+                            "description": "0: processing; 1: blocked; 2: pending on beneficiary; 3: pending on beneficiary failed; 4: pending on originator; 5: pending on originator failed; 6: confirmed; 7: confirm failed; 8: rejected;",
+                            "type": "integer",
+                            "enum": [
+                              0,
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6,
+                              7,
+                              8
+                            ]
+                          },
+                          "assets": {
+                            "type": "array",
+                            "minItems": 2,
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "title": "id",
+                                  "description": "unique id",
+                                  "type": "string",
+                                  "minLength": 36,
+                                  "maxLength": 36,
+                                  "format": "uuid"
+                                },
+                                "vasp_code": {
+                                  "title": "vasp code",
+                                  "description": "vasp code",
+                                  "type": "string",
+                                  "minLength": 8
+                                },
+                                "address": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "extra_info": {
+                                  "type": "object"
+                                },
+                                "labels": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "created_at": {
+                                  "title": "date",
+                                  "description": "ISO8601 time format",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "format": "date-time"
+                                },
+                                "last_screened": {
+                                  "title": "date",
+                                  "description": "ISO8601 time format",
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "nullable": true
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "vasp_code",
+                                "address",
+                                "extra_info",
+                                "labels",
+                                "created_at",
+                                "last_screened"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "direction",
+                          "customer_name",
+                          "txid",
+                          "value",
+                          "value_usd",
+                          "created_at",
+                          "status",
+                          "assets"
+                        ]
                       }
                     },
-                    "required": [
-                      "id",
-                      "direction",
-                      "customer_name",
-                      "txid",
-                      "value",
-                      "value_usd",
-                      "created_at",
-                      "status",
-                      "assets"
-                    ]
+                    "paging": {
+                      "type": "object",
+                      "properties": {
+                        "has_next": {
+                          "type": "boolean"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "has_next",
+                        "limit",
+                        "offset",
+                        "total"
+                      ]
+                    }
                   }
                 },
                 "examples": {
@@ -1880,1208 +2243,1300 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "get/customer/{id}",
                   "type": "object",
-                  "additionalProperties": false,
                   "properties": {
-                    "id": {
-                      "title": "id",
-                      "description": "unique id",
-                      "type": "string",
-                      "minLength": 36,
-                      "maxLength": 36,
-                      "format": "uuid"
-                    },
-                    "vasp_code": {
-                      "title": "vasp code",
-                      "description": "vasp code",
-                      "type": "string",
-                      "minLength": 8
-                    },
-                    "txid": {
-                      "type": "string",
-                      "minLength": 1,
-                      "nullable": true
-                    },
-                    "direction": {
-                      "description": "0: withdraw ; 1: deposit",
-                      "type": "integer",
-                      "enum": [
-                        0,
-                        1
-                      ]
-                    },
-                    "value": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "value_usd": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "status": {
-                      "description": "0: processing; 1: blocked; 2: pending on beneficiary; 3: pending on beneficiary failed; 4: pending on originator; 5: pending on originator failed; 6: confirmed; 7: confirm failed; 8: rejected;",
-                      "type": "integer",
-                      "enum": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8
-                      ]
-                    },
-                    "currency_id": {
-                      "title": "currency id",
-                      "description": "unique id for sygna supported currencies",
-                      "type": "string",
-                      "minLength": 16,
-                      "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
-                    },
-                    "originator_info": {
+                    "data": {
+                      "title": "get/customer/{id}",
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
-                        "vasp_code": {
-                          "type": "string"
-                        },
-                        "private_info": {
-                          "title": "Originator",
-                          "type": "object",
-                          "properties": {
-                            "originator_persons": {
-                              "type": "array",
-                              "items": {
-                                "title": "Person",
-                                "type": "object",
-                                "properties": {
-                                  "natural_person": {
-                                    "title": "NaturalPerson",
-                                    "type": "object",
-                                    "properties": {
-                                      "name": {
-                                        "title": "NaturalPersonName",
-                                        "type": "object",
-                                        "properties": {
-                                          "name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "NaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "local_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalNaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "phonetic_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalNaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "geographic_addresses": {
-                                        "type": "array",
-                                        "items": {
-                                          "title": "Address",
-                                          "type": "object",
-                                          "properties": {
-                                            "address_type": {
-                                              "title": "AddressTypeCode",
-                                              "type": "string",
-                                              "enum": [
-                                                "HOME",
-                                                "BIZZ",
-                                                "GEOG"
-                                              ]
-                                            },
-                                            "department": {
-                                              "type": "string"
-                                            },
-                                            "sub_department": {
-                                              "type": "string"
-                                            },
-                                            "street_name": {
-                                              "type": "string"
-                                            },
-                                            "building_number": {
-                                              "type": "string"
-                                            },
-                                            "building_name": {
-                                              "type": "string"
-                                            },
-                                            "floor": {
-                                              "type": "string"
-                                            },
-                                            "post_box": {
-                                              "type": "string"
-                                            },
-                                            "room": {
-                                              "type": "string"
-                                            },
-                                            "post_code": {
-                                              "type": "string"
-                                            },
-                                            "town_name": {
-                                              "type": "string"
-                                            },
-                                            "town_location_name": {
-                                              "type": "string"
-                                            },
-                                            "district_name": {
-                                              "type": "string"
-                                            },
-                                            "country_sub_division": {
-                                              "type": "string"
-                                            },
-                                            "address_line": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "country": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "national_identification": {
-                                        "title": "NationalIdentification",
-                                        "type": "object",
-                                        "properties": {
-                                          "national_identifier": {
-                                            "type": "string"
-                                          },
-                                          "national_identifier_type": {
-                                            "title": "NationalIdentifierTypeCode",
-                                            "type": "string",
-                                            "enum": [
-                                              "ARNU",
-                                              "CCPT",
-                                              "RAID",
-                                              "DRLC",
-                                              "FIIN",
-                                              "TXID",
-                                              "SOCS",
-                                              "IDCD",
-                                              "LEIX",
-                                              "MISC"
-                                            ]
-                                          },
-                                          "country_of_issue": {
-                                            "type": "string"
-                                          },
-                                          "registration_authority": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "customer_identification": {
-                                        "type": "string"
-                                      },
-                                      "date_and_place_of_birth": {
-                                        "title": "DateAndPlaceOfBirth",
-                                        "type": "object",
-                                        "properties": {
-                                          "date_of_birth": {
-                                            "type": "string"
-                                          },
-                                          "place_of_birth": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "country_of_residence": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "legal_person": {
-                                    "title": "LegalPerson",
-                                    "type": "object",
-                                    "properties": {
-                                      "name": {
-                                        "title": "LegalPersonName",
-                                        "type": "object",
-                                        "properties": {
-                                          "name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "local_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalLegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "phonetic_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalLegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "geographic_addresses": {
-                                        "type": "array",
-                                        "items": {
-                                          "title": "Address",
-                                          "type": "object",
-                                          "properties": {
-                                            "address_type": {
-                                              "title": "AddressTypeCode",
-                                              "type": "string",
-                                              "enum": [
-                                                "HOME",
-                                                "BIZZ",
-                                                "GEOG"
-                                              ]
-                                            },
-                                            "department": {
-                                              "type": "string"
-                                            },
-                                            "sub_department": {
-                                              "type": "string"
-                                            },
-                                            "street_name": {
-                                              "type": "string"
-                                            },
-                                            "building_number": {
-                                              "type": "string"
-                                            },
-                                            "building_name": {
-                                              "type": "string"
-                                            },
-                                            "floor": {
-                                              "type": "string"
-                                            },
-                                            "post_box": {
-                                              "type": "string"
-                                            },
-                                            "room": {
-                                              "type": "string"
-                                            },
-                                            "post_code": {
-                                              "type": "string"
-                                            },
-                                            "town_name": {
-                                              "type": "string"
-                                            },
-                                            "town_location_name": {
-                                              "type": "string"
-                                            },
-                                            "district_name": {
-                                              "type": "string"
-                                            },
-                                            "country_sub_division": {
-                                              "type": "string"
-                                            },
-                                            "address_line": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "country": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "customer_number": {
-                                        "type": "string"
-                                      },
-                                      "national_identification": {
-                                        "title": "NationalIdentification",
-                                        "type": "object",
-                                        "properties": {
-                                          "national_identifier": {
-                                            "type": "string"
-                                          },
-                                          "national_identifier_type": {
-                                            "title": "NationalIdentifierTypeCode",
-                                            "type": "string",
-                                            "enum": [
-                                              "ARNU",
-                                              "CCPT",
-                                              "RAID",
-                                              "DRLC",
-                                              "FIIN",
-                                              "TXID",
-                                              "SOCS",
-                                              "IDCD",
-                                              "LEIX",
-                                              "MISC"
-                                            ]
-                                          },
-                                          "country_of_issue": {
-                                            "type": "string"
-                                          },
-                                          "registration_authority": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "country_of_registration": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "account_numbers": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "vasp_code",
-                        "private_info"
-                      ]
-                    },
-                    "beneficairy_info": {
-                      "type": "object",
-                      "properties": {
-                        "vasp_code": {
-                          "type": "string"
-                        },
-                        "private_info": {
-                          "title": "Beneficiary",
-                          "type": "object",
-                          "properties": {
-                            "beneficiary_persons": {
-                              "type": "array",
-                              "items": {
-                                "title": "Person",
-                                "type": "object",
-                                "properties": {
-                                  "natural_person": {
-                                    "title": "NaturalPerson",
-                                    "type": "object",
-                                    "properties": {
-                                      "name": {
-                                        "title": "NaturalPersonName",
-                                        "type": "object",
-                                        "properties": {
-                                          "name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "NaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "local_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalNaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "phonetic_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalNaturalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "primary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "secondary_identifier": {
-                                                  "type": "string"
-                                                },
-                                                "name_identifier_type": {
-                                                  "title": "NaturalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "ALIA",
-                                                    "BIRT",
-                                                    "MAID",
-                                                    "LEGL",
-                                                    "MISC"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "geographic_addresses": {
-                                        "type": "array",
-                                        "items": {
-                                          "title": "Address",
-                                          "type": "object",
-                                          "properties": {
-                                            "address_type": {
-                                              "title": "AddressTypeCode",
-                                              "type": "string",
-                                              "enum": [
-                                                "HOME",
-                                                "BIZZ",
-                                                "GEOG"
-                                              ]
-                                            },
-                                            "department": {
-                                              "type": "string"
-                                            },
-                                            "sub_department": {
-                                              "type": "string"
-                                            },
-                                            "street_name": {
-                                              "type": "string"
-                                            },
-                                            "building_number": {
-                                              "type": "string"
-                                            },
-                                            "building_name": {
-                                              "type": "string"
-                                            },
-                                            "floor": {
-                                              "type": "string"
-                                            },
-                                            "post_box": {
-                                              "type": "string"
-                                            },
-                                            "room": {
-                                              "type": "string"
-                                            },
-                                            "post_code": {
-                                              "type": "string"
-                                            },
-                                            "town_name": {
-                                              "type": "string"
-                                            },
-                                            "town_location_name": {
-                                              "type": "string"
-                                            },
-                                            "district_name": {
-                                              "type": "string"
-                                            },
-                                            "country_sub_division": {
-                                              "type": "string"
-                                            },
-                                            "address_line": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "country": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "national_identification": {
-                                        "title": "NationalIdentification",
-                                        "type": "object",
-                                        "properties": {
-                                          "national_identifier": {
-                                            "type": "string"
-                                          },
-                                          "national_identifier_type": {
-                                            "title": "NationalIdentifierTypeCode",
-                                            "type": "string",
-                                            "enum": [
-                                              "ARNU",
-                                              "CCPT",
-                                              "RAID",
-                                              "DRLC",
-                                              "FIIN",
-                                              "TXID",
-                                              "SOCS",
-                                              "IDCD",
-                                              "LEIX",
-                                              "MISC"
-                                            ]
-                                          },
-                                          "country_of_issue": {
-                                            "type": "string"
-                                          },
-                                          "registration_authority": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "customer_identification": {
-                                        "type": "string"
-                                      },
-                                      "date_and_place_of_birth": {
-                                        "title": "DateAndPlaceOfBirth",
-                                        "type": "object",
-                                        "properties": {
-                                          "date_of_birth": {
-                                            "type": "string"
-                                          },
-                                          "place_of_birth": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "country_of_residence": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "legal_person": {
-                                    "title": "LegalPerson",
-                                    "type": "object",
-                                    "properties": {
-                                      "name": {
-                                        "title": "LegalPersonName",
-                                        "type": "object",
-                                        "properties": {
-                                          "name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "local_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalLegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "phonetic_name_identifiers": {
-                                            "type": "array",
-                                            "items": {
-                                              "title": "LocalLegalPersonNameId",
-                                              "type": "object",
-                                              "properties": {
-                                                "legal_person_name": {
-                                                  "type": "string"
-                                                },
-                                                "legal_person_name_identifier_type": {
-                                                  "title": "LegalPersonNameTypeCode",
-                                                  "type": "string",
-                                                  "enum": [
-                                                    "LEGL",
-                                                    "SHRT",
-                                                    "TRAD"
-                                                  ]
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "geographic_addresses": {
-                                        "type": "array",
-                                        "items": {
-                                          "title": "Address",
-                                          "type": "object",
-                                          "properties": {
-                                            "address_type": {
-                                              "title": "AddressTypeCode",
-                                              "type": "string",
-                                              "enum": [
-                                                "HOME",
-                                                "BIZZ",
-                                                "GEOG"
-                                              ]
-                                            },
-                                            "department": {
-                                              "type": "string"
-                                            },
-                                            "sub_department": {
-                                              "type": "string"
-                                            },
-                                            "street_name": {
-                                              "type": "string"
-                                            },
-                                            "building_number": {
-                                              "type": "string"
-                                            },
-                                            "building_name": {
-                                              "type": "string"
-                                            },
-                                            "floor": {
-                                              "type": "string"
-                                            },
-                                            "post_box": {
-                                              "type": "string"
-                                            },
-                                            "room": {
-                                              "type": "string"
-                                            },
-                                            "post_code": {
-                                              "type": "string"
-                                            },
-                                            "town_name": {
-                                              "type": "string"
-                                            },
-                                            "town_location_name": {
-                                              "type": "string"
-                                            },
-                                            "district_name": {
-                                              "type": "string"
-                                            },
-                                            "country_sub_division": {
-                                              "type": "string"
-                                            },
-                                            "address_line": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "country": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "customer_number": {
-                                        "type": "string"
-                                      },
-                                      "national_identification": {
-                                        "title": "NationalIdentification",
-                                        "type": "object",
-                                        "properties": {
-                                          "national_identifier": {
-                                            "type": "string"
-                                          },
-                                          "national_identifier_type": {
-                                            "title": "NationalIdentifierTypeCode",
-                                            "type": "string",
-                                            "enum": [
-                                              "ARNU",
-                                              "CCPT",
-                                              "RAID",
-                                              "DRLC",
-                                              "FIIN",
-                                              "TXID",
-                                              "SOCS",
-                                              "IDCD",
-                                              "LEIX",
-                                              "MISC"
-                                            ]
-                                          },
-                                          "country_of_issue": {
-                                            "type": "string"
-                                          },
-                                          "registration_authority": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "country_of_registration": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "account_numbers": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        },
-                        "name_matched": {
-                          "type": "boolean"
-                        },
-                        "address_matched": {
-                          "type": "boolean"
-                        }
-                      },
-                      "required": [
-                        "vasp_code",
-                        "private_info"
-                      ]
-                    },
-                    "performed_at": {
-                      "title": "date",
-                      "description": "ISO8601 time format",
-                      "type": "string",
-                      "minLength": 1,
-                      "format": "date-time"
-                    },
-                    "performed_by": {
-                      "type": "string"
-                    },
-                    "expire_date": {
-                      "title": "date",
-                      "description": "ISO8601 time format",
-                      "type": "string",
-                      "format": "date-time",
-                      "nullable": true
-                    },
-                    "counter_party_vasp_info": {
-                      "type": "object",
-                      "properties": {
-                        "country": {
-                          "type": "string"
-                        },
-                        "license_registration_id": {
-                          "type": "string"
-                        },
-                        "regulatory_status": {
-                          "type": "string"
-                        },
-                        "supervisory_authority": {
-                          "type": "string"
+                        "id": {
+                          "title": "id",
+                          "description": "unique id",
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "format": "uuid"
                         },
                         "vasp_code": {
-                          "type": "string"
+                          "title": "vasp code",
+                          "description": "vasp code",
+                          "type": "string",
+                          "minLength": 8
                         },
-                        "vasp_legal_name": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "country",
-                        "license_registration_id",
-                        "regulatory_status",
-                        "supervisory_authority",
-                        "vasp_code",
-                        "vasp_legal_name"
-                      ]
-                    },
-                    "permission_status": {
-                      "type": "integer"
-                    },
-                    "reject_code": {
-                      "type": "string"
-                    },
-                    "reject_message": {
-                      "type": "string"
-                    },
-                    "assets": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "title": "id",
-                            "description": "unique id",
-                            "type": "string",
-                            "minLength": 36,
-                            "maxLength": 36,
-                            "format": "uuid"
-                          },
-                          "vasp_code": {
-                            "title": "vasp code",
-                            "description": "vasp code",
-                            "type": "string",
-                            "minLength": 8
-                          },
-                          "address": {
-                            "type": "string"
-                          },
-                          "extra_info": {
-                            "type": "object"
-                          },
-                          "risk_score": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "labels": {
-                            "type": "array",
-                            "items": {
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          },
-                          "created_at": {
-                            "type": "string"
-                          },
-                          "last_screened": {
-                            "type": "string"
-                          }
+                        "txid": {
+                          "type": "string",
+                          "minLength": 1,
+                          "nullable": true
                         },
-                        "required": [
-                          "id",
-                          "vasp_code",
-                          "address",
-                          "extra_info",
-                          "risk_score",
-                          "labels",
-                          "created_at",
-                          "last_screened"
-                        ]
-                      }
-                    },
-                    "error": {
-                      "type": "object"
-                    },
-                    "customer": {
-                      "title": "customer",
-                      "type": "object",
-                      "properties": {
-                        "customer_type": {
-                          "title": "customer_type",
-                          "description": "customer type. 0: nature person ; 1: legal person",
+                        "direction": {
+                          "description": "0: withdraw ; 1: deposit",
                           "type": "integer",
                           "enum": [
                             0,
                             1
                           ]
                         },
-                        "customer_id": {
+                        "value": {
                           "type": "string",
                           "minLength": 1
                         },
-                        "name": {
+                        "value_usd": {
                           "type": "string",
                           "minLength": 1
                         },
-                        "national": {
-                          "additionalProperties": false,
-                          "title": "NationalIdentification",
-                          "type": "object",
-                          "properties": {
-                            "national_identifier": {
-                              "type": "string"
-                            },
-                            "national_identifier_type": {
-                              "title": "NationalIdentifierTypeCode",
-                              "type": "string",
-                              "enum": [
-                                "ARNU",
-                                "CCPT",
-                                "RAID",
-                                "DRLC",
-                                "FIIN",
-                                "TXID",
-                                "SOCS",
-                                "IDCD",
-                                "LEIX",
-                                "MISC"
-                              ]
-                            },
-                            "country_of_issue": {
-                              "type": "string"
-                            },
-                            "registration_authority": {
-                              "type": "string"
-                            }
-                          }
+                        "status": {
+                          "description": "0: processing; 1: blocked; 2: pending on beneficiary; 3: pending on beneficiary failed; 4: pending on originator; 5: pending on originator failed; 6: confirmed; 7: confirm failed; 8: rejected;",
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8
+                          ]
                         },
-                        "birth": {
-                          "additionalProperties": false,
-                          "title": "DateAndPlaceOfBirth",
-                          "type": "object",
-                          "properties": {
-                            "date_of_birth": {
-                              "type": "string"
-                            },
-                            "place_of_birth": {
-                              "type": "string"
-                            }
-                          }
+                        "currency_id": {
+                          "title": "currency id",
+                          "description": "unique id for sygna supported currencies",
+                          "type": "string",
+                          "minLength": 16,
+                          "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
                         },
-                        "address": {
-                          "additionalProperties": false,
-                          "title": "Address",
+                        "originator_info": {
                           "type": "object",
                           "properties": {
-                            "address_type": {
-                              "title": "AddressTypeCode",
-                              "type": "string",
-                              "enum": [
-                                "HOME",
-                                "BIZZ",
-                                "GEOG"
-                              ]
-                            },
-                            "department": {
+                            "vasp_code": {
                               "type": "string"
                             },
-                            "sub_department": {
+                            "private_info": {
+                              "title": "Originator",
+                              "type": "object",
+                              "properties": {
+                                "originator_persons": {
+                                  "type": "array",
+                                  "items": {
+                                    "title": "Person",
+                                    "type": "object",
+                                    "properties": {
+                                      "natural_person": {
+                                        "title": "NaturalPerson",
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "title": "NaturalPersonName",
+                                            "type": "object",
+                                            "properties": {
+                                              "name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "NaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "local_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalNaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "phonetic_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalNaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "geographic_addresses": {
+                                            "type": "array",
+                                            "items": {
+                                              "title": "Address",
+                                              "type": "object",
+                                              "properties": {
+                                                "address_type": {
+                                                  "title": "AddressTypeCode",
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "HOME",
+                                                    "BIZZ",
+                                                    "GEOG"
+                                                  ]
+                                                },
+                                                "department": {
+                                                  "type": "string"
+                                                },
+                                                "sub_department": {
+                                                  "type": "string"
+                                                },
+                                                "street_name": {
+                                                  "type": "string"
+                                                },
+                                                "building_number": {
+                                                  "type": "string"
+                                                },
+                                                "building_name": {
+                                                  "type": "string"
+                                                },
+                                                "floor": {
+                                                  "type": "string"
+                                                },
+                                                "post_box": {
+                                                  "type": "string"
+                                                },
+                                                "room": {
+                                                  "type": "string"
+                                                },
+                                                "post_code": {
+                                                  "type": "string"
+                                                },
+                                                "town_name": {
+                                                  "type": "string"
+                                                },
+                                                "town_location_name": {
+                                                  "type": "string"
+                                                },
+                                                "district_name": {
+                                                  "type": "string"
+                                                },
+                                                "country_sub_division": {
+                                                  "type": "string"
+                                                },
+                                                "address_line": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "country": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "national_identification": {
+                                            "title": "NationalIdentification",
+                                            "type": "object",
+                                            "properties": {
+                                              "national_identifier": {
+                                                "type": "string"
+                                              },
+                                              "national_identifier_type": {
+                                                "title": "NationalIdentifierTypeCode",
+                                                "type": "string",
+                                                "enum": [
+                                                  "ARNU",
+                                                  "CCPT",
+                                                  "RAID",
+                                                  "DRLC",
+                                                  "FIIN",
+                                                  "TXID",
+                                                  "SOCS",
+                                                  "IDCD",
+                                                  "LEIX",
+                                                  "MISC"
+                                                ]
+                                              },
+                                              "country_of_issue": {
+                                                "type": "string"
+                                              },
+                                              "registration_authority": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "customer_identification": {
+                                            "type": "string"
+                                          },
+                                          "date_and_place_of_birth": {
+                                            "title": "DateAndPlaceOfBirth",
+                                            "type": "object",
+                                            "properties": {
+                                              "date_of_birth": {
+                                                "type": "string"
+                                              },
+                                              "place_of_birth": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "country_of_residence": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "legal_person": {
+                                        "title": "LegalPerson",
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "title": "LegalPersonName",
+                                            "type": "object",
+                                            "properties": {
+                                              "name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "local_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalLegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "phonetic_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalLegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "geographic_addresses": {
+                                            "type": "array",
+                                            "items": {
+                                              "title": "Address",
+                                              "type": "object",
+                                              "properties": {
+                                                "address_type": {
+                                                  "title": "AddressTypeCode",
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "HOME",
+                                                    "BIZZ",
+                                                    "GEOG"
+                                                  ]
+                                                },
+                                                "department": {
+                                                  "type": "string"
+                                                },
+                                                "sub_department": {
+                                                  "type": "string"
+                                                },
+                                                "street_name": {
+                                                  "type": "string"
+                                                },
+                                                "building_number": {
+                                                  "type": "string"
+                                                },
+                                                "building_name": {
+                                                  "type": "string"
+                                                },
+                                                "floor": {
+                                                  "type": "string"
+                                                },
+                                                "post_box": {
+                                                  "type": "string"
+                                                },
+                                                "room": {
+                                                  "type": "string"
+                                                },
+                                                "post_code": {
+                                                  "type": "string"
+                                                },
+                                                "town_name": {
+                                                  "type": "string"
+                                                },
+                                                "town_location_name": {
+                                                  "type": "string"
+                                                },
+                                                "district_name": {
+                                                  "type": "string"
+                                                },
+                                                "country_sub_division": {
+                                                  "type": "string"
+                                                },
+                                                "address_line": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "country": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "customer_number": {
+                                            "type": "string"
+                                          },
+                                          "national_identification": {
+                                            "title": "NationalIdentification",
+                                            "type": "object",
+                                            "properties": {
+                                              "national_identifier": {
+                                                "type": "string"
+                                              },
+                                              "national_identifier_type": {
+                                                "title": "NationalIdentifierTypeCode",
+                                                "type": "string",
+                                                "enum": [
+                                                  "ARNU",
+                                                  "CCPT",
+                                                  "RAID",
+                                                  "DRLC",
+                                                  "FIIN",
+                                                  "TXID",
+                                                  "SOCS",
+                                                  "IDCD",
+                                                  "LEIX",
+                                                  "MISC"
+                                                ]
+                                              },
+                                              "country_of_issue": {
+                                                "type": "string"
+                                              },
+                                              "registration_authority": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "country_of_registration": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "account_numbers": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "vasp_code",
+                            "private_info"
+                          ]
+                        },
+                        "beneficairy_info": {
+                          "type": "object",
+                          "properties": {
+                            "vasp_code": {
                               "type": "string"
                             },
-                            "street_name": {
-                              "type": "string"
-                            },
-                            "building_number": {
-                              "type": "string"
-                            },
-                            "building_name": {
-                              "type": "string"
-                            },
-                            "floor": {
-                              "type": "string"
-                            },
-                            "post_box": {
-                              "type": "string"
-                            },
-                            "room": {
-                              "type": "string"
-                            },
-                            "post_code": {
-                              "type": "string"
-                            },
-                            "town_name": {
-                              "type": "string"
-                            },
-                            "town_location_name": {
-                              "type": "string"
-                            },
-                            "district_name": {
-                              "type": "string"
-                            },
-                            "country_sub_division": {
-                              "type": "string"
-                            },
-                            "address_line": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
+                            "private_info": {
+                              "title": "Beneficiary",
+                              "type": "object",
+                              "properties": {
+                                "beneficiary_persons": {
+                                  "type": "array",
+                                  "items": {
+                                    "title": "Person",
+                                    "type": "object",
+                                    "properties": {
+                                      "natural_person": {
+                                        "title": "NaturalPerson",
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "title": "NaturalPersonName",
+                                            "type": "object",
+                                            "properties": {
+                                              "name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "NaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "local_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalNaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "phonetic_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalNaturalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "primary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "secondary_identifier": {
+                                                      "type": "string"
+                                                    },
+                                                    "name_identifier_type": {
+                                                      "title": "NaturalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "ALIA",
+                                                        "BIRT",
+                                                        "MAID",
+                                                        "LEGL",
+                                                        "MISC"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "geographic_addresses": {
+                                            "type": "array",
+                                            "items": {
+                                              "title": "Address",
+                                              "type": "object",
+                                              "properties": {
+                                                "address_type": {
+                                                  "title": "AddressTypeCode",
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "HOME",
+                                                    "BIZZ",
+                                                    "GEOG"
+                                                  ]
+                                                },
+                                                "department": {
+                                                  "type": "string"
+                                                },
+                                                "sub_department": {
+                                                  "type": "string"
+                                                },
+                                                "street_name": {
+                                                  "type": "string"
+                                                },
+                                                "building_number": {
+                                                  "type": "string"
+                                                },
+                                                "building_name": {
+                                                  "type": "string"
+                                                },
+                                                "floor": {
+                                                  "type": "string"
+                                                },
+                                                "post_box": {
+                                                  "type": "string"
+                                                },
+                                                "room": {
+                                                  "type": "string"
+                                                },
+                                                "post_code": {
+                                                  "type": "string"
+                                                },
+                                                "town_name": {
+                                                  "type": "string"
+                                                },
+                                                "town_location_name": {
+                                                  "type": "string"
+                                                },
+                                                "district_name": {
+                                                  "type": "string"
+                                                },
+                                                "country_sub_division": {
+                                                  "type": "string"
+                                                },
+                                                "address_line": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "country": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "national_identification": {
+                                            "title": "NationalIdentification",
+                                            "type": "object",
+                                            "properties": {
+                                              "national_identifier": {
+                                                "type": "string"
+                                              },
+                                              "national_identifier_type": {
+                                                "title": "NationalIdentifierTypeCode",
+                                                "type": "string",
+                                                "enum": [
+                                                  "ARNU",
+                                                  "CCPT",
+                                                  "RAID",
+                                                  "DRLC",
+                                                  "FIIN",
+                                                  "TXID",
+                                                  "SOCS",
+                                                  "IDCD",
+                                                  "LEIX",
+                                                  "MISC"
+                                                ]
+                                              },
+                                              "country_of_issue": {
+                                                "type": "string"
+                                              },
+                                              "registration_authority": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "customer_identification": {
+                                            "type": "string"
+                                          },
+                                          "date_and_place_of_birth": {
+                                            "title": "DateAndPlaceOfBirth",
+                                            "type": "object",
+                                            "properties": {
+                                              "date_of_birth": {
+                                                "type": "string"
+                                              },
+                                              "place_of_birth": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "country_of_residence": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "legal_person": {
+                                        "title": "LegalPerson",
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "title": "LegalPersonName",
+                                            "type": "object",
+                                            "properties": {
+                                              "name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "local_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalLegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "phonetic_name_identifiers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "title": "LocalLegalPersonNameId",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "legal_person_name": {
+                                                      "type": "string"
+                                                    },
+                                                    "legal_person_name_identifier_type": {
+                                                      "title": "LegalPersonNameTypeCode",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "LEGL",
+                                                        "SHRT",
+                                                        "TRAD"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "geographic_addresses": {
+                                            "type": "array",
+                                            "items": {
+                                              "title": "Address",
+                                              "type": "object",
+                                              "properties": {
+                                                "address_type": {
+                                                  "title": "AddressTypeCode",
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "HOME",
+                                                    "BIZZ",
+                                                    "GEOG"
+                                                  ]
+                                                },
+                                                "department": {
+                                                  "type": "string"
+                                                },
+                                                "sub_department": {
+                                                  "type": "string"
+                                                },
+                                                "street_name": {
+                                                  "type": "string"
+                                                },
+                                                "building_number": {
+                                                  "type": "string"
+                                                },
+                                                "building_name": {
+                                                  "type": "string"
+                                                },
+                                                "floor": {
+                                                  "type": "string"
+                                                },
+                                                "post_box": {
+                                                  "type": "string"
+                                                },
+                                                "room": {
+                                                  "type": "string"
+                                                },
+                                                "post_code": {
+                                                  "type": "string"
+                                                },
+                                                "town_name": {
+                                                  "type": "string"
+                                                },
+                                                "town_location_name": {
+                                                  "type": "string"
+                                                },
+                                                "district_name": {
+                                                  "type": "string"
+                                                },
+                                                "country_sub_division": {
+                                                  "type": "string"
+                                                },
+                                                "address_line": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "country": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "customer_number": {
+                                            "type": "string"
+                                          },
+                                          "national_identification": {
+                                            "title": "NationalIdentification",
+                                            "type": "object",
+                                            "properties": {
+                                              "national_identifier": {
+                                                "type": "string"
+                                              },
+                                              "national_identifier_type": {
+                                                "title": "NationalIdentifierTypeCode",
+                                                "type": "string",
+                                                "enum": [
+                                                  "ARNU",
+                                                  "CCPT",
+                                                  "RAID",
+                                                  "DRLC",
+                                                  "FIIN",
+                                                  "TXID",
+                                                  "SOCS",
+                                                  "IDCD",
+                                                  "LEIX",
+                                                  "MISC"
+                                                ]
+                                              },
+                                              "country_of_issue": {
+                                                "type": "string"
+                                              },
+                                              "registration_authority": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "country_of_registration": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "account_numbers": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
                               }
                             },
+                            "name_matched": {
+                              "type": "boolean"
+                            },
+                            "address_matched": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "vasp_code",
+                            "private_info"
+                          ]
+                        },
+                        "performed_at": {
+                          "title": "date",
+                          "description": "ISO8601 time format",
+                          "type": "string",
+                          "minLength": 1,
+                          "format": "date-time"
+                        },
+                        "performed_by": {
+                          "type": "string"
+                        },
+                        "expire_date": {
+                          "title": "date",
+                          "description": "ISO8601 time format",
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
+                        "counter_party_vasp_info": {
+                          "type": "object",
+                          "properties": {
                             "country": {
                               "type": "string"
+                            },
+                            "license_registration_id": {
+                              "type": "string"
+                            },
+                            "regulatory_status": {
+                              "type": "string"
+                            },
+                            "supervisory_authority": {
+                              "type": "string"
+                            },
+                            "vasp_code": {
+                              "type": "string"
+                            },
+                            "vasp_legal_name": {
+                              "type": "string"
                             }
-                          }
+                          },
+                          "required": [
+                            "country",
+                            "license_registration_id",
+                            "regulatory_status",
+                            "supervisory_authority",
+                            "vasp_code",
+                            "vasp_legal_name"
+                          ]
+                        },
+                        "permission_status": {
+                          "type": "integer"
+                        },
+                        "reject_code": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "reject_message": {
+                          "type": "string",
+                          "nullable": true
                         },
                         "assets": {
                           "type": "array",
-                          "minItems": 1,
                           "items": {
                             "type": "object",
                             "properties": {
-                              "currency_id": {
-                                "title": "currency id",
-                                "description": "unique id for sygna supported currencies",
+                              "id": {
+                                "title": "id",
+                                "description": "unique id",
                                 "type": "string",
-                                "minLength": 16,
-                                "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                                "minLength": 36,
+                                "maxLength": 36,
+                                "format": "uuid"
+                              },
+                              "vasp_code": {
+                                "title": "vasp code",
+                                "description": "vasp code",
+                                "type": "string",
+                                "minLength": 8
                               },
                               "address": {
-                                "type": "string",
-                                "minLength": 1
+                                "type": "string"
                               },
                               "extra_info": {
                                 "type": "object"
+                              },
+                              "risk_score": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "created_at": {
+                                "type": "string"
+                              },
+                              "last_screened": {
+                                "title": "date",
+                                "description": "ISO8601 time format",
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
                               }
                             },
                             "required": [
-                              "currency_id",
-                              "address"
-                            ],
-                            "additionalProperties": false
+                              "id",
+                              "vasp_code",
+                              "address",
+                              "extra_info",
+                              "risk_score",
+                              "labels",
+                              "created_at",
+                              "last_screened"
+                            ]
                           }
+                        },
+                        "error": {
+                          "type": "object"
+                        },
+                        "customer": {
+                          "title": "customer",
+                          "type": "object",
+                          "properties": {
+                            "vasp_code": {
+                              "title": "vasp code",
+                              "description": "vasp code",
+                              "type": "string",
+                              "minLength": 8
+                            },
+                            "customer_type": {
+                              "title": "customer_type",
+                              "description": "customer type. 0: nature person ; 1: legal person",
+                              "type": "integer",
+                              "enum": [
+                                0,
+                                1
+                              ]
+                            },
+                            "customer_id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "is_active": {
+                              "type": "boolean"
+                            },
+                            "national": {
+                              "additionalProperties": false,
+                              "title": "NationalIdentification",
+                              "type": "object",
+                              "properties": {
+                                "national_identifier": {
+                                  "type": "string"
+                                },
+                                "national_identifier_type": {
+                                  "title": "NationalIdentifierTypeCode",
+                                  "type": "string",
+                                  "enum": [
+                                    "ARNU",
+                                    "CCPT",
+                                    "RAID",
+                                    "DRLC",
+                                    "FIIN",
+                                    "TXID",
+                                    "SOCS",
+                                    "IDCD",
+                                    "LEIX",
+                                    "MISC"
+                                  ]
+                                },
+                                "country_of_issue": {
+                                  "type": "string"
+                                },
+                                "registration_authority": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "birth": {
+                              "additionalProperties": false,
+                              "title": "DateAndPlaceOfBirth",
+                              "type": "object",
+                              "properties": {
+                                "date_of_birth": {
+                                  "type": "string"
+                                },
+                                "place_of_birth": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "address": {
+                              "additionalProperties": false,
+                              "title": "Address",
+                              "type": "object",
+                              "properties": {
+                                "address_type": {
+                                  "title": "AddressTypeCode",
+                                  "type": "string",
+                                  "enum": [
+                                    "HOME",
+                                    "BIZZ",
+                                    "GEOG"
+                                  ]
+                                },
+                                "department": {
+                                  "type": "string"
+                                },
+                                "sub_department": {
+                                  "type": "string"
+                                },
+                                "street_name": {
+                                  "type": "string"
+                                },
+                                "building_number": {
+                                  "type": "string"
+                                },
+                                "building_name": {
+                                  "type": "string"
+                                },
+                                "floor": {
+                                  "type": "string"
+                                },
+                                "post_box": {
+                                  "type": "string"
+                                },
+                                "room": {
+                                  "type": "string"
+                                },
+                                "post_code": {
+                                  "type": "string"
+                                },
+                                "town_name": {
+                                  "type": "string"
+                                },
+                                "town_location_name": {
+                                  "type": "string"
+                                },
+                                "district_name": {
+                                  "type": "string"
+                                },
+                                "country_sub_division": {
+                                  "type": "string"
+                                },
+                                "address_line": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "country": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "max_risk_score": {
+                              "type": "number",
+                              "minimum": 0,
+                              "nullable": true
+                            },
+                            "avg_risk_score": {
+                              "type": "number",
+                              "minimum": 0,
+                              "nullable": true
+                            },
+                            "labels": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "last_screened": {
+                              "title": "date",
+                              "description": "ISO8601 time format",
+                              "type": "string",
+                              "format": "date-time",
+                              "nullable": true
+                            },
+                            "assets": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "title": "id",
+                                    "description": "unique id",
+                                    "type": "string",
+                                    "minLength": 36,
+                                    "maxLength": 36,
+                                    "format": "uuid"
+                                  },
+                                  "currency_id": {
+                                    "title": "currency id",
+                                    "description": "unique id for sygna supported currencies",
+                                    "type": "string",
+                                    "minLength": 16,
+                                    "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
+                                  },
+                                  "address": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "extra_info": {
+                                    "type": "object"
+                                  },
+                                  "risk_score": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "nullable": true
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "value_usd": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "labels": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "last_screened": {
+                                    "title": "date",
+                                    "description": "ISO8601 time format",
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "nullable": true
+                                  },
+                                  "created_at": {
+                                    "title": "date",
+                                    "description": "ISO8601 time format",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "format": "date-time"
+                                  }
+                                },
+                                "required": [
+                                  "currency_id",
+                                  "address"
+                                ],
+                                "additionalProperties": false
+                              }
+                            }
+                          },
+                          "required": [
+                            "vasp_code",
+                            "customer_type",
+                            "customer_id",
+                            "name",
+                            "is_active",
+                            "max_risk_score",
+                            "avg_risk_score",
+                            "labels"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "high_risk": {
+                          "type": "boolean"
+                        },
+                        "max_risk_score": {
+                          "type": "number",
+                          "minimum": 0,
+                          "nullable": true
                         }
                       },
                       "required": [
-                        "customer_type",
-                        "customer_id",
-                        "name"
-                      ],
-                      "additionalProperties": false
-                    },
-                    "high_risk": {
-                      "type": "boolean"
-                    },
-                    "max_risk_score": {
-                      "type": "string",
-                      "nullable": true
+                        "id",
+                        "vasp_code",
+                        "direction",
+                        "value",
+                        "status",
+                        "currency_id",
+                        "originator_info",
+                        "beneficairy_info",
+                        "performed_at",
+                        "performed_by",
+                        "counter_party_vasp_info",
+                        "assets"
+                      ]
                     }
-                  },
-                  "required": [
-                    "id",
-                    "vasp_code",
-                    "direction",
-                    "value",
-                    "status",
-                    "currency_id",
-                    "originator_info",
-                    "beneficairy_info",
-                    "performed_at",
-                    "performed_by",
-                    "counter_party_vasp_info",
-                    "assets"
-                  ]
+                  }
                 },
                 "examples": {
                   "response": {
@@ -3516,7 +3971,7 @@
     },
     "schemas": {
       "customer": {
-        "title": "get/transactions/{id}",
+        "title": "get/customers/{id}",
         "type": "object",
         "additionalProperties": false,
         "allOf": [
@@ -3539,6 +3994,12 @@
             "title": "customer",
             "type": "object",
             "properties": {
+              "vasp_code": {
+                "title": "vasp code",
+                "description": "vasp code",
+                "type": "string",
+                "minLength": 8
+              },
               "customer_type": {
                 "title": "customer_type",
                 "description": "customer type. 0: nature person ; 1: legal person",
@@ -3555,6 +4016,9 @@
               "name": {
                 "type": "string",
                 "minLength": 1
+              },
+              "is_active": {
+                "type": "boolean"
               },
               "national": {
                 "additionalProperties": false,
@@ -3665,12 +4129,44 @@
                   }
                 }
               },
+              "max_risk_score": {
+                "type": "number",
+                "minimum": 0,
+                "nullable": true
+              },
+              "avg_risk_score": {
+                "type": "number",
+                "minimum": 0,
+                "nullable": true
+              },
+              "labels": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "last_screened": {
+                "title": "date",
+                "description": "ISO8601 time format",
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
               "assets": {
                 "type": "array",
                 "minItems": 1,
                 "items": {
                   "type": "object",
                   "properties": {
+                    "id": {
+                      "title": "id",
+                      "description": "unique id",
+                      "type": "string",
+                      "minLength": 36,
+                      "maxLength": 36,
+                      "format": "uuid"
+                    },
                     "currency_id": {
                       "title": "currency id",
                       "description": "unique id for sygna supported currencies",
@@ -3684,6 +4180,40 @@
                     },
                     "extra_info": {
                       "type": "object"
+                    },
+                    "risk_score": {
+                      "type": "number",
+                      "minimum": 0,
+                      "nullable": true
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "value_usd": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "labels": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "last_screened": {
+                      "title": "date",
+                      "description": "ISO8601 time format",
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "created_at": {
+                      "title": "date",
+                      "description": "ISO8601 time format",
+                      "type": "string",
+                      "minLength": 1,
+                      "format": "date-time"
                     }
                   },
                   "required": [
@@ -3695,9 +4225,14 @@
               }
             },
             "required": [
+              "vasp_code",
               "customer_type",
               "customer_id",
-              "name"
+              "name",
+              "is_active",
+              "max_risk_score",
+              "avg_risk_score",
+              "labels"
             ],
             "additionalProperties": false
           }
@@ -3722,8 +4257,14 @@
               "minLength": 1
             },
             "max_risk_score": {
-              "type": "string",
-              "minLength": 1
+              "type": "number",
+              "minimum": 0,
+              "nullable": true
+            },
+            "avg_risk_score": {
+              "type": "number",
+              "minimum": 0,
+              "nullable": true
             },
             "labels": {
               "type": "array",
