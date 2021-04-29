@@ -50,7 +50,7 @@
             "example": true
           }
         }
-      },
+      }
     ],
     "deprecated": false,
     "responses": {
@@ -59,7 +59,15 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/users/get/users.json"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "../schemas/users/get/users.json"
+                },
+                "paging": {
+                  "$ref": "../schemas/common/paging.json"
+                }
+              }
             },
             "examples": {
               "$ref": "../examples/users/get/users.json"

@@ -2,6 +2,9 @@
   "title": "customer",
   "type": "object",
   "properties": {
+    "vasp_code": {
+      "$ref": "../../common/vasp_code.json"
+    },
     "customer_type": {
       "$ref": "../../common/customer_type.json"
     },
@@ -13,118 +16,32 @@
       "type": "string",
       "minLength": 1
     },
+    "is_active": {
+      "type": "boolean"
+    },
     "national": {
-      "type": "object",
-      "properties": {
-        "id_type": {
-          "$ref": "./national_id_type.json"
-        },
-        "id_number": {
-          "type": "string",
-          "minLength": 1
-        },
-        "country": {
-          "$ref": "../../common/country.json"
-        },
-        "registration_authority": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "id_type",
-        "id_number"
-      ],
+      "$ref": "../../common/ivms.json#/definitions/NationalIdentification",
       "additionalProperties": false
     },
     "birth": {
-      "type": "object",
-      "properties": {
-        "place": {
-          "type": "string",
-          "minLength": 1
-        },
-        "date": {
-          "$ref": "../../common/date.json"
-        }
-      },
-      "required": [
-        "place",
-        "date"
-      ],
+      "$ref": "../../common/ivms.json#/definitions/DateAndPlaceOfBirth",
       "additionalProperties": false
     },
     "address": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "$ref": "./address_type.json"
-        },
-        "country": {
-          "$ref": "../../common/country.json"
-        },
-        "department": {
-          "type": "string",
-          "minLength": 1
-        },
-        "sub_department": {
-          "type": "string",
-          "minLength": 1
-        },
-        "street_name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "building_number": {
-          "type": "string",
-          "minLength": 1
-        },
-        "building_name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "floor": {
-          "type": "string",
-          "minLength": 1
-        },
-        "post_box": {
-          "type": "string",
-          "minLength": 1
-        },
-        "room": {
-          "type": "string",
-          "minLength": 1
-        },
-        "post_code": {
-          "type": "string",
-          "minLength": 1
-        },
-        "town_name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "town_location_name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "district_name": {
-          "type": "string",
-          "minLength": 1
-        },
-        "country_sub_division": {
-          "type": "string",
-          "minLength": 1
-        },
-        "address_line": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "type",
-        "country"
-      ],
+      "$ref": "../../common/ivms.json#/definitions/Address",
       "additionalProperties": false
+    },
+    "max_risk_score": {
+      "$ref": "../../common/risk_score.json"
+    },
+    "avg_risk_score": {
+      "$ref": "../../common/risk_score.json"
+    },
+    "labels": {
+      "$ref": "../../common/labels.json"
+    },
+    "last_screened": {
+      "$ref": "../../common/date_nullable.json"
     },
     "assets": {
       "type": "array",
@@ -132,6 +49,9 @@
       "items": {
         "type": "object",
         "properties": {
+          "id": {
+            "$ref": "../../common/id.json"
+          },
           "currency_id": {
             "$ref": "../../common/currency_id.json"
           },
@@ -141,6 +61,26 @@
           },
           "extra_info": {
             "type": "object"
+          },
+          "risk_score": {
+            "$ref": "../../common/risk_score.json"
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value_usd": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labels": {
+            "$ref": "../../common/labels.json"
+          },
+          "last_screened": {
+            "$ref": "../../common/date_nullable.json"
+          },
+          "created_at": {
+            "$ref": "../../common/date.json"
           }
         },
         "required": [
@@ -152,9 +92,14 @@
     }
   },
   "required": [
+    "vasp_code",
     "customer_type",
     "customer_id",
-    "name"
+    "name",
+    "is_active",
+    "max_risk_score",
+    "avg_risk_score",
+    "labels"
   ],
   "additionalProperties": false
 }

@@ -35,7 +35,15 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "../schemas/transactions/get/transactions.json"
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "../schemas/transactions/get/transactions.json"
+                },
+                "paging": {
+                  "$ref": "../schemas/common/paging.json"
+                }
+              }
             },
             "examples": {
               "$ref": "../examples/transactions/get/transactions.json"

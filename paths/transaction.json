@@ -1,11 +1,11 @@
 {
   "get": {
-    "description": "Get customer detail",
-    "summary": "get /customers/{id}",
+    "description": "Get transaction detail",
+    "summary": "get /transactions/{id}",
     "tags": [
       "Hub"
     ],
-    "operationId": "get /customer/{id}",
+    "operationId": "get /transactions/{id}",
     "security": [
       {
         "ApiKeyAuth": [],
@@ -16,31 +16,41 @@
       {
         "in": "path",
         "name": "id",
-        "description": "id. case insensitive",
+        "description": "id. case sensitive",
         "required": true,
         "schema": {
           "type": "string",
           "format": "uuid",
           "example": "b2af7e51-03b1-4986-a0c2-28411a4be8cb"
         }
+      },
+      {
+        "in": "query",
+        "name": "sync_rate",
+        "description": "fetch latest exchange rate",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "example": true
+        }
       }
     ],
     "deprecated": false,
     "responses": {
       "200": {
-        "description": "An array of object containing information of one or more customers",
+        "description": "An array of object containing information of one or more transaction",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "properties": {
                 "data": {
-                  "$ref": "../schemas/customers/get/customer.json"
+                  "$ref": "../schemas/transactions/get/transaction.json"
                 }
               }
             },
             "examples": {
-              "$ref": "../examples/customers/get/customer.json"
+              "$ref": "../examples/transactions/get/transaction.json"
             }
           }
         }

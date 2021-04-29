@@ -1,5 +1,4 @@
 {
-  "title": "get/customers",
   "type": "array",
   "items": {
     "type": "object",
@@ -7,21 +6,20 @@
       "id": {
         "$ref": "../../common/id.json"
       },
-      "name": {
-        "type": "string",
-        "minLength": 1
+      "vasp_code": {
+        "$ref": "../../common/vasp_code.json"
       },
-      "max_risk_score": {
-        "$ref": "../../common/risk_score.json"
+      "address": {
+        "type": "string"
       },
-      "avg_risk_score": {
+      "extra_info": {
+        "type": "object"
+      },
+      "risk_score": {
         "$ref": "../../common/risk_score.json"
       },
       "labels": {
         "$ref": "../../common/labels.json"
-      },
-      "is_active": {
-        "type": "boolean"
       },
       "created_at": {
         "$ref": "../../common/date.json"
@@ -32,12 +30,13 @@
     },
     "required": [
       "id",
-      "name",
-      "max_risk_score",
+      "vasp_code",
+      "address",
+      "extra_info",
+      "risk_score",
       "labels",
-      "is_active",
-      "created_at"
-    ],
-    "additionalProperties": false
+      "created_at",
+      "last_screened"
+    ]
   }
 }

@@ -28,6 +28,9 @@
     "/transactions": {
       "$ref": "./paths/transactions.json"
     },
+    "/transactions/{id}": {
+      "$ref": "./paths/transaction.json"
+    },
     "/transactions/confirm": {
       "$ref": "./paths/transactions_confirm.json"
     },

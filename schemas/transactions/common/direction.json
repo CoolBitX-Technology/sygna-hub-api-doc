@@ -1,0 +1,8 @@
+{
+  "description": "0: withdraw ; 1: deposit",
+  "type": "integer",
+  "enum": [
+    0,
+    1
+  ]
+}

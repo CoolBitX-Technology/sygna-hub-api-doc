@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "has_next": {
+      "type": "boolean"
+    },
+    "limit": {
+      "type": "integer"
+    },
+    "offset": {
+      "type": "integer"
+    },
+    "total": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "has_next",
+    "limit",
+    "offset",
+    "total"
+  ]
+}

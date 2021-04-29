@@ -9,12 +9,7 @@
         "$ref": "../../common/id.json"
       },
       "direction": {
-        "description": "0: withdraw ; 1: deposit",
-        "type": "integer",
-        "enum": [
-          0,
-          1
-        ]
+        "$ref": "../common/direction.json"
       },
       "customer_name": {
         "type": "string",
@@ -24,29 +19,19 @@
         "$ref": "../../common/currency_id.json"
       },
       "txid": {
-        "type": "string",
-        "minLength": 1,
-        "nullable": true
+        "$ref": "../common/txid_nullable.json"
       },
-      "amount": {
-        "type": "string",
-        "minLength": 1
+      "value": {
+        "$ref": "../common/string_value.json"
       },
-      "usd_amount": {
-        "type": "string",
-        "minLength": 1
+      "value_usd": {
+        "$ref": "../common/string_value.json"
       },
       "created_at": {
         "$ref": "../../common/date.json"
       },
       "status": {
-        "description": "0: processing ; 1: blocked ; 2: pending on beneficiary",
-        "type": "integer",
-        "enum": [
-          0,
-          1,
-          2
-        ]
+        "$ref": "../common/status.json"
       },
       "assets": {
         "type": "array",
@@ -69,11 +54,7 @@
               "type": "object"
             },
             "labels": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "minLength": 1
-              }
+              "$ref": "../../common/labels.json"
             },
             "created_at": {
               "$ref": "../../common/date.json"
@@ -99,8 +80,8 @@
       "direction",
       "customer_name",
       "txid",
-      "amount",
-      "usd_amount",
+      "value",
+      "value_usd",
       "created_at",
       "status",
       "assets"
