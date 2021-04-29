@@ -16,7 +16,8 @@
         "type": "object"
       },
       "risk_score": {
-        "type": "null"
+        "type": "string",
+        "nullable": true
       },
       "labels": {
         "$ref": "../../common/labels.json"

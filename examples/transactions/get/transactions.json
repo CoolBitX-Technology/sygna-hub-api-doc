@@ -8,8 +8,8 @@
           "customer_name": "Tom",
           "currency_id": "sygna:0x8000003c",
           "txid": "0x18801eadd20de67753c0b9e201049811d51000c51163091c593d7dc7198f8bee",
-          "amount": "1",
-          "usd_amount": "2000",
+          "value": "1",
+          "usd_value": "2000",
           "created_at": "2021-04-09T08:49:35.349Z",
           "status": 0,
           "assets": [

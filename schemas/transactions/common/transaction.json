@@ -6,7 +6,7 @@
     "customer_id": {
       "$ref": "../../common/id.json"
     },
-    "amount": {
+    "value": {
       "type": "string",
       "minLength": 1
     },
@@ -99,7 +99,7 @@
     }
   },
   "required": [
-    "amount",
+    "value",
     "currency_id",
     "originator",
     "beneficiary"

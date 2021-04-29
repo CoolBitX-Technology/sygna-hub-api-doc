@@ -21,11 +21,11 @@
       "txid": {
         "$ref": "../common/txid_nullable.json"
       },
-      "amount": {
-        "$ref": "../common/string_amount.json"
+      "value": {
+        "$ref": "../common/string_value.json"
       },
-      "usd_amount": {
-        "$ref": "../common/string_amount.json"
+      "value_usd": {
+        "$ref": "../common/string_value.json"
       },
       "created_at": {
         "$ref": "../../common/date.json"
@@ -80,8 +80,8 @@
       "direction",
       "customer_name",
       "txid",
-      "amount",
-      "usd_amount",
+      "value",
+      "value_usd",
       "created_at",
       "status",
       "assets"
