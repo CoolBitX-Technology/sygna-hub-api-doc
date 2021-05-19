@@ -2040,12 +2040,21 @@
                   "additionalProperties": false,
                   "properties": {
                     "customer_id": {
-                      "title": "id",
-                      "description": "unique id",
-                      "type": "string",
-                      "minLength": 36,
-                      "maxLength": 36,
-                      "format": "uuid"
+                      "oneOf": [
+                        {
+                          "title": "id",
+                          "description": "unique id",
+                          "type": "string",
+                          "minLength": 36,
+                          "maxLength": 36,
+                          "format": "uuid"
+                        },
+                        {
+                          "description": "unique id",
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      ]
                     },
                     "value": {
                       "type": "string",
@@ -2060,22 +2069,53 @@
                     },
                     "originator": {
                       "type": "object",
-                      "properties": {
-                        "assets": {
-                          "type": "array",
-                          "minItems": 1,
-                          "items": {
-                            "title": "id",
-                            "description": "unique id",
-                            "type": "string",
-                            "minLength": 36,
-                            "maxLength": 36,
-                            "format": "uuid"
-                          }
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "assets": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "title": "id",
+                                "description": "unique id",
+                                "type": "string",
+                                "minLength": 36,
+                                "maxLength": 36,
+                                "format": "uuid"
+                              }
+                            }
+                          },
+                          "required": [
+                            "assets"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "addrs": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "address": {
+                                    "type": "string",
+                                    "minItems": 1
+                                  },
+                                  "extra_info": {
+                                    "type": "object"
+                                  }
+                                },
+                                "required": [
+                                  "address"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "addrs"
+                          ]
                         }
-                      },
-                      "required": [
-                        "assets"
                       ]
                     },
                     "beneficiary": {
