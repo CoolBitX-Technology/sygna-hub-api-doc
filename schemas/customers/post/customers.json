@@ -1,7 +1,0 @@
-{
-  "title": "post/customers",
-  "type": "array",
-  "items": {
-    "$ref": "../common/customer.json"
-  }
-}

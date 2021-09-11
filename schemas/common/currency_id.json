@@ -1,7 +1,0 @@
-{
-  "title": "currency id",
-  "description": "unique id for sygna supported currencies",
-  "type": "string",
-  "minLength": 16,
-  "pattern": "^sygna:0x8[a-z0-9]{7}(.[a-z0-9]+)?$"
-}

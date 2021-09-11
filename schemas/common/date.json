@@ -1,7 +1,0 @@
-{
-  "title": "date",
-  "description": "ISO8601 time format",
-  "type": "string",
-  "minLength": 1,
-  "format": "date-time"
-}

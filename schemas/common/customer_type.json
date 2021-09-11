@@ -1,9 +1,0 @@
-{
-  "title": "customer_type",
-  "description": "customer type. 0: nature person ; 1: legal person",
-  "type": "integer",
-  "enum": [
-    0,
-    1
-  ]
-}
