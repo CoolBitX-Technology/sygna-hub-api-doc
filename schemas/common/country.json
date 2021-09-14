@@ -1,7 +1,0 @@
-{
-  "title": "country code",
-  "description": "ISO2 country code",
-  "type": "string",
-  "minLength": 2,
-  "pattern": "^[A-Z]{2}$"
-}
