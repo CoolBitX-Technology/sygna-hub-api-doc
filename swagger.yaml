@@ -859,7 +859,7 @@ definitions:
 info:
   contact:
     email: services@sygna.io
-    name: vince.lee
+    name: Sygna services
   description: Sygna Hub API
   title: Sygna HUB
   version: 1.0.0
