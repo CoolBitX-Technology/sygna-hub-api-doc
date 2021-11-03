@@ -1,4 +1,4 @@
-# sygna-bundle-api-doc
+# sygna-hub-api-doc
 ### how to launch Hub service
 1. install docker and docker-compose
 * [Docker](https://docs.docker.com/engine/install/ubuntu/)
