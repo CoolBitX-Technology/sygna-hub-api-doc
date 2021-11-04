@@ -36,6 +36,7 @@ server:
   enable_cors: true
   # only take effect if enable_cors set to true
   # list of origins that are allowed to connect to hub server
+  # Please note that you cannot use "*" in allow_origins because we use http only cookie
   allow_origins:
     - http://localhost:8000
   # a url endpoint used when Sygna Bridge want to send you a "permission" request
