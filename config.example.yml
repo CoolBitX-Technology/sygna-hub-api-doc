@@ -1,11 +1,9 @@
 # general settings
 settings:
-  # print more log in console, useful when debugging
-  debug_mode: false
   webhook_url: https://google.com
 
   # signing key for JWT token, you should keep this value in secret place
-  jwt_secret: "p@ssWord0"
+  jwt_secret: p@ssWord0
   # JWT token will expire after {this value} seconds
   access_token_expire_sec: 3600
 
