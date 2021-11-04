@@ -1,0 +1,72 @@
+# general settings
+settings:
+  # print more log in console, useful when debugging
+  debug_mode: false
+  webhook_url: https://google.com
+
+  # signing key for JWT token, you should keep this value in secret place
+  jwt_secret: "p@ssWord0"
+  # JWT token will expire after {this value} seconds
+  access_token_expire_sec: 3600
+
+  # an encryption key used to encrypt service credential, should be a 32 character long hex string 
+  data_encryption_key: 00000000000000000000000000000000
+  # license key retrieved when complete hub registration
+  license_key: 0000000000000000000000000000000000000000000000000000000000000000
+  vasp_code: VASPUSNY1
+  
+  # email address and password for first user in hub server
+  # you can use this account to login
+  admin_account: admin@yourdomain.com
+  # Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
+  admin_password: p@ssWord0
+
+db:
+  # database configuration
+  user: admin
+  password: p@ssWord0
+  host: localhost
+  port: 5432
+  name: db
+
+server:
+  host: 0.0.0.0
+  port: 
+  # old log will automatically compressed if this option set to true
+  enable_rotate_log: true
+  # allow web front-end hosted in different domain to connect to hub
+  enable_cors: true
+  # only take effect if enable_cors set to true
+  # list of origins that are allowed to connect to hub server
+  allow_origins:
+    - http://localhost:8000
+  # a url endpoint used when Sygna Bridge want to send you a "permission" request
+  callback_host: https://hub.yourdomain.com
+
+google_login:
+  # required only if you want to enable Google login
+  # please refer to: https://developers.google.com/identity/protocols/oauth2
+  id: ""
+  secret: ""
+
+log_file:
+  file_name: temp
+  # max size for single log file, size in Megabytes
+  max_size: 1
+  # max log files to keep
+  max_backups: 1
+  # how many days should we keep log files
+  max_age: 1
+
+email_service:
+  # hostname and port of your email service
+  host: smtp.yourdomain.com:587
+  # email address and password of sender
+  account: noreply@yourdomain.com
+  password: p@ssWord0
+  # name of sender
+  display_name: Hub Sender
+
+frontend:
+  # url of hub frontend, used in email protocol
+  url: https://app.yourdomain.com
