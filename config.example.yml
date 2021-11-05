@@ -15,7 +15,7 @@ settings:
   
   # email address and password for first user in hub server
   # you can use this account to login
-  admin_account: admin@yourdomain.com
+  admin_account: admin@<your domain>.com
   # Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
   admin_password: p@ssWord0
 
@@ -39,7 +39,7 @@ server:
   allow_origins:
     - http://localhost:8000
   # a url endpoint used when Sygna Bridge want to send you a "permission" request
-  callback_host: https://hub.yourdomain.com
+  callback_host: <your callback host url>
 
 google_login:
   # required only if you want to enable Google login
@@ -62,13 +62,13 @@ log_file:
 
 email_service:
   # hostname and port of your email service
-  host: smtp.yourdomain.com:587
+  host: smtp.<your domain>.com:587
   # email address and password of sender
-  account: noreply@yourdomain.com
+  account: noreply@<your domain>.com
   password: p@ssWord0
   # name of sender
   display_name: Hub Sender
 
 frontend:
   # url of hub frontend, used in email protocol
-  url: https://app.yourdomain.com
+  url: <your frontend url>
