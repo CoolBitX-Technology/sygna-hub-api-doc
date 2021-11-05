@@ -30,27 +30,6 @@
                     {
                         "type": "array",
                         "items": {
-                            "enum": [
-                                "currency_id",
-                                "currency_name",
-                                "currency_symbol",
-                                "is_active",
-                                "kyt_providers",
-                                "platform",
-                                "addr_extra_info",
-                                "created_at",
-                                "updated_at"
-                            ],
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies which column to show. If not specified, the default is *.",
-                        "name": "field",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -196,27 +175,6 @@
                 ],
                 "summary": "get customers",
                 "parameters": [
-                    {
-                        "type": "array",
-                        "items": {
-                            "enum": [
-                                "created_at",
-                                "name",
-                                "max_risk_score",
-                                "avg_risk_score",
-                                "risk_score_provider",
-                                "is_active",
-                                "last_screened",
-                                "id",
-                                "labels"
-                            ],
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies which column to show. If not specified, the default is *.",
-                        "name": "field",
-                        "in": "query"
-                    },
                     {
                         "type": "array",
                         "items": {
@@ -741,27 +699,6 @@
                     {
                         "type": "array",
                         "items": {
-                            "enum": [
-                                "id",
-                                "provider",
-                                "type",
-                                "is_active",
-                                "encrypted_credential",
-                                "settings",
-                                "status",
-                                "start_time",
-                                "end_time"
-                            ],
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies which column to show. If not specified, the default is *.",
-                        "name": "field",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -773,6 +710,7 @@
                         "type": "array",
                         "items": {
                             "enum": [
+                                "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
                                 "ComplyAdvantage"
@@ -787,6 +725,11 @@
                     {
                         "type": "array",
                         "items": {
+                            "enum": [
+                                "Travel Rule",
+                                "Blockchain Analytics",
+                                "Sanction Screening"
+                            ],
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -1065,27 +1008,6 @@
                     {
                         "type": "array",
                         "items": {
-                            "enum": [
-                                "id",
-                                "created_at",
-                                "updated_at",
-                                "provider",
-                                "type",
-                                "is_active",
-                                "credential",
-                                "settings",
-                                "editable"
-                            ],
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "only show specific columns",
-                        "name": "field",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -1097,6 +1019,7 @@
                         "type": "array",
                         "items": {
                             "enum": [
+                                "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
                                 "ComplyAdvantage"
@@ -1111,6 +1034,11 @@
                     {
                         "type": "array",
                         "items": {
+                            "enum": [
+                                "Travel Rule",
+                                "Blockchain Analytics",
+                                "Sanction Screening"
+                            ],
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -1245,37 +1173,6 @@
                     {
                         "type": "array",
                         "items": {
-                            "enum": [
-                                "created_at",
-                                "id",
-                                "risk_score",
-                                "risk_score_provider",
-                                "address",
-                                "name",
-                                "tx_id",
-                                "currency_id",
-                                "currency_symbol",
-                                "currency_name",
-                                "last_screened",
-                                "status",
-                                "status_text",
-                                "value",
-                                "value_usd",
-                                "labels",
-                                "direction",
-                                "sanction_score",
-                                "protocol"
-                            ],
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies which column to show. If not specified, the default is *.",
-                        "name": "field",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -1374,7 +1271,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
-                        "description": "filter transactions by transaction status",
+                        "description": "filter transactions by transaction status(0:Processing,1:Blocked,2:Pending On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)",
                         "name": "status",
                         "in": "query"
                     },

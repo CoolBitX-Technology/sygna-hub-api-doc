@@ -984,24 +984,6 @@ paths:
       operationId: GetCurrencies
       parameters:
       - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - currency_id
-          - currency_name
-          - currency_symbol
-          - is_active
-          - kyt_providers
-          - platform
-          - addr_extra_info
-          - created_at
-          - updated_at
-          type: string
-        name: field
-        type: array
-      - collectionFormat: multi
         description: filter currencies by currency identifier
         in: query
         items:
@@ -1104,24 +1086,6 @@ paths:
   /customers:
     get:
       parameters:
-      - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - created_at
-          - name
-          - max_risk_score
-          - avg_risk_score
-          - risk_score_provider
-          - is_active
-          - last_screened
-          - id
-          - labels
-          type: string
-        name: field
-        type: array
       - collectionFormat: multi
         description: filter customers by customer identifier
         in: query
@@ -1471,24 +1435,6 @@ paths:
       description: only allow admin to use this method
       parameters:
       - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - id
-          - provider
-          - type
-          - is_active
-          - encrypted_credential
-          - settings
-          - status
-          - start_time
-          - end_time
-          type: string
-        name: field
-        type: array
-      - collectionFormat: multi
         description: filter services by service identifier
         in: query
         items:
@@ -1500,6 +1446,7 @@ paths:
         in: query
         items:
           enum:
+          - Sygna Bridge
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
@@ -1510,6 +1457,10 @@ paths:
         description: filter services by type
         in: query
         items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
           type: string
         name: type
         type: array
@@ -1699,23 +1650,6 @@ paths:
       description: only allow admin to use this method
       parameters:
       - collectionFormat: multi
-        description: only show specific columns
-        in: query
-        items:
-          enum:
-          - id
-          - created_at
-          - updated_at
-          - provider
-          - type
-          - is_active
-          - credential
-          - settings
-          - editable
-          type: string
-        name: field
-        type: array
-      - collectionFormat: multi
         description: filter services by service identifier
         in: query
         items:
@@ -1727,6 +1661,7 @@ paths:
         in: query
         items:
           enum:
+          - Sygna Bridge
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
@@ -1737,6 +1672,10 @@ paths:
         description: filter services by type
         in: query
         items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
           type: string
         name: type
         type: array
@@ -1827,34 +1766,6 @@ paths:
     get:
       parameters:
       - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - created_at
-          - id
-          - risk_score
-          - risk_score_provider
-          - address
-          - name
-          - tx_id
-          - currency_id
-          - currency_symbol
-          - currency_name
-          - last_screened
-          - status
-          - status_text
-          - value
-          - value_usd
-          - labels
-          - direction
-          - sanction_score
-          - protocol
-          type: string
-        name: field
-        type: array
-      - collectionFormat: multi
         description: filter transactions by transaction identifier
         in: query
         items:
@@ -1917,7 +1828,9 @@ paths:
         name: risk_score
         type: array
       - collectionFormat: multi
-        description: filter transactions by transaction status
+        description: filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
+          On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
+          To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
         in: query
         items:
           enum:

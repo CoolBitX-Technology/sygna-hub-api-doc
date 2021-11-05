@@ -14,8 +14,24 @@ docker-compose up
 ```
 ### How to enable google login
 1. please refer [document](https://developers.google.com/identity/sign-in/web/sign-in) and register your frontend domain in google.
-2. replace identifier and secret from google into GOOGLE_SSO_ID and GOOGLE_SSO_SECRET in backend service 
+2. fill identifier and secret from google into `config.yml` in backend service 
 
 ### API document
 * [file](swagger.yaml)
 * [website](https://coolbitx-technology.github.io/sygna-hub-api-doc/)
+
+### Webhook events
+If you registered webhook_url in `config.yml`, you would receive below events:
+1. ***RECEIVE_HIGH_RISK_TRANSACTION***: Please accept or reject this transaction from originator VASP by `PATCH /permission`
+2. ***RECEIVE_APPROVED_TRANSACTION***: Your transaction was approved by beneficiary VASP, please transfer transaction hash to beneficiary VASP by `PATCH /txid`
+3. ***RECEIVE_REJECTED_TRANSACTION***: Your transaction was rejected by beneficiary VASP, please refer reject message or contact with beneficiary VASP
+4. ***RECEIVE_TRANSACTION_HASH***: You got transaction hash from originator VASP
+5. ***HANDLE_COMING_ADDRESS_VALIDATION_ERROR***: It raised unexpected error when originator VASP validated if specific addresses were belong to you, please refer error message
+6. ***HANDLE_COMING_PERMISSION_REQUEST_ERROR***: It raised unexpected error when your endpoint got permission_request from originator VASP, please refer error message
+7. ***HANDLE_COMING_PERMISSION_ERROR***: It raised unexpected error when your endpoint got permission request from beneficiary VASP, please refer error message
+8. ***HANDLE_COMING_TXID_ERROR***: It raised unexpected error when your endpoint got transaction hash from originator VASP, please refer error message
+9. ***HANDLE_EMAIL_PROTOCOL_PERMISSION_ERROR***: It raised unexpected error when beneficiary VASP which got your permission_request by email protocol was sending permission to you, please refer error message
+10. ***HANDLE_EMAIL_PROTOCOL_TXID_ERROR***: It raised unexpected error when you was sending transaction hash to beneficiary VASP which was transferred with you by email protocol, please refer error message
+11. ***SEND_PERMISSION_REQUEST_ERROR***: It raised unexpected error when you was sending permission_request to beneficiary VASP, please refer error message
+12. ***SEND_PERMISSION_REQUEST_ERROR***: It raised unexpected error when you was sending permission to originator VASP, please refer error message
+13. ***SEND_TRANSACTION_ID_ERROR***: It raised unexpected error when you was sending transaction hash to beneficiary VASP, please refer error message

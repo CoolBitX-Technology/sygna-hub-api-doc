@@ -36,7 +36,6 @@ server:
   enable_cors: true
   # only take effect if enable_cors set to true
   # list of origins that are allowed to connect to hub server
-  # Please note that you cannot use "*" in allow_origins because we use http only cookie
   allow_origins:
     - http://localhost:8000
   # a url endpoint used when Sygna Bridge want to send you a "permission" request
@@ -49,13 +48,17 @@ google_login:
   secret: ""
 
 log_file:
+  # path for log file, you can set this value to relative or absolute path
   file_name: temp
   # max size for single log file, size in Megabytes
-  max_size: 1
+  # if you set to zero, default value is 100 MB
+  max_size: 100
   # max log files to keep
-  max_backups: 1
+  # default value is 30, if you set to zero, will never delete old logs
+  max_backups: 30
   # how many days should we keep log files
-  max_age: 1
+  # default value is 30 days, if you set to zero, will never delete old logs
+  max_age: 30
 
 email_service:
   # hostname and port of your email service
