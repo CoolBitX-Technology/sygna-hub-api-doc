@@ -21,7 +21,25 @@ docker-compose up
 * [website](https://coolbitx-technology.github.io/sygna-hub-api-doc/)
 
 ### Webhook events
-If you registered webhook_url in `config.yml`, you would receive below events:
+If you registered webhook_url in `config.yml`, you would receive payload which schema as below:
+```
+{
+    "data_id": [
+      "16adba2e-1f03-40d2-95d6-93069c9607be"
+    ],
+    "event": "RECEIVE_TRANSACTION_HASH",
+    "payload": {},
+    "request_id": "16adba2e-1f03-40d2-95d6-93069c9607be",
+    "time": "2021-11-05T06:09:10.062Z"
+  }
+```
+* `data_id` : unique identifiers in target table and the format are ***uuid***
+* `event` : please refer below table to process desired actions
+* `payload` : data payload depends on event
+* `request_id` : unique identifier for request and the format is ***uuid***
+* `time` : when the event was sent at and the format is ***YYYY-MM-DDTHH:MI:SS.SSSZ***
+
+#### all available events
 Event         | Description  
 --------------|:-----:|
 RECEIVE_HIGH_RISK_TRANSACTION    | Please accept or reject this transaction from originator VASP by `PATCH /permission` |
