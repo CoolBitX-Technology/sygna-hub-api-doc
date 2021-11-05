@@ -13,6 +13,126 @@ definitions:
       stack:
         type: object
     type: object
+  model.Addr:
+    properties:
+      address:
+        type: string
+      extra_info:
+        type: object
+    type: object
+  model.Currency:
+    properties:
+      addr_extra_info:
+        items:
+          type: string
+        type: array
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      currency_name:
+        type: string
+      currency_symbol:
+        type: string
+      is_active:
+        type: boolean
+      is_kyt_supported:
+        type: boolean
+      kyt_providers:
+        items:
+          type: string
+        type: array
+      platform:
+        $ref: '#/definitions/model.Platform'
+      updated_at:
+        type: string
+    type: object
+  model.Login:
+    properties:
+      account:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      last_login:
+        type: string
+      last_password_change:
+        type: string
+      login_type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Platform:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      symbol:
+        type: string
+      token_address:
+        type: string
+    type: object
+  model.PostTransactionParam:
+    properties:
+      beneficiary:
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+          customer_type:
+            description: |-
+              Customer Type
+              * 0 - NaturalPerson
+              * 1 - LegalPerson
+            type: integer
+          private_info:
+            $ref: '#/definitions/types.BeneficiaryPrivateInfo'
+          vasp_code:
+            type: string
+        type: object
+      currency_id:
+        description: Choose target currency identifier from GET /currencies
+        type: string
+      customer_id:
+        description: Choose target identifier from GET /customers
+        type: string
+      originator:
+        description: Choose asset identifiers from GET /assets/:customerID or input
+          addresses belong to above customer identifier
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+          assets:
+            items:
+              type: string
+            type: array
+        type: object
+      protocol:
+        enum:
+        - "null"
+        - SYGNA_BRIDGE
+        - SYGNA_EMAIL_PROTOCOL
+        type: string
+        x-nullable: true
+      protocol_extra_info:
+        type: object
+      value:
+        description: The value of the currency requested to transfer.
+        type: number
+    required:
+    - currency_id
+    - customer_id
+    - originator
+    - value
+    type: object
   model.Service:
     properties:
       created_at:
@@ -38,6 +158,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      vasp_code:
+        type: string
     type: object
   model.SupportedService:
     properties:
@@ -57,6 +179,23 @@ definitions:
         type: object
       type:
         type: string
+      updated_at:
+        type: string
+    type: object
+  model.User:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      logins:
+        items:
+          $ref: '#/definitions/model.Login'
+        type: array
+      role_id:
+        type: integer
       updated_at:
         type: string
     type: object
@@ -126,17 +265,21 @@ definitions:
       value_usd:
         type: string
     type: object
-  schema.BeneficiaryPrivateInfo:
+  schema.ChangePasswordParam:
     properties:
-      legal_person_name:
-        type: string
-      primary_identifier:
+      new_password:
         description: |-
-          primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;
-          legal_person_name is required  if customer_type is LegalPerson
+          new password must be follow below rules:
+          at least 6 letters
+          at least 1 number
+          at least 1 upper case
+          at least 1 special character
         type: string
-      secondary_identifier:
+      old_password:
         type: string
+    required:
+    - new_password
+    - old_password
     type: object
   schema.DateAndPlaceOfBirth:
     properties:
@@ -145,19 +288,13 @@ definitions:
       place_of_birth:
         type: string
     type: object
-  schema.GetCurrenciesResp:
+  schema.DeleteUsersParam:
     properties:
-      currency_id:
-        description: crypto currency identifier
+      id:
+        description: specific user identifier
         type: string
-      currency_name:
-        description: crypto currency name
-        type: string
-      currency_symbol:
-        description: crypto currency symbol
-        type: string
-      extra_info:
-        type: object
+    required:
+    - id
     type: object
   schema.GetCustomerResp:
     properties:
@@ -227,8 +364,6 @@ definitions:
     type: object
   schema.GetTransactionResp:
     properties:
-      address:
-        type: string
       created_at:
         type: string
       currency_id:
@@ -245,15 +380,7 @@ definitions:
         type: boolean
       id:
         type: string
-      labels:
-        items:
-          type: string
-        type: array
-      last_screened:
-        type: string
       max_risk_score:
-        type: string
-      name:
         type: string
       protocol:
         description: The default is SYGNA_BRIDGE
@@ -272,6 +399,8 @@ definitions:
         type: integer
       status_text:
         type: string
+      transaction_asset:
+        $ref: '#/definitions/schema.TransactionAsset'
       tx_id:
         type: string
       updated_at:
@@ -281,12 +410,10 @@ definitions:
       value_usd:
         type: string
     required:
-    - address
     - created_at
     - currency_id
     - direction
     - id
-    - name
     - protocol
     - status
     - status_text
@@ -300,6 +427,10 @@ definitions:
       created_at:
         type: string
       currency_id:
+        type: string
+      currency_name:
+        type: string
+      currency_symbol:
         type: string
       direction:
         type: integer
@@ -327,31 +458,10 @@ definitions:
         type: string
       tx_id:
         type: string
-      updated_at:
-        type: string
       value:
         type: string
       value_usd:
         description: only used in response
-        type: string
-    type: object
-  schema.GetUsersNewResp:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: string
-      is_active:
-        type: boolean
-      link_account:
-        type: string
-      login_account:
-        type: string
-      login_type:
-        type: string
-      role_id:
-        type: integer
-      updated_at:
         type: string
     type: object
   schema.NationalIdentification:
@@ -390,9 +500,9 @@ definitions:
         type: string
       currency_id:
         type: string
-      extra_info:
-        type: object
+      extra_info: {}
       id:
+        format: uuid
         type: string
       value:
         type: string
@@ -423,54 +533,15 @@ definitions:
         - 1
         type: integer
       id:
+        format: uuid
         type: string
       name:
         type: string
       national:
         $ref: '#/definitions/schema.NationalIdentification'
     required:
+    - customer_type
     - id
-    type: object
-  schema.PatchEmailProtocolPermissionParam:
-    properties:
-      expire_date:
-        description: Unix timestamp.To set an expiry date of your transfer request.
-          Bridge will stop relaying transfer requests once the transfer expires.
-        type: string
-      id:
-        description: Target transaction identifier which status is Pending On Beneficiary
-        format: uuid
-        type: string
-      name:
-        description: name is required if permission_status is ACCEPTED
-        type: string
-      permission_status:
-        description: 'Status of the transfer permission, currently available values:
-          ACCEPTED, REJECTED.'
-        enum:
-        - ACCEPTED
-        - REJECTED
-        type: string
-      reject_code:
-        description: Only required when the permission_status is REJECTED, reply with
-          [BVRC](ref:beneficiary-vasp-rejected-code).
-        enum:
-        - BVRC001
-        - BVRC002
-        - BVRC003
-        - BVRC004
-        - BVRC005
-        - BVRC006
-        - BVRC007
-        - BVRC999
-        type: string
-      reject_message:
-        description: Only required when the permission_status is REJECTED and reject_code
-          is 'BVRC999', reply with [BVRC](ref:beneficiary-vasp-rejected-code).
-        type: string
-    required:
-    - id
-    - permission_status
     type: object
   schema.PatchPermissionParam:
     properties:
@@ -483,12 +554,11 @@ definitions:
         format: uuid
         type: string
       permission_status:
-        description: 'Status of the transfer permission, currently available values:
-          ACCEPTED, REJECTED.'
+        description: Status of the transfer permission, 0 for accept, 1 for reject
         enum:
-        - ACCEPTED
-        - REJECTED
-        type: string
+        - 0
+        - 1
+        type: integer
       reject_code:
         description: Only required when the permission_status is REJECTED, reply with
           [BVRC](ref:beneficiary-vasp-rejected-code).
@@ -509,26 +579,6 @@ definitions:
     required:
     - id
     - permission_status
-    type: object
-  schema.PatchServicesParam:
-    properties:
-      credential:
-        type: object
-      is_active:
-        type: boolean
-      provider:
-        enum:
-        - Elliptic
-        - Chainalysis
-        - ComplyAdvantage
-        type: string
-      settings:
-        type: object
-      type:
-        enum:
-        - Blockchain Analytics
-        - Sanction Screening
-        type: string
     type: object
   schema.PatchTxIdParam:
     properties:
@@ -542,6 +592,17 @@ definitions:
     required:
     - id
     - txid
+    type: object
+  schema.PatchUsersParam:
+    properties:
+      id:
+        description: specific user identifier
+        type: string
+      is_active:
+        type: boolean
+    required:
+    - id
+    - is_active
     type: object
   schema.PostAssetParam:
     properties:
@@ -591,30 +652,60 @@ definitions:
     - customer_type
     - name
     type: object
+  schema.PostEmailProtocolPermissionParam:
+    properties:
+      customer:
+        $ref: '#/definitions/schema.PostCustomersParam'
+        description: cutomer is required if permission_status is ACCEPTED
+      expire_date:
+        description: Unix timestamp.To set an expiry date of your transfer request.
+          Bridge will stop relaying transfer requests once the transfer expires.
+        type: string
+      id:
+        description: Target transaction identifier which status is Pending On Beneficiary
+        format: uuid
+        type: string
+      permission_status:
+        description: Status of the transfer permission, 0 for accept, 1 for reject
+        enum:
+        - 0
+        - 1
+        type: integer
+      reject_code:
+        description: Only required when the permission_status is REJECTED, reply with
+          [BVRC](ref:beneficiary-vasp-rejected-code).
+        enum:
+        - BVRC001
+        - BVRC002
+        - BVRC003
+        - BVRC004
+        - BVRC005
+        - BVRC006
+        - BVRC007
+        - BVRC999
+        type: string
+      reject_message:
+        description: Only required when the permission_status is REJECTED and reject_code
+          is 'BVRC999', reply with [BVRC](ref:beneficiary-vasp-rejected-code).
+        type: string
+    required:
+    - id
+    - permission_status
+    type: object
   schema.PostOauthParam:
     properties:
       account:
         type: string
       credential:
         type: string
+      login_type:
+        enum:
+        - password
+        - google
+        type: string
     required:
     - account
     - credential
-    type: object
-  schema.PostOauthResp:
-    properties:
-      access_token:
-        type: string
-      expires_in:
-        example: 604800
-        type: integer
-      token_type:
-        example: bearer
-        type: string
-    required:
-    - access_token
-    - expires_in
-    - token_type
     type: object
   schema.PostServicesParam:
     properties:
@@ -636,95 +727,51 @@ definitions:
     - provider
     - type
     type: object
-  schema.PostTransactionParam:
+  schema.PostUsersLinkParam:
     properties:
-      beneficiary:
-        properties:
-          addrs:
-            items:
-              properties:
-                address:
-                  type: string
-                extra_info:
-                  type: object
-              type: object
-            type: array
-          customer_type:
-            description: |-
-              Customer Type
-              * 0 - NaturalPerson
-              * 1 - LegalPerson
-            type: integer
-          private_info:
-            $ref: '#/definitions/schema.BeneficiaryPrivateInfo'
-          vasp_code:
-            type: string
-        type: object
-      currency_id:
-        description: Choose target currency identifier from GET /currencies
+      account:
+        description: your account of third party service
         type: string
-      customer_id:
-        description: Choose target identifier from GET /customers
-        type: string
-      originator:
-        description: Choose asset identifiers from GET /assets/:customerID or input
-          addresses belong to above customer identifier
-        properties:
-          addrs:
-            items:
-              properties:
-                address:
-                  type: string
-                extra_info:
-                  type: object
-              type: object
-            type: array
-          assets:
-            items:
-              type: string
-            type: array
-        type: object
-      protocol:
-        enum:
-        - "null"
-        - SYGNA_BRIDGE
-        - SYGNA_EMAIL_PROTOCOL
-        type: string
-        x-nullable: true
-      protocol_extra_info:
-        type: object
-      value:
-        description: The value of the currency requested to transfer.
-        type: string
-    required:
-    - currency_id
-    - customer_id
-    - originator
-    - value
-    type: object
-  schema.PostUsersNewParam:
-    properties:
       credential:
-        description: It's required if login_type is password
-        type: string
-      link_account:
-        type: string
-      login_account:
+        description: your credential of third party service and it would be used to
+          validate if your account is valid
         type: string
       login_type:
-        enum:
-        - password
-        - google
+        description: |-
+          third party service name
+          only google is supported now
+        type: string
+    required:
+    - account
+    - login_type
+    type: object
+  schema.PostUsersParam:
+    properties:
+      account:
+        description: account should be valid email address
+        type: string
+      email_pw_to_user:
+        description: email_pw_to_user is optional and its default value is true.
+        type: boolean
+      password:
+        description: |-
+          password is optional and it is generated if password is empty.
+          password must be follow below rules:
+          at least 6 letters
+          at least 1 number
+          at least 1 upper case
+          at least 1 special character
         type: string
       role_id:
         description: |-
-          only admin could specific role_id when creating user ;
-          If not specified, the default is 1(normal user)
+          role_id
+          * 0 - admin
+          * 1 - member
+          role_id is optional and its default value is 1(member).
+          notice: admin could not be created if there is admin in VASP.
         type: integer
     required:
-    - link_account
-    - login_account
-    - login_type
+    - account
     type: object
   schema.PostVendorsTestParam:
     properties:
@@ -809,8 +856,26 @@ definitions:
         - UNKNOWN
         - FAILED
         type: string
-    required:
-    - success
+    type: object
+  schema.PutServicesParam:
+    properties:
+      credential:
+        type: object
+      is_active:
+        type: boolean
+      provider:
+        enum:
+        - Elliptic
+        - Chainalysis
+        - ComplyAdvantage
+        type: string
+      settings:
+        type: object
+      type:
+        enum:
+        - Blockchain Analytics
+        - Sanction Screening
+        type: string
     type: object
   schema.Resp:
     properties:
@@ -847,42 +912,77 @@ definitions:
     properties:
       data:
         properties:
-          status:
-            example: OK
-            type: string
+          success:
+            type: boolean
         required:
-        - status
+        - success
         type: object
     required:
     - data
     type: object
+  schema.RespWithStatusAndMessage:
+    properties:
+      data:
+        properties:
+          message:
+            example: something
+            type: string
+          success:
+            type: boolean
+        required:
+        - message
+        - success
+        type: object
+    required:
+    - data
+    type: object
+  schema.TransactionAsset:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      extra_info:
+        type: object
+      id:
+        type: string
+      labels:
+        items:
+          type: string
+        type: array
+      last_screened:
+        type: string
+      risk_score:
+        type: string
+      risk_score_provider:
+        type: string
+    required:
+    - id
+    type: object
+  types.BeneficiaryPrivateInfo:
+    properties:
+      legal_person_name:
+        type: string
+      primary_identifier:
+        description: |-
+          primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;
+          legal_person_name is required  if customer_type is LegalPerson
+        type: string
+      secondary_identifier:
+        type: string
+    type: object
 info:
   contact:
     email: services@sygna.io
-    name: vince.lee
+    name: Sygna services
   description: Sygna Hub API
   title: Sygna HUB
   version: 1.0.0
 paths:
   /currencies:
     get:
-      description: only support BTC,ETH now
       operationId: GetCurrencies
       parameters:
-      - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - currency_id
-          - currency_symbol
-          - currency_name
-          - is_active
-          - extra_info
-          type: string
-        name: field
-        type: array
       - collectionFormat: multi
         description: filter currencies by currency identifier
         in: query
@@ -903,6 +1003,13 @@ paths:
         items:
           type: string
         name: currency_name
+        type: array
+      - collectionFormat: multi
+        description: filter currencies data by kyt providers
+        in: query
+        items:
+          type: string
+        name: kyt_provider
         type: array
       - collectionFormat: multi
         description: filter currencies by if status is activated
@@ -956,7 +1063,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/schema.GetCurrenciesResp'
+                    $ref: '#/definitions/model.Currency'
                   type: array
               type: object
         "400":
@@ -972,32 +1079,13 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get supported currencies
       tags:
       - currencies
   /customers:
     get:
       parameters:
-      - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - id
-          - name
-          - is_active
-          - risk_score_provider
-          - max_risk_score
-          - avg_risk_score
-          - labels
-          - created_at
-          - updated_at
-          - last_screened
-          type: string
-        name: field
-        type: array
       - collectionFormat: multi
         description: filter customers by customer identifier
         in: query
@@ -1126,44 +1214,8 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get customers
-      tags:
-      - customers
-    patch:
-      parameters:
-      - description: patch /customers params
-        in: body
-        name: body
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/schema.PatchCustomersParam'
-          type: array
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schema.RespWithMutation'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-      security:
-      - BearerAuth: []
-      summary: update customers
       tags:
       - customers
     post:
@@ -1198,8 +1250,44 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: create customers
+      tags:
+      - customers
+    put:
+      parameters:
+      - description: put /customers params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchCustomersParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update customers
       tags:
       - customers
   /customers/{id}:
@@ -1210,6 +1298,55 @@ paths:
         name: id
         required: true
         type: string
+      - collectionFormat: multi
+        description: filter asset by ids in current customer
+        in: query
+        items:
+          type: string
+        name: asset_id
+        type: array
+      - collectionFormat: multi
+        description: filter asset by currency id in current customer
+        in: query
+        items:
+          type: string
+        name: asset_currency_id
+        type: array
+      - collectionFormat: multi
+        description: filter asset by risk score in current customer
+        in: query
+        items:
+          type: string
+        name: asset_risk_score
+        type: array
+      - collectionFormat: multi
+        description: filter asset by address in current customer
+        in: query
+        items:
+          type: string
+        name: asset_address
+        type: array
+      - collectionFormat: multi
+        description: filter asset by label in current customer
+        in: query
+        items:
+          type: string
+        name: asset_label
+        type: array
+      - collectionFormat: multi
+        description: filter asset by value in current customer
+        in: query
+        items:
+          type: string
+        name: asset_value
+        type: array
+      - collectionFormat: multi
+        description: filter asset by last screen time in current customer
+        in: query
+        items:
+          type: string
+        name: asset_last_screened
+        type: array
       responses:
         "200":
           description: OK
@@ -1218,7 +1355,7 @@ paths:
             - $ref: '#/definitions/schema.Resp'
             - properties:
                 data:
-                  $ref: '#/definitions/schema.GetCustomerResp'
+                  $ref: '#/definitions/schema.GetCustomersResp'
               type: object
         "400":
           description: Bad Request
@@ -1237,7 +1374,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get specific customer detail
       tags:
       - customers
@@ -1261,7 +1398,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: delete oauth token from database
       tags:
       - oauth
@@ -1277,12 +1414,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/schema.Resp'
-            - properties:
-                data:
-                  $ref: '#/definitions/schema.PostOauthResp'
-              type: object
+            $ref: '#/definitions/schema.RespWithStatus'
         "400":
           description: Bad Request
           schema:
@@ -1303,26 +1435,6 @@ paths:
       description: only allow admin to use this method
       parameters:
       - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - id
-          - created_at
-          - updated_at
-          - provider
-          - type
-          - is_active
-          - status
-          - start_time
-          - end_time
-          - settings
-          - credential
-          type: string
-        name: field
-        type: array
-      - collectionFormat: multi
         description: filter services by service identifier
         in: query
         items:
@@ -1334,6 +1446,7 @@ paths:
         in: query
         items:
           enum:
+          - Sygna Bridge
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
@@ -1344,6 +1457,10 @@ paths:
         description: filter services by type
         in: query
         items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
           type: string
         name: type
         type: array
@@ -1450,45 +1567,8 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get services
-      tags:
-      - services
-    patch:
-      description: only allow admin to use this method
-      parameters:
-      - description: patch /services params
-        in: body
-        name: body
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/schema.PatchServicesParam'
-          type: array
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schema.RespWithMutation'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/errors.SystemError'
-      security:
-      - BearerAuth: []
-      summary: update services
       tags:
       - services
     post:
@@ -1524,31 +1604,51 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: create services
+      tags:
+      - services
+    put:
+      description: only allow admin to use this method
+      parameters:
+      - description: put /services params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PutServicesParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update services
       tags:
       - services
   /services/supported:
     get:
       description: only allow admin to use this method
       parameters:
-      - collectionFormat: multi
-        description: only show specific columns
-        in: query
-        items:
-          enum:
-          - id
-          - created_at
-          - updated_at
-          - provider
-          - type
-          - is_active
-          - credential
-          - settings
-          - editable
-          type: string
-        name: field
-        type: array
       - collectionFormat: multi
         description: filter services by service identifier
         in: query
@@ -1561,6 +1661,7 @@ paths:
         in: query
         items:
           enum:
+          - Sygna Bridge
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
@@ -1571,6 +1672,10 @@ paths:
         description: filter services by type
         in: query
         items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
           type: string
         name: type
         type: array
@@ -1653,39 +1758,13 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get supported services and its config
       tags:
       - services
   /transactions:
     get:
       parameters:
-      - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - id
-          - created_at
-          - updated_at
-          - name
-          - protocol
-          - direction
-          - status
-          - status_text
-          - currency_id
-          - address
-          - value
-          - value_usd
-          - tx_id
-          - risk_score_provider
-          - risk_score
-          - labels
-          - sanction_score
-          type: string
-        name: field
-        type: array
       - collectionFormat: multi
         description: filter transactions by transaction identifier
         in: query
@@ -1749,7 +1828,9 @@ paths:
         name: risk_score
         type: array
       - collectionFormat: multi
-        description: filter transactions by transaction status
+        description: filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
+          On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
+          To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
         in: query
         items:
           enum:
@@ -1875,7 +1956,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get transactions
       tags:
       - transactions
@@ -1887,7 +1968,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/schema.PostTransactionParam'
+            $ref: '#/definitions/model.PostTransactionParam'
           type: array
       responses:
         "200":
@@ -1911,7 +1992,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: create transactions
       tags:
       - transactions
@@ -1950,7 +2031,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get specific transaction
       tags:
       - transactions
@@ -1964,7 +2045,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/schema.PatchEmailProtocolPermissionParam'
+            $ref: '#/definitions/schema.PostEmailProtocolPermissionParam'
           type: array
       responses:
         "200":
@@ -1988,8 +2069,8 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
-      summary: send permission to originator
+      - CookieAuth: []
+      summary: send permission to originator from email protocol VASP
       tags:
       - transactions/email-protocol
   /transactions/email-protocol/verify-token/{token}:
@@ -2027,7 +2108,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errors.SystemError'
-      summary: test if thirdparty service is available
+      summary: verify if token is valid and get its transaction identifier
       tags:
       - transactions/email-protocol
   /transactions/permission:
@@ -2063,16 +2144,16 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: send permission to originator
       tags:
       - transactions
-  /transactions/sanction-report/{id}:
+  /transactions/sanction-report/{searchId}:
     get:
       parameters:
       - description: an identifier from sanction screening service
         in: path
-        name: id
+        name: searchId
         required: true
         type: string
       produces:
@@ -2099,7 +2180,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: get report from sanction screening service
       tags:
       - transactions
@@ -2136,7 +2217,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: send transaction identifier on blockchain to beneficiary
       tags:
       - transactions
@@ -2182,32 +2263,54 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: use /wallet-address-filter from Sygna Bridge and use KYT service by
         own credential to get address information
       tags:
       - transactions
   /users:
-    get:
+    delete:
       description: |-
-        admin could get all users
-        normal user could only get self data
+        only admin could use this method
+        all accounts would be logout if admin deleted them
       parameters:
-      - collectionFormat: multi
-        description: A URL parameter that specifies which column to show. If not specified,
-          the default is *.
-        in: query
-        items:
-          enum:
-          - id
-          - role_id
-          - login_account
-          - is_active
-          - login_type
-          - link_account
-          type: string
-        name: field
-        type: array
+      - description: patch /users params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.DeleteUsersParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: delete users(member)
+      tags:
+      - users
+    get:
+      description: only admin could use this method
+      parameters:
       - collectionFormat: multi
         description: filter users by identifier
         in: query
@@ -2216,7 +2319,7 @@ paths:
         name: id
         type: array
       - collectionFormat: multi
-        description: filter users by role identifier(0:admin 1:normal user)
+        description: filter users by role identifier(0:admin 1:member)
         in: query
         items:
           enum:
@@ -2230,10 +2333,10 @@ paths:
         in: query
         items:
           type: string
-        name: login_account
+        name: account
         type: array
       - collectionFormat: multi
-        description: filter users by login type(only supported passord and google
+        description: filter users by login type(only supported password and google
           now)
         in: query
         items:
@@ -2242,13 +2345,6 @@ paths:
           - google
           type: string
         name: login_type
-        type: array
-      - collectionFormat: multi
-        description: filter users by link account
-        in: query
-        items:
-          type: string
-        name: link_account
         type: array
       - collectionFormat: multi
         description: filter users by if status is activated
@@ -2302,7 +2398,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/schema.GetUsersNewResp'
+                    $ref: '#/definitions/model.User'
                   type: array
               type: object
         "400":
@@ -2322,27 +2418,22 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
-      summary: get users
+      - CookieAuth: []
+      summary: get all users
       tags:
       - users
-    post:
+    patch:
       description: |-
-        only admin could use this method to create another user with using password to login
-        normal user could use this method to bind third party service loging with same account
+        only admin could use this method
+        all accounts would be logout if admin deactivated them
       parameters:
-      - default: false
-        description: password is already encrypted by bcrypt or not
-        in: query
-        name: password_hashed
-        type: boolean
-      - description: post /users params
+      - description: patch /users params
         in: body
         name: body
         required: true
         schema:
           items:
-            $ref: '#/definitions/schema.PostUsersNewParam'
+            $ref: '#/definitions/schema.PatchUsersParam'
           type: array
       responses:
         "200":
@@ -2366,8 +2457,199 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
+      summary: activate or deactivate users(member)
+      tags:
+      - users
+    post:
+      description: only admin could use this method
+      parameters:
+      - description: post /users params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostUsersParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
       summary: create users
+      tags:
+      - users
+  /users/{id}:
+    get:
+      description: |-
+        admin could get specific or self user data
+        member could only get self user data
+      parameters:
+      - description: specific user identifier or 'self' to get self user data
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get specific or self user data
+      tags:
+      - users
+  /users/change-password:
+    patch:
+      description: |-
+        admin or member only could change self password
+        all accounts would be logout if one of users changed password
+        user must use password to login if he want to change his password
+      parameters:
+      - description: patch /users/change-password params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChangePasswordParam'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: change login password
+      tags:
+      - users
+  /users/link:
+    post:
+      description: admin or member could only link self account
+      parameters:
+      - description: post /users/link params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PostUsersLinkParam'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: link your account to third party service
+      tags:
+      - users
+  /users/link/{login_type}:
+    delete:
+      description: |-
+        admin or member could only unlink self account
+        all accounts which linked with specific third party service would be logout if one of users unlinked
+      parameters:
+      - description: login type which you want to unlink
+        in: path
+        name: login_type
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: unlink your account from third party service
       tags:
       - users
   /vendors/test:
@@ -2414,15 +2696,15 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - BearerAuth: []
+      - CookieAuth: []
       summary: test if thirdparty service is available
       tags:
       - vendors
 schemes:
 - https
 securityDefinitions:
-  BearerAuth:
+  CookieAuth:
     in: header
-    name: Authorization
+    name: Cookie
     type: apiKey
 swagger: "2.0"
