@@ -369,7 +369,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchCustomersParam"
+                                "$ref": "#/definitions/schema.PutCustomersParam"
                             }
                         }
                     }
@@ -1480,7 +1480,7 @@
             }
         },
         "/transactions/email-protocol/permission": {
-            "patch": {
+            "post": {
                 "security": [
                     {
                         "CookieAuth": []
@@ -1493,7 +1493,7 @@
                 "summary": "send permission to originator from email protocol VASP",
                 "parameters": [
                     {
-                        "description": "patch /transactions/email-protocol/permission params",
+                        "description": "post /transactions/email-protocol/permission params",
                         "name": "body",
                         "in": "body",
                         "required": true,
@@ -2499,7 +2499,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support ComplyAdvantage,Elliptic,Chainalysis for provider now\nonly support Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
@@ -3235,7 +3235,6 @@
                     "type": "string"
                 },
                 "value_usd": {
-                    "description": "only used in response",
                     "type": "string"
                 }
             }
@@ -3303,51 +3302,6 @@
                 },
                 "value": {
                     "type": "string"
-                }
-            }
-        },
-        "schema.PatchCustomersParam": {
-            "type": "object",
-            "required": [
-                "customer_type",
-                "id"
-            ],
-            "properties": {
-                "address": {
-                    "$ref": "#/definitions/schema.Address"
-                },
-                "assets": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schema.PatchAssetParam"
-                    }
-                },
-                "birth": {
-                    "$ref": "#/definitions/schema.DateAndPlaceOfBirth"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "customer_id": {
-                    "type": "string"
-                },
-                "customer_type": {
-                    "description": "Customer Type\n* 0 - NaturalPerson\n* 1 - LegalPerson",
-                    "type": "integer",
-                    "enum": [
-                        0,
-                        1
-                    ]
-                },
-                "id": {
-                    "type": "string",
-                    "format": "uuid"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "national": {
-                    "$ref": "#/definitions/schema.NationalIdentification"
                 }
             }
         },
@@ -3646,12 +3600,13 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required",
+                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required",
                     "type": "object"
                 },
                 "provider": {
                     "type": "string",
                     "enum": [
+                        "Sygna Bridge",
                         "Elliptic",
                         "Chainalysis",
                         "ComplyAdvantage"
@@ -3660,6 +3615,7 @@
                 "type": {
                     "type": "string",
                     "enum": [
+                        "Travel Rule",
                         "Blockchain Analytics",
                         "Sanction Screening"
                     ]
@@ -3696,7 +3652,7 @@
             ],
             "properties": {
                 "addrs": {
-                    "description": "addresses which are searching information by Sygna Bridge and specific KYT service",
+                    "description": "addresses which are searching information by Sygna Bridge",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -3738,16 +3694,67 @@
                     "enum": [
                         "SYGNA_BRIDGE",
                         "SYGNA_EMAIL_PROTOCOL",
-                        "PRIVATE_WALLET",
-                        "OTHER_VASP",
                         "UNKNOWN",
                         "FAILED"
                     ]
                 }
             }
         },
+        "schema.PutCustomersParam": {
+            "type": "object",
+            "required": [
+                "country",
+                "customer_type",
+                "id",
+                "name"
+            ],
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/schema.Address"
+                },
+                "assets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PatchAssetParam"
+                    }
+                },
+                "birth": {
+                    "$ref": "#/definitions/schema.DateAndPlaceOfBirth"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "customer_id": {
+                    "type": "string"
+                },
+                "customer_type": {
+                    "description": "Customer Type\n* 0 - NaturalPerson\n* 1 - LegalPerson",
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ]
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "national": {
+                    "$ref": "#/definitions/schema.NationalIdentification"
+                }
+            }
+        },
         "schema.PutServicesParam": {
             "type": "object",
+            "required": [
+                "credential",
+                "is_active",
+                "provider",
+                "type"
+            ],
             "properties": {
                 "credential": {
                     "type": "object"

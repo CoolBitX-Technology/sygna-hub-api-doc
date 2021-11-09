@@ -461,7 +461,6 @@ definitions:
       value:
         type: string
       value_usd:
-        description: only used in response
         type: string
     type: object
   schema.NationalIdentification:
@@ -507,40 +506,6 @@ definitions:
       value:
         type: string
     required:
-    - id
-    type: object
-  schema.PatchCustomersParam:
-    properties:
-      address:
-        $ref: '#/definitions/schema.Address'
-      assets:
-        items:
-          $ref: '#/definitions/schema.PatchAssetParam'
-        type: array
-      birth:
-        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
-      country:
-        type: string
-      customer_id:
-        type: string
-      customer_type:
-        description: |-
-          Customer Type
-          * 0 - NaturalPerson
-          * 1 - LegalPerson
-        enum:
-        - 0
-        - 1
-        type: integer
-      id:
-        format: uuid
-        type: string
-      name:
-        type: string
-      national:
-        $ref: '#/definitions/schema.NationalIdentification'
-    required:
-    - customer_type
     - id
     type: object
   schema.PatchPermissionParam:
@@ -781,15 +746,18 @@ definitions:
           * provider:Elliptic,type:Blockchain Analytics - api_key and secret are required
           * provider:Chainalysis,type:Blockchain Analytics - api_key is required
           * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
+          * provider:Sygna Bridge,type:Travel Rule - private_key is required
         type: object
       provider:
         enum:
+        - Sygna Bridge
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
         type: string
       type:
         enum:
+        - Travel Rule
         - Blockchain Analytics
         - Sanction Screening
         type: string
@@ -816,8 +784,7 @@ definitions:
   schema.PostWalletAddressFilterParam:
     properties:
       addrs:
-        description: addresses which are searching information by Sygna Bridge and
-          specific KYT service
+        description: addresses which are searching information by Sygna Bridge
         items:
           type: string
         type: array
@@ -851,11 +818,45 @@ definitions:
         enum:
         - SYGNA_BRIDGE
         - SYGNA_EMAIL_PROTOCOL
-        - PRIVATE_WALLET
-        - OTHER_VASP
         - UNKNOWN
         - FAILED
         type: string
+    type: object
+  schema.PutCustomersParam:
+    properties:
+      address:
+        $ref: '#/definitions/schema.Address'
+      assets:
+        items:
+          $ref: '#/definitions/schema.PatchAssetParam'
+        type: array
+      birth:
+        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
+      country:
+        type: string
+      customer_id:
+        type: string
+      customer_type:
+        description: |-
+          Customer Type
+          * 0 - NaturalPerson
+          * 1 - LegalPerson
+        enum:
+        - 0
+        - 1
+        type: integer
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+      national:
+        $ref: '#/definitions/schema.NationalIdentification'
+    required:
+    - country
+    - customer_type
+    - id
+    - name
     type: object
   schema.PutServicesParam:
     properties:
@@ -876,6 +877,11 @@ definitions:
         - Blockchain Analytics
         - Sanction Screening
         type: string
+    required:
+    - credential
+    - is_active
+    - provider
+    - type
     type: object
   schema.Resp:
     properties:
@@ -1262,7 +1268,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/schema.PatchCustomersParam'
+            $ref: '#/definitions/schema.PutCustomersParam'
           type: array
       responses:
         "200":
@@ -2036,10 +2042,10 @@ paths:
       tags:
       - transactions
   /transactions/email-protocol/permission:
-    patch:
+    post:
       description: only for email protocol
       parameters:
-      - description: patch /transactions/email-protocol/permission params
+      - description: post /transactions/email-protocol/permission params
         in: body
         name: body
         required: true
@@ -2656,8 +2662,8 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support ComplyAdvantage,Elliptic,Chainalysis for provider now
-        only support Blockchain Analytics,Sanction Screening for type now
+        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now
+        only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
       - description: post /vendors/test params
         in: body
