@@ -9,9 +9,21 @@
 3. download [example config file](config.example.yml) and rename it to `config.yml`, fill your credentials, and customized to fit your needs
 
 4. execute below command to launch containers
-```
-docker-compose up
-```
+    ```
+    docker-compose up
+    ```
+
+### Database tunning
+#### If you encounter database performance issue, you can try following procedure:
+1. find your `postgresql.conf`, it's usually located in `/var/lib/postgresql/data/postgresql.conf`
+2. change following values in `postgresql.conf`
+    ```
+    max_connections = 300
+    shared_buffers = 512MB
+    ```
+    notice that higher value require better hardware
+3. restart database to apply new configuration
+
 ### How to enable google login
 1. please refer [document](https://developers.google.com/identity/sign-in/web/sign-in) and register your frontend domain in google.
 2. fill identifier and secret from google into `config.yml` in backend service 
