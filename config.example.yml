@@ -15,9 +15,9 @@ settings:
   
   # email address and password for first user in hub server
   # you can use this account to login
-  admin_account: admin@<your domain>.com
+  admin_account: george@pundix.com
   # Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
-  admin_password: p@ssWord0
+  admin_password: p@ssWord0/22ss
 
 db:
   # database configuration
