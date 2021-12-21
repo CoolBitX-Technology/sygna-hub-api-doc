@@ -1384,7 +1384,7 @@ paths:
       summary: get specific customer detail
       tags:
       - customers
-  /oauth:
+  /oauth2:
     delete:
       responses:
         "200":
@@ -1407,10 +1407,10 @@ paths:
       - CookieAuth: []
       summary: delete oauth token from database
       tags:
-      - oauth
+      - oauth2
     post:
       parameters:
-      - description: post /oauth param
+      - description: post /oauth2 param
         in: body
         name: body
         required: true
@@ -1435,7 +1435,7 @@ paths:
             $ref: '#/definitions/errors.SystemError'
       summary: get oauth token
       tags:
-      - oauth
+      - oauth2
   /services:
     get:
       description: only allow admin to use this method

@@ -601,15 +601,15 @@
                 }
             }
         },
-        "/oauth": {
+        "/oauth2": {
             "post": {
                 "tags": [
-                    "oauth"
+                    "oauth2"
                 ],
                 "summary": "get oauth token",
                 "parameters": [
                     {
-                        "description": "post /oauth param",
+                        "description": "post /oauth2 param",
                         "name": "body",
                         "in": "body",
                         "required": true,
@@ -652,7 +652,7 @@
                     }
                 ],
                 "tags": [
-                    "oauth"
+                    "oauth2"
                 ],
                 "summary": "delete oauth token from database",
                 "responses": {
