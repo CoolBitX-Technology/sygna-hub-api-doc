@@ -25,7 +25,7 @@ services:
   # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
   frontend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.0-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.1-beta.1
     image: sygna/sygna-hub-console:latest
     restart: unless-stopped
     ports:
@@ -34,10 +34,10 @@ services:
       - backend
     environment:
       # replace with your backend url
-      - BACKEND_API_URL=https://hub.youdomain.com/v1
+      - BACKEND_API_URL=https://<your domain>/v1
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.0-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.1-beta.1
     image: sygna/sygna-hub:latest
     restart: unless-stopped
     ports:
