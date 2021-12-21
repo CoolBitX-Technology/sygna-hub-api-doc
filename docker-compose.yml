@@ -30,8 +30,8 @@ services:
     restart: unless-stopped
     ports:
       - 8000:80
-    depends_on: 
-      - backend 
+    depends_on:
+      - backend
     environment:
       # replace with your backend url
       - BACKEND_API_URL=https://hub.youdomain.com/v1
@@ -42,8 +42,8 @@ services:
     restart: unless-stopped
     ports:
       - 8080:8080
-    depends_on: 
-      - postgres 
+    depends_on:
+      - postgres
     volumes:
       # replace your path to save log
       - "./log:/var/log"
