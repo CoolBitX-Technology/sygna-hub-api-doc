@@ -713,7 +713,9 @@
                                 "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
-                                "ComplyAdvantage"
+                                "ComplyAdvantage",
+                                "Merkle Science",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -1022,7 +1024,9 @@
                                 "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
-                                "ComplyAdvantage"
+                                "ComplyAdvantage",
+                                "Merkle Science",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -2499,7 +2503,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
@@ -2748,7 +2752,8 @@
                     "enum": [
                         "null",
                         "SYGNA_BRIDGE",
-                        "SYGNA_EMAIL_PROTOCOL"
+                        "SYGNA_EMAIL_PROTOCOL",
+                        "TRISA"
                     ],
                     "x-nullable": true
                 },
@@ -3534,7 +3539,10 @@
                     "enum": [
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA",
+                        "Sygna Bridge"
                     ]
                 },
                 "type": {
@@ -3600,7 +3608,7 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required",
+                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
                     "type": "object"
                 },
                 "provider": {
@@ -3609,7 +3617,9 @@
                         "Sygna Bridge",
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA"
                     ]
                 },
                 "type": {
@@ -3632,6 +3642,12 @@
             "properties": {
                 "error_message": {
                     "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "provider": {
                     "type": "string"
@@ -3767,7 +3783,10 @@
                     "enum": [
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA",
+                        "Sygna Bridge"
                     ]
                 },
                 "settings": {
