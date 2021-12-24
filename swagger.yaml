@@ -120,6 +120,7 @@ definitions:
         - "null"
         - SYGNA_BRIDGE
         - SYGNA_EMAIL_PROTOCOL
+        - TRISA
         type: string
         x-nullable: true
       protocol_extra_info:
@@ -681,6 +682,9 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna Bridge
         type: string
       type:
         enum:
@@ -745,8 +749,10 @@ definitions:
           credential
           * provider:Elliptic,type:Blockchain Analytics - api_key and secret are required
           * provider:Chainalysis,type:Blockchain Analytics - api_key is required
+          * provider:Merkle Science,type:Blockchain Analytics - x-api-key is required
           * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
           * provider:Sygna Bridge,type:Travel Rule - private_key is required
+          * provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required
         type: object
       provider:
         enum:
@@ -754,6 +760,8 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
         type: string
       type:
         enum:
@@ -770,6 +778,10 @@ definitions:
     properties:
       error_message:
         type: string
+      fields:
+        items:
+          type: string
+        type: array
       provider:
         type: string
       status_code:
@@ -869,6 +881,9 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna Bridge
         type: string
       settings:
         type: object
@@ -1456,6 +1471,8 @@ paths:
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
+          - Merkle Science
+          - TRISA
           type: string
         name: provider
         type: array
@@ -1671,6 +1688,8 @@ paths:
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
+          - Merkle Science
+          - TRISA
           type: string
         name: provider
         type: array
@@ -2662,7 +2681,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now
+        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
       - description: post /vendors/test params

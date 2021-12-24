@@ -25,7 +25,7 @@ services:
   # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
   frontend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.1-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.2-beta.1
     image: sygna/sygna-hub-console:latest
     restart: unless-stopped
     ports:
@@ -37,7 +37,7 @@ services:
       - BACKEND_API_URL=https://<your domain>/v1
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.1-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
     image: sygna/sygna-hub:latest
     restart: unless-stopped
     ports:
@@ -48,4 +48,18 @@ services:
       # replace your path to save log
       - "./log:/var/log"
       # point this path to your configuration file
+      - "./config.yml:/app/config.yml:ro"
+  # (Optional) Add this service if you want to use TRISA
+  trisa:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub-trisa-gateway:1.0.2-beta.1
+    image: sygna/sygna-hub-trisa-gateway:latest
+    ports:
+      - 443:443
+    depends_on:
+      - postgres
+      - backend
+    volumes:
+      # replace your path to save log
+      - ./log:/var/log
       - "./config.yml:/app/config.yml:ro"
