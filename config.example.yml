@@ -87,5 +87,5 @@ trisa_server:
   # hub server send request to trisa gateway with restful api request
   # this option change restful server listen port
   # if you change this port, url above should match
-  # for example: (restfulport: 8888) -> (url: "http://localhost:8888")
+  # for example: (restful_port: 8888) -> (url: "http://localhost:8888")
   restful_port: 8081
