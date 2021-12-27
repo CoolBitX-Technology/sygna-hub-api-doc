@@ -75,7 +75,7 @@ email_service:
 frontend:
   # url of hub frontend, used in email protocol
   url: <your frontend url>
-  
+
 trisa_server:
   # url for TRISA gateway server, this option can be removed if you are not using TRISA
   # for example, if you are using docker-compose to setup services
@@ -88,4 +88,4 @@ trisa_server:
   # this option change restful server listen port
   # if you change this port, url above should match
   # for example: (restfulport: 8888) -> (url: "http://localhost:8888")
-  restfulport: 8081
+  restful_port: 8081
