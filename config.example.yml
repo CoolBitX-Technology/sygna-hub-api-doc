@@ -75,3 +75,17 @@ email_service:
 frontend:
   # url of hub frontend, used in email protocol
   url: <your frontend url>
+
+trisa_server:
+  # url for TRISA gateway server, this option can be removed if you are not using TRISA
+  # for example, if you are using docker-compose to setup services
+  # this value should be http://trisa:8081
+  url: "http://localhost:8081"
+  # port and host to receive grpc message from TRISA network, default is port 443
+  host: 0.0.0.0
+  port: 443
+  # hub server send request to trisa gateway with restful api request
+  # this option change restful server listen port
+  # if you change this port, url above should match
+  # for example: (restful_port: 8888) -> (url: "http://localhost:8888")
+  restful_port: 8081
