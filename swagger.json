@@ -883,7 +883,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
                     "services"
                 ],
@@ -941,7 +941,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
                     "services"
                 ],
@@ -1445,6 +1445,246 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.PostTransactionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits": {
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send email to originator VASP and ask him to fill customer information",
+                "parameters": [
+                    {
+                        "description": "post /transactions/email-protocol/deposits params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.PostEmailProtocolDepositParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/permission": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "accept or reject this transaction when received customer information from originator",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/permission params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchPermissionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/permission-request": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send own customer information to beneficairy or reject this request when received email from beneficiary",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/permission-request params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/txid": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send transaction hash when received accpet from beneficairy",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/txid params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchTxIdParam"
                             }
                         }
                     }
@@ -2691,6 +2931,54 @@
                 }
             }
         },
+        "model.PostEmailProtocolDepositParam": {
+            "type": "object",
+            "required": [
+                "currency_id",
+                "customer_id",
+                "originator",
+                "value"
+            ],
+            "properties": {
+                "beneficiary": {
+                    "type": "object",
+                    "properties": {
+                        "addrs": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Addr"
+                            }
+                        },
+                        "assets": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "customer_id": {
+                    "type": "string"
+                },
+                "originator": {
+                    "type": "object",
+                    "properties": {
+                        "addrs": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Addr"
+                            }
+                        }
+                    }
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "model.PostTransactionParam": {
             "type": "object",
             "required": [
@@ -2762,7 +3050,7 @@
                 },
                 "value": {
                     "description": "The value of the currency requested to transfer.",
-                    "type": "number"
+                    "type": "string"
                 }
             }
         },
