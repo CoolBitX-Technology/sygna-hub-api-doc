@@ -71,6 +71,8 @@ email_service:
   password: p@ssWord0
   # name of sender
   display_name: Hub Sender
+  # prefix of subject
+  subject_prefix: "[TEST]"
 
 frontend:
   # url of hub frontend, used in email protocol

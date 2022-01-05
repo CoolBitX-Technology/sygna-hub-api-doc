@@ -77,6 +77,38 @@ definitions:
       token_address:
         type: string
     type: object
+  model.PostEmailProtocolDepositParam:
+    properties:
+      beneficiary:
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+          assets:
+            items:
+              type: string
+            type: array
+        type: object
+      currency_id:
+        type: string
+      customer_id:
+        type: string
+      originator:
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+        type: object
+      value:
+        type: string
+    required:
+    - currency_id
+    - customer_id
+    - originator
+    - value
+    type: object
   model.PostTransactionParam:
     properties:
       beneficiary:
@@ -127,7 +159,7 @@ definitions:
         type: object
       value:
         description: The value of the currency requested to transfer.
-        type: number
+        type: string
     required:
     - currency_id
     - customer_id
@@ -1595,7 +1627,9 @@ paths:
       tags:
       - services
     post:
-      description: only allow admin to use this method
+      description: |-
+        only allow admin to use this method
+        use GET /services/supported to understand which credential is required by provider
       parameters:
       - description: post /services params
         in: body
@@ -1632,7 +1666,9 @@ paths:
       tags:
       - services
     put:
-      description: only allow admin to use this method
+      description: |-
+        only allow admin to use this method
+        use GET /services/supported to understand which credential is required by provider
       parameters:
       - description: put /services params
         in: body
@@ -2060,6 +2096,161 @@ paths:
       summary: get specific transaction
       tags:
       - transactions
+  /transactions/email-protocol/deposits:
+    post:
+      description: only for email protocol
+      parameters:
+      - description: post /transactions/email-protocol/deposits params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.PostEmailProtocolDepositParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send email to originator VASP and ask him to fill customer information
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/permission:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/permission params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchPermissionParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: accept or reject this transaction when received customer information
+        from originator
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/permission-request:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/permission-request
+          params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostEmailProtocolPermissionParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send own customer information to beneficairy or reject this request
+        when received email from beneficiary
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/txid:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/txid params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchTxIdParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send transaction hash when received accpet from beneficairy
+      tags:
+      - transactions/email-protocol
   /transactions/email-protocol/permission:
     post:
       description: only for email protocol
