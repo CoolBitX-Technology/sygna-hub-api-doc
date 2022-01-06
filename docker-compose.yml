@@ -36,7 +36,7 @@ services:
       # replace with your backend url
       - BACKEND_API_URL=https://<your domain>/v1
       # (Optional) required only if you want to enable Google login
-      # it's value should match google_login/id entry in config.yml file used by backend
+      # its value should match google_login/id entry in config.yml file used by backend
       - GOOGLE_SSO_CLIENT_ID=<ID>
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
