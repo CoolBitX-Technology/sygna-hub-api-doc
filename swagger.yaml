@@ -1027,7 +1027,8 @@ definitions:
 info:
   contact:
     email: services@sygna.io
-    name: Sygna services
+    name: Sygna support
+    url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
   version: 1.0.0
