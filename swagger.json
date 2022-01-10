@@ -7,7 +7,8 @@
         "description": "Sygna Hub API",
         "title": "Sygna HUB",
         "contact": {
-            "name": "Sygna services",
+            "name": "Sygna Support",
+            "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
         "version": "1.0.0"
@@ -713,7 +714,9 @@
                                 "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
-                                "ComplyAdvantage"
+                                "ComplyAdvantage",
+                                "Merkle Science",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -881,7 +884,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
                     "services"
                 ],
@@ -939,7 +942,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
                     "services"
                 ],
@@ -1022,7 +1025,9 @@
                                 "Sygna Bridge",
                                 "Elliptic",
                                 "Chainalysis",
-                                "ComplyAdvantage"
+                                "ComplyAdvantage",
+                                "Merkle Science",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -1441,6 +1446,246 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.PostTransactionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits": {
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send email to originator VASP and ask him to fill customer information",
+                "parameters": [
+                    {
+                        "description": "post /transactions/email-protocol/deposits params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.PostEmailProtocolDepositParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/permission": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "accept or reject this transaction when received customer information from originator",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/permission params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchPermissionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/permission-request": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send own customer information to beneficairy or reject this request when received email from beneficiary",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/permission-request params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/email-protocol/deposits/txid": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only for email protocol",
+                "tags": [
+                    "transactions/email-protocol"
+                ],
+                "summary": "send transaction hash when received accpet from beneficairy",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/email-protocol/deposits/txid params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchTxIdParam"
                             }
                         }
                     }
@@ -2499,7 +2744,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
@@ -2687,6 +2932,54 @@
                 }
             }
         },
+        "model.PostEmailProtocolDepositParam": {
+            "type": "object",
+            "required": [
+                "currency_id",
+                "customer_id",
+                "originator",
+                "value"
+            ],
+            "properties": {
+                "beneficiary": {
+                    "type": "object",
+                    "properties": {
+                        "addrs": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Addr"
+                            }
+                        },
+                        "assets": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "customer_id": {
+                    "type": "string"
+                },
+                "originator": {
+                    "type": "object",
+                    "properties": {
+                        "addrs": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Addr"
+                            }
+                        }
+                    }
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "model.PostTransactionParam": {
             "type": "object",
             "required": [
@@ -2748,7 +3041,8 @@
                     "enum": [
                         "null",
                         "SYGNA_BRIDGE",
-                        "SYGNA_EMAIL_PROTOCOL"
+                        "SYGNA_EMAIL_PROTOCOL",
+                        "TRISA"
                     ],
                     "x-nullable": true
                 },
@@ -2757,7 +3051,7 @@
                 },
                 "value": {
                     "description": "The value of the currency requested to transfer.",
-                    "type": "number"
+                    "type": "string"
                 }
             }
         },
@@ -3534,7 +3828,10 @@
                     "enum": [
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA",
+                        "Sygna Bridge"
                     ]
                 },
                 "type": {
@@ -3600,7 +3897,7 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required",
+                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
                     "type": "object"
                 },
                 "provider": {
@@ -3609,7 +3906,9 @@
                         "Sygna Bridge",
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA"
                     ]
                 },
                 "type": {
@@ -3632,6 +3931,12 @@
             "properties": {
                 "error_message": {
                     "type": "string"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "provider": {
                     "type": "string"
@@ -3767,7 +4072,10 @@
                     "enum": [
                         "Elliptic",
                         "Chainalysis",
-                        "ComplyAdvantage"
+                        "ComplyAdvantage",
+                        "Merkle Science",
+                        "TRISA",
+                        "Sygna Bridge"
                     ]
                 },
                 "settings": {

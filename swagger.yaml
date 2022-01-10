@@ -77,6 +77,38 @@ definitions:
       token_address:
         type: string
     type: object
+  model.PostEmailProtocolDepositParam:
+    properties:
+      beneficiary:
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+          assets:
+            items:
+              type: string
+            type: array
+        type: object
+      currency_id:
+        type: string
+      customer_id:
+        type: string
+      originator:
+        properties:
+          addrs:
+            items:
+              $ref: '#/definitions/model.Addr'
+            type: array
+        type: object
+      value:
+        type: string
+    required:
+    - currency_id
+    - customer_id
+    - originator
+    - value
+    type: object
   model.PostTransactionParam:
     properties:
       beneficiary:
@@ -120,13 +152,14 @@ definitions:
         - "null"
         - SYGNA_BRIDGE
         - SYGNA_EMAIL_PROTOCOL
+        - TRISA
         type: string
         x-nullable: true
       protocol_extra_info:
         type: object
       value:
         description: The value of the currency requested to transfer.
-        type: number
+        type: string
     required:
     - currency_id
     - customer_id
@@ -681,6 +714,9 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna Bridge
         type: string
       type:
         enum:
@@ -745,8 +781,10 @@ definitions:
           credential
           * provider:Elliptic,type:Blockchain Analytics - api_key and secret are required
           * provider:Chainalysis,type:Blockchain Analytics - api_key is required
+          * provider:Merkle Science,type:Blockchain Analytics - x-api-key is required
           * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
           * provider:Sygna Bridge,type:Travel Rule - private_key is required
+          * provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required
         type: object
       provider:
         enum:
@@ -754,6 +792,8 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
         type: string
       type:
         enum:
@@ -770,6 +810,10 @@ definitions:
     properties:
       error_message:
         type: string
+      fields:
+        items:
+          type: string
+        type: array
       provider:
         type: string
       status_code:
@@ -869,6 +913,9 @@ definitions:
         - Elliptic
         - Chainalysis
         - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna Bridge
         type: string
       settings:
         type: object
@@ -980,7 +1027,8 @@ definitions:
 info:
   contact:
     email: services@sygna.io
-    name: Sygna services
+    name: Sygna Support
+    url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
   version: 1.0.0
@@ -1456,6 +1504,8 @@ paths:
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
+          - Merkle Science
+          - TRISA
           type: string
         name: provider
         type: array
@@ -1578,7 +1628,9 @@ paths:
       tags:
       - services
     post:
-      description: only allow admin to use this method
+      description: |-
+        only allow admin to use this method
+        use GET /services/supported to understand which credential is required by provider
       parameters:
       - description: post /services params
         in: body
@@ -1615,7 +1667,9 @@ paths:
       tags:
       - services
     put:
-      description: only allow admin to use this method
+      description: |-
+        only allow admin to use this method
+        use GET /services/supported to understand which credential is required by provider
       parameters:
       - description: put /services params
         in: body
@@ -1671,6 +1725,8 @@ paths:
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
+          - Merkle Science
+          - TRISA
           type: string
         name: provider
         type: array
@@ -2041,6 +2097,161 @@ paths:
       summary: get specific transaction
       tags:
       - transactions
+  /transactions/email-protocol/deposits:
+    post:
+      description: only for email protocol
+      parameters:
+      - description: post /transactions/email-protocol/deposits params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.PostEmailProtocolDepositParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send email to originator VASP and ask him to fill customer information
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/permission:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/permission params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchPermissionParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: accept or reject this transaction when received customer information
+        from originator
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/permission-request:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/permission-request
+          params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostEmailProtocolPermissionParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send own customer information to beneficairy or reject this request
+        when received email from beneficiary
+      tags:
+      - transactions/email-protocol
+  /transactions/email-protocol/deposits/txid:
+    patch:
+      description: only for email protocol
+      parameters:
+      - description: patch /transactions/email-protocol/deposits/txid params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchTxIdParam'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: send transaction hash when received accpet from beneficairy
+      tags:
+      - transactions/email-protocol
   /transactions/email-protocol/permission:
     post:
       description: only for email protocol
@@ -2662,7 +2873,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis for provider now
+        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
       - description: post /vendors/test params

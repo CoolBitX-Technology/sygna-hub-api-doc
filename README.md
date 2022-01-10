@@ -64,6 +64,9 @@ HANDLE_COMING_PERMISSION_ERROR    | It raised unexpected error when your endpoin
 HANDLE_COMING_TXID_ERROR    | It raised unexpected error when your endpoint got transaction hash from originator VASP, please refer error message |
 HANDLE_EMAIL_PROTOCOL_PERMISSION_ERROR  | It raised unexpected error when beneficiary VASP which got your permission_request by email protocol was sending permission to you, please refer error message |
 HANDLE_EMAIL_PROTOCOL_TXID_ERROR    | It raised unexpected error when you was sending transaction hash to beneficiary VASP which was transferred with you by email protocol, please refer error message |
+HANDLE_EMAIL_PROTOCOL_PERMISSION_REQUEST_ERROR    | It raised unexpected error when you was sending permission request to beneficiary VASP which was transferred with you by email protocol, please refer error message |
 SEND_PERMISSION_REQUEST_ERROR    | It raised unexpected error when you was sending permission_request to beneficiary VASP, please refer error message |
 SEND_PERMISSION_ERROR  | It raised unexpected error when you was sending permission to originator VASP, please refer error message |
 SEND_TRANSACTION_ID_ERROR  | It raised unexpected error when you was sending transaction hash to beneficiary VASP, please refer error message |
+SEND_EMAIL_PROTOCOL_DEPOSIT_ERROR  | It raised unexpected error when you was asking originator VASP to fill customer information, please refer error message |
+SEND_EMAIL_PROTOCOL_PERMISSION_ERROR  | It raised unexpected error when you was send permission to originator VASP, please refer error message |
