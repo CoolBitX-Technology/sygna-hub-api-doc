@@ -7,7 +7,8 @@
         "description": "Sygna Hub API",
         "title": "Sygna HUB",
         "contact": {
-            "name": "Sygna services",
+            "name": "Sygna Support",
+            "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
         "version": "1.0.0"
