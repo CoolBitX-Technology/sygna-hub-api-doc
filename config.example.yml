@@ -1,5 +1,8 @@
 # general settings
 settings:
+  #If this url has been provided, the events notification will be sent to the webhook_url
+  #You could decide the actions based on the notification accordingly.
+  #Please check the available events in README.md
   webhook_url: https://google.com
 
   # signing key for JWT token, you should keep this value in secret place
