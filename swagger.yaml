@@ -1178,7 +1178,9 @@ paths:
         type: array
       - collectionFormat: multi
         description: A URL parameter that specifies the range of max risk score. This
-          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).,
+          if you want to include all risk levels in result, you can use '\*' (ie.
+          Chainalysis V2:*)
         in: query
         items:
           type: string
@@ -1187,7 +1189,8 @@ paths:
       - collectionFormat: multi
         description: A URL parameter that specifies the range of average risk score.
           This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis
-          V1:low,high).
+          V1:low,high)., if you want to include all risk levels in result, you can
+          use '\*' (ie. Chainalysis V2:*)
         in: query
         items:
           type: string
@@ -1888,7 +1891,9 @@ paths:
         type: array
       - collectionFormat: multi
         description: A URL parameter that specifies the range of risk score. This
-          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high),
+          if you want to include all risk levels in result, you can use '\*' (ie.
+          Chainalysis V2:*)
         in: query
         items:
           type: string
