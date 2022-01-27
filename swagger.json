@@ -211,7 +211,9 @@
                         "items": {
                             "enum": [
                                 "Elliptic",
-                                "Chainalysis"
+                                "Chainalysis V1",
+                                "Chainalysis V2",
+                                "Merkle Science"
                             ],
                             "type": "string"
                         },
@@ -226,7 +228,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).",
+                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high)., if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "max_risk_score",
                         "in": "query"
                     },
@@ -236,7 +238,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).",
+                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high)., if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "avg_risk_score",
                         "in": "query"
                     },
@@ -713,7 +715,8 @@
                             "enum": [
                                 "Sygna Bridge",
                                 "Elliptic",
-                                "Chainalysis",
+                                "Chainalysis V1",
+                                "Chainalysis V2",
                                 "ComplyAdvantage",
                                 "Merkle Science",
                                 "TRISA"
@@ -1024,7 +1027,8 @@
                             "enum": [
                                 "Sygna Bridge",
                                 "Elliptic",
-                                "Chainalysis",
+                                "Chainalysis V1",
+                                "Chainalysis V2",
                                 "ComplyAdvantage",
                                 "Merkle Science",
                                 "TRISA"
@@ -1208,10 +1212,6 @@
                     {
                         "type": "array",
                         "items": {
-                            "enum": [
-                                "Elliptic",
-                                "Chainalysis"
-                            ],
                             "type": "string"
                         },
                         "collectionFormat": "multi",
@@ -1255,7 +1255,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).",
+                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high), if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "risk_score",
                         "in": "query"
                     },
@@ -1325,8 +1325,9 @@
                         "type": "array",
                         "items": {
                             "enum": [
-                                "Elliptic",
-                                "Chainalysis"
+                                "SYGNA_BRIDGE",
+                                "SYGNA_EMAIL_PROTOCOL",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -2744,7 +2745,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
@@ -3607,8 +3608,9 @@
             ],
             "properties": {
                 "expire_date": {
-                    "description": "Unix timestamp.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
-                    "type": "string"
+                    "description": "ISO8601 date-time string.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
+                    "type": "string",
+                    "format": "date-time"
                 },
                 "id": {
                     "description": "Target transaction identifier which status is Pending On Beneficiary",
@@ -3754,8 +3756,9 @@
                     "$ref": "#/definitions/schema.PostCustomersParam"
                 },
                 "expire_date": {
-                    "description": "Unix timestamp.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
-                    "type": "string"
+                    "description": "ISO8601 date-time string.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
+                    "type": "string",
+                    "format": "date-time"
                 },
                 "id": {
                     "description": "Target transaction identifier which status is Pending On Beneficiary",
@@ -3897,7 +3900,7 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
+                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis V1,type:Blockchain Analytics - api_key is required\n* provider:Chainalysis V2,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
                     "type": "object"
                 },
                 "provider": {

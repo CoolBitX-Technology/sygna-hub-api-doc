@@ -544,8 +544,9 @@ definitions:
   schema.PatchPermissionParam:
     properties:
       expire_date:
-        description: Unix timestamp.To set an expiry date of your transfer request.
-          Bridge will stop relaying transfer requests once the transfer expires.
+        description: ISO8601 date-time string.To set an expiry date of your transfer
+          request. Bridge will stop relaying transfer requests once the transfer expires.
+        format: date-time
         type: string
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
@@ -656,8 +657,9 @@ definitions:
         $ref: '#/definitions/schema.PostCustomersParam'
         description: cutomer is required if permission_status is ACCEPTED
       expire_date:
-        description: Unix timestamp.To set an expiry date of your transfer request.
-          Bridge will stop relaying transfer requests once the transfer expires.
+        description: ISO8601 date-time string.To set an expiry date of your transfer
+          request. Bridge will stop relaying transfer requests once the transfer expires.
+        format: date-time
         type: string
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
@@ -780,7 +782,8 @@ definitions:
         description: |-
           credential
           * provider:Elliptic,type:Blockchain Analytics - api_key and secret are required
-          * provider:Chainalysis,type:Blockchain Analytics - api_key is required
+          * provider:Chainalysis V1,type:Blockchain Analytics - api_key is required
+          * provider:Chainalysis V2,type:Blockchain Analytics - api_key is required
           * provider:Merkle Science,type:Blockchain Analytics - x-api-key is required
           * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
           * provider:Sygna Bridge,type:Travel Rule - private_key is required
@@ -1167,13 +1170,17 @@ paths:
         items:
           enum:
           - Elliptic
-          - Chainalysis
+          - Chainalysis V1
+          - Chainalysis V2
+          - Merkle Science
           type: string
         name: risk_score_provider
         type: array
       - collectionFormat: multi
         description: A URL parameter that specifies the range of max risk score. This
-          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).,
+          if you want to include all risk levels in result, you can use '\*' (ie.
+          Chainalysis V2:*)
         in: query
         items:
           type: string
@@ -1181,7 +1188,9 @@ paths:
         type: array
       - collectionFormat: multi
         description: A URL parameter that specifies the range of average risk score.
-          This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).
+          This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis
+          V1:low,high)., if you want to include all risk levels in result, you can
+          use '\*' (ie. Chainalysis V2:*)
         in: query
         items:
           type: string
@@ -1502,7 +1511,8 @@ paths:
           enum:
           - Sygna Bridge
           - Elliptic
-          - Chainalysis
+          - Chainalysis V1
+          - Chainalysis V2
           - ComplyAdvantage
           - Merkle Science
           - TRISA
@@ -1723,7 +1733,8 @@ paths:
           enum:
           - Sygna Bridge
           - Elliptic
-          - Chainalysis
+          - Chainalysis V1
+          - Chainalysis V2
           - ComplyAdvantage
           - Merkle Science
           - TRISA
@@ -1852,9 +1863,6 @@ paths:
         description: filter transactions by transaction id on blockchain
         in: query
         items:
-          enum:
-          - Elliptic
-          - Chainalysis
           type: string
         name: tx_id
         type: array
@@ -1883,7 +1891,9 @@ paths:
         type: array
       - collectionFormat: multi
         description: A URL parameter that specifies the range of risk score. This
-          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis:low,high).
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high),
+          if you want to include all risk levels in result, you can use '\*' (ie.
+          Chainalysis V2:*)
         in: query
         items:
           type: string
@@ -1948,8 +1958,9 @@ paths:
         in: query
         items:
           enum:
-          - Elliptic
-          - Chainalysis
+          - SYGNA_BRIDGE
+          - SYGNA_EMAIL_PROTOCOL
+          - TRISA
           type: string
         name: protocol
         type: array
@@ -2873,7 +2884,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis,Merkle Science,TRISA for provider now
+        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
       - description: post /vendors/test params
