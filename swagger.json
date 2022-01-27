@@ -228,7 +228,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
+                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high)., if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "max_risk_score",
                         "in": "query"
                     },
@@ -238,7 +238,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
+                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high)., if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "avg_risk_score",
                         "in": "query"
                     },
@@ -1255,7 +1255,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
+                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high), if you want to include all risk levels in result, you can use '\\*' (ie. Chainalysis V2:*)",
                         "name": "risk_score",
                         "in": "query"
                     },
