@@ -1047,7 +1047,7 @@
                     }
                 ],
                 "tags": [
-                    "ownerhips"
+                    "ownerships"
                 ],
                 "summary": "the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation",
                 "parameters": [

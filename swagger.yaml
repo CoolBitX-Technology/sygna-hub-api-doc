@@ -1997,7 +1997,7 @@ paths:
         the API would be used when you get the ownership identifier from the
         link that you received and want to reply to the validation
       tags:
-        - ownerhips
+        - ownerships
   /ownerships/verify-token/{token}:
     get:
       parameters:
