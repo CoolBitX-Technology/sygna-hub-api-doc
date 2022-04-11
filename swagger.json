@@ -11,7 +11,7 @@
             "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
-        "version": "1.0.0"
+        "version": "1.0.7"
     },
     "basePath": "/v1",
     "paths": {
@@ -228,7 +228,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high), if you want to include all risk levels in result, you can use '\\*\\' (ie. Chainalysis V2:*)",
+                        "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "max_risk_score",
                         "in": "query"
                     },
@@ -238,7 +238,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high), if you want to include all risk levels in result, you can use '\\*\\' (ie. Chainalysis V2:*)",
+                        "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "avg_risk_score",
                         "in": "query"
                     },
@@ -673,6 +673,550 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you want to see a list of all validations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.RespWithPaging"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Ownership"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you want to validate an address whether belong to a user who owns private wallet",
+                "parameters": [
+                    {
+                        "description": "post /ownerships params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostOwnershipParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/cancel": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "you couldn't validate some address that it is processing or accepted until you cancel it",
+                "parameters": [
+                    {
+                        "description": "patch /ownerships/cancel params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/confirm": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you received a reply from the receiver and you want to accept or reject the reply",
+                "parameters": [
+                    {
+                        "description": "patch /ownerships/confirm params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchOwnershipConfirmParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/resend": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when a receiver lets you send a email again",
+                "parameters": [
+                    {
+                        "description": "patch /ownerships/resend params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/unblock": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when the validation that including risky address wouldn't be sent until you unblock it",
+                "parameters": [
+                    {
+                        "description": "patch /ownerships/unblock params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/validate": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation",
+                "parameters": [
+                    {
+                        "description": "patch /ownerships/validate params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchOwnershipValidationParam"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/verify-token/{token}": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you received a link that asks you to validate the address whether belong to you",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT token",
+                        "name": "token",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/ownerships/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "ownerships"
+                ],
+                "summary": "the API would be used when you want to see a validation detail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ownership identifier",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.RespWithPaging"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.Ownership"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/errors.SystemError"
                         }
@@ -1255,7 +1799,7 @@
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high), if you want to include all risk levels in result, you can use '\\*\\' (ie. Chainalysis V2:*)",
+                        "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "risk_score",
                         "in": "query"
                     },
@@ -1327,7 +1871,9 @@
                             "enum": [
                                 "SYGNA_BRIDGE",
                                 "SYGNA_EMAIL_PROTOCOL",
-                                "TRISA"
+                                "TRISA",
+                                "VERIFY_VASP",
+                                "NOTABENE"
                             ],
                             "type": "string"
                         },
@@ -2916,6 +3462,101 @@
                 }
             }
         },
+        "model.Object": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "model.Ownership": {
+            "type": "object",
+            "properties": {
+                "assets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OwnershipAsset"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "error": {
+                    "$ref": "#/definitions/model.Object"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "owner_email": {
+                    "type": "string"
+                },
+                "owner_info": {
+                    "type": "object"
+                },
+                "sender_email": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "status_text": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.OwnershipAsset": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "currency_symbol": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_screened": {
+                    "type": "string"
+                },
+                "reject_code": {
+                    "type": "string"
+                },
+                "reject_message": {
+                    "type": "string"
+                },
+                "risk_score": {
+                    "type": "string"
+                },
+                "risk_score_provider": {
+                    "type": "string"
+                },
+                "txid": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "validation_status": {
+                    "type": "integer"
+                },
+                "validation_status_text": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Platform": {
             "type": "object",
             "properties": {
@@ -3043,7 +3684,9 @@
                         "null",
                         "SYGNA_BRIDGE",
                         "SYGNA_EMAIL_PROTOCOL",
-                        "TRISA"
+                        "TRISA",
+                        "VERIFY_VASP",
+                        "NOTABENE"
                     ],
                     "x-nullable": true
                 },
@@ -3455,6 +4098,9 @@
                 "transaction_asset": {
                     "$ref": "#/definitions/schema.TransactionAsset"
                 },
+                "transfer_id": {
+                    "type": "string"
+                },
                 "tx_id": {
                     "type": "string"
                 },
@@ -3597,6 +4243,128 @@
                 },
                 "value": {
                     "type": "string"
+                }
+            }
+        },
+        "schema.PatchOwnershipAssetValidationAcceptParam": {
+            "type": "object",
+            "required": [
+                "id",
+                "txid"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Target asset identifier which you want to accept",
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "txid": {
+                    "description": "Transaction identifier on blockchain",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PatchOwnershipAssetValidationConfirmParam": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Target asset identifier which you want to accept",
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
+        },
+        "schema.PatchOwnershipAssetValidationRejectParam": {
+            "type": "object",
+            "required": [
+                "id",
+                "reject_code",
+                "reject_message"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Target asset identifier which you want to accept",
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "reject_code": {
+                    "description": "Reply with [BVRC](ref:beneficiary-vasp-rejected-code).",
+                    "type": "string",
+                    "enum": [
+                        "BVRC001",
+                        "BVRC002",
+                        "BVRC003",
+                        "BVRC004",
+                        "BVRC005",
+                        "BVRC006",
+                        "BVRC007",
+                        "BVRC999"
+                    ]
+                },
+                "reject_message": {
+                    "description": "Reply detail why you reject.",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PatchOwnershipConfirmParam": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "accept": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationConfirmParam"
+                    }
+                },
+                "id": {
+                    "description": "Target ownership identifier",
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "reject": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+                    }
+                }
+            }
+        },
+        "schema.PatchOwnershipIDParam": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "Target ownership identifier",
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
+        },
+        "schema.PatchOwnershipValidationParam": {
+            "type": "object",
+            "properties": {
+                "accept": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationAcceptParam"
+                    }
+                },
+                "owner_info": {
+                    "type": "object"
+                },
+                "reject": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+                    }
                 }
             }
         },
@@ -3814,6 +4582,48 @@
                 }
             }
         },
+        "schema.PostOwnershipAssetParam": {
+            "type": "object",
+            "required": [
+                "address",
+                "currency_id",
+                "value"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "currency_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PostOwnershipParam": {
+            "type": "object",
+            "required": [
+                "assets",
+                "owner_email"
+            ],
+            "properties": {
+                "assets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PostOwnershipAssetParam"
+                    }
+                },
+                "owner_email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "sender_email": {
+                    "type": "string",
+                    "format": "email"
+                }
+            }
+        },
         "schema.PostServicesParam": {
             "type": "object",
             "required": [
@@ -3988,21 +4798,22 @@
                     "additionalProperties": true
                 },
                 "is_vasp": {
-                    "description": "the address if is belong to a VASP",
+                    "description": "is_vasp indicates whether addres belongs VASP",
                     "type": "boolean"
                 },
                 "success": {
-                    "description": "there is only error attribute if success is false;otherwise, there are another attributes",
                     "type": "boolean"
                 },
                 "type": {
-                    "description": "the address is belong to which type",
+                    "description": "which type address belongs",
                     "type": "string",
                     "enum": [
                         "SYGNA_BRIDGE",
                         "SYGNA_EMAIL_PROTOCOL",
                         "UNKNOWN",
-                        "FAILED"
+                        "FAILED",
+                        "OTHER_VASP",
+                        "PRIVATE_WALLET"
                     ]
                 }
             }
