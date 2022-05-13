@@ -32,6 +32,17 @@
 * [file](swagger.yaml)
 * [website](https://coolbitx-technology.github.io/sygna-hub-api-doc/)
 
+### Shyft relay node setup
+If you wish to enable travel rule protocol `Veriscope on Shyft`, follow instructions below to setup your relay node.
+1. Head to [chain spec](https://github.com/ShyftNetwork/veriscope/tree/main/chains) in Veriscope github repository, or you can clone entire repository.
+2. Choose your target chain name and enter that folder
+    * for example, if you're using beta builds of the Sygna Hub, you should select `veriscope_testnet`
+    * if you're using production builds (without beta in tag), you should select `fed_mainnet`
+3. Download `shyftchainspec.json` and `static-nodes.json` to this folder
+4. You can now try to start shyft relay node via docker compose
+    * Please be notified that syncing blockchain takes time, for example, syncing veriscope_testnet takes about 15 mins, and syncing fed_mainnet can take up to 2 hours
+    * Please make sure your database mount point (`/opt/nm/db`) has at least 4GB free space
+
 ### Webhook events
 If you registered webhook_url in `config.yml`, you would receive payload which schema as below:
 ```
