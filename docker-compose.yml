@@ -66,3 +66,14 @@ services:
       # replace your path to save log
       - ./log:/var/log
       - "./config.yml:/app/config.yml:ro"
+
+  # (Optional) Add this service if you want to use Veriscope on Shyft
+  # Please read README to lean how to setup shyft relay node
+  shyft-relay:
+    image: nethermind/nethermind
+    command: -c /opt/nm/shyft-relay.cfg
+    volumes:
+      - ./shyft-relay.cfg:/opt/nm/shyft-relay.cfg
+      - ./shyftchainspec.json:/opt/nm/shyftchainspec.json
+      - ./static-nodes.json:/opt/nm/static-nodes.json
+      - ./shyft-db:/opt/nm/db
