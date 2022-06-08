@@ -37,7 +37,8 @@ services:
       - BACKEND_API_URL=https://<your domain>/v1
       # (Optional) required only if you want to enable Google login
       # its value should match google_login/id entry in config.yml file used by backend
-      - GOOGLE_SSO_CLIENT_ID=<ID>
+      # please add it with your valid GOOGLE_SSO_CLIENT_ID. eg. GOOGLE_SSO_CLIENT_ID=<ID>
+      
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
     # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
@@ -66,3 +67,14 @@ services:
       # replace your path to save log
       - ./log:/var/log
       - "./config.yml:/app/config.yml:ro"
+
+  # (Optional) Add this service if you want to use Veriscope on Shyft
+  # Please read README to lean how to setup shyft relay node
+  shyft-relay:
+    image: nethermind/nethermind
+    command: -c /opt/nm/shyft-relay.cfg
+    volumes:
+      - ./shyft-relay.cfg:/opt/nm/shyft-relay.cfg
+      - ./shyftchainspec.json:/opt/nm/shyftchainspec.json
+      - ./static-nodes.json:/opt/nm/static-nodes.json
+      - ./shyft-db:/opt/nm/db
