@@ -12,8 +12,6 @@ definitions:
         type: string
       stack:
         type: object
-      type:
-        type: string
     type: object
   model.Addr:
     properties:
@@ -142,7 +140,7 @@ definitions:
       token_address:
         type: string
     type: object
-  model.PostEmailProtocolDepositParam:
+  model.PostEmailProtocolDepositInput:
     properties:
       beneficiary:
         properties:
@@ -174,7 +172,7 @@ definitions:
       - originator
       - value
     type: object
-  model.PostTransactionParam:
+  model.PostTransactionInput:
     properties:
       beneficiary:
         properties:
@@ -199,10 +197,14 @@ definitions:
       customer_id:
         description: Choose target identifier from GET /customers
         type: string
+      expire_date:
+        type: integer
+      need_validate_address:
+        type: boolean
       originator:
         description:
-          Choose asset identifiers from GET /assets/:customerID or input
-          addresses belong to above customer identifier
+          Choose asset identifiers from GET /customers/:id or input addresses
+          belong to above customer identifier
         properties:
           addrs:
             items:
@@ -216,20 +218,19 @@ definitions:
       protocol:
         enum:
           - "null"
-          - SYGNA_BRIDGE
-          - SYGNA_EMAIL_PROTOCOL
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
           - TRISA
-          - VERIFY_VASP
-          - NOTABENE
         type: string
         x-nullable: true
       protocol_extra_info:
         type: object
+      txid:
+        type: string
       value:
         description: The value of the currency requested to transfer.
         type: string
     required:
-      - beneficiary
       - currency_id
       - customer_id
       - originator
@@ -367,7 +368,7 @@ definitions:
       value_usd:
         type: string
     type: object
-  schema.ChangePasswordParam:
+  schema.ChangePasswordInput:
     properties:
       new_password:
         description: |-
@@ -390,7 +391,7 @@ definitions:
       place_of_birth:
         type: string
     type: object
-  schema.DeleteUsersParam:
+  schema.DeleteUsersInput:
     properties:
       id:
         description: specific user identifier
@@ -398,7 +399,7 @@ definitions:
     required:
       - id
     type: object
-  schema.GetCustomerResp:
+  schema.GetCustomerOutput:
     properties:
       address:
         $ref: "#/definitions/schema.Address"
@@ -434,12 +435,14 @@ definitions:
         type: string
       national:
         $ref: "#/definitions/schema.NationalIdentification"
+      protocol_extra_info:
+        type: object
       risk_score_provider:
         type: string
       updated_at:
         type: string
     type: object
-  schema.GetCustomersResp:
+  schema.GetCustomersOutput:
     properties:
       avg_risk_score:
         type: string
@@ -464,14 +467,14 @@ definitions:
       updated_at:
         type: string
     type: object
-  schema.GetTransactionResp:
+  schema.GetTransactionOutput:
     properties:
       created_at:
         type: string
       currency_id:
         type: string
       customer:
-        $ref: "#/definitions/schema.GetCustomerResp"
+        $ref: "#/definitions/schema.GetCustomerOutput"
       direction:
         type: integer
       high_risk:
@@ -485,14 +488,14 @@ definitions:
       max_risk_score:
         type: string
       protocol:
-        description: The default is SYGNA_BRIDGE
+        description: The default is Sygna_Bridge
         type: string
       risk_score_provider:
         type: string
       sanction_report_link:
         description:
           sanction_report_link would be valuable if sanction screening
-          service is enabled, it provids a report to download
+          service is enabled, it provides a report to download
         type: string
       sanction_score:
         description:
@@ -526,7 +529,7 @@ definitions:
       - updated_at
       - value
     type: object
-  schema.GetTransactionsResp:
+  schema.GetTransactionsOutput:
     properties:
       address:
         type: string
@@ -599,7 +602,7 @@ definitions:
       - offset
       - total
     type: object
-  schema.PatchAssetParam:
+  schema.PatchAssetInput:
     properties:
       address:
         type: string
@@ -614,7 +617,7 @@ definitions:
     required:
       - id
     type: object
-  schema.PatchOwnershipAssetValidationAcceptParam:
+  schema.PatchOwnershipAssetValidationAcceptInput:
     properties:
       id:
         description: Target asset identifier which you want to accept
@@ -627,7 +630,7 @@ definitions:
       - id
       - txid
     type: object
-  schema.PatchOwnershipAssetValidationConfirmParam:
+  schema.PatchOwnershipAssetValidationConfirmInput:
     properties:
       id:
         description: Target asset identifier which you want to accept
@@ -636,7 +639,7 @@ definitions:
     required:
       - id
     type: object
-  schema.PatchOwnershipAssetValidationRejectParam:
+  schema.PatchOwnershipAssetValidationRejectInput:
     properties:
       id:
         description: Target asset identifier which you want to accept
@@ -662,11 +665,11 @@ definitions:
       - reject_code
       - reject_message
     type: object
-  schema.PatchOwnershipConfirmParam:
+  schema.PatchOwnershipConfirmInput:
     properties:
       accept:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationConfirmParam"
+          $ref: "#/definitions/schema.PatchOwnershipAssetValidationConfirmInput"
         type: array
       id:
         description: Target ownership identifier
@@ -674,12 +677,12 @@ definitions:
         type: string
       reject:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
         type: array
     required:
       - id
     type: object
-  schema.PatchOwnershipIDParam:
+  schema.PatchOwnershipIdInput:
     properties:
       id:
         description: Target ownership identifier
@@ -688,27 +691,21 @@ definitions:
     required:
       - id
     type: object
-  schema.PatchOwnershipValidationParam:
+  schema.PatchOwnershipValidationInput:
     properties:
       accept:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationAcceptParam"
+          $ref: "#/definitions/schema.PatchOwnershipAssetValidationAcceptInput"
         type: array
       owner_info:
         type: object
       reject:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
         type: array
     type: object
-  schema.PatchPermissionParam:
+  schema.PatchPermissionInput:
     properties:
-      expire_date:
-        description:
-          ISO8601 date-time string.To set an expiry date of your transfer
-          request. Bridge will stop relaying transfer requests once the transfer expires.
-        format: date-time
-        type: string
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -742,7 +739,7 @@ definitions:
       - id
       - permission_status
     type: object
-  schema.PatchTxIdParam:
+  schema.PatchTxIdInput:
     properties:
       id:
         description: Target transaction identifier which status is Pending On Originator
@@ -755,7 +752,7 @@ definitions:
       - id
       - txid
     type: object
-  schema.PatchUsersParam:
+  schema.PatchUsersInput:
     properties:
       id:
         description: specific user identifier
@@ -766,7 +763,7 @@ definitions:
       - id
       - is_active
     type: object
-  schema.PostAssetParam:
+  schema.PostAssetInput:
     properties:
       address:
         type: string
@@ -780,13 +777,13 @@ definitions:
       - address
       - currency_id
     type: object
-  schema.PostCustomersParam:
+  schema.PostCustomersInput:
     properties:
       address:
         $ref: "#/definitions/schema.Address"
       assets:
         items:
-          $ref: "#/definitions/schema.PostAssetParam"
+          $ref: "#/definitions/schema.PostAssetInput"
         type: array
       birth:
         $ref: "#/definitions/schema.DateAndPlaceOfBirth"
@@ -813,17 +810,11 @@ definitions:
       - customer_type
       - name
     type: object
-  schema.PostEmailProtocolPermissionParam:
+  schema.PostEmailProtocolPermissionInput:
     properties:
       customer:
-        $ref: "#/definitions/schema.PostCustomersParam"
-        description: cutomer is required if permission_status is ACCEPTED
-      expire_date:
-        description:
-          ISO8601 date-time string.To set an expiry date of your transfer
-          request. Bridge will stop relaying transfer requests once the transfer expires.
-        format: date-time
-        type: string
+        $ref: "#/definitions/schema.PostCustomersInput"
+        description: customer is required if permission_status is ACCEPTED
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -857,7 +848,7 @@ definitions:
       - id
       - permission_status
     type: object
-  schema.PostOauthParam:
+  schema.PostOauthInput:
     properties:
       account:
         type: string
@@ -872,7 +863,7 @@ definitions:
       - account
       - credential
     type: object
-  schema.PostOwnershipAssetParam:
+  schema.PostOwnershipAssetInput:
     properties:
       address:
         type: string
@@ -885,11 +876,11 @@ definitions:
       - currency_id
       - value
     type: object
-  schema.PostOwnershipParam:
+  schema.PostOwnershipInput:
     properties:
       assets:
         items:
-          $ref: "#/definitions/schema.PostOwnershipAssetParam"
+          $ref: "#/definitions/schema.PostOwnershipAssetInput"
         type: array
       owner_email:
         format: email
@@ -901,18 +892,19 @@ definitions:
       - assets
       - owner_email
     type: object
-  schema.PostServicesParam:
+  schema.PostServicesInput:
     properties:
       credential:
         type: object
       provider:
         enum:
           - Elliptic
-          - Chainalysis
+          - Chainalysis V1
+          - Chainalysis V2
           - ComplyAdvantage
           - Merkle Science
           - TRISA
-          - Sygna Bridge
+          - Sygna_Bridge
         type: string
       type:
         enum:
@@ -925,26 +917,7 @@ definitions:
       - provider
       - type
     type: object
-  schema.PostUsersLinkParam:
-    properties:
-      account:
-        description: your account of third party service
-        type: string
-      credential:
-        description:
-          your credential of third party service and it would be used to
-          validate if your account is valid
-        type: string
-      login_type:
-        description: |-
-          third party service name
-          only google is supported now
-        type: string
-    required:
-      - account
-      - login_type
-    type: object
-  schema.PostUsersParam:
+  schema.PostUsersInput:
     properties:
       account:
         description: account should be valid email address
@@ -972,7 +945,26 @@ definitions:
     required:
       - account
     type: object
-  schema.PostVendorsTestParam:
+  schema.PostUsersLinkInput:
+    properties:
+      account:
+        description: your account of third party service
+        type: string
+      credential:
+        description:
+          your credential of third party service and it would be used to
+          validate if your account is valid
+        type: string
+      login_type:
+        description: |-
+          third party service name
+          only google is supported now
+        type: string
+    required:
+      - account
+      - login_type
+    type: object
+  schema.PostVendorsTestInput:
     properties:
       credential:
         description: |-
@@ -982,12 +974,12 @@ definitions:
           * provider:Chainalysis V2,type:Blockchain Analytics - api_key is required
           * provider:Merkle Science,type:Blockchain Analytics - x-api-key is required
           * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
-          * provider:Sygna Bridge,type:Travel Rule - private_key is required
+          * provider:Sygna_Bridge,type:Travel Rule - private_key is required
           * provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required
         type: object
       provider:
         enum:
-          - Sygna Bridge
+          - Sygna_Bridge
           - Elliptic
           - Chainalysis
           - ComplyAdvantage
@@ -1005,7 +997,7 @@ definitions:
       - provider
       - type
     type: object
-  schema.PostVendorsTestResp:
+  schema.PostVendorsTestOutput:
     properties:
       error_message:
         type: string
@@ -1024,7 +1016,7 @@ definitions:
       - status_code
       - type
     type: object
-  schema.PostWalletAddressFilterParam:
+  schema.PostWalletAddressFilterInput:
     properties:
       addrs:
         description: addresses which are searching information by Sygna Bridge
@@ -1038,7 +1030,7 @@ definitions:
       - addrs
       - currency_id
     type: object
-  schema.PostWalletAddressFilterResp:
+  schema.PostWalletAddressFilterOutput:
     properties:
       address:
         type: string
@@ -1047,31 +1039,29 @@ definitions:
       error:
         $ref: "#/definitions/errors.SystemError"
       extra_data:
-        additionalProperties: true
-        type: object
+        $ref: "#/definitions/types.H"
       is_vasp:
-        description: is_vasp indicates whether addres belongs VASP
+        description: is_vasp indicates whether address belongs VASP
         type: boolean
       success:
         type: boolean
       type:
         description: which type address belongs
         enum:
-          - SYGNA_BRIDGE
-          - SYGNA_EMAIL_PROTOCOL
+          - SYGNA_VASP
           - UNKNOWN
           - FAILED
           - OTHER_VASP
           - PRIVATE_WALLET
         type: string
     type: object
-  schema.PutCustomersParam:
+  schema.PutCustomersInput:
     properties:
       address:
         $ref: "#/definitions/schema.Address"
       assets:
         items:
-          $ref: "#/definitions/schema.PatchAssetParam"
+          $ref: "#/definitions/schema.PatchAssetInput"
         type: array
       birth:
         $ref: "#/definitions/schema.DateAndPlaceOfBirth"
@@ -1091,17 +1081,21 @@ definitions:
       id:
         format: uuid
         type: string
+      is_active:
+        type: boolean
       name:
         type: string
       national:
         $ref: "#/definitions/schema.NationalIdentification"
     required:
+      - assets
       - country
       - customer_type
       - id
+      - is_active
       - name
     type: object
-  schema.PutServicesParam:
+  schema.PutServicesInput:
     properties:
       credential:
         type: object
@@ -1110,11 +1104,12 @@ definitions:
       provider:
         enum:
           - Elliptic
-          - Chainalysis
+          - Chainalysis V1
+          - Chainalysis V2
           - ComplyAdvantage
           - Merkle Science
           - TRISA
-          - Sygna Bridge
+          - Sygna_Bridge
         type: string
       settings:
         type: object
@@ -1224,6 +1219,9 @@ definitions:
       secondary_identifier:
         type: string
     type: object
+  types.H:
+    additionalProperties: true
+    type: object
 info:
   contact:
     email: services@sygna.io
@@ -1231,7 +1229,7 @@ info:
     url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.8
+  version: 1.0.10
 paths:
   /currencies:
     get:
@@ -1462,7 +1460,7 @@ paths:
               - properties:
                   data:
                     items:
-                      $ref: "#/definitions/schema.GetCustomersResp"
+                      $ref: "#/definitions/schema.GetCustomersOutput"
                     type: array
                 type: object
         "400":
@@ -1494,7 +1492,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostCustomersParam"
+              $ref: "#/definitions/schema.PostCustomersInput"
             type: array
       responses:
         "200":
@@ -1530,7 +1528,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PutCustomersParam"
+              $ref: "#/definitions/schema.PutCustomersInput"
             type: array
       responses:
         "200":
@@ -1623,7 +1621,7 @@ paths:
               - $ref: "#/definitions/schema.Resp"
               - properties:
                   data:
-                    $ref: "#/definitions/schema.GetCustomersResp"
+                    $ref: "#/definitions/schema.GetCustomerOutput"
                 type: object
         "400":
           description: Bad Request
@@ -1677,7 +1675,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/schema.PostOauthParam"
+            $ref: "#/definitions/schema.PostOauthInput"
       responses:
         "200":
           description: OK
@@ -1741,7 +1739,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostOwnershipParam"
+              $ref: "#/definitions/schema.PostOwnershipInput"
             type: array
       responses:
         "200":
@@ -1819,7 +1817,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchOwnershipIDParam"
+              $ref: "#/definitions/schema.PatchOwnershipIdInput"
             type: array
       responses:
         "200":
@@ -1858,7 +1856,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchOwnershipConfirmParam"
+              $ref: "#/definitions/schema.PatchOwnershipConfirmInput"
             type: array
       responses:
         "200":
@@ -1897,7 +1895,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchOwnershipIDParam"
+              $ref: "#/definitions/schema.PatchOwnershipIdInput"
             type: array
       responses:
         "200":
@@ -1934,7 +1932,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchOwnershipIDParam"
+              $ref: "#/definitions/schema.PatchOwnershipIdInput"
             type: array
       responses:
         "200":
@@ -1973,7 +1971,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchOwnershipValidationParam"
+              $ref: "#/definitions/schema.PatchOwnershipValidationInput"
             type: array
       responses:
         "200":
@@ -2046,7 +2044,7 @@ paths:
         - ownerships
   /services:
     get:
-      description: only allow admin to use this method
+      description: only admin could get encrypted credentials
       parameters:
         - collectionFormat: multi
           description: filter services by service identifier
@@ -2060,7 +2058,7 @@ paths:
           in: query
           items:
             enum:
-              - Sygna Bridge
+              - Sygna_Bridge
               - Elliptic
               - Chainalysis V1
               - Chainalysis V2
@@ -2205,7 +2203,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostServicesParam"
+              $ref: "#/definitions/schema.PostServicesInput"
             type: array
       responses:
         "200":
@@ -2244,7 +2242,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PutServicesParam"
+              $ref: "#/definitions/schema.PutServicesInput"
             type: array
       responses:
         "200":
@@ -2288,7 +2286,7 @@ paths:
           in: query
           items:
             enum:
-              - Sygna Bridge
+              - Sygna_Bridge
               - Elliptic
               - Chainalysis V1
               - Chainalysis V2
@@ -2522,11 +2520,9 @@ paths:
           in: query
           items:
             enum:
-              - SYGNA_BRIDGE
-              - SYGNA_EMAIL_PROTOCOL
+              - Sygna_Bridge
+              - Sygna_EmailProtocol
               - TRISA
-              - VERIFY_VASP
-              - NOTABENE
             type: string
           name: protocol
           type: array
@@ -2579,7 +2575,7 @@ paths:
               - properties:
                   data:
                     items:
-                      $ref: "#/definitions/schema.GetTransactionsResp"
+                      $ref: "#/definitions/schema.GetTransactionsOutput"
                     type: array
                 type: object
         "400":
@@ -2611,7 +2607,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/model.PostTransactionParam"
+              $ref: "#/definitions/model.PostTransactionInput"
             type: array
       responses:
         "200":
@@ -2655,7 +2651,7 @@ paths:
               - $ref: "#/definitions/schema.Resp"
               - properties:
                   data:
-                    $ref: "#/definitions/schema.GetTransactionResp"
+                    $ref: "#/definitions/schema.GetTransactionOutput"
                 type: object
         "400":
           description: Bad Request
@@ -2688,7 +2684,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/model.PostEmailProtocolDepositParam"
+              $ref: "#/definitions/model.PostEmailProtocolDepositInput"
             type: array
       responses:
         "200":
@@ -2726,7 +2722,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchPermissionParam"
+              $ref: "#/definitions/schema.PatchPermissionInput"
             type: array
       responses:
         "200":
@@ -2768,7 +2764,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostEmailProtocolPermissionParam"
+              $ref: "#/definitions/schema.PostEmailProtocolPermissionInput"
             type: array
       responses:
         "200":
@@ -2794,7 +2790,7 @@ paths:
       security:
         - CookieAuth: []
       summary:
-        send own customer information to beneficairy or reject this request
+        send own customer information to beneficiary or reject this request
         when received email from beneficiary
       tags:
         - transactions/email-protocol
@@ -2808,7 +2804,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchTxIdParam"
+              $ref: "#/definitions/schema.PatchTxIdInput"
             type: array
       responses:
         "200":
@@ -2833,7 +2829,7 @@ paths:
             $ref: "#/definitions/errors.SystemError"
       security:
         - CookieAuth: []
-      summary: send transaction hash when received accpet from beneficairy
+      summary: send transaction hash when received accept from beneficiary
       tags:
         - transactions/email-protocol
   /transactions/email-protocol/permission:
@@ -2846,7 +2842,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostEmailProtocolPermissionParam"
+              $ref: "#/definitions/schema.PostEmailProtocolPermissionInput"
             type: array
       responses:
         "200":
@@ -2921,7 +2917,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchPermissionParam"
+              $ref: "#/definitions/schema.PatchPermissionInput"
             type: array
       responses:
         "200":
@@ -2994,7 +2990,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchTxIdParam"
+              $ref: "#/definitions/schema.PatchTxIdInput"
             type: array
       responses:
         "200":
@@ -3031,7 +3027,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostWalletAddressFilterParam"
+              $ref: "#/definitions/schema.PostWalletAddressFilterInput"
             type: array
       responses:
         "200":
@@ -3043,7 +3039,7 @@ paths:
                   data:
                     items:
                       items:
-                        $ref: "#/definitions/schema.PostWalletAddressFilterResp"
+                        $ref: "#/definitions/schema.PostWalletAddressFilterOutput"
                       type: array
                     type: array
                 type: object
@@ -3082,7 +3078,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.DeleteUsersParam"
+              $ref: "#/definitions/schema.DeleteUsersInput"
             type: array
       responses:
         "200":
@@ -3240,7 +3236,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PatchUsersParam"
+              $ref: "#/definitions/schema.PatchUsersInput"
             type: array
       responses:
         "200":
@@ -3277,7 +3273,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostUsersParam"
+              $ref: "#/definitions/schema.PostUsersInput"
             type: array
       responses:
         "200":
@@ -3359,7 +3355,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/schema.ChangePasswordParam"
+            $ref: "#/definitions/schema.ChangePasswordInput"
       responses:
         "200":
           description: OK
@@ -3395,7 +3391,7 @@ paths:
           name: body
           required: true
           schema:
-            $ref: "#/definitions/schema.PostUsersLinkParam"
+            $ref: "#/definitions/schema.PostUsersLinkInput"
       responses:
         "200":
           description: OK
@@ -3463,7 +3459,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now
+        only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
         - description: post /vendors/test params
@@ -3472,7 +3468,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostVendorsTestParam"
+              $ref: "#/definitions/schema.PostVendorsTestInput"
             type: array
       responses:
         "200":
@@ -3483,7 +3479,7 @@ paths:
               - properties:
                   data:
                     items:
-                      $ref: "#/definitions/schema.PostVendorsTestResp"
+                      $ref: "#/definitions/schema.PostVendorsTestOutput"
                     type: array
                 type: object
         "400":
@@ -3504,7 +3500,7 @@ paths:
             $ref: "#/definitions/errors.SystemError"
       security:
         - CookieAuth: []
-      summary: test if thirdparty service is available
+      summary: test if third-party service is available
       tags:
         - vendors
 schemes:

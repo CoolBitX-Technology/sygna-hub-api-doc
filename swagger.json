@@ -11,7 +11,7 @@
             "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
-        "version": "1.0.8"
+        "version": "1.0.10"
     },
     "basePath": "/v1",
     "paths": {
@@ -319,7 +319,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/schema.GetCustomersResp"
+                                                "$ref": "#/definitions/schema.GetCustomersOutput"
                                             }
                                         }
                                     }
@@ -372,7 +372,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PutCustomersParam"
+                                "$ref": "#/definitions/schema.PutCustomersInput"
                             }
                         }
                     }
@@ -429,7 +429,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostCustomersParam"
+                                "$ref": "#/definitions/schema.PostCustomersInput"
                             }
                         }
                     }
@@ -570,7 +570,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/schema.GetCustomersResp"
+                                            "$ref": "#/definitions/schema.GetCustomerOutput"
                                         }
                                     }
                                 }
@@ -617,7 +617,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.PostOauthParam"
+                            "$ref": "#/definitions/schema.PostOauthInput"
                         }
                     }
                 ],
@@ -764,7 +764,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostOwnershipParam"
+                                "$ref": "#/definitions/schema.PostOwnershipInput"
                             }
                         }
                     }
@@ -823,7 +823,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                                "$ref": "#/definitions/schema.PatchOwnershipIdInput"
                             }
                         }
                     }
@@ -882,7 +882,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchOwnershipConfirmParam"
+                                "$ref": "#/definitions/schema.PatchOwnershipConfirmInput"
                             }
                         }
                     }
@@ -941,7 +941,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                                "$ref": "#/definitions/schema.PatchOwnershipIdInput"
                             }
                         }
                     }
@@ -1000,7 +1000,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchOwnershipIDParam"
+                                "$ref": "#/definitions/schema.PatchOwnershipIdInput"
                             }
                         }
                     }
@@ -1059,7 +1059,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchOwnershipValidationParam"
+                                "$ref": "#/definitions/schema.PatchOwnershipValidationInput"
                             }
                         }
                     }
@@ -1237,7 +1237,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only admin could get encrypted credentials",
                 "tags": [
                     "services"
                 ],
@@ -1257,7 +1257,7 @@
                         "type": "array",
                         "items": {
                             "enum": [
-                                "Sygna Bridge",
+                                "Sygna_Bridge",
                                 "Elliptic",
                                 "Chainalysis V1",
                                 "Chainalysis V2",
@@ -1445,7 +1445,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PutServicesParam"
+                                "$ref": "#/definitions/schema.PutServicesInput"
                             }
                         }
                     }
@@ -1503,7 +1503,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostServicesParam"
+                                "$ref": "#/definitions/schema.PostServicesInput"
                             }
                         }
                     }
@@ -1569,7 +1569,7 @@
                         "type": "array",
                         "items": {
                             "enum": [
-                                "Sygna Bridge",
+                                "Sygna_Bridge",
                                 "Elliptic",
                                 "Chainalysis V1",
                                 "Chainalysis V2",
@@ -1869,11 +1869,9 @@
                         "type": "array",
                         "items": {
                             "enum": [
-                                "SYGNA_BRIDGE",
-                                "SYGNA_EMAIL_PROTOCOL",
-                                "TRISA",
-                                "VERIFY_VASP",
-                                "NOTABENE"
+                                "Sygna_Bridge",
+                                "Sygna_EmailProtocol",
+                                "TRISA"
                             ],
                             "type": "string"
                         },
@@ -1939,7 +1937,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/schema.GetTransactionsResp"
+                                                "$ref": "#/definitions/schema.GetTransactionsOutput"
                                             }
                                         }
                                     }
@@ -1992,7 +1990,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.PostTransactionParam"
+                                "$ref": "#/definitions/model.PostTransactionInput"
                             }
                         }
                     }
@@ -2052,7 +2050,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.PostEmailProtocolDepositParam"
+                                "$ref": "#/definitions/model.PostEmailProtocolDepositInput"
                             }
                         }
                     }
@@ -2112,7 +2110,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchPermissionParam"
+                                "$ref": "#/definitions/schema.PatchPermissionInput"
                             }
                         }
                     }
@@ -2162,7 +2160,7 @@
                 "tags": [
                     "transactions/email-protocol"
                 ],
-                "summary": "send own customer information to beneficairy or reject this request when received email from beneficiary",
+                "summary": "send own customer information to beneficiary or reject this request when received email from beneficiary",
                 "parameters": [
                     {
                         "description": "patch /transactions/email-protocol/deposits/permission-request params",
@@ -2172,7 +2170,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionParam"
+                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionInput"
                             }
                         }
                     }
@@ -2222,7 +2220,7 @@
                 "tags": [
                     "transactions/email-protocol"
                 ],
-                "summary": "send transaction hash when received accpet from beneficairy",
+                "summary": "send transaction hash when received accept from beneficiary",
                 "parameters": [
                     {
                         "description": "patch /transactions/email-protocol/deposits/txid params",
@@ -2232,7 +2230,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchTxIdParam"
+                                "$ref": "#/definitions/schema.PatchTxIdInput"
                             }
                         }
                     }
@@ -2292,7 +2290,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionParam"
+                                "$ref": "#/definitions/schema.PostEmailProtocolPermissionInput"
                             }
                         }
                     }
@@ -2413,7 +2411,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchPermissionParam"
+                                "$ref": "#/definitions/schema.PatchPermissionInput"
                             }
                         }
                     }
@@ -2529,7 +2527,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchTxIdParam"
+                                "$ref": "#/definitions/schema.PatchTxIdInput"
                             }
                         }
                     }
@@ -2588,7 +2586,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostWalletAddressFilterParam"
+                                "$ref": "#/definitions/schema.PostWalletAddressFilterInput"
                             }
                         }
                     }
@@ -2609,7 +2607,7 @@
                                             "items": {
                                                 "type": "array",
                                                 "items": {
-                                                    "$ref": "#/definitions/schema.PostWalletAddressFilterResp"
+                                                    "$ref": "#/definitions/schema.PostWalletAddressFilterOutput"
                                                 }
                                             }
                                         }
@@ -2677,7 +2675,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/schema.GetTransactionResp"
+                                            "$ref": "#/definitions/schema.GetTransactionOutput"
                                         }
                                     }
                                 }
@@ -2893,7 +2891,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostUsersParam"
+                                "$ref": "#/definitions/schema.PostUsersInput"
                             }
                         }
                     }
@@ -2951,7 +2949,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.DeleteUsersParam"
+                                "$ref": "#/definitions/schema.DeleteUsersInput"
                             }
                         }
                     }
@@ -3009,7 +3007,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PatchUsersParam"
+                                "$ref": "#/definitions/schema.PatchUsersInput"
                             }
                         }
                     }
@@ -3067,7 +3065,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.ChangePasswordParam"
+                            "$ref": "#/definitions/schema.ChangePasswordInput"
                         }
                     }
                 ],
@@ -3124,7 +3122,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schema.PostUsersLinkParam"
+                            "$ref": "#/definitions/schema.PostUsersLinkInput"
                         }
                     }
                 ],
@@ -3291,11 +3289,11 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support Sygna Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
-                "summary": "test if thirdparty service is available",
+                "summary": "test if third-party service is available",
                 "parameters": [
                     {
                         "description": "post /vendors/test params",
@@ -3305,7 +3303,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostVendorsTestParam"
+                                "$ref": "#/definitions/schema.PostVendorsTestInput"
                             }
                         }
                     }
@@ -3324,7 +3322,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/schema.PostVendorsTestResp"
+                                                "$ref": "#/definitions/schema.PostVendorsTestOutput"
                                             }
                                         }
                                     }
@@ -3378,9 +3376,6 @@
                 },
                 "stack": {
                     "type": "object"
-                },
-                "type": {
-                    "type": "string"
                 }
             }
         },
@@ -3577,7 +3572,7 @@
                 }
             }
         },
-        "model.PostEmailProtocolDepositParam": {
+        "model.PostEmailProtocolDepositInput": {
             "type": "object",
             "required": [
                 "currency_id",
@@ -3625,10 +3620,9 @@
                 }
             }
         },
-        "model.PostTransactionParam": {
+        "model.PostTransactionInput": {
             "type": "object",
             "required": [
-                "beneficiary",
                 "currency_id",
                 "customer_id",
                 "originator",
@@ -3664,8 +3658,14 @@
                     "description": "Choose target identifier from GET /customers",
                     "type": "string"
                 },
+                "expire_date": {
+                    "type": "integer"
+                },
+                "need_validate_address": {
+                    "type": "boolean"
+                },
                 "originator": {
-                    "description": "Choose asset identifiers from GET /assets/:customerID or input addresses belong to above customer identifier",
+                    "description": "Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier",
                     "type": "object",
                     "properties": {
                         "addrs": {
@@ -3686,16 +3686,17 @@
                     "type": "string",
                     "enum": [
                         "null",
-                        "SYGNA_BRIDGE",
-                        "SYGNA_EMAIL_PROTOCOL",
-                        "TRISA",
-                        "VERIFY_VASP",
-                        "NOTABENE"
+                        "Sygna_Bridge",
+                        "Sygna_EmailProtocol",
+                        "TRISA"
                     ],
                     "x-nullable": true
                 },
                 "protocol_extra_info": {
                     "type": "object"
+                },
+                "txid": {
+                    "type": "string"
                 },
                 "value": {
                     "description": "The value of the currency requested to transfer.",
@@ -3903,7 +3904,7 @@
                 }
             }
         },
-        "schema.ChangePasswordParam": {
+        "schema.ChangePasswordInput": {
             "type": "object",
             "required": [
                 "new_password",
@@ -3930,7 +3931,7 @@
                 }
             }
         },
-        "schema.DeleteUsersParam": {
+        "schema.DeleteUsersInput": {
             "type": "object",
             "required": [
                 "id"
@@ -3942,7 +3943,7 @@
                 }
             }
         },
-        "schema.GetCustomerResp": {
+        "schema.GetCustomerOutput": {
             "type": "object",
             "properties": {
                 "address": {
@@ -3996,6 +3997,9 @@
                 "national": {
                     "$ref": "#/definitions/schema.NationalIdentification"
                 },
+                "protocol_extra_info": {
+                    "type": "object"
+                },
                 "risk_score_provider": {
                     "type": "string"
                 },
@@ -4004,7 +4008,7 @@
                 }
             }
         },
-        "schema.GetCustomersResp": {
+        "schema.GetCustomersOutput": {
             "type": "object",
             "properties": {
                 "avg_risk_score": {
@@ -4042,7 +4046,7 @@
                 }
             }
         },
-        "schema.GetTransactionResp": {
+        "schema.GetTransactionOutput": {
             "type": "object",
             "required": [
                 "created_at",
@@ -4063,7 +4067,7 @@
                     "type": "string"
                 },
                 "customer": {
-                    "$ref": "#/definitions/schema.GetCustomerResp"
+                    "$ref": "#/definitions/schema.GetCustomerOutput"
                 },
                 "direction": {
                     "type": "integer"
@@ -4079,14 +4083,14 @@
                     "type": "string"
                 },
                 "protocol": {
-                    "description": "The default is SYGNA_BRIDGE",
+                    "description": "The default is Sygna_Bridge",
                     "type": "string"
                 },
                 "risk_score_provider": {
                     "type": "string"
                 },
                 "sanction_report_link": {
-                    "description": "sanction_report_link would be valuable if sanction screening service is enabled, it provids a report to download",
+                    "description": "sanction_report_link would be valuable if sanction screening service is enabled, it provides a report to download",
                     "type": "string"
                 },
                 "sanction_score": {
@@ -4119,7 +4123,7 @@
                 }
             }
         },
-        "schema.GetTransactionsResp": {
+        "schema.GetTransactionsOutput": {
             "type": "object",
             "properties": {
                 "address": {
@@ -4228,7 +4232,7 @@
                 }
             }
         },
-        "schema.PatchAssetParam": {
+        "schema.PatchAssetInput": {
             "type": "object",
             "required": [
                 "id"
@@ -4250,7 +4254,7 @@
                 }
             }
         },
-        "schema.PatchOwnershipAssetValidationAcceptParam": {
+        "schema.PatchOwnershipAssetValidationAcceptInput": {
             "type": "object",
             "required": [
                 "id",
@@ -4268,7 +4272,7 @@
                 }
             }
         },
-        "schema.PatchOwnershipAssetValidationConfirmParam": {
+        "schema.PatchOwnershipAssetValidationConfirmInput": {
             "type": "object",
             "required": [
                 "id"
@@ -4281,7 +4285,7 @@
                 }
             }
         },
-        "schema.PatchOwnershipAssetValidationRejectParam": {
+        "schema.PatchOwnershipAssetValidationRejectInput": {
             "type": "object",
             "required": [
                 "id",
@@ -4314,7 +4318,7 @@
                 }
             }
         },
-        "schema.PatchOwnershipConfirmParam": {
+        "schema.PatchOwnershipConfirmInput": {
             "type": "object",
             "required": [
                 "id"
@@ -4323,7 +4327,7 @@
                 "accept": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationConfirmParam"
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationConfirmInput"
                     }
                 },
                 "id": {
@@ -4334,12 +4338,12 @@
                 "reject": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
                     }
                 }
             }
         },
-        "schema.PatchOwnershipIDParam": {
+        "schema.PatchOwnershipIdInput": {
             "type": "object",
             "required": [
                 "id"
@@ -4352,13 +4356,13 @@
                 }
             }
         },
-        "schema.PatchOwnershipValidationParam": {
+        "schema.PatchOwnershipValidationInput": {
             "type": "object",
             "properties": {
                 "accept": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationAcceptParam"
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationAcceptInput"
                     }
                 },
                 "owner_info": {
@@ -4367,23 +4371,18 @@
                 "reject": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectParam"
+                        "$ref": "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
                     }
                 }
             }
         },
-        "schema.PatchPermissionParam": {
+        "schema.PatchPermissionInput": {
             "type": "object",
             "required": [
                 "id",
                 "permission_status"
             ],
             "properties": {
-                "expire_date": {
-                    "description": "ISO8601 date-time string.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
-                    "type": "string",
-                    "format": "date-time"
-                },
                 "id": {
                     "description": "Target transaction identifier which status is Pending On Beneficiary",
                     "type": "string",
@@ -4417,7 +4416,7 @@
                 }
             }
         },
-        "schema.PatchTxIdParam": {
+        "schema.PatchTxIdInput": {
             "type": "object",
             "required": [
                 "id",
@@ -4435,7 +4434,7 @@
                 }
             }
         },
-        "schema.PatchUsersParam": {
+        "schema.PatchUsersInput": {
             "type": "object",
             "required": [
                 "id",
@@ -4451,7 +4450,7 @@
                 }
             }
         },
-        "schema.PostAssetParam": {
+        "schema.PostAssetInput": {
             "type": "object",
             "required": [
                 "address",
@@ -4472,7 +4471,7 @@
                 }
             }
         },
-        "schema.PostCustomersParam": {
+        "schema.PostCustomersInput": {
             "type": "object",
             "required": [
                 "assets",
@@ -4487,7 +4486,7 @@
                 "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PostAssetParam"
+                        "$ref": "#/definitions/schema.PostAssetInput"
                     }
                 },
                 "birth": {
@@ -4515,7 +4514,7 @@
                 }
             }
         },
-        "schema.PostEmailProtocolPermissionParam": {
+        "schema.PostEmailProtocolPermissionInput": {
             "type": "object",
             "required": [
                 "id",
@@ -4523,13 +4522,8 @@
             ],
             "properties": {
                 "customer": {
-                    "description": "cutomer is required if permission_status is ACCEPTED",
-                    "$ref": "#/definitions/schema.PostCustomersParam"
-                },
-                "expire_date": {
-                    "description": "ISO8601 date-time string.To set an expiry date of your transfer request. Bridge will stop relaying transfer requests once the transfer expires.",
-                    "type": "string",
-                    "format": "date-time"
+                    "description": "customer is required if permission_status is ACCEPTED",
+                    "$ref": "#/definitions/schema.PostCustomersInput"
                 },
                 "id": {
                     "description": "Target transaction identifier which status is Pending On Beneficiary",
@@ -4564,7 +4558,7 @@
                 }
             }
         },
-        "schema.PostOauthParam": {
+        "schema.PostOauthInput": {
             "type": "object",
             "required": [
                 "account",
@@ -4586,7 +4580,7 @@
                 }
             }
         },
-        "schema.PostOwnershipAssetParam": {
+        "schema.PostOwnershipAssetInput": {
             "type": "object",
             "required": [
                 "address",
@@ -4605,7 +4599,7 @@
                 }
             }
         },
-        "schema.PostOwnershipParam": {
+        "schema.PostOwnershipInput": {
             "type": "object",
             "required": [
                 "assets",
@@ -4615,7 +4609,7 @@
                 "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PostOwnershipAssetParam"
+                        "$ref": "#/definitions/schema.PostOwnershipAssetInput"
                     }
                 },
                 "owner_email": {
@@ -4628,7 +4622,7 @@
                 }
             }
         },
-        "schema.PostServicesParam": {
+        "schema.PostServicesInput": {
             "type": "object",
             "required": [
                 "credential",
@@ -4643,11 +4637,12 @@
                     "type": "string",
                     "enum": [
                         "Elliptic",
-                        "Chainalysis",
+                        "Chainalysis V1",
+                        "Chainalysis V2",
                         "ComplyAdvantage",
                         "Merkle Science",
                         "TRISA",
-                        "Sygna Bridge"
+                        "Sygna_Bridge"
                     ]
                 },
                 "type": {
@@ -4660,28 +4655,7 @@
                 }
             }
         },
-        "schema.PostUsersLinkParam": {
-            "type": "object",
-            "required": [
-                "account",
-                "login_type"
-            ],
-            "properties": {
-                "account": {
-                    "description": "your account of third party service",
-                    "type": "string"
-                },
-                "credential": {
-                    "description": "your credential of third party service and it would be used to validate if your account is valid",
-                    "type": "string"
-                },
-                "login_type": {
-                    "description": "third party service name\nonly google is supported now",
-                    "type": "string"
-                }
-            }
-        },
-        "schema.PostUsersParam": {
+        "schema.PostUsersInput": {
             "type": "object",
             "required": [
                 "account"
@@ -4705,7 +4679,28 @@
                 }
             }
         },
-        "schema.PostVendorsTestParam": {
+        "schema.PostUsersLinkInput": {
+            "type": "object",
+            "required": [
+                "account",
+                "login_type"
+            ],
+            "properties": {
+                "account": {
+                    "description": "your account of third party service",
+                    "type": "string"
+                },
+                "credential": {
+                    "description": "your credential of third party service and it would be used to validate if your account is valid",
+                    "type": "string"
+                },
+                "login_type": {
+                    "description": "third party service name\nonly google is supported now",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PostVendorsTestInput": {
             "type": "object",
             "required": [
                 "credential",
@@ -4714,13 +4709,13 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis V1,type:Blockchain Analytics - api_key is required\n* provider:Chainalysis V2,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
+                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis V1,type:Blockchain Analytics - api_key is required\n* provider:Chainalysis V2,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna_Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
                     "type": "object"
                 },
                 "provider": {
                     "type": "string",
                     "enum": [
-                        "Sygna Bridge",
+                        "Sygna_Bridge",
                         "Elliptic",
                         "Chainalysis",
                         "ComplyAdvantage",
@@ -4738,7 +4733,7 @@
                 }
             }
         },
-        "schema.PostVendorsTestResp": {
+        "schema.PostVendorsTestOutput": {
             "type": "object",
             "required": [
                 "provider",
@@ -4766,7 +4761,7 @@
                 }
             }
         },
-        "schema.PostWalletAddressFilterParam": {
+        "schema.PostWalletAddressFilterInput": {
             "type": "object",
             "required": [
                 "addrs",
@@ -4786,7 +4781,7 @@
                 }
             }
         },
-        "schema.PostWalletAddressFilterResp": {
+        "schema.PostWalletAddressFilterOutput": {
             "type": "object",
             "properties": {
                 "address": {
@@ -4799,11 +4794,10 @@
                     "$ref": "#/definitions/errors.SystemError"
                 },
                 "extra_data": {
-                    "type": "object",
-                    "additionalProperties": true
+                    "$ref": "#/definitions/types.H"
                 },
                 "is_vasp": {
-                    "description": "is_vasp indicates whether addres belongs VASP",
+                    "description": "is_vasp indicates whether address belongs VASP",
                     "type": "boolean"
                 },
                 "success": {
@@ -4813,8 +4807,7 @@
                     "description": "which type address belongs",
                     "type": "string",
                     "enum": [
-                        "SYGNA_BRIDGE",
-                        "SYGNA_EMAIL_PROTOCOL",
+                        "SYGNA_VASP",
                         "UNKNOWN",
                         "FAILED",
                         "OTHER_VASP",
@@ -4823,12 +4816,14 @@
                 }
             }
         },
-        "schema.PutCustomersParam": {
+        "schema.PutCustomersInput": {
             "type": "object",
             "required": [
+                "assets",
                 "country",
                 "customer_type",
                 "id",
+                "is_active",
                 "name"
             ],
             "properties": {
@@ -4838,7 +4833,7 @@
                 "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schema.PatchAssetParam"
+                        "$ref": "#/definitions/schema.PatchAssetInput"
                     }
                 },
                 "birth": {
@@ -4862,6 +4857,9 @@
                     "type": "string",
                     "format": "uuid"
                 },
+                "is_active": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -4870,7 +4868,7 @@
                 }
             }
         },
-        "schema.PutServicesParam": {
+        "schema.PutServicesInput": {
             "type": "object",
             "required": [
                 "credential",
@@ -4889,11 +4887,12 @@
                     "type": "string",
                     "enum": [
                         "Elliptic",
-                        "Chainalysis",
+                        "Chainalysis V1",
+                        "Chainalysis V2",
                         "ComplyAdvantage",
                         "Merkle Science",
                         "TRISA",
-                        "Sygna Bridge"
+                        "Sygna_Bridge"
                     ]
                 },
                 "settings": {
@@ -5049,6 +5048,10 @@
                     "type": "string"
                 }
             }
+        },
+        "types.H": {
+            "type": "object",
+            "additionalProperties": true
         }
     },
     "securityDefinitions": {
