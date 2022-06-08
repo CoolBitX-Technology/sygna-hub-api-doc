@@ -11,7 +11,7 @@
             "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
-        "version": "1.0.7"
+        "version": "1.0.8"
     },
     "basePath": "/v1",
     "paths": {
@@ -3378,6 +3378,9 @@
                 },
                 "stack": {
                     "type": "object"
+                },
+                "type": {
+                    "type": "string"
                 }
             }
         },
@@ -3625,6 +3628,7 @@
         "model.PostTransactionParam": {
             "type": "object",
             "required": [
+                "beneficiary",
                 "currency_id",
                 "customer_id",
                 "originator",
@@ -4650,7 +4654,8 @@
                     "type": "string",
                     "enum": [
                         "Blockchain Analytics",
-                        "Sanction Screening"
+                        "Sanction Screening",
+                        "Travel Rule"
                     ]
                 }
             }
@@ -4898,7 +4903,8 @@
                     "type": "string",
                     "enum": [
                         "Blockchain Analytics",
-                        "Sanction Screening"
+                        "Sanction Screening",
+                        "Travel Rule"
                     ]
                 }
             }

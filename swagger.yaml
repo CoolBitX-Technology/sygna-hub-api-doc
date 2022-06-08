@@ -12,6 +12,8 @@ definitions:
         type: string
       stack:
         type: object
+      type:
+        type: string
     type: object
   model.Addr:
     properties:
@@ -227,6 +229,7 @@ definitions:
         description: The value of the currency requested to transfer.
         type: string
     required:
+      - beneficiary
       - currency_id
       - customer_id
       - originator
@@ -915,6 +918,7 @@ definitions:
         enum:
           - Blockchain Analytics
           - Sanction Screening
+          - Travel Rule
         type: string
     required:
       - credential
@@ -1118,6 +1122,7 @@ definitions:
         enum:
           - Blockchain Analytics
           - Sanction Screening
+          - Travel Rule
         type: string
     required:
       - credential
@@ -1226,7 +1231,7 @@ info:
     url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.7
+  version: 1.0.8
 paths:
   /currencies:
     get:
