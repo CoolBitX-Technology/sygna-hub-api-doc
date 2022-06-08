@@ -1,7 +1,7 @@
 # Sygna Hub Document
 ### How to launch Hub service
 1. install docker engine and docker-compose
-* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker](https://docs.docker.com/engine/install/#server)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
 2. download [docker-compose](docker-compose.yml) to your desired location, and customized to fit your needs
