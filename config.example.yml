@@ -68,7 +68,7 @@ log_file:
 
 email_service:
   # hostname and port of your email service
-  host: smtp.<your domain>.com:587
+  host: <your smtp url>:<port>
   # email address and password of sender
   # please input the AWS IAM user name and password if you want to use AWS SES to send email
   account: noreply@<your domain>.com # or <IAM User Name>
