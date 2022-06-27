@@ -12,6 +12,8 @@ definitions:
         type: string
       stack:
         type: object
+      type:
+        type: string
     type: object
   model.Addr:
     properties:
@@ -231,6 +233,7 @@ definitions:
         description: The value of the currency requested to transfer.
         type: string
     required:
+      - beneficiary
       - currency_id
       - customer_id
       - originator
@@ -465,6 +468,13 @@ definitions:
       risk_score_provider:
         type: string
       updated_at:
+        type: string
+    type: object
+  schema.GetRootOutput:
+    properties:
+      release:
+        type: string
+      version:
         type: string
     type: object
   schema.GetTransactionOutput:
@@ -1229,8 +1239,39 @@ info:
     url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.10
+  version: 1.0.11
 paths:
+  /:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+              - $ref: "#/definitions/schema.Resp"
+              - properties:
+                  data:
+                    $ref: "#/definitions/schema.GetRootOutput"
+                type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+      summary: get current release, version the path could be used for health check
+      tags:
+        - self
   /currencies:
     get:
       operationId: GetCurrencies
@@ -1741,6 +1782,10 @@ paths:
             items:
               $ref: "#/definitions/schema.PostOwnershipInput"
             type: array
+        - description: the validation would be sent even if the addresses are risky
+          in: query
+          name: accept_high_risk
+          type: boolean
       responses:
         "200":
           description: OK
