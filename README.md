@@ -64,21 +64,21 @@ If you registered webhook_url in `config.yml`, you would receive payload which s
 * `time` : when the event was sent at and the format is ***YYYY-MM-DDTHH:MI:SS.SSSZ***
 
 #### all available events
-Event         | Description  
---------------|:-----:|
-RECEIVE_HIGH_RISK_TRANSACTION    | Please accept or reject this transaction from originator VASP by `PATCH /permission` |
-RECEIVE_APPROVED_TRANSACTION    | Your transaction was approved by beneficiary VASP, please transfer transaction hash to beneficiary VASP by `PATCH /txid` |
-RECEIVE_REJECTED_TRANSACTION  | Your transaction was rejected by beneficiary VASP, please refer reject message or contact with beneficiary VASP |
-RECEIVE_TRANSACTION_HASH    | You got transaction hash from originator VASP |
-HANDLE_COMING_ADDRESS_VALIDATION_ERROR    | It raised unexpected error when originator VASP validated if specific addresses were belong to you, please refer error message |
-HANDLE_COMING_PERMISSION_REQUEST_ERROR  | It raised unexpected error when your endpoint got permission_request from originator VASP, please refer error message |
-HANDLE_COMING_PERMISSION_ERROR    | It raised unexpected error when your endpoint got permission request from beneficiary VASP, please refer error message |
-HANDLE_COMING_TXID_ERROR    | It raised unexpected error when your endpoint got transaction hash from originator VASP, please refer error message |
-HANDLE_EMAIL_PROTOCOL_PERMISSION_ERROR  | It raised unexpected error when beneficiary VASP which got your permission_request by email protocol was sending permission to you, please refer error message |
-HANDLE_EMAIL_PROTOCOL_TXID_ERROR    | It raised unexpected error when you was sending transaction hash to beneficiary VASP which was transferred with you by email protocol, please refer error message |
-HANDLE_EMAIL_PROTOCOL_PERMISSION_REQUEST_ERROR    | It raised unexpected error when you was sending permission request to beneficiary VASP which was transferred with you by email protocol, please refer error message |
-SEND_PERMISSION_REQUEST_ERROR    | It raised unexpected error when you was sending permission_request to beneficiary VASP, please refer error message |
-SEND_PERMISSION_ERROR  | It raised unexpected error when you was sending permission to originator VASP, please refer error message |
-SEND_TRANSACTION_ID_ERROR  | It raised unexpected error when you was sending transaction hash to beneficiary VASP, please refer error message |
-SEND_EMAIL_PROTOCOL_DEPOSIT_ERROR  | It raised unexpected error when you was asking originator VASP to fill customer information, please refer error message |
-SEND_EMAIL_PROTOCOL_PERMISSION_ERROR  | It raised unexpected error when you was send permission to originator VASP, please refer error message |
+Event         | Description  |  Recipient (Who will receive this webhook) | Counterparty VASP be notified?
+--------------|:-----:|:-----:|:-----:|
+RECEIVE_HIGH_RISK_TRANSACTION | The data transfer is high risk. Please accept or reject this data transfer from originator VASP by hitting `PATCH /permission` | Beneficiary VASP | No
+RECEIVE_APPROVED_TRANSACTION | Your data transfer was approved by beneficiary VASP, please transfer transaction hash to beneficiary VASP by `PATCH /txid` | Originator VASP | No
+RECEIVE_REJECTED_TRANSACTION | Your data transfer was rejected by beneficiary VASP, please refer to the reject message or contact the beneficiary VASP | Originator VASP | No
+RECEIVE_TRANSACTION_HASH | You've received transaction hash from originator VASP | Beneficiary VASP | No
+SEND_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when you send permission_request to the beneficiary VASP. Please refer to the error message. | Originator VASP | No
+SEND_PERMISSION_ERROR | There is an unexpected error(s) when you send permission to the originator VASP. Please refer to the error message. | Beneficiary VASP | No
+SEND_TRANSACTION_ID_ERROR | There is an unexpected error(s) when you send transaction hash to the beneficiary VASP Please refer to the error message. | Originator VASP | No
+HANDLE_COMING_ADDRESS_VALIDATION_ERROR | There is an unexpected error(s) when the originator VASP validated whether the beneficiary wallet address belongs to you. Please refer to the error message. | Beneficiary VASP | Yes, Originator VASP receives: `SENDING_PERMISSION_REQUEST_ERROR`
+HANDLE_COMING_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when your endpoint receives the permission_request from the originator VASP. Please refer to the error message. | Beneficiary VASP | No
+HANDLE_COMING_PERMISSION_ERROR | There is an unexpected error(s) when your endpoint receives the permission from the beneficiary VASP. Please refer error message | Originator VASP | No
+HANDLE_COMING_TXID_ERROR | There is an unexpected error when your endpoint receives the transaction hash from the originator VASP. Please refer to the error message. | Beneficiary VASP | No
+HANDLE_EMAIL_PROTOCOL_PERMISSION_ERROR | There is an unexpected error(s) when the beneficiary VASP was sending permission to you via the email protocol. Please refer to the error message. | Originator VASP | No
+HANDLE_EMAIL_PROTOCOL_TXID_ERROR | There is an unexpected error(s) when you send the transaction hash to the beneficiary VASP via the email protocol. Please refer to the error message. | Originator VASP | No
+HANDLE_EMAIL_PROTOCOL_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when you send permission_request to the beneficiary VASP via the email protocol. Please refer to the error message. | Originator VASP | No
+SEND_EMAIL_PROTOCOL_DEPOSIT_ERROR | There is an unexpected error(s) when you requested the originator VASP to provide the originator customer information via the email protocol. Please refer to the error message. | Beneficiary VASP | No
+SEND_EMAIL_PROTOCOL_PERMISSION_ERROR | There is an unexpected error(s) when you send permission to the originator VASP via email protocol. Please refer to the error message. | Beneficiary VASP | No

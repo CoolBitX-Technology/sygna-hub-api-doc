@@ -11,10 +11,62 @@
             "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
-        "version": "1.0.10"
+        "version": "1.0.11"
     },
     "basePath": "/v1",
     "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "self"
+                ],
+                "summary": "get current release, version the path could be used for health check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.GetRootOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
         "/currencies": {
             "get": {
                 "security": [
@@ -767,6 +819,12 @@
                                 "$ref": "#/definitions/schema.PostOwnershipInput"
                             }
                         }
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "the validation would be sent even if the addresses are risky",
+                        "name": "accept_high_risk",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -3376,6 +3434,9 @@
                 },
                 "stack": {
                     "type": "object"
+                },
+                "type": {
+                    "type": "string"
                 }
             }
         },
@@ -3623,6 +3684,7 @@
         "model.PostTransactionInput": {
             "type": "object",
             "required": [
+                "beneficiary",
                 "currency_id",
                 "customer_id",
                 "originator",
@@ -4042,6 +4104,17 @@
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.GetRootOutput": {
+            "type": "object",
+            "properties": {
+                "release": {
+                    "type": "string"
+                },
+                "version": {
                     "type": "string"
                 }
             }
