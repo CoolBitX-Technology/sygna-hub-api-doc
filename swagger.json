@@ -265,7 +265,10 @@
                                 "Elliptic",
                                 "Chainalysis V1",
                                 "Chainalysis V2",
-                                "Merkle Science"
+                                "Merkle Science",
+                                "Dow Jones",
+                                "Coinfirm",
+                                "World-Check"
                             ],
                             "type": "string"
                         },
@@ -1321,7 +1324,10 @@
                                 "Chainalysis V2",
                                 "ComplyAdvantage",
                                 "Merkle Science",
-                                "TRISA"
+                                "TRISA",
+                                "Dow Jones",
+                                "Coinfirm",
+                                "World-Check"
                             ],
                             "type": "string"
                         },
@@ -1633,7 +1639,10 @@
                                 "Chainalysis V2",
                                 "ComplyAdvantage",
                                 "Merkle Science",
-                                "TRISA"
+                                "TRISA",
+                                "Dow Jones",
+                                "Coinfirm",
+                                "World-Check"
                             ],
                             "type": "string"
                         },
@@ -3347,7 +3356,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nonly support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+                "description": "only allow admin to use this method\nonly support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm,World-Check for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
                 "tags": [
                     "vendors"
                 ],
@@ -4715,7 +4724,10 @@
                         "ComplyAdvantage",
                         "Merkle Science",
                         "TRISA",
-                        "Sygna_Bridge"
+                        "Sygna_Bridge",
+                        "Dow Jones",
+                        "Coinfirm",
+                        "World-Check"
                     ]
                 },
                 "type": {
@@ -4782,7 +4794,6 @@
             ],
             "properties": {
                 "credential": {
-                    "description": "credential\n* provider:Elliptic,type:Blockchain Analytics - api_key and secret are required\n* provider:Chainalysis V1,type:Blockchain Analytics - api_key is required\n* provider:Chainalysis V2,type:Blockchain Analytics - api_key is required\n* provider:Merkle Science,type:Blockchain Analytics - x-api-key is required\n* provider:ComplyAdvantage,type:Sanction Screening - api_key is required\n* provider:Sygna_Bridge,type:Travel Rule - private_key is required\n* provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required",
                     "type": "object"
                 },
                 "provider": {
@@ -4793,7 +4804,10 @@
                         "Chainalysis",
                         "ComplyAdvantage",
                         "Merkle Science",
-                        "TRISA"
+                        "TRISA",
+                        "Dow Jones",
+                        "Coinfirm",
+                        "World-Check"
                     ]
                 },
                 "type": {
@@ -4965,7 +4979,10 @@
                         "ComplyAdvantage",
                         "Merkle Science",
                         "TRISA",
-                        "Sygna_Bridge"
+                        "Sygna_Bridge",
+                        "Dow Jones",
+                        "Coinfirm",
+                        "World-Check"
                     ]
                 },
                 "settings": {
