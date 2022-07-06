@@ -915,6 +915,9 @@ definitions:
           - Merkle Science
           - TRISA
           - Sygna_Bridge
+          - Dow Jones
+          - Coinfirm
+          - World-Check
         type: string
       type:
         enum:
@@ -977,15 +980,6 @@ definitions:
   schema.PostVendorsTestInput:
     properties:
       credential:
-        description: |-
-          credential
-          * provider:Elliptic,type:Blockchain Analytics - api_key and secret are required
-          * provider:Chainalysis V1,type:Blockchain Analytics - api_key is required
-          * provider:Chainalysis V2,type:Blockchain Analytics - api_key is required
-          * provider:Merkle Science,type:Blockchain Analytics - x-api-key is required
-          * provider:ComplyAdvantage,type:Sanction Screening - api_key is required
-          * provider:Sygna_Bridge,type:Travel Rule - private_key is required
-          * provider:TRISA,type:Travel Rule - p12,password,registration_id,registration_data are required
         type: object
       provider:
         enum:
@@ -995,6 +989,9 @@ definitions:
           - ComplyAdvantage
           - Merkle Science
           - TRISA
+          - Dow Jones
+          - Coinfirm
+          - World-Check
         type: string
       type:
         enum:
@@ -1120,6 +1117,9 @@ definitions:
           - Merkle Science
           - TRISA
           - Sygna_Bridge
+          - Dow Jones
+          - Coinfirm
+          - World-Check
         type: string
       settings:
         type: object
@@ -1413,6 +1413,9 @@ paths:
               - Chainalysis V1
               - Chainalysis V2
               - Merkle Science
+              - Dow Jones
+              - Coinfirm
+              - World-Check
             type: string
           name: risk_score_provider
           type: array
@@ -2110,6 +2113,9 @@ paths:
               - ComplyAdvantage
               - Merkle Science
               - TRISA
+              - Dow Jones
+              - Coinfirm
+              - World-Check
             type: string
           name: provider
           type: array
@@ -2338,6 +2344,9 @@ paths:
               - ComplyAdvantage
               - Merkle Science
               - TRISA
+              - Dow Jones
+              - Coinfirm
+              - World-Check
             type: string
           name: provider
           type: array
@@ -3504,7 +3513,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA for provider now
+        only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm,World-Check for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
         - description: post /vendors/test params
