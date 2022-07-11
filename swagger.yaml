@@ -917,7 +917,6 @@ definitions:
           - Sygna_Bridge
           - Dow Jones
           - Coinfirm
-          - World-Check
         type: string
       type:
         enum:
@@ -991,7 +990,6 @@ definitions:
           - TRISA
           - Dow Jones
           - Coinfirm
-          - World-Check
         type: string
       type:
         enum:
@@ -1119,7 +1117,6 @@ definitions:
           - Sygna_Bridge
           - Dow Jones
           - Coinfirm
-          - World-Check
         type: string
       settings:
         type: object
@@ -1239,7 +1236,7 @@ info:
     url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.11
+  version: 1.0.12
 paths:
   /:
     get:
@@ -1415,7 +1412,6 @@ paths:
               - Merkle Science
               - Dow Jones
               - Coinfirm
-              - World-Check
             type: string
           name: risk_score_provider
           type: array
@@ -2115,7 +2111,6 @@ paths:
               - TRISA
               - Dow Jones
               - Coinfirm
-              - World-Check
             type: string
           name: provider
           type: array
@@ -2346,7 +2341,6 @@ paths:
               - TRISA
               - Dow Jones
               - Coinfirm
-              - World-Check
             type: string
           name: provider
           type: array
@@ -3513,7 +3507,7 @@ paths:
     post:
       description: |-
         only allow admin to use this method
-        only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm,World-Check for provider now
+        only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
         - description: post /vendors/test params
