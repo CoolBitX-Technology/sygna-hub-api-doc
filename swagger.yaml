@@ -22,6 +22,15 @@ definitions:
       extra_info:
         type: object
     type: object
+  model.BeneficiaryPrivateInfo:
+    properties:
+      local_name:
+        type: string
+      name:
+        type: string
+      phonetic_name:
+        type: string
+    type: object
   model.Currency:
     properties:
       addr_extra_info:
@@ -49,6 +58,15 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.LegalPersonName:
+    properties:
+      local_name:
+        type: string
+      name:
+        type: string
+      phonetic_name:
+        type: string
+    type: object
   model.Login:
     properties:
       account:
@@ -67,6 +85,22 @@ definitions:
         type: string
       updated_at:
         type: string
+    type: object
+  model.NameObject:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  model.NaturalPersonName:
+    properties:
+      local_name:
+        $ref: "#/definitions/model.NameObject"
+      name:
+        $ref: "#/definitions/model.NameObject"
+      phonetic_name:
+        $ref: "#/definitions/model.NameObject"
     type: object
   model.Object:
     additionalProperties: true
@@ -189,7 +223,7 @@ definitions:
               * 1 - LegalPerson
             type: integer
           private_info:
-            $ref: "#/definitions/types.BeneficiaryPrivateInfo"
+            $ref: "#/definitions/model.BeneficiaryPrivateInfo"
           vasp_code:
             type: string
         type: object
@@ -267,6 +301,21 @@ definitions:
       vasp_code:
         type: string
     type: object
+  model.Setting:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      rule:
+        type: object
+      type:
+        type: string
+      updated_at:
+        type: string
+      vasp_code:
+        type: string
+    type: object
   model.SupportedService:
     properties:
       created_at:
@@ -304,6 +353,15 @@ definitions:
         type: integer
       updated_at:
         type: string
+    type: object
+  sanctionscreening.GetSanctionScoreOutput:
+    properties:
+      profile_ids:
+        items:
+          type: string
+        type: array
+      score:
+        type: integer
     type: object
   schema.Address:
     properties:
@@ -451,6 +509,9 @@ definitions:
         type: string
       created_at:
         type: string
+      customer_id:
+        description: Name              string                  `json:"name"`
+        type: string
       id:
         type: string
       is_active:
@@ -461,10 +522,12 @@ definitions:
         type: array
       last_screened:
         type: string
+      legal_person_name:
+        $ref: "#/definitions/model.LegalPersonName"
       max_risk_score:
         type: string
-      name:
-        type: string
+      natural_person_name:
+        $ref: "#/definitions/model.NaturalPersonName"
       risk_score_provider:
         type: string
       updated_at:
@@ -749,6 +812,17 @@ definitions:
       - id
       - permission_status
     type: object
+  schema.PatchTransactionsStatus:
+    properties:
+      action:
+        type: integer
+      id:
+        format: uuid
+        type: string
+    required:
+      - action
+      - id
+    type: object
   schema.PatchTxIdInput:
     properties:
       id:
@@ -902,6 +976,16 @@ definitions:
       - assets
       - owner_email
     type: object
+  schema.PostSanctionMatchInput:
+    properties:
+      customer_type:
+        type: integer
+      name:
+        type: string
+    required:
+      - customer_type
+      - name
+    type: object
   schema.PostServicesInput:
     properties:
       credential:
@@ -927,6 +1011,19 @@ definitions:
     required:
       - credential
       - provider
+      - type
+    type: object
+  schema.PostSettingInput:
+    properties:
+      rule:
+        type: object
+      type:
+        enum:
+          - blockchain_analytics_timing
+          - sanction_screening_timing
+        type: string
+    required:
+      - rule
       - type
     type: object
   schema.PostUsersInput:
@@ -1214,18 +1311,6 @@ definitions:
     required:
       - id
     type: object
-  types.BeneficiaryPrivateInfo:
-    properties:
-      legal_person_name:
-        type: string
-      primary_identifier:
-        description: |-
-          primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;
-          legal_person_name is required  if customer_type is LegalPerson
-        type: string
-      secondary_identifier:
-        type: string
-    type: object
   types.H:
     additionalProperties: true
     type: object
@@ -1236,7 +1321,7 @@ info:
     url: https://www.sygna.io/
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.12
+  version: 1.0.13
 paths:
   /:
     get:
@@ -2239,17 +2324,15 @@ paths:
       tags:
         - services
     post:
-      description: |-
-        only allow admin to use this method
-        use GET /services/supported to understand which credential is required by provider
+      description: only allow admin to use this method
       parameters:
-        - description: post /services params
+        - description: post /setting params
           in: body
           name: body
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PostServicesInput"
+              $ref: "#/definitions/schema.PostSettingInput"
             type: array
       responses:
         "200":
@@ -2274,21 +2357,19 @@ paths:
             $ref: "#/definitions/errors.SystemError"
       security:
         - CookieAuth: []
-      summary: create services
+      summary: create setting
       tags:
-        - services
+        - setting
     put:
-      description: |-
-        only allow admin to use this method
-        use GET /services/supported to understand which credential is required by provider
+      description: only allow admin to use this method
       parameters:
-        - description: put /services params
+        - description: put /setting params
           in: body
           name: body
           required: true
           schema:
             items:
-              $ref: "#/definitions/schema.PutServicesInput"
+              $ref: "#/definitions/schema.PostSettingInput"
             type: array
       responses:
         "200":
@@ -2313,9 +2394,9 @@ paths:
             $ref: "#/definitions/errors.SystemError"
       security:
         - CookieAuth: []
-      summary: update services
+      summary: update setting
       tags:
-        - services
+        - setting
   /services/supported:
     get:
       description: only allow admin to use this method
@@ -2442,6 +2523,42 @@ paths:
       summary: get supported services and its config
       tags:
         - services
+  /setting:
+    get:
+      description: only admin could get encrypted credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+              - $ref: "#/definitions/schema.RespWithPaging"
+              - properties:
+                  data:
+                    items:
+                      $ref: "#/definitions/model.Setting"
+                    type: array
+                type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+      security:
+        - CookieAuth: []
+      summary: get setting
+      tags:
+        - setting
   /transactions:
     get:
       parameters:
@@ -2993,6 +3110,41 @@ paths:
       summary: send permission to originator
       tags:
         - transactions
+  /transactions/sanction-match:
+    post:
+      parameters:
+        - description: post /transactions/sanction-match params
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/schema.PostSanctionMatchInput"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/sanctionscreening.GetSanctionScoreOutput"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+      security:
+        - CookieAuth: []
+      summary: let user do sanction screening
+      tags:
+        - transactions
   /transactions/sanction-report/{searchId}:
     get:
       parameters:
@@ -3027,6 +3179,43 @@ paths:
       security:
         - CookieAuth: []
       summary: get report from sanction screening service
+      tags:
+        - transactions
+  /transactions/status:
+    patch:
+      parameters:
+        - description: patch /transactions/status params
+          in: body
+          name: body
+          required: true
+          schema:
+            items:
+              $ref: "#/definitions/schema.PatchTransactionsStatus"
+            type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/schema.RespWithMutation"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "403":
+          description: Forbidden
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/errors.SystemError"
+      security:
+        - CookieAuth: []
+      summary: unblock or cancel transactions
       tags:
         - transactions
   /transactions/txid:

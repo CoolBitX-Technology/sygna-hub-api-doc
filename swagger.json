@@ -11,7 +11,7 @@
             "url": "https://www.sygna.io/",
             "email": "services@sygna.io"
         },
-        "version": "1.0.12"
+        "version": "1.0.13"
     },
     "basePath": "/v1",
     "paths": {
@@ -1493,21 +1493,21 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
+                "description": "only allow admin to use this method",
                 "tags": [
-                    "services"
+                    "setting"
                 ],
-                "summary": "update services",
+                "summary": "update setting",
                 "parameters": [
                     {
-                        "description": "put /services params",
+                        "description": "put /setting params",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PutServicesInput"
+                                "$ref": "#/definitions/schema.PostSettingInput"
                             }
                         }
                     }
@@ -1551,21 +1551,21 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
+                "description": "only allow admin to use this method",
                 "tags": [
-                    "services"
+                    "setting"
                 ],
-                "summary": "create services",
+                "summary": "create setting",
                 "parameters": [
                     {
-                        "description": "post /services params",
+                        "description": "post /setting params",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostServicesInput"
+                                "$ref": "#/definitions/schema.PostSettingInput"
                             }
                         }
                     }
@@ -1741,6 +1741,67 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/model.SupportedService"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/setting": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only admin could get encrypted credentials",
+                "tags": [
+                    "setting"
+                ],
+                "summary": "get setting",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.RespWithPaging"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Setting"
                                             }
                                         }
                                     }
@@ -2514,6 +2575,62 @@
                 }
             }
         },
+        "/transactions/sanction-match": {
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "let user do sanction screening",
+                "parameters": [
+                    {
+                        "description": "post /transactions/sanction-match params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.PostSanctionMatchInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/sanctionscreening.GetSanctionScoreOutput"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
         "/transactions/sanction-report/{searchId}": {
             "get": {
                 "security": [
@@ -2542,6 +2659,65 @@
                         "description": "binary",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/status": {
+            "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "unblock or cancel transactions",
+                "parameters": [
+                    {
+                        "description": "patch /transactions/status params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PatchTransactionsStatus"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
                         }
                     },
                     "400": {
@@ -3457,6 +3633,20 @@
                 }
             }
         },
+        "model.BeneficiaryPrivateInfo": {
+            "type": "object",
+            "properties": {
+                "local_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phonetic_name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Currency": {
             "type": "object",
             "properties": {
@@ -3498,6 +3688,20 @@
                 }
             }
         },
+        "model.LegalPersonName": {
+            "type": "object",
+            "properties": {
+                "local_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phonetic_name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Login": {
             "type": "object",
             "properties": {
@@ -3524,6 +3728,31 @@
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "model.NameObject": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.NaturalPersonName": {
+            "type": "object",
+            "properties": {
+                "local_name": {
+                    "$ref": "#/definitions/model.NameObject"
+                },
+                "name": {
+                    "$ref": "#/definitions/model.NameObject"
+                },
+                "phonetic_name": {
+                    "$ref": "#/definitions/model.NameObject"
                 }
             }
         },
@@ -3711,7 +3940,7 @@
                             "type": "integer"
                         },
                         "private_info": {
-                            "$ref": "#/definitions/types.BeneficiaryPrivateInfo"
+                            "$ref": "#/definitions/model.BeneficiaryPrivateInfo"
                         },
                         "vasp_code": {
                             "type": "string"
@@ -3814,6 +4043,29 @@
                 }
             }
         },
+        "model.Setting": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rule": {
+                    "type": "object"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "vasp_code": {
+                    "type": "string"
+                }
+            }
+        },
         "model.SupportedService": {
             "type": "object",
             "properties": {
@@ -3869,6 +4121,20 @@
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "sanctionscreening.GetSanctionScoreOutput": {
+            "type": "object",
+            "properties": {
+                "profile_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "score": {
+                    "type": "integer"
                 }
             }
         },
@@ -4085,6 +4351,10 @@
                 "created_at": {
                     "type": "string"
                 },
+                "customer_id": {
+                    "description": "Name              string                  `json:\"name\"`",
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -4100,11 +4370,14 @@
                 "last_screened": {
                     "type": "string"
                 },
+                "legal_person_name": {
+                    "$ref": "#/definitions/model.LegalPersonName"
+                },
                 "max_risk_score": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
+                "natural_person_name": {
+                    "$ref": "#/definitions/model.NaturalPersonName"
                 },
                 "risk_score_provider": {
                     "type": "string"
@@ -4495,6 +4768,22 @@
                 }
             }
         },
+        "schema.PatchTransactionsStatus": {
+            "type": "object",
+            "required": [
+                "action",
+                "id"
+            ],
+            "properties": {
+                "action": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
+        },
         "schema.PatchTxIdInput": {
             "type": "object",
             "required": [
@@ -4701,6 +4990,21 @@
                 }
             }
         },
+        "schema.PostSanctionMatchInput": {
+            "type": "object",
+            "required": [
+                "customer_type",
+                "name"
+            ],
+            "properties": {
+                "customer_type": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "schema.PostServicesInput": {
             "type": "object",
             "required": [
@@ -4732,6 +5036,25 @@
                         "Blockchain Analytics",
                         "Sanction Screening",
                         "Travel Rule"
+                    ]
+                }
+            }
+        },
+        "schema.PostSettingInput": {
+            "type": "object",
+            "required": [
+                "rule",
+                "type"
+            ],
+            "properties": {
+                "rule": {
+                    "type": "object"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "blockchain_analytics_timing",
+                        "sanction_screening_timing"
                     ]
                 }
             }
@@ -5114,21 +5437,6 @@
                     "type": "string"
                 },
                 "risk_score_provider": {
-                    "type": "string"
-                }
-            }
-        },
-        "types.BeneficiaryPrivateInfo": {
-            "type": "object",
-            "properties": {
-                "legal_person_name": {
-                    "type": "string"
-                },
-                "primary_identifier": {
-                    "description": "primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;\nlegal_person_name is required  if customer_type is LegalPerson",
-                    "type": "string"
-                },
-                "secondary_identifier": {
                     "type": "string"
                 }
             }
