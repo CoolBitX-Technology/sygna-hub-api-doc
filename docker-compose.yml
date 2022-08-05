@@ -15,13 +15,13 @@ services:
       # replace your path to store database data
       - "./db:/var/lib/postgresql/data"
   # (Optional)adminer is GUI for Database management
-  # adminer:
-  #   image: adminer:4.7.6
-  #   restart: unless-stopped
-  #   ports:
-  #     - 8081:8080
-  #   environment:
-  #     - ADMINER_DEFAULT_SERVER=postgres
+  adminer:
+    image: adminer:4.7.6
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
 
   # (Optional)It's not required if you already have a mysql database which version is 8.0
   # mysql:
