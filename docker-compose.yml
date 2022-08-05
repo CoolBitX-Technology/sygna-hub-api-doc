@@ -2,18 +2,18 @@ version: "2.1"
 
 services:
   # (Optional)It's not required if you already have a postgres database which version is 12
-  # postgres:
-  #   image: postgres:12-alpine
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5432:5432
-  #   environment:
-  #     - POSTGRES_PASSWORD=p@ssWord0
-  #     - POSTGRES_USER=admin
-  #     - POSTGRES_DB=db
-  #   volumes:
-  #     # replace your path to store database data
-  #     - "./db:/var/lib/postgresql/data"
+  postgres:
+    image: postgres:12-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=p@ssWord0
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=db
+    volumes:
+      # replace your path to store database data
+      - "./db:/var/lib/postgresql/data"
   # (Optional)adminer is GUI for Database management
   # adminer:
   #   image: adminer:4.7.6
