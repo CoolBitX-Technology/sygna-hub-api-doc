@@ -6,14 +6,9 @@
     "info": {
         "description": "Sygna Hub API",
         "title": "Sygna HUB",
-        "contact": {
-            "name": "Sygna Support",
-            "url": "https://www.sygna.io/",
-            "email": "services@sygna.io"
-        },
+        "contact": {},
         "version": "1.0.13"
     },
-    "basePath": "/v1",
     "paths": {
         "/": {
             "get": {
@@ -85,7 +80,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter currencies by currency identifier",
                         "name": "currency_id",
                         "in": "query"
@@ -95,7 +89,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter currencies data by currency symbol",
                         "name": "currency_symbol",
                         "in": "query"
@@ -105,7 +98,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter currencies data by currency name",
                         "name": "currency_name",
                         "in": "query"
@@ -115,7 +107,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter currencies data by kyt providers",
                         "name": "kyt_provider",
                         "in": "query"
@@ -125,7 +116,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter currencies by if status is activated",
                         "name": "is_active",
                         "in": "query"
@@ -135,7 +125,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -157,7 +146,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -167,7 +155,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
@@ -233,7 +220,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by customer identifier",
                         "name": "id",
                         "in": "query"
@@ -243,7 +229,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by customer name",
                         "name": "name",
                         "in": "query"
@@ -253,7 +238,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by if status is activated",
                         "name": "is_active",
                         "in": "query"
@@ -271,7 +255,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by risk score provider",
                         "name": "risk_score_provider",
                         "in": "query"
@@ -281,7 +264,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "max_risk_score",
                         "in": "query"
@@ -291,7 +273,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "avg_risk_score",
                         "in": "query"
@@ -301,7 +282,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by labels from KYT service searched",
                         "name": "label",
                         "in": "query"
@@ -311,7 +291,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter customers by a range of last screened date(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "last_screened",
                         "in": "query"
@@ -321,7 +300,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -343,7 +321,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -353,7 +330,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
@@ -546,7 +522,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by ids in current customer",
                         "name": "asset_id",
                         "in": "query"
@@ -556,7 +531,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by currency id in current customer",
                         "name": "asset_currency_id",
                         "in": "query"
@@ -566,7 +540,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by risk score in current customer",
                         "name": "asset_risk_score",
                         "in": "query"
@@ -576,7 +549,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by address in current customer",
                         "name": "asset_address",
                         "in": "query"
@@ -586,7 +558,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by label in current customer",
                         "name": "asset_label",
                         "in": "query"
@@ -596,7 +567,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by value in current customer",
                         "name": "asset_value",
                         "in": "query"
@@ -606,7 +576,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter asset by last screen time in current customer",
                         "name": "asset_last_screened",
                         "in": "query"
@@ -1308,7 +1277,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by service identifier",
                         "name": "id",
                         "in": "query"
@@ -1329,7 +1297,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by provider",
                         "name": "provider",
                         "in": "query"
@@ -1344,7 +1311,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by type",
                         "name": "type",
                         "in": "query"
@@ -1354,7 +1320,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by if status is activated",
                         "name": "is_active",
                         "in": "query"
@@ -1371,7 +1336,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by status",
                         "name": "status",
                         "in": "query"
@@ -1381,7 +1345,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by a range of start time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "start_time",
                         "in": "query"
@@ -1391,7 +1354,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by a range of end time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "query",
                         "in": "query"
@@ -1401,7 +1363,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -1423,7 +1384,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -1433,7 +1393,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
@@ -1493,21 +1452,21 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
-                    "setting"
+                    "services"
                 ],
-                "summary": "update setting",
+                "summary": "update services",
                 "parameters": [
                     {
-                        "description": "put /setting params",
+                        "description": "put /services params",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostSettingInput"
+                                "$ref": "#/definitions/schema.PutServicesInput"
                             }
                         }
                     }
@@ -1551,21 +1510,21 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
                 "tags": [
-                    "setting"
+                    "services"
                 ],
-                "summary": "create setting",
+                "summary": "create services",
                 "parameters": [
                     {
-                        "description": "post /setting params",
+                        "description": "post /services params",
                         "name": "body",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schema.PostSettingInput"
+                                "$ref": "#/definitions/schema.PostServicesInput"
                             }
                         }
                     }
@@ -1622,7 +1581,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by service identifier",
                         "name": "id",
                         "in": "query"
@@ -1643,7 +1601,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by provider",
                         "name": "provider",
                         "in": "query"
@@ -1658,7 +1615,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by type",
                         "name": "type",
                         "in": "query"
@@ -1668,7 +1624,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by if status is activated",
                         "name": "is_active",
                         "in": "query"
@@ -1678,7 +1633,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter services by editable",
                         "name": "editable",
                         "in": "query"
@@ -1688,7 +1642,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -1710,7 +1663,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -1720,7 +1672,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
@@ -1775,7 +1726,7 @@
                 }
             }
         },
-        "/setting": {
+        "/settings": {
             "get": {
                 "security": [
                     {
@@ -1784,9 +1735,9 @@
                 ],
                 "description": "only admin could get encrypted credentials",
                 "tags": [
-                    "setting"
+                    "settings"
                 ],
-                "summary": "get setting",
+                "summary": "get settings",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1834,6 +1785,122 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only allow admin to use this method",
+                "tags": [
+                    "settings"
+                ],
+                "summary": "update settings",
+                "parameters": [
+                    {
+                        "description": "put /settings params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostSettingInput"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only allow admin to use this method",
+                "tags": [
+                    "settings"
+                ],
+                "summary": "create settings",
+                "parameters": [
+                    {
+                        "description": "post /settings params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostSettingInput"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
             }
         },
         "/transactions": {
@@ -1853,7 +1920,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction identifier",
                         "name": "id",
                         "in": "query"
@@ -1863,7 +1929,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by customer name",
                         "name": "name",
                         "in": "query"
@@ -1873,7 +1938,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction address",
                         "name": "address",
                         "in": "query"
@@ -1883,7 +1947,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction id on blockchain",
                         "name": "tx_id",
                         "in": "query"
@@ -1893,7 +1956,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction currency id",
                         "name": "currency_id",
                         "in": "query"
@@ -1903,7 +1965,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by a range of last screened(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "last_screened",
                         "in": "query"
@@ -1913,7 +1974,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by risk score provider",
                         "name": "risk_score_provider",
                         "in": "query"
@@ -1923,7 +1983,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "A URL parameter that specifies the range of risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).",
                         "name": "risk_score",
                         "in": "query"
@@ -1944,7 +2003,6 @@
                             ],
                             "type": "integer"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction status(0:Processing,1:Blocked,2:Pending On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)",
                         "name": "status",
                         "in": "query"
@@ -1965,7 +2023,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction status text",
                         "name": "status_text",
                         "in": "query"
@@ -1975,7 +2032,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "A URL parameter that specifies the range of value. This format should be {from,to} (ie.value=0.1,10.5 means filtering transactions by value between 0.1 and 10.5 inclusive).",
                         "name": "value",
                         "in": "query"
@@ -1985,7 +2041,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "A URL parameter that specifies the range of sanction screening score. This format should be {from,to} (ie.sanction_score=0.1,10.5 means filtering transactions by sanction_score between 0.1 and 10.5 inclusive).",
                         "name": "sanction_score",
                         "in": "query"
@@ -2000,7 +2055,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter transactions by transaction protocol",
                         "name": "protocol",
                         "in": "query"
@@ -2010,7 +2064,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -2032,7 +2085,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -2042,7 +2094,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
@@ -2967,7 +3018,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter users by identifier",
                         "name": "id",
                         "in": "query"
@@ -2981,7 +3031,6 @@
                             ],
                             "type": "integer"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter users by role identifier(0:admin 1:member)",
                         "name": "role_id",
                         "in": "query"
@@ -2991,7 +3040,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter users by login account",
                         "name": "account",
                         "in": "query"
@@ -3005,7 +3053,6 @@
                             ],
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter users by login type(only supported password and google now)",
                         "name": "login_type",
                         "in": "query"
@@ -3015,7 +3062,6 @@
                         "items": {
                             "type": "boolean"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter users by if status is activated",
                         "name": "is_active",
                         "in": "query"
@@ -3025,7 +3071,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "created_at",
                         "in": "query"
@@ -3047,7 +3092,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
                         "name": "orderby",
                         "in": "query"
@@ -3057,7 +3101,6 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "multi",
                         "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
                         "name": "updated_at",
                         "in": "query"
