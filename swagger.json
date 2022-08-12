@@ -1733,7 +1733,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only admin could get encrypted credentials",
+                "description": "only allow admin to use this method",
                 "tags": [
                     "settings"
                 ],
@@ -1874,6 +1874,55 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/default": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only allow admin to use this method",
+                "tags": [
+                    "settings"
+                ],
+                "summary": "get default settings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PostSettingInput"
+                            }
                         }
                     },
                     "400": {
