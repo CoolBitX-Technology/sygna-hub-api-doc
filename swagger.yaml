@@ -2446,7 +2446,7 @@ paths:
       - services
   /settings:
     get:
-      description: only admin could get encrypted credentials
+      description: only allow admin to use this method
       responses:
         "200":
           description: OK
@@ -2552,6 +2552,37 @@ paths:
       security:
       - CookieAuth: []
       summary: update settings
+      tags:
+      - settings
+  /settings/default:
+    get:
+      description: only allow admin to use this method
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.PostSettingInput'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get default settings
       tags:
       - settings
   /transactions:
