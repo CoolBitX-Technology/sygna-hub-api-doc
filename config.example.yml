@@ -26,10 +26,15 @@ settings:
   concurrency: 100
 
 db:
-  # database configuration
+  # database configuration 
+  # supported options: postgres | mysql
+  driver: postgres
   user: admin
   password: p@ssWord0
   host: localhost
+  # default port 
+  # postgres: 5432
+  # mysql: 3306
   port: 5432
   name: db
 
