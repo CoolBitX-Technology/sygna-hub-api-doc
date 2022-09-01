@@ -7,7 +7,7 @@
         "description": "Sygna Hub API",
         "title": "Sygna HUB",
         "contact": {},
-        "version": "1.0.13"
+        "version": "1.0.14"
     },
     "paths": {
         "/": {
@@ -594,6 +594,141 @@
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/schema.GetCustomerOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/global-vasp": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only admin could get encrypted credentials",
+                "tags": [
+                    "global-vasp"
+                ],
+                "summary": "get global-vasp",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "filter global vasp by vasp identifier",
+                        "name": "vasp_identifier",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "filter global vasp data by vasp name",
+                        "name": "vasp_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "filter global vasp data by protocol",
+                        "name": "protocol",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filter global vasp data by extra_info's key",
+                        "name": "extra_info[key]",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
+                        "name": "created_at",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
+                        "name": "orderby",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
+                        "name": "updated_at",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.Resp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.GlobalVasp"
+                                            }
                                         }
                                     }
                                 }
@@ -1259,6 +1394,125 @@
                 }
             }
         },
+        "/rollback": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only admin could get encrypted credentials",
+                "tags": [
+                    "rollback"
+                ],
+                "summary": "get rollback",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/schema.RespWithPaging"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Rollback"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only allow admin to use this method",
+                "tags": [
+                    "rollback"
+                ],
+                "summary": "update rollback",
+                "parameters": [
+                    {
+                        "description": "put /rollback params",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schema.PutRollbackInout"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schema.RespWithMutation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
         "/services": {
             "get": {
                 "security": [
@@ -1355,7 +1609,7 @@
                             "type": "string"
                         },
                         "description": "filter services by a range of end time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
-                        "name": "query",
+                        "name": "end_time",
                         "in": "query"
                     },
                     {
@@ -1733,7 +1987,7 @@
                         "CookieAuth": []
                     }
                 ],
-                "description": "only allow admin to use this method",
+                "description": "only admin could get encrypted credentials",
                 "tags": [
                     "settings"
                 ],
@@ -1922,6 +2176,55 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/schema.PostSettingInput"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/supported": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "only allow admin to use this method",
+                "tags": [
+                    "settings"
+                ],
+                "summary": "get supported settings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.SupportedSetting"
                             }
                         }
                     },
@@ -3780,6 +4083,32 @@
                 }
             }
         },
+        "model.GlobalVasp": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "extra_info": {
+                    "$ref": "#/definitions/model.Object"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "vasp_identifier": {
+                    "type": "string"
+                },
+                "vasp_name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.LegalPersonName": {
             "type": "object",
             "properties": {
@@ -4093,6 +4422,23 @@
                 }
             }
         },
+        "model.Rollback": {
+            "type": "object",
+            "properties": {
+                "gorm_version": {
+                    "type": "string"
+                },
+                "rollback_id": {
+                    "type": "string"
+                },
+                "sql_version": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Service": {
             "type": "object",
             "properties": {
@@ -4180,6 +4526,26 @@
                     "type": "string"
                 },
                 "settings": {
+                    "type": "object"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SupportedSetting": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "rule": {
                     "type": "object"
                 },
                 "type": {
@@ -5362,6 +5728,17 @@
                 },
                 "national": {
                     "$ref": "#/definitions/schema.NationalIdentification"
+                }
+            }
+        },
+        "schema.PutRollbackInout": {
+            "type": "object",
+            "required": [
+                "version"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string"
                 }
             }
         },

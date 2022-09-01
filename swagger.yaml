@@ -57,6 +57,23 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.GlobalVasp:
+    properties:
+      created_at:
+        type: string
+      extra_info:
+        $ref: '#/definitions/model.Object'
+      id:
+        type: string
+      protocol:
+        type: string
+      updated_at:
+        type: string
+      vasp_identifier:
+        type: string
+      vasp_name:
+        type: string
+    type: object
   model.LegalPersonName:
     properties:
       local_name:
@@ -271,6 +288,17 @@ definitions:
     - originator
     - value
     type: object
+  model.Rollback:
+    properties:
+      gorm_version:
+        type: string
+      rollback_id:
+        type: string
+      sql_version:
+        type: string
+      version:
+        type: string
+    type: object
   model.Service:
     properties:
       created_at:
@@ -329,6 +357,19 @@ definitions:
       provider:
         type: string
       settings:
+        type: object
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.SupportedSetting:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      rule:
         type: object
       type:
         type: string
@@ -1188,6 +1229,13 @@ definitions:
     - is_active
     - name
     type: object
+  schema.PutRollbackInout:
+    properties:
+      version:
+        type: string
+    required:
+    - version
+    type: object
   schema.PutServicesInput:
     properties:
       credential:
@@ -1309,7 +1357,7 @@ info:
   contact: {}
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.13
+  version: 1.0.14
 paths:
   /:
     get:
@@ -1720,6 +1768,98 @@ paths:
       summary: get specific customer detail
       tags:
       - customers
+  /global-vasp:
+    get:
+      description: only admin could get encrypted credentials
+      parameters:
+      - description: filter global vasp by vasp identifier
+        in: query
+        items:
+          type: string
+        name: vasp_identifier
+        type: array
+      - description: filter global vasp data by vasp name
+        in: query
+        items:
+          type: string
+        name: vasp_name
+        type: array
+      - description: filter global vasp data by protocol
+        in: query
+        items:
+          type: string
+        name: protocol
+        type: array
+      - description: filter global vasp data by extra_info's key
+        in: query
+        name: extra_info[key]
+        type: string
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.GlobalVasp'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get global-vasp
+      tags:
+      - global-vasp
   /oauth2:
     delete:
       responses:
@@ -2116,6 +2256,79 @@ paths:
         the address whether belong to you
       tags:
       - ownerships
+  /rollback:
+    get:
+      description: only admin could get encrypted credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Rollback'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get rollback
+      tags:
+      - rollback
+    put:
+      description: only allow admin to use this method
+      parameters:
+      - description: put /rollback params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PutRollbackInout'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update rollback
+      tags:
+      - rollback
   /services:
     get:
       description: only admin could get encrypted credentials
@@ -2184,7 +2397,7 @@ paths:
         in: query
         items:
           type: string
-        name: query
+        name: end_time
         type: array
       - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
           means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
@@ -2446,7 +2659,7 @@ paths:
       - services
   /settings:
     get:
-      description: only allow admin to use this method
+      description: only admin could get encrypted credentials
       responses:
         "200":
           description: OK
@@ -2583,6 +2796,37 @@ paths:
       security:
       - CookieAuth: []
       summary: get default settings
+      tags:
+      - settings
+  /settings/supported:
+    get:
+      description: only allow admin to use this method
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.SupportedSetting'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get supported settings
       tags:
       - settings
   /transactions:
