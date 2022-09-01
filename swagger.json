@@ -661,6 +661,14 @@
                     {
                         "type": "array",
                         "items": {
+                            "enum": [
+                                "Sygna_Bridge",
+                                "Sygna_EmailProtocol",
+                                "TRISA",
+                                "VerifyVASP",
+                                "Notabene_TR:NOW",
+                                "Veriscope on Shyft"
+                            ],
                             "type": "string"
                         },
                         "description": "filter global vasp data by protocol",

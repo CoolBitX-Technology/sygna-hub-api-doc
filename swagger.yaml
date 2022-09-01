@@ -1787,6 +1787,13 @@ paths:
       - description: filter global vasp data by protocol
         in: query
         items:
+          enum:
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
+          - TRISA
+          - VerifyVASP
+          - Notabene_TR:NOW
+          - Veriscope on Shyft
           type: string
         name: protocol
         type: array
