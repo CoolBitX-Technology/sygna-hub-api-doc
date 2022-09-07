@@ -51,6 +51,8 @@ server:
     - http://localhost:8000
   # a url endpoint used when Sygna Bridge want to send you a "permission" request
   callback_host: <your callback host url>
+  # url of your primary domain, used in set-cookie
+  cookie_domain: <your primary domain>
 
 google_login:
   # required only if you want to enable Google login
