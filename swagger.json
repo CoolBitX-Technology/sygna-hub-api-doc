@@ -3925,6 +3925,90 @@
                 }
             }
         },
+        "/vendors/bridge/sync": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "vendors"
+                ],
+                "summary": "Synchronize Sygna Bridge Transactions",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
+        "/vendors/shyft/attestations/sync": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "tags": [
+                    "vendors"
+                ],
+                "summary": "Synchronize Shyft Attestations",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errors.SystemError"
+                        }
+                    }
+                }
+            }
+        },
         "/vendors/test": {
             "post": {
                 "security": [
@@ -5323,6 +5407,9 @@
                         "$ref": "#/definitions/schema.PostAssetInput"
                     }
                 },
+                "assets_ignore_kyt": {
+                    "type": "boolean"
+                },
                 "birth": {
                     "$ref": "#/definitions/schema.DateAndPlaceOfBirth"
                 },
@@ -5445,6 +5532,9 @@
                     "items": {
                         "$ref": "#/definitions/schema.PostOwnershipAssetInput"
                     }
+                },
+                "assets_ignore_kyt": {
+                    "type": "boolean"
                 },
                 "owner_email": {
                     "type": "string",
@@ -5706,6 +5796,9 @@
                     "items": {
                         "$ref": "#/definitions/schema.PatchAssetInput"
                     }
+                },
+                "assets_ignore_kyt": {
+                    "type": "boolean"
                 },
                 "birth": {
                     "$ref": "#/definitions/schema.DateAndPlaceOfBirth"

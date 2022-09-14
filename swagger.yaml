@@ -904,6 +904,8 @@ definitions:
         items:
           $ref: '#/definitions/schema.PostAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       birth:
         $ref: '#/definitions/schema.DateAndPlaceOfBirth'
       country:
@@ -999,6 +1001,8 @@ definitions:
         items:
           $ref: '#/definitions/schema.PostOwnershipAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       owner_email:
         format: email
         type: string
@@ -1197,6 +1201,8 @@ definitions:
         items:
           $ref: '#/definitions/schema.PatchAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       birth:
         $ref: '#/definitions/schema.DateAndPlaceOfBirth'
       country:
@@ -3927,6 +3933,58 @@ paths:
       summary: unlink your account from third party service
       tags:
       - users
+  /vendors/bridge/sync:
+    get:
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: Synchronize Sygna Bridge Transactions
+      tags:
+      - vendors
+  /vendors/shyft/attestations/sync:
+    get:
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: Synchronize Shyft Attestations
+      tags:
+      - vendors
   /vendors/test:
     post:
       description: |-
