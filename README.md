@@ -73,7 +73,7 @@ RECEIVE_TRANSACTION_HASH | You've received transaction hash from originator VASP
 SEND_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when you send permission_request to the beneficiary VASP. Please refer to the error message. | Originator VASP | No
 SEND_PERMISSION_ERROR | There is an unexpected error(s) when you send permission to the originator VASP. Please refer to the error message. | Beneficiary VASP | No
 SEND_TRANSACTION_ID_ERROR | There is an unexpected error(s) when you send transaction hash to the beneficiary VASP Please refer to the error message. | Originator VASP | No
-HANDLE_COMING_ADDRESS_VALIDATION_ERROR | There is an unexpected error(s) when the originator VASP validated whether the beneficiary wallet address belongs to you. Please refer to the error message. | Beneficiary VASP | Yes, Originator VASP receives: `SENDING_PERMISSION_REQUEST_ERROR`
+HANDLE_COMING_ADDRESS_VALIDATION_ERROR | There is an unexpected error(s) when the originator VASP validated whether the beneficiary wallet address belongs to you. Please refer to the error message. | Beneficiary VASP | Yes, Originator VASP receives: `SEND_PERMISSION_REQUEST_ERROR`
 HANDLE_COMING_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when your endpoint receives the permission_request from the originator VASP. Please refer to the error message. | Beneficiary VASP | No
 HANDLE_COMING_PERMISSION_ERROR | There is an unexpected error(s) when your endpoint receives the permission from the beneficiary VASP. Please refer error message | Originator VASP | No
 HANDLE_COMING_TXID_ERROR | There is an unexpected error when your endpoint receives the transaction hash from the originator VASP. Please refer to the error message. | Beneficiary VASP | No
@@ -82,3 +82,6 @@ HANDLE_EMAIL_PROTOCOL_TXID_ERROR | There is an unexpected error(s) when you send
 HANDLE_EMAIL_PROTOCOL_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when you send permission_request to the beneficiary VASP via the email protocol. Please refer to the error message. | Originator VASP | No
 SEND_EMAIL_PROTOCOL_DEPOSIT_ERROR | There is an unexpected error(s) when you requested the originator VASP to provide the originator customer information via the email protocol. Please refer to the error message. | Beneficiary VASP | No
 SEND_EMAIL_PROTOCOL_PERMISSION_ERROR | There is an unexpected error(s) when you send permission to the originator VASP via email protocol. Please refer to the error message. | Beneficiary VASP | No
+RECEIVE_APPROVED_TRANSACTION_LOW_RISK | You've received data transfer approved by beneficiary VASP which is low risk | Originator VASP | No
+RECEIVE_APPROVED_TRANSACTION_HIGH_RISK | You've received data transfer approved by beneficiary VASP which is high risk | Originator VASP | No
+RECEIVE_DATA_TRANSFER_TRANSACTION | Receiving a data transfer. Please accept or reject this data transfer from originator VASP by hitting PATCH /permission | Beneficiary VASP | No
