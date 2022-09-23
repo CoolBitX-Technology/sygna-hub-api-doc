@@ -64,8 +64,8 @@ If you registered webhook_url in `config.yml`, you would receive payload which s
 * `time` : when the event was sent at and the format is ***YYYY-MM-DDTHH:MI:SS.SSSZ***
 
 #### all available events
-Event         | Description  |  Recipient (Who will receive this webhook) | Counterparty VASP be notified? | Error code | Error Message
---------------|:-----:|:-----:|:-----:|:----------:|:----:|
+Event         | Description  |  Recipient (Who will receive this webhook) | Counterparty VASP be notified? | Error code |
+--------------|:-----:|:-----:|:-----:|:----------:|
 RECEIVE_HIGH_RISK_TRANSACTION | The data transfer is high risk. Please accept or reject this data transfer from originator VASP by hitting `PATCH /permission` | Beneficiary VASP | No | normal, no error in the transaction. |
 RECEIVE_REJECTED_TRANSACTION | Your data transfer was rejected by beneficiary VASP, please refer to the reject message or contact the beneficiary VASP | Originator VASP | No | normal, no error in the transaction. |
 RECEIVE_TRANSACTION_HASH | You've received transaction hash from originator VASP | Beneficiary VASP | No | normal, no error in the transaction. |
