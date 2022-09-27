@@ -20,6 +20,7 @@ settings:
   # you can use this account to login
   admin_account: admin@<your domain>.com
   # Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
+  # special character: ~!@#$%^&*()_+`-={}|[]\\:\"<>?,./
   admin_password: p@ssWord0
   # limit maximum concurrent requests processed by backend, more requests will be
   # please use positive value to enable, or disable with 0 or negative value
