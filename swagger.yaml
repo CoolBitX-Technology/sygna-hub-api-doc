@@ -73,6 +73,8 @@ definitions:
         type: string
       vasp_name:
         type: string
+      vasp_server_status:
+        type: string
     type: object
   model.LegalPersonName:
     properties:
@@ -123,62 +125,15 @@ definitions:
     type: object
   model.Ownership:
     properties:
-      assets:
-        items:
-          $ref: '#/definitions/model.OwnershipAsset'
-        type: array
       created_at:
         type: string
-      error:
-        $ref: '#/definitions/model.Object'
       id:
         type: string
       owner_email:
         type: string
       owner_info:
         type: object
-      sender_email:
-        type: string
-      status:
-        type: integer
-      status_text:
-        type: string
       updated_at:
-        type: string
-    type: object
-  model.OwnershipAsset:
-    properties:
-      address:
-        type: string
-      created_at:
-        type: string
-      currency_id:
-        type: string
-      currency_name:
-        type: string
-      currency_symbol:
-        type: string
-      id:
-        type: string
-      last_screened:
-        type: string
-      reject_code:
-        type: string
-      reject_message:
-        type: string
-      risk_score:
-        type: string
-      risk_score_provider:
-        type: string
-      txid:
-        type: string
-      updated_at:
-        type: string
-      validation_status:
-        type: integer
-      validation_status_text:
-        type: string
-      value:
         type: string
     type: object
   model.Platform:
@@ -251,6 +206,8 @@ definitions:
         type: string
       expire_date:
         type: integer
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       need_validate_address:
         type: boolean
       originator:
@@ -374,6 +331,25 @@ definitions:
       type:
         type: string
       updated_at:
+        type: string
+    type: object
+  model.TransactionReport:
+    properties:
+      created_at:
+        type: string
+      error:
+        $ref: '#/definitions/model.Object'
+      file_path:
+        type: string
+      id:
+        type: string
+      report_status:
+        type: integer
+      report_status_text:
+        type: string
+      updated_at:
+        type: string
+      vasp_code:
         type: string
     type: object
   model.User:
@@ -651,8 +627,13 @@ definitions:
         type: string
       currency_symbol:
         type: string
+      customer_id:
+        description: Name                  string                      `json:"name,omitempty"`
+        type: string
       direction:
         type: integer
+      expire_date:
+        type: string
       id:
         type: string
       labels:
@@ -661,25 +642,36 @@ definitions:
         type: array
       last_screened:
         type: string
-      name:
-        type: string
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
       protocol:
         type: string
+      protocol_extra_info:
+        $ref: '#/definitions/model.Object'
+        description: for shyft, we need to know what kind of block it is (orig addr
+          or permission)
       risk_score:
         type: string
       risk_score_provider:
         type: string
       sanction_score:
         type: integer
+      sanction_score_provider:
+        type: string
       status:
         type: integer
       status_text:
+        type: string
+      transfer_id:
         type: string
       tx_id:
         type: string
       value:
         type: string
       value_usd:
+        description: only used in response
         type: string
     type: object
   schema.NationalIdentification:
@@ -816,6 +808,8 @@ definitions:
     type: object
   schema.PatchPermissionInput:
     properties:
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -921,10 +915,14 @@ definitions:
         - 0
         - 1
         type: integer
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
       name:
         type: string
       national:
         $ref: '#/definitions/schema.NationalIdentification'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
     required:
     - assets
     - country
@@ -936,6 +934,8 @@ definitions:
       customer:
         $ref: '#/definitions/schema.PostCustomersInput'
         description: customer is required if permission_status is ACCEPTED
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -1223,10 +1223,14 @@ definitions:
         type: string
       is_active:
         type: boolean
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
       name:
         type: string
       national:
         $ref: '#/definitions/schema.NationalIdentification'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
     required:
     - assets
     - country
@@ -1774,6 +1778,238 @@ paths:
       summary: get specific customer detail
       tags:
       - customers
+  /data-transfer-export:
+    get:
+      parameters:
+      - description: filter transactions by transaction identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter transactions by customer name
+        in: query
+        items:
+          type: string
+        name: name
+        type: array
+      - description: filter transactions by transaction address
+        in: query
+        items:
+          type: string
+        name: address
+        type: array
+      - description: filter transactions by transaction id on blockchain
+        in: query
+        items:
+          type: string
+        name: tx_id
+        type: array
+      - description: filter transactions by transaction currency id
+        in: query
+        items:
+          type: string
+        name: currency_id
+        type: array
+      - description: filter transactions by a range of last screened(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: last_screened
+        type: array
+      - description: filter transactions by risk score provider
+        in: query
+        items:
+          type: string
+        name: risk_score_provider
+        type: array
+      - description: A URL parameter that specifies the range of risk score. This
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+        in: query
+        items:
+          type: string
+        name: risk_score
+        type: array
+      - description: filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
+          On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
+          To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
+        in: query
+        items:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          type: integer
+        name: status
+        type: array
+      - description: filter transactions by transaction status text
+        in: query
+        items:
+          enum:
+          - Processing
+          - Blocked
+          - Pending On Beneficiary
+          - Transfer To Beneficiary Failed
+          - Pending On Originator
+          - Transfer To Originator Failed
+          - Confirmed
+          - Confirm Failed
+          - Rejected
+          type: string
+        name: status_text
+        type: array
+      - description: A URL parameter that specifies the range of value. This format
+          should be {from,to} (ie.value=0.1,10.5 means filtering transactions by value
+          between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: value
+        type: array
+      - description: A URL parameter that specifies the range of sanction screening
+          score. This format should be {from,to} (ie.sanction_score=0.1,10.5 means
+          filtering transactions by sanction_score between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: sanction_score
+        type: array
+      - description: filter transactions by transaction protocol
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
+          - TRISA
+          type: string
+        name: protocol
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: generate transaction report
+      tags:
+      - data-transfer-export
+  /data-transfer-export/download:
+    get:
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: download transactions report
+      tags:
+      - data-transfer-export
+  /data-transfer-export/status:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.TransactionReport'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get transaction report processing status
+      tags:
+      - data-transfer-export
   /global-vasp:
     get:
       description: only admin could get encrypted credentials
@@ -1815,23 +2051,6 @@ paths:
           type: string
         name: created_at
         type: array
-      - description: A URL parameter that specifies the maximum number of records
-          to return. This can be any positive integer between 1 and 1000 inclusive.
-          If not specified, the default is 20.
-        in: query
-        name: limit
-        type: integer
-      - description: Specifies an offset that allows you to retrieve the next batch
-          of records.Any positive integer.If not specified, the default is 0.
-        in: query
-        name: offset
-        type: integer
-      - description: Specifies sequences to sort data (ie.orderby=id:desc)
-        in: query
-        items:
-          type: string
-        name: orderby
-        type: array
       - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
           means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
           inclusive)
@@ -1839,6 +2058,12 @@ paths:
         items:
           type: string
         name: updated_at
+        type: array
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
         type: array
       responses:
         "200":
