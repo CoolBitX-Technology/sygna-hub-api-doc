@@ -20,16 +20,22 @@ settings:
   # you can use this account to login
   admin_account: admin@<your domain>.com
   # Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
+  # special character: ~!@#$%^&*()_+`-={}|[]\\:\"<>?,./
   admin_password: p@ssWord0
   # limit maximum concurrent requests processed by backend, more requests will be
   # please use positive value to enable, or disable with 0 or negative value
   concurrency: 100
 
 db:
-  # database configuration
+  # database configuration 
+  # supported options: postgres | mysql
+  driver: postgres
   user: admin
   password: p@ssWord0
   host: localhost
+  # default port 
+  # postgres: 5432
+  # mysql: 3306
   port: 5432
   name: db
 
@@ -46,6 +52,8 @@ server:
     - http://localhost:8000
   # a url endpoint used when Sygna Bridge want to send you a "permission" request
   callback_host: <your callback host url>
+  # url of your primary domain, used in set-cookie
+  cookie_domain: <your primary domain>
 
 google_login:
   # required only if you want to enable Google login

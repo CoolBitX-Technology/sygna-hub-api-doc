@@ -2,3 +2,8 @@ shyftchainspec.json
 static-nodes.json
 shyft-db
 .dccache
+db/
+docker-data/
+config.yml
+docker-compose.local.yml
+tmp/

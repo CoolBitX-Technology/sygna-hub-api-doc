@@ -1,4 +1,3 @@
-basePath: /v1
 definitions:
   errors.SystemError:
     properties:
@@ -21,6 +20,15 @@ definitions:
         type: string
       extra_info:
         type: object
+    type: object
+  model.BeneficiaryPrivateInfo:
+    properties:
+      local_name:
+        type: string
+      name:
+        type: string
+      phonetic_name:
+        type: string
     type: object
   model.Currency:
     properties:
@@ -45,8 +53,36 @@ definitions:
           type: string
         type: array
       platform:
-        $ref: "#/definitions/model.Platform"
+        $ref: '#/definitions/model.Platform'
       updated_at:
+        type: string
+    type: object
+  model.GlobalVasp:
+    properties:
+      created_at:
+        type: string
+      extra_info:
+        $ref: '#/definitions/model.Object'
+      id:
+        type: string
+      protocol:
+        type: string
+      updated_at:
+        type: string
+      vasp_identifier:
+        type: string
+      vasp_name:
+        type: string
+      vasp_server_status:
+        type: string
+    type: object
+  model.LegalPersonName:
+    properties:
+      local_name:
+        type: string
+      name:
+        type: string
+      phonetic_name:
         type: string
     type: object
   model.Login:
@@ -68,67 +104,36 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.NameObject:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  model.NaturalPersonName:
+    properties:
+      local_name:
+        $ref: '#/definitions/model.NameObject'
+      name:
+        $ref: '#/definitions/model.NameObject'
+      phonetic_name:
+        $ref: '#/definitions/model.NameObject'
+    type: object
   model.Object:
     additionalProperties: true
     type: object
   model.Ownership:
     properties:
-      assets:
-        items:
-          $ref: "#/definitions/model.OwnershipAsset"
-        type: array
       created_at:
         type: string
-      error:
-        $ref: "#/definitions/model.Object"
       id:
         type: string
       owner_email:
         type: string
       owner_info:
         type: object
-      sender_email:
-        type: string
-      status:
-        type: integer
-      status_text:
-        type: string
       updated_at:
-        type: string
-    type: object
-  model.OwnershipAsset:
-    properties:
-      address:
-        type: string
-      created_at:
-        type: string
-      currency_id:
-        type: string
-      currency_name:
-        type: string
-      currency_symbol:
-        type: string
-      id:
-        type: string
-      last_screened:
-        type: string
-      reject_code:
-        type: string
-      reject_message:
-        type: string
-      risk_score:
-        type: string
-      risk_score_provider:
-        type: string
-      txid:
-        type: string
-      updated_at:
-        type: string
-      validation_status:
-        type: integer
-      validation_status_text:
-        type: string
-      value:
         type: string
     type: object
   model.Platform:
@@ -148,7 +153,7 @@ definitions:
         properties:
           addrs:
             items:
-              $ref: "#/definitions/model.Addr"
+              $ref: '#/definitions/model.Addr'
             type: array
           assets:
             items:
@@ -163,16 +168,16 @@ definitions:
         properties:
           addrs:
             items:
-              $ref: "#/definitions/model.Addr"
+              $ref: '#/definitions/model.Addr'
             type: array
         type: object
       value:
         type: string
     required:
-      - currency_id
-      - customer_id
-      - originator
-      - value
+    - currency_id
+    - customer_id
+    - originator
+    - value
     type: object
   model.PostTransactionInput:
     properties:
@@ -180,7 +185,7 @@ definitions:
         properties:
           addrs:
             items:
-              $ref: "#/definitions/model.Addr"
+              $ref: '#/definitions/model.Addr'
             type: array
           customer_type:
             description: |-
@@ -189,7 +194,7 @@ definitions:
               * 1 - LegalPerson
             type: integer
           private_info:
-            $ref: "#/definitions/types.BeneficiaryPrivateInfo"
+            $ref: '#/definitions/model.BeneficiaryPrivateInfo'
           vasp_code:
             type: string
         type: object
@@ -201,16 +206,17 @@ definitions:
         type: string
       expire_date:
         type: integer
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       need_validate_address:
         type: boolean
       originator:
-        description:
-          Choose asset identifiers from GET /customers/:id or input addresses
+        description: Choose asset identifiers from GET /customers/:id or input addresses
           belong to above customer identifier
         properties:
           addrs:
             items:
-              $ref: "#/definitions/model.Addr"
+              $ref: '#/definitions/model.Addr'
             type: array
           assets:
             items:
@@ -219,10 +225,10 @@ definitions:
         type: object
       protocol:
         enum:
-          - "null"
-          - Sygna_Bridge
-          - Sygna_EmailProtocol
-          - TRISA
+        - "null"
+        - Sygna_Bridge
+        - Sygna_EmailProtocol
+        - TRISA
         type: string
         x-nullable: true
       protocol_extra_info:
@@ -233,11 +239,22 @@ definitions:
         description: The value of the currency requested to transfer.
         type: string
     required:
-      - beneficiary
-      - currency_id
-      - customer_id
-      - originator
-      - value
+    - beneficiary
+    - currency_id
+    - customer_id
+    - originator
+    - value
+    type: object
+  model.Rollback:
+    properties:
+      gorm_version:
+        type: string
+      rollback_id:
+        type: string
+      sql_version:
+        type: string
+      version:
+        type: string
     type: object
   model.Service:
     properties:
@@ -267,6 +284,21 @@ definitions:
       vasp_code:
         type: string
     type: object
+  model.Setting:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      rule:
+        type: object
+      type:
+        type: string
+      updated_at:
+        type: string
+      vasp_code:
+        type: string
+    type: object
   model.SupportedService:
     properties:
       created_at:
@@ -288,6 +320,38 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.SupportedSetting:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      rule:
+        type: object
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.TransactionReport:
+    properties:
+      created_at:
+        type: string
+      error:
+        $ref: '#/definitions/model.Object'
+      file_path:
+        type: string
+      id:
+        type: string
+      report_status:
+        type: integer
+      report_status_text:
+        type: string
+      updated_at:
+        type: string
+      vasp_code:
+        type: string
+    type: object
   model.User:
     properties:
       created_at:
@@ -298,12 +362,21 @@ definitions:
         type: boolean
       logins:
         items:
-          $ref: "#/definitions/model.Login"
+          $ref: '#/definitions/model.Login'
         type: array
       role_id:
         type: integer
       updated_at:
         type: string
+    type: object
+  sanctionscreening.GetSanctionScoreOutput:
+    properties:
+      profile_ids:
+        items:
+          type: string
+        type: array
+      score:
+        type: integer
     type: object
   schema.Address:
     properties:
@@ -384,8 +457,8 @@ definitions:
       old_password:
         type: string
     required:
-      - new_password
-      - old_password
+    - new_password
+    - old_password
     type: object
   schema.DateAndPlaceOfBirth:
     properties:
@@ -400,20 +473,20 @@ definitions:
         description: specific user identifier
         type: string
     required:
-      - id
+    - id
     type: object
   schema.GetCustomerOutput:
     properties:
       address:
-        $ref: "#/definitions/schema.Address"
+        $ref: '#/definitions/schema.Address'
       assets:
         items:
-          $ref: "#/definitions/schema.Asset"
+          $ref: '#/definitions/schema.Asset'
         type: array
       avg_risk_score:
         type: string
       birth:
-        $ref: "#/definitions/schema.DateAndPlaceOfBirth"
+        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
       country:
         type: string
       created_at:
@@ -437,7 +510,7 @@ definitions:
       name:
         type: string
       national:
-        $ref: "#/definitions/schema.NationalIdentification"
+        $ref: '#/definitions/schema.NationalIdentification'
       protocol_extra_info:
         type: object
       risk_score_provider:
@@ -451,6 +524,9 @@ definitions:
         type: string
       created_at:
         type: string
+      customer_id:
+        description: Name              string                  `json:"name"`
+        type: string
       id:
         type: string
       is_active:
@@ -461,10 +537,12 @@ definitions:
         type: array
       last_screened:
         type: string
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
       max_risk_score:
         type: string
-      name:
-        type: string
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
       risk_score_provider:
         type: string
       updated_at:
@@ -484,7 +562,7 @@ definitions:
       currency_id:
         type: string
       customer:
-        $ref: "#/definitions/schema.GetCustomerOutput"
+        $ref: '#/definitions/schema.GetCustomerOutput'
       direction:
         type: integer
       high_risk:
@@ -503,13 +581,11 @@ definitions:
       risk_score_provider:
         type: string
       sanction_report_link:
-        description:
-          sanction_report_link would be valuable if sanction screening
+        description: sanction_report_link would be valuable if sanction screening
           service is enabled, it provides a report to download
         type: string
       sanction_score:
-        description:
-          sanction_score would be valuable if sanction screening service
+        description: sanction_score would be valuable if sanction screening service
           is enabled
         type: integer
       status:
@@ -517,7 +593,7 @@ definitions:
       status_text:
         type: string
       transaction_asset:
-        $ref: "#/definitions/schema.TransactionAsset"
+        $ref: '#/definitions/schema.TransactionAsset'
       transfer_id:
         type: string
       tx_id:
@@ -529,15 +605,15 @@ definitions:
       value_usd:
         type: string
     required:
-      - created_at
-      - currency_id
-      - direction
-      - id
-      - protocol
-      - status
-      - status_text
-      - updated_at
-      - value
+    - created_at
+    - currency_id
+    - direction
+    - id
+    - protocol
+    - status
+    - status_text
+    - updated_at
+    - value
     type: object
   schema.GetTransactionsOutput:
     properties:
@@ -551,8 +627,13 @@ definitions:
         type: string
       currency_symbol:
         type: string
+      customer_id:
+        description: Name                  string                      `json:"name,omitempty"`
+        type: string
       direction:
         type: integer
+      expire_date:
+        type: string
       id:
         type: string
       labels:
@@ -561,25 +642,36 @@ definitions:
         type: array
       last_screened:
         type: string
-      name:
-        type: string
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
       protocol:
         type: string
+      protocol_extra_info:
+        $ref: '#/definitions/model.Object'
+        description: for shyft, we need to know what kind of block it is (orig addr
+          or permission)
       risk_score:
         type: string
       risk_score_provider:
         type: string
       sanction_score:
         type: integer
+      sanction_score_provider:
+        type: string
       status:
         type: integer
       status_text:
+        type: string
+      transfer_id:
         type: string
       tx_id:
         type: string
       value:
         type: string
       value_usd:
+        description: only used in response
         type: string
     type: object
   schema.NationalIdentification:
@@ -607,10 +699,10 @@ definitions:
       total:
         type: integer
     required:
-      - has_next
-      - limit
-      - offset
-      - total
+    - has_next
+    - limit
+    - offset
+    - total
     type: object
   schema.PatchAssetInput:
     properties:
@@ -625,7 +717,7 @@ definitions:
       value:
         type: string
     required:
-      - id
+    - id
     type: object
   schema.PatchOwnershipAssetValidationAcceptInput:
     properties:
@@ -637,8 +729,8 @@ definitions:
         description: Transaction identifier on blockchain
         type: string
     required:
-      - id
-      - txid
+    - id
+    - txid
     type: object
   schema.PatchOwnershipAssetValidationConfirmInput:
     properties:
@@ -647,7 +739,7 @@ definitions:
         format: uuid
         type: string
     required:
-      - id
+    - id
     type: object
   schema.PatchOwnershipAssetValidationRejectInput:
     properties:
@@ -658,28 +750,28 @@ definitions:
       reject_code:
         description: Reply with [BVRC](ref:beneficiary-vasp-rejected-code).
         enum:
-          - BVRC001
-          - BVRC002
-          - BVRC003
-          - BVRC004
-          - BVRC005
-          - BVRC006
-          - BVRC007
-          - BVRC999
+        - BVRC001
+        - BVRC002
+        - BVRC003
+        - BVRC004
+        - BVRC005
+        - BVRC006
+        - BVRC007
+        - BVRC999
         type: string
       reject_message:
         description: Reply detail why you reject.
         type: string
     required:
-      - id
-      - reject_code
-      - reject_message
+    - id
+    - reject_code
+    - reject_message
     type: object
   schema.PatchOwnershipConfirmInput:
     properties:
       accept:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationConfirmInput"
+          $ref: '#/definitions/schema.PatchOwnershipAssetValidationConfirmInput'
         type: array
       id:
         description: Target ownership identifier
@@ -687,10 +779,10 @@ definitions:
         type: string
       reject:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
+          $ref: '#/definitions/schema.PatchOwnershipAssetValidationRejectInput'
         type: array
     required:
-      - id
+    - id
     type: object
   schema.PatchOwnershipIdInput:
     properties:
@@ -699,23 +791,25 @@ definitions:
         format: uuid
         type: string
     required:
-      - id
+    - id
     type: object
   schema.PatchOwnershipValidationInput:
     properties:
       accept:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationAcceptInput"
+          $ref: '#/definitions/schema.PatchOwnershipAssetValidationAcceptInput'
         type: array
       owner_info:
         type: object
       reject:
         items:
-          $ref: "#/definitions/schema.PatchOwnershipAssetValidationRejectInput"
+          $ref: '#/definitions/schema.PatchOwnershipAssetValidationRejectInput'
         type: array
     type: object
   schema.PatchPermissionInput:
     properties:
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -723,31 +817,40 @@ definitions:
       permission_status:
         description: Status of the transfer permission, 0 for accept, 1 for reject
         enum:
-          - 0
-          - 1
+        - 0
+        - 1
         type: integer
       reject_code:
-        description:
-          Only required when the permission_status is REJECTED, reply with
+        description: Only required when the permission_status is REJECTED, reply with
           [BVRC](ref:beneficiary-vasp-rejected-code).
         enum:
-          - BVRC001
-          - BVRC002
-          - BVRC003
-          - BVRC004
-          - BVRC005
-          - BVRC006
-          - BVRC007
-          - BVRC999
+        - BVRC001
+        - BVRC002
+        - BVRC003
+        - BVRC004
+        - BVRC005
+        - BVRC006
+        - BVRC007
+        - BVRC999
         type: string
       reject_message:
-        description:
-          Only required when the permission_status is REJECTED and reject_code
+        description: Only required when the permission_status is REJECTED and reject_code
           is 'BVRC999', reply with [BVRC](ref:beneficiary-vasp-rejected-code).
         type: string
     required:
-      - id
-      - permission_status
+    - id
+    - permission_status
+    type: object
+  schema.PatchTransactionsStatus:
+    properties:
+      action:
+        type: integer
+      id:
+        format: uuid
+        type: string
+    required:
+    - action
+    - id
     type: object
   schema.PatchTxIdInput:
     properties:
@@ -759,8 +862,8 @@ definitions:
         description: Transaction identifier on blockchain
         type: string
     required:
-      - id
-      - txid
+    - id
+    - txid
     type: object
   schema.PatchUsersInput:
     properties:
@@ -770,8 +873,8 @@ definitions:
       is_active:
         type: boolean
     required:
-      - id
-      - is_active
+    - id
+    - is_active
     type: object
   schema.PostAssetInput:
     properties:
@@ -784,19 +887,21 @@ definitions:
       value:
         type: string
     required:
-      - address
-      - currency_id
+    - address
+    - currency_id
     type: object
   schema.PostCustomersInput:
     properties:
       address:
-        $ref: "#/definitions/schema.Address"
+        $ref: '#/definitions/schema.Address'
       assets:
         items:
-          $ref: "#/definitions/schema.PostAssetInput"
+          $ref: '#/definitions/schema.PostAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       birth:
-        $ref: "#/definitions/schema.DateAndPlaceOfBirth"
+        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
       country:
         type: string
       customer_id:
@@ -807,24 +912,30 @@ definitions:
           * 0 - NaturalPerson
           * 1 - LegalPerson
         enum:
-          - 0
-          - 1
+        - 0
+        - 1
         type: integer
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
       name:
         type: string
       national:
-        $ref: "#/definitions/schema.NationalIdentification"
+        $ref: '#/definitions/schema.NationalIdentification'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
     required:
-      - assets
-      - country
-      - customer_type
-      - name
+    - assets
+    - country
+    - customer_type
+    - name
     type: object
   schema.PostEmailProtocolPermissionInput:
     properties:
       customer:
-        $ref: "#/definitions/schema.PostCustomersInput"
+        $ref: '#/definitions/schema.PostCustomersInput'
         description: customer is required if permission_status is ACCEPTED
+      forced_sending_when_VASP_is_not_healthy:
+        type: boolean
       id:
         description: Target transaction identifier which status is Pending On Beneficiary
         format: uuid
@@ -832,31 +943,29 @@ definitions:
       permission_status:
         description: Status of the transfer permission, 0 for accept, 1 for reject
         enum:
-          - 0
-          - 1
+        - 0
+        - 1
         type: integer
       reject_code:
-        description:
-          Only required when the permission_status is REJECTED, reply with
+        description: Only required when the permission_status is REJECTED, reply with
           [BVRC](ref:beneficiary-vasp-rejected-code).
         enum:
-          - BVRC001
-          - BVRC002
-          - BVRC003
-          - BVRC004
-          - BVRC005
-          - BVRC006
-          - BVRC007
-          - BVRC999
+        - BVRC001
+        - BVRC002
+        - BVRC003
+        - BVRC004
+        - BVRC005
+        - BVRC006
+        - BVRC007
+        - BVRC999
         type: string
       reject_message:
-        description:
-          Only required when the permission_status is REJECTED and reject_code
+        description: Only required when the permission_status is REJECTED and reject_code
           is 'BVRC999', reply with [BVRC](ref:beneficiary-vasp-rejected-code).
         type: string
     required:
-      - id
-      - permission_status
+    - id
+    - permission_status
     type: object
   schema.PostOauthInput:
     properties:
@@ -866,12 +975,12 @@ definitions:
         type: string
       login_type:
         enum:
-          - password
-          - google
+        - password
+        - google
         type: string
     required:
-      - account
-      - credential
+    - account
+    - credential
     type: object
   schema.PostOwnershipAssetInput:
     properties:
@@ -882,16 +991,18 @@ definitions:
       value:
         type: string
     required:
-      - address
-      - currency_id
-      - value
+    - address
+    - currency_id
+    - value
     type: object
   schema.PostOwnershipInput:
     properties:
       assets:
         items:
-          $ref: "#/definitions/schema.PostOwnershipAssetInput"
+          $ref: '#/definitions/schema.PostOwnershipAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       owner_email:
         format: email
         type: string
@@ -899,8 +1010,18 @@ definitions:
         format: email
         type: string
     required:
-      - assets
-      - owner_email
+    - assets
+    - owner_email
+    type: object
+  schema.PostSanctionMatchInput:
+    properties:
+      customer_type:
+        type: integer
+      name:
+        type: string
+    required:
+    - customer_type
+    - name
     type: object
   schema.PostServicesInput:
     properties:
@@ -908,26 +1029,39 @@ definitions:
         type: object
       provider:
         enum:
-          - Elliptic
-          - Chainalysis V1
-          - Chainalysis V2
-          - ComplyAdvantage
-          - Merkle Science
-          - TRISA
-          - Sygna_Bridge
-          - Dow Jones
-          - Coinfirm
+        - Elliptic
+        - Chainalysis V1
+        - Chainalysis V2
+        - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna_Bridge
+        - Dow Jones
+        - Coinfirm
         type: string
       type:
         enum:
-          - Blockchain Analytics
-          - Sanction Screening
-          - Travel Rule
+        - Blockchain Analytics
+        - Sanction Screening
+        - Travel Rule
         type: string
     required:
-      - credential
-      - provider
-      - type
+    - credential
+    - provider
+    - type
+    type: object
+  schema.PostSettingInput:
+    properties:
+      rule:
+        type: object
+      type:
+        enum:
+        - blockchain_analytics_timing
+        - sanction_screening_timing
+        type: string
+    required:
+    - rule
+    - type
     type: object
   schema.PostUsersInput:
     properties:
@@ -955,7 +1089,7 @@ definitions:
           notice: admin could not be created if there is admin in VASP.
         type: integer
     required:
-      - account
+    - account
     type: object
   schema.PostUsersLinkInput:
     properties:
@@ -963,8 +1097,7 @@ definitions:
         description: your account of third party service
         type: string
       credential:
-        description:
-          your credential of third party service and it would be used to
+        description: your credential of third party service and it would be used to
           validate if your account is valid
         type: string
       login_type:
@@ -973,8 +1106,8 @@ definitions:
           only google is supported now
         type: string
     required:
-      - account
-      - login_type
+    - account
+    - login_type
     type: object
   schema.PostVendorsTestInput:
     properties:
@@ -982,25 +1115,25 @@ definitions:
         type: object
       provider:
         enum:
-          - Sygna_Bridge
-          - Elliptic
-          - Chainalysis
-          - ComplyAdvantage
-          - Merkle Science
-          - TRISA
-          - Dow Jones
-          - Coinfirm
+        - Sygna_Bridge
+        - Elliptic
+        - Chainalysis
+        - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Dow Jones
+        - Coinfirm
         type: string
       type:
         enum:
-          - Travel Rule
-          - Blockchain Analytics
-          - Sanction Screening
+        - Travel Rule
+        - Blockchain Analytics
+        - Sanction Screening
         type: string
     required:
-      - credential
-      - provider
-      - type
+    - credential
+    - provider
+    - type
     type: object
   schema.PostVendorsTestOutput:
     properties:
@@ -1017,9 +1150,9 @@ definitions:
       type:
         type: string
     required:
-      - provider
-      - status_code
-      - type
+    - provider
+    - status_code
+    - type
     type: object
   schema.PostWalletAddressFilterInput:
     properties:
@@ -1032,8 +1165,8 @@ definitions:
         description: choose target currency identifier from GET /currencies
         type: string
     required:
-      - addrs
-      - currency_id
+    - addrs
+    - currency_id
     type: object
   schema.PostWalletAddressFilterOutput:
     properties:
@@ -1042,9 +1175,9 @@ definitions:
       currency_id:
         type: string
       error:
-        $ref: "#/definitions/errors.SystemError"
+        $ref: '#/definitions/errors.SystemError'
       extra_data:
-        $ref: "#/definitions/types.H"
+        $ref: '#/definitions/types.H'
       is_vasp:
         description: is_vasp indicates whether address belongs VASP
         type: boolean
@@ -1053,23 +1186,25 @@ definitions:
       type:
         description: which type address belongs
         enum:
-          - SYGNA_VASP
-          - UNKNOWN
-          - FAILED
-          - OTHER_VASP
-          - PRIVATE_WALLET
+        - SYGNA_VASP
+        - UNKNOWN
+        - FAILED
+        - OTHER_VASP
+        - PRIVATE_WALLET
         type: string
     type: object
   schema.PutCustomersInput:
     properties:
       address:
-        $ref: "#/definitions/schema.Address"
+        $ref: '#/definitions/schema.Address'
       assets:
         items:
-          $ref: "#/definitions/schema.PatchAssetInput"
+          $ref: '#/definitions/schema.PatchAssetInput'
         type: array
+      assets_ignore_kyt:
+        type: boolean
       birth:
-        $ref: "#/definitions/schema.DateAndPlaceOfBirth"
+        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
       country:
         type: string
       customer_id:
@@ -1080,25 +1215,36 @@ definitions:
           * 0 - NaturalPerson
           * 1 - LegalPerson
         enum:
-          - 0
-          - 1
+        - 0
+        - 1
         type: integer
       id:
         format: uuid
         type: string
       is_active:
         type: boolean
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
       name:
         type: string
       national:
-        $ref: "#/definitions/schema.NationalIdentification"
+        $ref: '#/definitions/schema.NationalIdentification'
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
     required:
-      - assets
-      - country
-      - customer_type
-      - id
-      - is_active
-      - name
+    - assets
+    - country
+    - customer_type
+    - id
+    - is_active
+    - name
+    type: object
+  schema.PutRollbackInout:
+    properties:
+      version:
+        type: string
+    required:
+    - version
     type: object
   schema.PutServicesInput:
     properties:
@@ -1108,29 +1254,29 @@ definitions:
         type: boolean
       provider:
         enum:
-          - Elliptic
-          - Chainalysis V1
-          - Chainalysis V2
-          - ComplyAdvantage
-          - Merkle Science
-          - TRISA
-          - Sygna_Bridge
-          - Dow Jones
-          - Coinfirm
+        - Elliptic
+        - Chainalysis V1
+        - Chainalysis V2
+        - ComplyAdvantage
+        - Merkle Science
+        - TRISA
+        - Sygna_Bridge
+        - Dow Jones
+        - Coinfirm
         type: string
       settings:
         type: object
       type:
         enum:
-          - Blockchain Analytics
-          - Sanction Screening
-          - Travel Rule
+        - Blockchain Analytics
+        - Sanction Screening
+        - Travel Rule
         type: string
     required:
-      - credential
-      - is_active
-      - provider
-      - type
+    - credential
+    - is_active
+    - provider
+    - type
     type: object
   schema.Resp:
     properties:
@@ -1143,25 +1289,25 @@ definitions:
         items:
           properties:
             error:
-              $ref: "#/definitions/errors.SystemError"
+              $ref: '#/definitions/errors.SystemError'
             id:
               format: uuid
               type: string
             success:
               type: boolean
           required:
-            - success
+          - success
           type: object
         type: array
     required:
-      - data
+    - data
     type: object
   schema.RespWithPaging:
     properties:
       data:
         type: object
       paging:
-        $ref: "#/definitions/schema.PagingResult"
+        $ref: '#/definitions/schema.PagingResult'
     type: object
   schema.RespWithStatus:
     properties:
@@ -1170,10 +1316,10 @@ definitions:
           success:
             type: boolean
         required:
-          - success
+        - success
         type: object
     required:
-      - data
+    - data
     type: object
   schema.RespWithStatusAndMessage:
     properties:
@@ -1185,11 +1331,11 @@ definitions:
           success:
             type: boolean
         required:
-          - message
-          - success
+        - message
+        - success
         type: object
     required:
-      - data
+    - data
     type: object
   schema.TransactionAsset:
     properties:
@@ -1212,31 +1358,16 @@ definitions:
       risk_score_provider:
         type: string
     required:
-      - id
-    type: object
-  types.BeneficiaryPrivateInfo:
-    properties:
-      legal_person_name:
-        type: string
-      primary_identifier:
-        description: |-
-          primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;
-          legal_person_name is required  if customer_type is LegalPerson
-        type: string
-      secondary_identifier:
-        type: string
+    - id
     type: object
   types.H:
     additionalProperties: true
     type: object
 info:
-  contact:
-    email: services@sygna.io
-    name: Sygna Support
-    url: https://www.sygna.io/
+  contact: {}
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.12
+  version: 1.0.14
 paths:
   /:
     get:
@@ -1245,497 +1376,780 @@ paths:
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    $ref: "#/definitions/schema.GetRootOutput"
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.GetRootOutput'
+              type: object
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "404":
           description: Not Found
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       summary: get current release, version the path could be used for health check
       tags:
-        - self
+      - self
   /currencies:
     get:
       operationId: GetCurrencies
       parameters:
-        - collectionFormat: multi
-          description: filter currencies by currency identifier
-          in: query
-          items:
-            type: string
-          name: currency_id
-          type: array
-        - collectionFormat: multi
-          description: filter currencies data by currency symbol
-          in: query
-          items:
-            type: string
-          name: currency_symbol
-          type: array
-        - collectionFormat: multi
-          description: filter currencies data by currency name
-          in: query
-          items:
-            type: string
-          name: currency_name
-          type: array
-        - collectionFormat: multi
-          description: filter currencies data by kyt providers
-          in: query
-          items:
-            type: string
-          name: kyt_provider
-          type: array
-        - collectionFormat: multi
-          description: filter currencies by if status is activated
-          in: query
-          items:
-            type: boolean
-          name: is_active
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
-          type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+      - description: filter currencies by currency identifier
+        in: query
+        items:
+          type: string
+        name: currency_id
+        type: array
+      - description: filter currencies data by currency symbol
+        in: query
+        items:
+          type: string
+        name: currency_symbol
+        type: array
+      - description: filter currencies data by currency name
+        in: query
+        items:
+          type: string
+        name: currency_name
+        type: array
+      - description: filter currencies data by kyt providers
+        in: query
+        items:
+          type: string
+        name: kyt_provider
+        type: array
+      - description: filter currencies by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/model.Currency"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Currency'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get supported currencies
       tags:
-        - currencies
+      - currencies
   /customers:
     get:
       parameters:
-        - collectionFormat: multi
-          description: filter customers by customer identifier
-          in: query
-          items:
-            type: string
-          name: id
-          type: array
-        - collectionFormat: multi
-          description: filter customers by customer name
-          in: query
-          items:
-            type: string
-          name: name
-          type: array
-        - collectionFormat: multi
-          description: filter customers by if status is activated
-          in: query
-          items:
-            type: boolean
-          name: is_active
-          type: array
-        - collectionFormat: multi
-          description: filter customers by risk score provider
-          in: query
-          items:
-            enum:
-              - Elliptic
-              - Chainalysis V1
-              - Chainalysis V2
-              - Merkle Science
-              - Dow Jones
-              - Coinfirm
-            type: string
-          name: risk_score_provider
-          type: array
-        - collectionFormat: multi
-          description:
-            A URL parameter that specifies the range of max risk score. This
-            format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
-          in: query
-          items:
-            type: string
-          name: max_risk_score
-          type: array
-        - collectionFormat: multi
-          description:
-            A URL parameter that specifies the range of average risk score.
-            This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis
-            V1:low,high).
-          in: query
-          items:
-            type: string
-          name: avg_risk_score
-          type: array
-        - collectionFormat: multi
-          description: filter customers by labels from KYT service searched
-          in: query
-          items:
-            type: string
-          name: label
-          type: array
-        - collectionFormat: multi
-          description:
-            filter customers by a range of last screened date(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: last_screened
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
-          type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+      - description: filter customers by customer identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter customers by customer name
+        in: query
+        items:
+          type: string
+        name: name
+        type: array
+      - description: filter customers by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter customers by risk score provider
+        in: query
+        items:
+          enum:
+          - Elliptic
+          - Chainalysis V1
+          - Chainalysis V2
+          - Merkle Science
+          - Dow Jones
+          - Coinfirm
+          type: string
+        name: risk_score_provider
+        type: array
+      - description: A URL parameter that specifies the range of max risk score. This
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+        in: query
+        items:
+          type: string
+        name: max_risk_score
+        type: array
+      - description: A URL parameter that specifies the range of average risk score.
+          This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis
+          V1:low,high).
+        in: query
+        items:
+          type: string
+        name: avg_risk_score
+        type: array
+      - description: filter customers by labels from KYT service searched
+        in: query
+        items:
+          type: string
+        name: label
+        type: array
+      - description: filter customers by a range of last screened date(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: last_screened
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/schema.GetCustomersOutput"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.GetCustomersOutput'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get customers
       tags:
-        - customers
+      - customers
     post:
       parameters:
-        - description: post /customers params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostCustomersInput"
-            type: array
+      - description: post /customers params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostCustomersInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: create customers
       tags:
-        - customers
+      - customers
     put:
       parameters:
-        - description: put /customers params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PutCustomersInput"
-            type: array
+      - description: put /customers params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PutCustomersInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: update customers
       tags:
-        - customers
+      - customers
   /customers/{id}:
     get:
       parameters:
-        - description: customer identifier
-          in: path
-          name: id
-          required: true
+      - description: customer identifier
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: filter asset by ids in current customer
+        in: query
+        items:
           type: string
-        - collectionFormat: multi
-          description: filter asset by ids in current customer
-          in: query
-          items:
-            type: string
-          name: asset_id
-          type: array
-        - collectionFormat: multi
-          description: filter asset by currency id in current customer
-          in: query
-          items:
-            type: string
-          name: asset_currency_id
-          type: array
-        - collectionFormat: multi
-          description: filter asset by risk score in current customer
-          in: query
-          items:
-            type: string
-          name: asset_risk_score
-          type: array
-        - collectionFormat: multi
-          description: filter asset by address in current customer
-          in: query
-          items:
-            type: string
-          name: asset_address
-          type: array
-        - collectionFormat: multi
-          description: filter asset by label in current customer
-          in: query
-          items:
-            type: string
-          name: asset_label
-          type: array
-        - collectionFormat: multi
-          description: filter asset by value in current customer
-          in: query
-          items:
-            type: string
-          name: asset_value
-          type: array
-        - collectionFormat: multi
-          description: filter asset by last screen time in current customer
-          in: query
-          items:
-            type: string
-          name: asset_last_screened
-          type: array
+        name: asset_id
+        type: array
+      - description: filter asset by currency id in current customer
+        in: query
+        items:
+          type: string
+        name: asset_currency_id
+        type: array
+      - description: filter asset by risk score in current customer
+        in: query
+        items:
+          type: string
+        name: asset_risk_score
+        type: array
+      - description: filter asset by address in current customer
+        in: query
+        items:
+          type: string
+        name: asset_address
+        type: array
+      - description: filter asset by label in current customer
+        in: query
+        items:
+          type: string
+        name: asset_label
+        type: array
+      - description: filter asset by value in current customer
+        in: query
+        items:
+          type: string
+        name: asset_value
+        type: array
+      - description: filter asset by last screen time in current customer
+        in: query
+        items:
+          type: string
+        name: asset_last_screened
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    $ref: "#/definitions/schema.GetCustomerOutput"
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.GetCustomerOutput'
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get specific customer detail
       tags:
-        - customers
+      - customers
+  /data-transfer-export:
+    get:
+      parameters:
+      - description: filter transactions by transaction identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter transactions by customer name
+        in: query
+        items:
+          type: string
+        name: name
+        type: array
+      - description: filter transactions by transaction address
+        in: query
+        items:
+          type: string
+        name: address
+        type: array
+      - description: filter transactions by transaction id on blockchain
+        in: query
+        items:
+          type: string
+        name: tx_id
+        type: array
+      - description: filter transactions by transaction currency id
+        in: query
+        items:
+          type: string
+        name: currency_id
+        type: array
+      - description: filter transactions by a range of last screened(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: last_screened
+        type: array
+      - description: filter transactions by risk score provider
+        in: query
+        items:
+          type: string
+        name: risk_score_provider
+        type: array
+      - description: A URL parameter that specifies the range of risk score. This
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+        in: query
+        items:
+          type: string
+        name: risk_score
+        type: array
+      - description: filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
+          On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
+          To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
+        in: query
+        items:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          type: integer
+        name: status
+        type: array
+      - description: filter transactions by transaction status text
+        in: query
+        items:
+          enum:
+          - Processing
+          - Blocked
+          - Pending On Beneficiary
+          - Transfer To Beneficiary Failed
+          - Pending On Originator
+          - Transfer To Originator Failed
+          - Confirmed
+          - Confirm Failed
+          - Rejected
+          type: string
+        name: status_text
+        type: array
+      - description: A URL parameter that specifies the range of value. This format
+          should be {from,to} (ie.value=0.1,10.5 means filtering transactions by value
+          between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: value
+        type: array
+      - description: A URL parameter that specifies the range of sanction screening
+          score. This format should be {from,to} (ie.sanction_score=0.1,10.5 means
+          filtering transactions by sanction_score between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: sanction_score
+        type: array
+      - description: filter transactions by transaction protocol
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
+          - TRISA
+          type: string
+        name: protocol
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: generate transaction report
+      tags:
+      - data-transfer-export
+  /data-transfer-export/download:
+    get:
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: download transactions report
+      tags:
+      - data-transfer-export
+  /data-transfer-export/status:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.TransactionReport'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get transaction report processing status
+      tags:
+      - data-transfer-export
+  /global-vasp:
+    get:
+      description: only admin could get encrypted credentials
+      parameters:
+      - description: filter global vasp by vasp identifier
+        in: query
+        items:
+          type: string
+        name: vasp_identifier
+        type: array
+      - description: filter global vasp data by vasp name
+        in: query
+        items:
+          type: string
+        name: vasp_name
+        type: array
+      - description: filter global vasp data by protocol
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
+          - TRISA
+          - VerifyVASP
+          - Notabene_TR:NOW
+          - Veriscope on Shyft
+          type: string
+        name: protocol
+        type: array
+      - description: filter global vasp data by extra_info's key
+        in: query
+        name: extra_info[key]
+        type: string
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.GlobalVasp'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get global-vasp
+      tags:
+      - global-vasp
   /oauth2:
     delete:
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithStatus"
+            $ref: '#/definitions/schema.RespWithStatus'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: delete oauth token from database
       tags:
-        - oauth2
+      - oauth2
     post:
       parameters:
-        - description: post /oauth2 param
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/schema.PostOauthInput"
+      - description: post /oauth2 param
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PostOauthInput'
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithStatus"
+            $ref: '#/definitions/schema.RespWithStatus'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       summary: get oauth token
       tags:
-        - oauth2
+      - oauth2
   /ownerships:
     get:
       responses:
@@ -1743,1266 +2157,1484 @@ paths:
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/model.Ownership"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Ownership'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: the API would be used when you want to see a list of all validations
       tags:
-        - ownerships
+      - ownerships
     post:
       parameters:
-        - description: post /ownerships params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostOwnershipInput"
-            type: array
-        - description: the validation would be sent even if the addresses are risky
-          in: query
-          name: accept_high_risk
-          type: boolean
+      - description: post /ownerships params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostOwnershipInput'
+          type: array
+      - description: the validation would be sent even if the addresses are risky
+        in: query
+        name: accept_high_risk
+        type: boolean
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        the API would be used when you want to validate an address whether
+      - CookieAuth: []
+      summary: the API would be used when you want to validate an address whether
         belong to a user who owns private wallet
       tags:
-        - ownerships
+      - ownerships
   /ownerships/{id}:
     get:
       parameters:
-        - description: ownership identifier
-          in: path
-          name: id
-          required: true
-          type: string
+      - description: ownership identifier
+        in: path
+        name: id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    $ref: "#/definitions/model.Ownership"
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Ownership'
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: the API would be used when you want to see a validation detail
       tags:
-        - ownerships
+      - ownerships
   /ownerships/cancel:
     patch:
       parameters:
-        - description: patch /ownerships/cancel params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchOwnershipIdInput"
-            type: array
+      - description: patch /ownerships/cancel params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchOwnershipIdInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        you couldn't validate some address that it is processing or accepted
+      - CookieAuth: []
+      summary: you couldn't validate some address that it is processing or accepted
         until you cancel it
       tags:
-        - ownerships
+      - ownerships
   /ownerships/confirm:
     patch:
       parameters:
-        - description: patch /ownerships/confirm params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchOwnershipConfirmInput"
-            type: array
+      - description: patch /ownerships/confirm params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchOwnershipConfirmInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        the API would be used when you received a reply from the receiver and
+      - CookieAuth: []
+      summary: the API would be used when you received a reply from the receiver and
         you want to accept or reject the reply
       tags:
-        - ownerships
+      - ownerships
   /ownerships/resend:
     patch:
       parameters:
-        - description: patch /ownerships/resend params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchOwnershipIdInput"
-            type: array
+      - description: patch /ownerships/resend params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchOwnershipIdInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: the API would be used when a receiver lets you send a email again
       tags:
-        - ownerships
+      - ownerships
   /ownerships/unblock:
     patch:
       parameters:
-        - description: patch /ownerships/unblock params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchOwnershipIdInput"
-            type: array
+      - description: patch /ownerships/unblock params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchOwnershipIdInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        the API would be used when the validation that including risky address
+      - CookieAuth: []
+      summary: the API would be used when the validation that including risky address
         wouldn't be sent until you unblock it
       tags:
-        - ownerships
+      - ownerships
   /ownerships/validate:
     patch:
       parameters:
-        - description: patch /ownerships/validate params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchOwnershipValidationInput"
-            type: array
+      - description: patch /ownerships/validate params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchOwnershipValidationInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        the API would be used when you get the ownership identifier from the
+      - CookieAuth: []
+      summary: the API would be used when you get the ownership identifier from the
         link that you received and want to reply to the validation
       tags:
-        - ownerships
+      - ownerships
   /ownerships/verify-token/{token}:
     get:
       parameters:
-        - description: JWT token
-          in: path
-          name: token
-          required: true
-          type: string
+      - description: JWT token
+        in: path
+        name: token
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    type: string
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  type: string
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        the API would be used when you received a link that asks you to validate
+      - CookieAuth: []
+      summary: the API would be used when you received a link that asks you to validate
         the address whether belong to you
       tags:
-        - ownerships
+      - ownerships
+  /rollback:
+    get:
+      description: only admin could get encrypted credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Rollback'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get rollback
+      tags:
+      - rollback
+    put:
+      description: only allow admin to use this method
+      parameters:
+      - description: put /rollback params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PutRollbackInout'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update rollback
+      tags:
+      - rollback
   /services:
     get:
       description: only admin could get encrypted credentials
       parameters:
-        - collectionFormat: multi
-          description: filter services by service identifier
-          in: query
-          items:
-            type: string
-          name: id
-          type: array
-        - collectionFormat: multi
-          description: filter services by provider
-          in: query
-          items:
-            enum:
-              - Sygna_Bridge
-              - Elliptic
-              - Chainalysis V1
-              - Chainalysis V2
-              - ComplyAdvantage
-              - Merkle Science
-              - TRISA
-              - Dow Jones
-              - Coinfirm
-            type: string
-          name: provider
-          type: array
-        - collectionFormat: multi
-          description: filter services by type
-          in: query
-          items:
-            enum:
-              - Travel Rule
-              - Blockchain Analytics
-              - Sanction Screening
-            type: string
-          name: type
-          type: array
-        - collectionFormat: multi
-          description: filter services by if status is activated
-          in: query
-          items:
-            type: boolean
-          name: is_active
-          type: array
-        - collectionFormat: multi
-          description: filter services by status
-          in: query
-          items:
-            enum:
-              - activated
-              - deactivated
-              - disabled
-              - upcoming
-              - expired
-            type: string
-          name: status
-          type: array
-        - collectionFormat: multi
-          description:
-            filter services by a range of start time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: start_time
-          type: array
-        - collectionFormat: multi
-          description:
-            filter services by a range of end time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: query
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
-          type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+      - description: filter services by service identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter services by provider
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Elliptic
+          - Chainalysis V1
+          - Chainalysis V2
+          - ComplyAdvantage
+          - Merkle Science
+          - TRISA
+          - Dow Jones
+          - Coinfirm
+          type: string
+        name: provider
+        type: array
+      - description: filter services by type
+        in: query
+        items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
+          type: string
+        name: type
+        type: array
+      - description: filter services by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter services by status
+        in: query
+        items:
+          enum:
+          - activated
+          - deactivated
+          - disabled
+          - upcoming
+          - expired
+          type: string
+        name: status
+        type: array
+      - description: filter services by a range of start time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: start_time
+        type: array
+      - description: filter services by a range of end time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: end_time
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/model.Service"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Service'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get services
       tags:
-        - services
+      - services
     post:
       description: |-
         only allow admin to use this method
         use GET /services/supported to understand which credential is required by provider
       parameters:
-        - description: post /services params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostServicesInput"
-            type: array
+      - description: post /services params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostServicesInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: create services
       tags:
-        - services
+      - services
     put:
       description: |-
         only allow admin to use this method
         use GET /services/supported to understand which credential is required by provider
       parameters:
-        - description: put /services params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PutServicesInput"
-            type: array
+      - description: put /services params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PutServicesInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: update services
       tags:
-        - services
+      - services
   /services/supported:
     get:
       description: only allow admin to use this method
       parameters:
-        - collectionFormat: multi
-          description: filter services by service identifier
-          in: query
-          items:
-            type: string
-          name: id
-          type: array
-        - collectionFormat: multi
-          description: filter services by provider
-          in: query
-          items:
-            enum:
-              - Sygna_Bridge
-              - Elliptic
-              - Chainalysis V1
-              - Chainalysis V2
-              - ComplyAdvantage
-              - Merkle Science
-              - TRISA
-              - Dow Jones
-              - Coinfirm
-            type: string
-          name: provider
-          type: array
-        - collectionFormat: multi
-          description: filter services by type
-          in: query
-          items:
-            enum:
-              - Travel Rule
-              - Blockchain Analytics
-              - Sanction Screening
-            type: string
-          name: type
-          type: array
-        - collectionFormat: multi
-          description: filter services by if status is activated
-          in: query
-          items:
-            type: boolean
-          name: is_active
-          type: array
-        - collectionFormat: multi
-          description: filter services by editable
-          in: query
-          items:
-            type: boolean
-          name: editable
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
-          type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+      - description: filter services by service identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter services by provider
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Elliptic
+          - Chainalysis V1
+          - Chainalysis V2
+          - ComplyAdvantage
+          - Merkle Science
+          - TRISA
+          - Dow Jones
+          - Coinfirm
+          type: string
+        name: provider
+        type: array
+      - description: filter services by type
+        in: query
+        items:
+          enum:
+          - Travel Rule
+          - Blockchain Analytics
+          - Sanction Screening
+          type: string
+        name: type
+        type: array
+      - description: filter services by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter services by editable
+        in: query
+        items:
+          type: boolean
+        name: editable
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/model.SupportedService"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.SupportedService'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get supported services and its config
       tags:
-        - services
+      - services
+  /settings:
+    get:
+      description: only admin could get encrypted credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Setting'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get settings
+      tags:
+      - settings
+    post:
+      description: only allow admin to use this method
+      parameters:
+      - description: post /settings params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostSettingInput'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: create settings
+      tags:
+      - settings
+    put:
+      description: only allow admin to use this method
+      parameters:
+      - description: put /settings params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostSettingInput'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update settings
+      tags:
+      - settings
+  /settings/default:
+    get:
+      description: only allow admin to use this method
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/schema.PostSettingInput'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get default settings
+      tags:
+      - settings
+  /settings/supported:
+    get:
+      description: only allow admin to use this method
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.SupportedSetting'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get supported settings
+      tags:
+      - settings
   /transactions:
     get:
       parameters:
-        - collectionFormat: multi
-          description: filter transactions by transaction identifier
-          in: query
-          items:
-            type: string
-          name: id
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by customer name
-          in: query
-          items:
-            type: string
-          name: name
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by transaction address
-          in: query
-          items:
-            type: string
-          name: address
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by transaction id on blockchain
-          in: query
-          items:
-            type: string
-          name: tx_id
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by transaction currency id
-          in: query
-          items:
-            type: string
-          name: currency_id
-          type: array
-        - collectionFormat: multi
-          description:
-            filter transactions by a range of last screened(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: last_screened
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by risk score provider
-          in: query
-          items:
-            type: string
-          name: risk_score_provider
-          type: array
-        - collectionFormat: multi
-          description:
-            A URL parameter that specifies the range of risk score. This
-            format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
-          in: query
-          items:
-            type: string
-          name: risk_score
-          type: array
-        - collectionFormat: multi
-          description:
-            filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
-            On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
-            To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
-          in: query
-          items:
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-              - 6
-              - 7
-              - 8
-            type: integer
-          name: status
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by transaction status text
-          in: query
-          items:
-            enum:
-              - Processing
-              - Blocked
-              - Pending On Beneficiary
-              - Transfer To Beneficiary Failed
-              - Pending On Originator
-              - Transfer To Originator Failed
-              - Confirmed
-              - Confirm Failed
-              - Rejected
-            type: string
-          name: status_text
-          type: array
-        - collectionFormat: multi
-          description:
-            A URL parameter that specifies the range of value. This format
-            should be {from,to} (ie.value=0.1,10.5 means filtering transactions by value
-            between 0.1 and 10.5 inclusive).
-          in: query
-          items:
-            type: string
-          name: value
-          type: array
-        - collectionFormat: multi
-          description:
-            A URL parameter that specifies the range of sanction screening
-            score. This format should be {from,to} (ie.sanction_score=0.1,10.5 means
-            filtering transactions by sanction_score between 0.1 and 10.5 inclusive).
-          in: query
-          items:
-            type: string
-          name: sanction_score
-          type: array
-        - collectionFormat: multi
-          description: filter transactions by transaction protocol
-          in: query
-          items:
-            enum:
-              - Sygna_Bridge
-              - Sygna_EmailProtocol
-              - TRISA
-            type: string
-          name: protocol
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
+      - description: filter transactions by transaction identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter transactions by customer name
+        in: query
+        items:
+          type: string
+        name: name
+        type: array
+      - description: filter transactions by transaction address
+        in: query
+        items:
+          type: string
+        name: address
+        type: array
+      - description: filter transactions by transaction id on blockchain
+        in: query
+        items:
+          type: string
+        name: tx_id
+        type: array
+      - description: filter transactions by transaction currency id
+        in: query
+        items:
+          type: string
+        name: currency_id
+        type: array
+      - description: filter transactions by a range of last screened(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: last_screened
+        type: array
+      - description: filter transactions by risk score provider
+        in: query
+        items:
+          type: string
+        name: risk_score_provider
+        type: array
+      - description: A URL parameter that specifies the range of risk score. This
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+        in: query
+        items:
+          type: string
+        name: risk_score
+        type: array
+      - description: filter transactions by transaction status(0:Processing,1:Blocked,2:Pending
+          On Beneficiary,3:Transfer To Beneficiary Failed,4:Pending On Originator,5:Transfer
+          To Originator Failed,6:Confirmed,7:Confirm Failed,8:Rejected)
+        in: query
+        items:
+          enum:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
           type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+        name: status
+        type: array
+      - description: filter transactions by transaction status text
+        in: query
+        items:
+          enum:
+          - Processing
+          - Blocked
+          - Pending On Beneficiary
+          - Transfer To Beneficiary Failed
+          - Pending On Originator
+          - Transfer To Originator Failed
+          - Confirmed
+          - Confirm Failed
+          - Rejected
+          type: string
+        name: status_text
+        type: array
+      - description: A URL parameter that specifies the range of value. This format
+          should be {from,to} (ie.value=0.1,10.5 means filtering transactions by value
+          between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: value
+        type: array
+      - description: A URL parameter that specifies the range of sanction screening
+          score. This format should be {from,to} (ie.sanction_score=0.1,10.5 means
+          filtering transactions by sanction_score between 0.1 and 10.5 inclusive).
+        in: query
+        items:
+          type: string
+        name: sanction_score
+        type: array
+      - description: filter transactions by transaction protocol
+        in: query
+        items:
+          enum:
+          - Sygna_Bridge
+          - Sygna_EmailProtocol
+          - TRISA
+          type: string
+        name: protocol
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/schema.GetTransactionsOutput"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.GetTransactionsOutput'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get transactions
       tags:
-        - transactions
+      - transactions
     post:
       parameters:
-        - description: post /transactions params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/model.PostTransactionInput"
-            type: array
+      - description: post /transactions params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.PostTransactionInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: create transactions
       tags:
-        - transactions
+      - transactions
   /transactions/{id}:
     get:
       parameters:
-        - description: transaction identifier
-          in: path
-          name: id
-          required: true
-          type: string
+      - description: transaction identifier
+        in: path
+        name: id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    $ref: "#/definitions/schema.GetTransactionOutput"
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.GetTransactionOutput'
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get specific transaction
       tags:
-        - transactions
+      - transactions
   /transactions/email-protocol/deposits:
     post:
       description: only for email protocol
       parameters:
-        - description: post /transactions/email-protocol/deposits params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/model.PostEmailProtocolDepositInput"
-            type: array
+      - description: post /transactions/email-protocol/deposits params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.PostEmailProtocolDepositInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: send email to originator VASP and ask him to fill customer information
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/email-protocol/deposits/permission:
     patch:
       description: only for email protocol
       parameters:
-        - description: patch /transactions/email-protocol/deposits/permission params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchPermissionInput"
-            type: array
+      - description: patch /transactions/email-protocol/deposits/permission params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchPermissionInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        accept or reject this transaction when received customer information
+      - CookieAuth: []
+      summary: accept or reject this transaction when received customer information
         from originator
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/email-protocol/deposits/permission-request:
     patch:
       description: only for email protocol
       parameters:
-        - description:
-            patch /transactions/email-protocol/deposits/permission-request
-            params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostEmailProtocolPermissionInput"
-            type: array
+      - description: patch /transactions/email-protocol/deposits/permission-request
+          params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostEmailProtocolPermissionInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        send own customer information to beneficiary or reject this request
+      - CookieAuth: []
+      summary: send own customer information to beneficiary or reject this request
         when received email from beneficiary
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/email-protocol/deposits/txid:
     patch:
       description: only for email protocol
       parameters:
-        - description: patch /transactions/email-protocol/deposits/txid params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchTxIdInput"
-            type: array
+      - description: patch /transactions/email-protocol/deposits/txid params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchTxIdInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: send transaction hash when received accept from beneficiary
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/email-protocol/permission:
     post:
       description: only for email protocol
       parameters:
-        - description: post /transactions/email-protocol/permission params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostEmailProtocolPermissionInput"
-            type: array
+      - description: post /transactions/email-protocol/permission params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostEmailProtocolPermissionInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: send permission to originator from email protocol VASP
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/email-protocol/verify-token/{token}:
     get:
       description: only for email protocol
       parameters:
-        - description: JWT token
-          in: path
-          name: token
-          required: true
-          type: string
+      - description: JWT token
+        in: path
+        name: token
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    type: string
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  type: string
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       summary: verify if token is valid and get its transaction identifier
       tags:
-        - transactions/email-protocol
+      - transactions/email-protocol
   /transactions/permission:
     patch:
       parameters:
-        - description: patch /transactions/permission params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchPermissionInput"
-            type: array
+      - description: patch /transactions/permission params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchPermissionInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: send permission to originator
       tags:
-        - transactions
+      - transactions
+  /transactions/sanction-match:
+    post:
+      parameters:
+      - description: post /transactions/sanction-match params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PostSanctionMatchInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sanctionscreening.GetSanctionScoreOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: let user do sanction screening
+      tags:
+      - transactions
   /transactions/sanction-report/{searchId}:
     get:
       parameters:
-        - description: an identifier from sanction screening service
-          in: path
-          name: searchId
-          required: true
-          type: string
+      - description: an identifier from sanction screening service
+        in: path
+        name: searchId
+        required: true
+        type: string
       produces:
-        - application/pdf
+      - application/pdf
       responses:
         "200":
           description: binary
@@ -3011,386 +3643,409 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get report from sanction screening service
       tags:
-        - transactions
-  /transactions/txid:
+      - transactions
+  /transactions/status:
     patch:
       parameters:
-        - description: patch /transactions/txid params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchTxIdInput"
-            type: array
+      - description: patch /transactions/status params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchTransactionsStatus'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
+      summary: unblock or cancel transactions
+      tags:
+      - transactions
+  /transactions/txid:
+    patch:
+      parameters:
+      - description: patch /transactions/txid params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchTxIdInput'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
       summary: send transaction identifier on blockchain to beneficiary
       tags:
-        - transactions
+      - transactions
   /transactions/wallet-address-filter:
     post:
       parameters:
-        - description: post /transactions/wallet-address-filter params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostWalletAddressFilterInput"
-            type: array
+      - description: post /transactions/wallet-address-filter params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostWalletAddressFilterInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  items:
                     items:
-                      items:
-                        $ref: "#/definitions/schema.PostWalletAddressFilterOutput"
-                      type: array
+                      $ref: '#/definitions/schema.PostWalletAddressFilterOutput'
                     type: array
-                type: object
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
-      summary:
-        use /wallet-address-filter from Sygna Bridge and use KYT service by
+      - CookieAuth: []
+      summary: use /wallet-address-filter from Sygna Bridge and use KYT service by
         own credential to get address information
       tags:
-        - transactions
+      - transactions
   /users:
     delete:
       description: |-
         only admin could use this method
         all accounts would be logout if admin deleted them
       parameters:
-        - description: patch /users params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.DeleteUsersInput"
-            type: array
+      - description: patch /users params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.DeleteUsersInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: delete users(member)
       tags:
-        - users
+      - users
     get:
       description: only admin could use this method
       parameters:
-        - collectionFormat: multi
-          description: filter users by identifier
-          in: query
-          items:
-            type: string
-          name: id
-          type: array
-        - collectionFormat: multi
-          description: filter users by role identifier(0:admin 1:member)
-          in: query
-          items:
-            enum:
-              - 0
-              - 1
-            type: integer
-          name: role_id
-          type: array
-        - collectionFormat: multi
-          description: filter users by login account
-          in: query
-          items:
-            type: string
-          name: account
-          type: array
-        - collectionFormat: multi
-          description:
-            filter users by login type(only supported password and google
-            now)
-          in: query
-          items:
-            enum:
-              - password
-              - google
-            type: string
-          name: login_type
-          type: array
-        - collectionFormat: multi
-          description: filter users by if status is activated
-          in: query
-          items:
-            type: boolean
-          name: is_active
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: created_at
-          type: array
-        - description:
-            A URL parameter that specifies the maximum number of records
-            to return. This can be any positive integer between 1 and 1000 inclusive.
-            If not specified, the default is 20.
-          in: query
-          name: limit
+      - description: filter users by identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter users by role identifier(0:admin 1:member)
+        in: query
+        items:
+          enum:
+          - 0
+          - 1
           type: integer
-        - description:
-            Specifies an offset that allows you to retrieve the next batch
-            of records.Any positive integer.If not specified, the default is 0.
-          in: query
-          name: offset
-          type: integer
-        - collectionFormat: multi
-          description: Specifies sequences to sort data (ie.orderby=id:desc)
-          in: query
-          items:
-            type: string
-          name: orderby
-          type: array
-        - collectionFormat: multi
-          description:
-            filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
-            means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
-            inclusive)
-          in: query
-          items:
-            type: string
-          name: updated_at
-          type: array
+        name: role_id
+        type: array
+      - description: filter users by login account
+        in: query
+        items:
+          type: string
+        name: account
+        type: array
+      - description: filter users by login type(only supported password and google
+          now)
+        in: query
+        items:
+          enum:
+          - password
+          - google
+          type: string
+        name: login_type
+        type: array
+      - description: filter users by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.RespWithPaging"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/model.User"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.RespWithPaging'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get all users
       tags:
-        - users
+      - users
     patch:
       description: |-
         only admin could use this method
         all accounts would be logout if admin deactivated them
       parameters:
-        - description: patch /users params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PatchUsersInput"
-            type: array
+      - description: patch /users params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchUsersInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: activate or deactivate users(member)
       tags:
-        - users
+      - users
     post:
       description: only admin could use this method
       parameters:
-        - description: post /users params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostUsersInput"
-            type: array
+      - description: post /users params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostUsersInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithMutation"
+            $ref: '#/definitions/schema.RespWithMutation'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: create users
       tags:
-        - users
+      - users
   /users/{id}:
     get:
       description: |-
         admin could get specific or self user data
         member could only get self user data
       parameters:
-        - description: specific user identifier or 'self' to get self user data
-          in: path
-          name: id
-          required: true
-          type: string
+      - description: specific user identifier or 'self' to get self user data
+        in: path
+        name: id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    $ref: "#/definitions/model.User"
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.User'
+              type: object
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "404":
           description: Not Found
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: get specific or self user data
       tags:
-        - users
+      - users
   /users/change-password:
     patch:
       description: |-
@@ -3398,111 +4053,163 @@ paths:
         all accounts would be logout if one of users changed password
         user must use password to login if he want to change his password
       parameters:
-        - description: patch /users/change-password params
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/schema.ChangePasswordInput"
+      - description: patch /users/change-password params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ChangePasswordInput'
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithStatusAndMessage"
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: change login password
       tags:
-        - users
+      - users
   /users/link:
     post:
       description: admin or member could only link self account
       parameters:
-        - description: post /users/link params
-          in: body
-          name: body
-          required: true
-          schema:
-            $ref: "#/definitions/schema.PostUsersLinkInput"
+      - description: post /users/link params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PostUsersLinkInput'
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithStatusAndMessage"
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: link your account to third party service
       tags:
-        - users
+      - users
   /users/link/{login_type}:
     delete:
       description: |-
         admin or member could only unlink self account
         all accounts which linked with specific third party service would be logout if one of users unlinked
       parameters:
-        - description: login type which you want to unlink
-          in: path
-          name: login_type
-          required: true
-          type: string
+      - description: login type which you want to unlink
+        in: path
+        name: login_type
+        required: true
+        type: string
       responses:
         "200":
           description: OK
           schema:
-            $ref: "#/definitions/schema.RespWithStatusAndMessage"
+            $ref: '#/definitions/schema.RespWithStatusAndMessage'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "404":
           description: Not Found
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: unlink your account from third party service
       tags:
-        - users
+      - users
+  /vendors/bridge/sync:
+    get:
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: Synchronize Sygna Bridge Transactions
+      tags:
+      - vendors
+  /vendors/shyft/attestations/sync:
+    get:
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: Synchronize Shyft Attestations
+      tags:
+      - vendors
   /vendors/test:
     post:
       description: |-
@@ -3510,49 +4217,49 @@ paths:
         only support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm for provider now
         only support Travel Rule,Blockchain Analytics,Sanction Screening for type now
       parameters:
-        - description: post /vendors/test params
-          in: body
-          name: body
-          required: true
-          schema:
-            items:
-              $ref: "#/definitions/schema.PostVendorsTestInput"
-            type: array
+      - description: post /vendors/test params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PostVendorsTestInput'
+          type: array
       responses:
         "200":
           description: OK
           schema:
             allOf:
-              - $ref: "#/definitions/schema.Resp"
-              - properties:
-                  data:
-                    items:
-                      $ref: "#/definitions/schema.PostVendorsTestOutput"
-                    type: array
-                type: object
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.PostVendorsTestOutput'
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "401":
           description: Unauthorized
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "403":
           description: Forbidden
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: "#/definitions/errors.SystemError"
+            $ref: '#/definitions/errors.SystemError'
       security:
-        - CookieAuth: []
+      - CookieAuth: []
       summary: test if third-party service is available
       tags:
-        - vendors
+      - vendors
 schemes:
-  - https
+- https
 securityDefinitions:
   CookieAuth:
     in: header
