@@ -125,15 +125,62 @@ definitions:
     type: object
   model.Ownership:
     properties:
+      assets:
+        items:
+          $ref: '#/definitions/model.OwnershipAsset'
+        type: array
       created_at:
         type: string
+      error:
+        $ref: '#/definitions/model.Object'
       id:
         type: string
       owner_email:
         type: string
       owner_info:
         type: object
+      sender_email:
+        type: string
+      status:
+        type: integer
+      status_text:
+        type: string
       updated_at:
+        type: string
+    type: object
+  model.OwnershipAsset:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      currency_name:
+        type: string
+      currency_symbol:
+        type: string
+      id:
+        type: string
+      last_screened:
+        type: string
+      reject_code:
+        type: string
+      reject_message:
+        type: string
+      risk_score:
+        type: string
+      risk_score_provider:
+        type: string
+      txid:
+        type: string
+      updated_at:
+        type: string
+      validation_status:
+        type: integer
+      validation_status_text:
+        type: string
+      value:
         type: string
     type: object
   model.Platform:
@@ -1058,6 +1105,9 @@ definitions:
         enum:
         - blockchain_analytics_timing
         - sanction_screening_timing
+        - automation_settings
+        - personal_info_checking_items
+        - forced_sending_when_VASP_is_not_healthy
         type: string
     required:
     - rule
@@ -1367,7 +1417,7 @@ info:
   contact: {}
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.0.14
+  version: 1.15.0
 paths:
   /:
     get:
