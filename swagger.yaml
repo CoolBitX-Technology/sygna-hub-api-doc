@@ -24,11 +24,13 @@ definitions:
   model.BeneficiaryPrivateInfo:
     properties:
       local_name:
-        type: string
+        $ref: '#/definitions/model.NameObject'
       name:
-        type: string
+        $ref: '#/definitions/model.NameObject'
       phonetic_name:
-        type: string
+        $ref: '#/definitions/model.NameObject'
+    required:
+    - name
     type: object
   model.Currency:
     properties:
@@ -84,6 +86,8 @@ definitions:
         type: string
       phonetic_name:
         type: string
+    required:
+    - name
     type: object
   model.Login:
     properties:
@@ -119,68 +123,23 @@ definitions:
         $ref: '#/definitions/model.NameObject'
       phonetic_name:
         $ref: '#/definitions/model.NameObject'
+    required:
+    - name
     type: object
   model.Object:
     additionalProperties: true
     type: object
   model.Ownership:
     properties:
-      assets:
-        items:
-          $ref: '#/definitions/model.OwnershipAsset'
-        type: array
       created_at:
         type: string
-      error:
-        $ref: '#/definitions/model.Object'
       id:
         type: string
       owner_email:
         type: string
       owner_info:
         type: object
-      sender_email:
-        type: string
-      status:
-        type: integer
-      status_text:
-        type: string
       updated_at:
-        type: string
-    type: object
-  model.OwnershipAsset:
-    properties:
-      address:
-        type: string
-      created_at:
-        type: string
-      currency_id:
-        type: string
-      currency_name:
-        type: string
-      currency_symbol:
-        type: string
-      id:
-        type: string
-      last_screened:
-        type: string
-      reject_code:
-        type: string
-      reject_message:
-        type: string
-      risk_score:
-        type: string
-      risk_score_provider:
-        type: string
-      txid:
-        type: string
-      updated_at:
-        type: string
-      validation_status:
-        type: integer
-      validation_status_text:
-        type: string
-      value:
         type: string
     type: object
   model.Platform:
