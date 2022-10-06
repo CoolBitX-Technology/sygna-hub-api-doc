@@ -5770,8 +5770,7 @@
           "required": [
               "assets",
               "country",
-              "customer_type",
-              "name"
+              "customer_type"
           ],
           "properties": {
               "address": {
@@ -5805,9 +5804,6 @@
               },
               "legal_person_name": {
                   "$ref": "#/definitions/model.LegalPersonName"
-              },
-              "name": {
-                  "type": "string"
               },
               "national": {
                   "$ref": "#/definitions/schema.NationalIdentification"
@@ -6172,8 +6168,7 @@
               "country",
               "customer_type",
               "id",
-              "is_active",
-              "name"
+              "is_active"
           ],
           "properties": {
               "address": {
@@ -6214,9 +6209,6 @@
               },
               "legal_person_name": {
                   "$ref": "#/definitions/model.LegalPersonName"
-              },
-              "name": {
-                  "type": "string"
               },
               "national": {
                   "$ref": "#/definitions/schema.NationalIdentification"
