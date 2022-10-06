@@ -4439,15 +4439,18 @@
       },
       "model.BeneficiaryPrivateInfo": {
           "type": "object",
+          "required": [
+              "name"
+          ],
           "properties": {
               "local_name": {
-                  "type": "string"
+                  "$ref": "#/definitions/model.NameObject"
               },
               "name": {
-                  "type": "string"
+                  "$ref": "#/definitions/model.NameObject"
               },
               "phonetic_name": {
-                  "type": "string"
+                  "$ref": "#/definitions/model.NameObject"
               }
           }
       },
@@ -4523,6 +4526,9 @@
       },
       "model.LegalPersonName": {
           "type": "object",
+          "required": [
+              "name"
+          ],
           "properties": {
               "local_name": {
                   "type": "string"
@@ -4577,6 +4583,9 @@
       },
       "model.NaturalPersonName": {
           "type": "object",
+          "required": [
+              "name"
+          ],
           "properties": {
               "local_name": {
                   "$ref": "#/definitions/model.NameObject"
@@ -4596,17 +4605,8 @@
       "model.Ownership": {
           "type": "object",
           "properties": {
-              "assets": {
-                  "type": "array",
-                  "items": {
-                      "$ref": "#/definitions/model.OwnershipAsset"
-                  }
-              },
               "created_at": {
                   "type": "string"
-              },
-              "error": {
-                  "$ref": "#/definitions/model.Object"
               },
               "id": {
                   "type": "string"
@@ -4617,69 +4617,7 @@
               "owner_info": {
                   "type": "object"
               },
-              "sender_email": {
-                  "type": "string"
-              },
-              "status": {
-                  "type": "integer"
-              },
-              "status_text": {
-                  "type": "string"
-              },
               "updated_at": {
-                  "type": "string"
-              }
-          }
-      },
-      "model.OwnershipAsset": {
-          "type": "object",
-          "properties": {
-              "address": {
-                  "type": "string"
-              },
-              "created_at": {
-                  "type": "string"
-              },
-              "currency_id": {
-                  "type": "string"
-              },
-              "currency_name": {
-                  "type": "string"
-              },
-              "currency_symbol": {
-                  "type": "string"
-              },
-              "id": {
-                  "type": "string"
-              },
-              "last_screened": {
-                  "type": "string"
-              },
-              "reject_code": {
-                  "type": "string"
-              },
-              "reject_message": {
-                  "type": "string"
-              },
-              "risk_score": {
-                  "type": "string"
-              },
-              "risk_score_provider": {
-                  "type": "string"
-              },
-              "txid": {
-                  "type": "string"
-              },
-              "updated_at": {
-                  "type": "string"
-              },
-              "validation_status": {
-                  "type": "integer"
-              },
-              "validation_status_text": {
-                  "type": "string"
-              },
-              "value": {
                   "type": "string"
               }
           }
