@@ -964,8 +964,6 @@ definitions:
         type: integer
       legal_person_name:
         $ref: '#/definitions/model.LegalPersonName'
-      name:
-        type: string
       national:
         $ref: '#/definitions/schema.NationalIdentification'
       natural_person_name:
@@ -974,7 +972,6 @@ definitions:
     - assets
     - country
     - customer_type
-    - name
     type: object
   schema.PostEmailProtocolPermissionInput:
     properties:
@@ -1105,9 +1102,6 @@ definitions:
         enum:
         - blockchain_analytics_timing
         - sanction_screening_timing
-        - automation_settings
-        - personal_info_checking_items
-        - forced_sending_when_VASP_is_not_healthy
         type: string
     required:
     - rule
@@ -1275,8 +1269,6 @@ definitions:
         type: boolean
       legal_person_name:
         $ref: '#/definitions/model.LegalPersonName'
-      name:
-        type: string
       national:
         $ref: '#/definitions/schema.NationalIdentification'
       natural_person_name:
@@ -1287,7 +1279,6 @@ definitions:
     - customer_type
     - id
     - is_active
-    - name
     type: object
   schema.PutRollbackInout:
     properties:
