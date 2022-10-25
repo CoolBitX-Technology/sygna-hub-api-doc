@@ -4439,18 +4439,12 @@
       },
       "model.BeneficiaryPrivateInfo": {
           "type": "object",
-          "required": [
-              "name"
-          ],
           "properties": {
-              "local_name": {
-                  "$ref": "#/definitions/model.NameObject"
+              "natural_person_name": {
+                  "$ref": "#/definitions/model.natural_person_name"
               },
-              "name": {
-                  "$ref": "#/definitions/model.NameObject"
-              },
-              "phonetic_name": {
-                  "$ref": "#/definitions/model.NameObject"
+              "legal_person_name": {
+                  "$ref": "#/definitions/model.legal_person_name"
               }
           }
       },
