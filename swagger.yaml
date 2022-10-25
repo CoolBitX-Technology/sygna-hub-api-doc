@@ -23,14 +23,10 @@ definitions:
     type: object
   model.BeneficiaryPrivateInfo:
     properties:
-      local_name:
-        $ref: '#/definitions/model.NameObject'
-      name:
-        $ref: '#/definitions/model.NameObject'
-      phonetic_name:
-        $ref: '#/definitions/model.NameObject'
-    required:
-    - name
+      natural_person_name:
+        $ref: '#/definitions/model.NaturalPersonName'
+      legal_person_name:
+        $ref: '#/definitions/model.LegalPersonName'
     type: object
   model.Currency:
     properties:
