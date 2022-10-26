@@ -1,0 +1,117 @@
+version: "2.1"
+
+services:
+
+  # (Optional)It's not required if you already have a mysql database which version is 8.0
+  postgres:
+    image: postgres:12-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 512M
+    environment:
+      POSTGRES_PASSWORD: <POSTGRES_PASSWORD>
+      POSTGRES_USER: <POSTGRES_USER>
+      POSTGRES_DB: db
+
+  # (Optional)phpmyadmin is commonly used GUI for Mysql
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:5.2.0
+  #   ports:
+  #     - "8082:80"
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_PORT: 3306
+  # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
+  frontend:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.2-beta.1
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 512M
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    environment:
+      # replace with your backend url
+      - BACKEND_API_URL=<BACKEND_API_URL , need /v1 path defined like https://backend.test.net:8080/v1 >
+      # (Optional) required only if you want to enable Google login
+      # its value should match google_login/id entry in config.yml file used by backend
+      # please add it with your valid GOOGLE_SSO_CLIENT_ID. eg. GOOGLE_SSO_CLIENT_ID=<ID>
+
+  backend:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 512M
+    ports:
+      - 80:80
+    environment:
+      # replace with your backend url
+      - DB_HOST=postgres.sygna-hub-api-doc.local
+      - DB_NAME=db
+      - DB_PASSWORD=<POSTGRES_PASSWORD>
+      - DB_PORT=5432
+      - DB_USER=<POSTGRES_USER>
+      - ADMIN_ACCOUNT=<ADMIN_ACCOUNT>
+      - ADMIN_PASSWORD=<ADMIN_PASSWORD>
+      - ALLOW_ORIGINS=[<FRONTEND_URL, like https://frontend.test.net >]
+      - CALLBACK_HOST=<BACKEND_API_URL, without /v1 pathdefined ,like https://backend.test.net:8080>
+      - COOKIE_DOMAIN=<COOKIE_DOMAIN , like https://test.net>
+      - DATA_ENCRYPTION_KEY=<DATA_ENCRYPTION_KEY , like  00000000000000000000000000000000>
+      - DB_DRIVER=postgres
+      - JWT_SECRET=p@ssWord0
+      - LICENSE_KEY=<LICENSE_KEY , you will get the key from registration mail >
+      - VASP_CODE=<VASP_CODE, you can find this from registration mail>
+      - PORT=80
+      # (Optional) required only if you want to enable Google login
+      # its value should match google_login/id entry in config.yml file used by backend
+      # please add it with your valid GOOGLE_SSO_CLIENT_ID. eg. GOOGLE_SSO_CLIENT_ID=<ID>
+
+x-aws-cloudformation:
+  Resources:
+    FrontendTCP80Listener:
+      Properties:
+        Certificates:
+          - CertificateArn: "<FRONTEND_ACM_ARN>"
+        Protocol: HTTPS
+        Port: 443
+    BackendTCP80Listener:
+      Properties:
+        Certificates:
+          - CertificateArn: "<BACKEND_ACM_ARN>"
+        Protocol: HTTPS
+        Port: 8080
+    BackendTCP80TargetGroup:
+      Properties:
+        HealthCheckPath: /v1/vasp-server-status
+        Port: 80
+        Matcher:
+          HttpCode: 200-299
+    Default8080Ingress:
+      Properties:
+        CidrIp: 0.0.0.0/0
+        Description: backend:8080/tcp on default network
+        FromPort: 8080
+        GroupId:
+          Ref: DefaultNetwork
+        IpProtocol: TCP
+        ToPort: 8080
+      Type: AWS::EC2::SecurityGroupIngress      
+    Default443Ingress:
+      Properties:
+        CidrIp: 0.0.0.0/0
+        Description: backend:443/tcp on default network
+        FromPort: 443
+        GroupId:
+          Ref: DefaultNetwork
+        IpProtocol: TCP
+        ToPort: 443
+      Type: AWS::EC2::SecurityGroupIngress   

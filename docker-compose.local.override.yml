@@ -1,0 +1,101 @@
+version: "2.1"
+
+services:
+  # (Optional)It's not required if you already have a postgres database which version is 12
+  postgres:
+    image: postgres:12-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=p@ssWord0
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=db
+    volumes:
+      # replace your path to store database data
+      - "./db:/var/lib/postgresql/data"
+  # (Optional)adminer is GUI for Database management
+  adminer:
+    image: adminer:4.7.6
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+
+  # (Optional)It's not required if you already have a mysql database which version is 8.0
+  # mysql:
+  #   image: mysql:8.0.29
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: p@ssWord0
+  #     MYSQL_DATABASE: db
+  #     MYSQL_USER: admin
+  #     MYSQL_PASSWORD: p@ssWord0
+  #   volumes:
+  #     # replace your path to store database data
+  #     - ./docker-data/mysql:/var/lib/mysql
+  # (Optional)phpmyadmin is commonly used GUI for Mysql
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:5.2.0
+  #   ports:
+  #     - "8082:80"
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_PORT: 3306
+
+  # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
+  frontend:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.2-beta.1
+    image: sygna/sygna-hub-console:latest
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+    environment:
+      # replace with your backend url
+      - BACKEND_API_URL=http://localhost:8080/v1
+      # (Optional) required only if you want to enable Google login
+      # its value should match google_login/id entry in config.yml file used by backend
+      # please add it with your valid GOOGLE_SSO_CLIENT_ID. eg. GOOGLE_SSO_CLIENT_ID=<ID>
+
+  backend:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
+    image: sygna/sygna-hub:latest
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      # replace your path to save log
+      - "./log:/var/log"
+      # point this path to your configuration file
+      - "./config.yml:/app/config.yml:ro"
+  # (Optional) Add this service if you want to use TRISA
+  trisa:
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
+    # to get latest beta version tag, ex: sygna/sygna-hub-trisa-gateway:1.0.2-beta.1
+    image: sygna/sygna-hub-trisa-gateway:latest
+    ports:
+      - 443:443
+    depends_on:
+      - backend
+    volumes:
+      # replace your path to save log
+      - ./log:/var/log
+      - "./config.yml:/app/config.yml:ro"
+
+  # (Optional) Add this service if you want to use Veriscope on Shyft
+  # Please read README to lean how to setup shyft relay node
+  shyft-relay:
+    image: nethermind/nethermind
+    command: -c /opt/nm/shyft-relay.cfg
+    volumes:
+      - ./shyft-relay.cfg:/opt/nm/shyft-relay.cfg
+      - ./shyftchainspec.json:/opt/nm/shyftchainspec.json
+      - ./static-nodes.json:/opt/nm/static-nodes.json
+      - ./shyft-db:/opt/nm/db
