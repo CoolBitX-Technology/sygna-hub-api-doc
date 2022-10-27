@@ -127,15 +127,62 @@ definitions:
     type: object
   model.Ownership:
     properties:
+      assets:
+        items:
+          $ref: '#/definitions/model.OwnershipAsset'
+        type: array
       created_at:
         type: string
+      error:
+        $ref: '#/definitions/model.Object'
       id:
         type: string
       owner_email:
         type: string
       owner_info:
         type: object
+      sender_email:
+        type: string
+      status:
+        type: integer
+      status_text:
+        type: string
       updated_at:
+        type: string
+    type: object
+  model.OwnershipAsset:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      currency_name:
+        type: string
+      currency_symbol:
+        type: string
+      id:
+        type: string
+      last_screened:
+        type: string
+      reject_code:
+        type: string
+      reject_message:
+        type: string
+      risk_score:
+        type: string
+      risk_score_provider:
+        type: string
+      txid:
+        type: string
+      updated_at:
+        type: string
+      validation_status:
+        type: integer
+      validation_status_text:
+        type: string
+      value:
         type: string
     type: object
   model.Platform:
@@ -247,6 +294,25 @@ definitions:
     - originator
     - value
     type: object
+  model.Report:
+    properties:
+      created_at:
+        type: string
+      error:
+        $ref: '#/definitions/model.Object'
+      file_path:
+        type: string
+      id:
+        type: string
+      report_status:
+        type: integer
+      report_status_text:
+        type: string
+      updated_at:
+        type: string
+      vasp_code:
+        type: string
+    type: object
   model.Rollback:
     properties:
       gorm_version:
@@ -333,25 +399,6 @@ definitions:
       type:
         type: string
       updated_at:
-        type: string
-    type: object
-  model.TransactionReport:
-    properties:
-      created_at:
-        type: string
-      error:
-        $ref: '#/definitions/model.Object'
-      file_path:
-        type: string
-      id:
-        type: string
-      report_status:
-        type: integer
-      report_status_text:
-        type: string
-      updated_at:
-        type: string
-      vasp_code:
         type: string
     type: object
   model.User:
@@ -676,6 +723,22 @@ definitions:
         description: only used in response
         type: string
     type: object
+  schema.LegalPersonName:
+    properties:
+      local_name:
+        type: string
+      name:
+        type: string
+      phonetic_name:
+        type: string
+    type: object
+  schema.NameObject:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
   schema.NationalIdentification:
     properties:
       country_of_issue:
@@ -686,6 +749,15 @@ definitions:
         type: string
       registration_authority:
         type: string
+    type: object
+  schema.NaturalPersonName:
+    properties:
+      local_name:
+        $ref: '#/definitions/schema.NameObject'
+      name:
+        $ref: '#/definitions/schema.NameObject'
+      phonetic_name:
+        $ref: '#/definitions/schema.NameObject'
     type: object
   schema.PagingResult:
     properties:
@@ -720,6 +792,35 @@ definitions:
         type: string
     required:
     - id
+    type: object
+  schema.PatchCustomersInput:
+    properties:
+      address:
+        $ref: '#/definitions/schema.Address'
+      assets:
+        items:
+          $ref: '#/definitions/schema.PatchAssetInput'
+        type: array
+      assets_ignore_kyt:
+        type: boolean
+      birth:
+        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
+      country:
+        type: string
+      customer_id:
+        type: string
+      customer_type:
+        type: integer
+      id:
+        type: string
+      is_active:
+        type: boolean
+      legal_person_name:
+        $ref: '#/definitions/schema.LegalPersonName'
+      national:
+        $ref: '#/definitions/schema.NationalIdentification'
+      natural_person_name:
+        $ref: '#/definitions/schema.NaturalPersonName'
     type: object
   schema.PatchOwnershipAssetValidationAcceptInput:
     properties:
@@ -1057,9 +1158,6 @@ definitions:
         enum:
         - blockchain_analytics_timing
         - sanction_screening_timing
-        - automation_settings
-        - personal_info_checking_items
-        - forced_sending_when_VASP_is_not_healthy
         type: string
     required:
     - rule
@@ -1624,6 +1722,42 @@ paths:
       summary: get customers
       tags:
       - customers
+    patch:
+      parameters:
+      - description: patch /customers params
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/schema.PatchCustomersInput'
+          type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schema.RespWithMutation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: update customers
+      tags:
+      - customers
     post:
       parameters:
       - description: post /customers params
@@ -1696,6 +1830,187 @@ paths:
       summary: update customers
       tags:
       - customers
+  /customers-export:
+    get:
+      parameters:
+      - description: filter customers by customer identifier
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: filter customers by customer name
+        in: query
+        items:
+          type: string
+        name: name
+        type: array
+      - description: filter customers by if status is activated
+        in: query
+        items:
+          type: boolean
+        name: is_active
+        type: array
+      - description: filter customers by risk score provider
+        in: query
+        items:
+          enum:
+          - Elliptic
+          - Chainalysis V1
+          - Chainalysis V2
+          - Merkle Science
+          - Dow Jones
+          - Coinfirm
+          type: string
+        name: risk_score_provider
+        type: array
+      - description: A URL parameter that specifies the range of max risk score. This
+          format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).
+        in: query
+        items:
+          type: string
+        name: max_risk_score
+        type: array
+      - description: A URL parameter that specifies the range of average risk score.
+          This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis
+          V1:low,high).
+        in: query
+        items:
+          type: string
+        name: avg_risk_score
+        type: array
+      - description: filter customers by labels from KYT service searched
+        in: query
+        items:
+          type: string
+        name: label
+        type: array
+      - description: filter customers by a range of last screened date(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: last_screened
+        type: array
+      - description: filter data by a range of created data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
+      - description: A URL parameter that specifies the maximum number of records
+          to return. This can be any positive integer between 1 and 1000 inclusive.
+          If not specified, the default is 20.
+        in: query
+        name: limit
+        type: integer
+      - description: Specifies an offset that allows you to retrieve the next batch
+          of records.Any positive integer.If not specified, the default is 0.
+        in: query
+        name: offset
+        type: integer
+      - description: Specifies sequences to sort data (ie.orderby=id:desc)
+        in: query
+        items:
+          type: string
+        name: orderby
+        type: array
+      - description: filter data by a range of updated data(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: updated_at
+        type: array
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: generate customers report
+      tags:
+      - customers-export
+  /customers-export/download:
+    get:
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: download customer report
+      tags:
+      - customers-export
+  /customers-export/status:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/schema.Resp'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Report'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errors.SystemError'
+      security:
+      - CookieAuth: []
+      summary: get customer report processing status
+      tags:
+      - customers-export
   /customers/{id}:
     get:
       parameters:
@@ -1986,7 +2301,7 @@ paths:
             - $ref: '#/definitions/schema.Resp'
             - properties:
                 data:
-                  $ref: '#/definitions/model.TransactionReport'
+                  $ref: '#/definitions/model.Report'
               type: object
         "400":
           description: Bad Request
