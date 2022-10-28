@@ -15,6 +15,8 @@
 
 ### How to launch Hub service in AWS
 
+![image](hub_on_aws.jpg)
+
 1. Make sure the domain of you service and get the issued cert(s) [ACM](https://docs.aws.amazon.com/acm/index.html) for the domain. 
 
 2. install docker engine and docker-compose
