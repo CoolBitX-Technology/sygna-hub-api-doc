@@ -10,7 +10,7 @@
 
 4. execute below command to launch containers
     ```
-    docker-compose up -f docker-compose.yml  -f docker-compose.local.override.yml
+    docker-compose  -f docker-compose.yml  -f docker-compose.local.override.yml up
     ```
 
 ### How to launch Hub service in AWS
