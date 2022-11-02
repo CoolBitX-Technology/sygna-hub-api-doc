@@ -947,6 +947,10 @@ definitions:
   schema.PatchTransactionsStatus:
     properties:
       action:
+        description: |-
+          Action
+          * 0 - Unblock
+          * 1 - Cancel
         type: integer
       id:
         format: uuid
