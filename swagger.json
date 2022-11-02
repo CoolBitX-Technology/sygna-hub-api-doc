@@ -5634,6 +5634,7 @@
           ],
           "properties": {
               "action": {
+                  "description": "Action\n* 0 - Unblock\n* 1 - Cancel",
                   "type": "integer"
               },
               "id": {
