@@ -4763,10 +4763,10 @@
       "type": "object",
       "properties": {
         "natural_person_name": {
-          "$ref": "#/definitions/model.natural_person_name"
+          "$ref": "#/definitions/model.NaturalPersonName"
         },
         "legal_person_name": {
-          "$ref": "#/definitions/model.legal_person_name"
+          "$ref": "#/definitions/model.LegalPersonName"
         }
       }
     },
