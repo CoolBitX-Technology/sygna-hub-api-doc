@@ -50,7 +50,8 @@ services:
   frontend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
     # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.2-beta.1
-    image: sygna/sygna-hub-console:latest
+    # If you're in the Sygna TEST environment user, please use the version "latest-beta" or "1.xx.0-beta.1" to avoid getting license error
+    image: sygna/sygna-hub-console:latest-beta
     restart: unless-stopped
     ports:
       - 8000:80
@@ -67,7 +68,8 @@ services:
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
     # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
-    image: sygna/sygna-hub:latest
+    # If you're in the Sygna TEST environment user, please use the version "latest-beta" or "1.xx.0-beta.1" to avoid getting license error
+    image: sygna/sygna-hub:latest-beta
     restart: unless-stopped
     ports:
       - 8080:8080
