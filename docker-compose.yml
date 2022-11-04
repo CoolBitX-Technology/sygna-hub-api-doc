@@ -80,7 +80,7 @@ services:
       - "./config.yml:/app/config.yml:ro"
   # (Optional) Add this service if you want to use TRISA
   trisa:
-    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
+    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-trisa-gateway/tags
     # to get latest beta version tag, ex: sygna/sygna-hub-trisa-gateway:1.0.2-beta.1
     image: sygna/sygna-hub-trisa-gateway:latest
     ports:
