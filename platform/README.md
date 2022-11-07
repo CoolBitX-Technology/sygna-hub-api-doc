@@ -10,7 +10,7 @@
 * [Docker](https://docs.docker.com/engine/install/#server)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
-3. download [docker-compose.yml](docker-compose.yml) [docker-compose.aws.override.yml](docker-compose.aws.override.yml) to your `./sygna-hub-api-doc` , and customized `docker-compose.aws.override.yml` to fit your needs. If you changed the folder of files , you have to update settings `docker-compose.aws.override.yml` services:backend:environment:DB_HOST to match the auto generated private dns record ( `postgres.{folder_name}.local`).
+3. download [docker-compose.yml](docker-compose.yml) [docker-compose.aws.override.yml](docker-compose.aws.override.yml) to your `./platform` , and customized `docker-compose.aws.override.yml` to fit your needs. If you changed the folder of files , you have to update settings `docker-compose.aws.override.yml` services:backend:environment:DB_HOST to match the auto generated private dns record ( `postgres.{folder_name}.local`).
 
 4. Create and switch into  AWS context with docker cli (https://docs.docker.com/cloud/ecs-integration/) 
 
