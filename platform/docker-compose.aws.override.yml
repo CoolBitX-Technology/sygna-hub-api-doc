@@ -55,7 +55,7 @@ services:
       - 80:80
     environment:
       # replace with your backend url
-      - DB_HOST=postgres.sygna-hub-api-doc.local
+      - DB_HOST=postgres.platform.local
       - DB_NAME=db
       - DB_PASSWORD=<POSTGRES_PASSWORD>
       - DB_PORT=5432
