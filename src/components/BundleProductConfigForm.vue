@@ -7,7 +7,6 @@
       id="bundle-product-config-form"
     >
       <q-input
-        filled
         clearable
         v-model="vaspCode"
         label="Your Vasp Code *"
@@ -16,7 +15,6 @@
       />
 
       <q-input
-        filled
         clearable
         type="string"
         v-model="licenseKey"
@@ -29,7 +27,6 @@
       />
       <q-separator />
       <q-input
-        filled
         clearable
         type="string"
         v-model="webhookURL"

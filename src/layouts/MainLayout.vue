@@ -11,9 +11,12 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Sygna Hub Config Generator </q-toolbar-title>
+        <q-toolbar-title style="width: fit-content">
+          Sygna Hub Config Generator
+        </q-toolbar-title>
+        <tab-menu></tab-menu>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>For Sygna Hub v1.16.0</div>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -24,6 +27,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import TabMenu from 'components/TabMenu.vue';
 
 const linksList = [
   {
@@ -73,7 +77,7 @@ const linksList = [
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {},
+  components: { TabMenu },
 
   setup() {
     const leftDrawerOpen = ref(false);
