@@ -32,7 +32,7 @@ db:
   driver: postgres
   user: admin
   password: p@ssWord0
-  host: postgres
+  host: localhost
   # default port 
   # postgres: 5432
   # mysql: 3306
