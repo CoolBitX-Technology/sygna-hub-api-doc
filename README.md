@@ -12,6 +12,8 @@
     ```
     docker-compose up
     ```
+### How to launch Hub service on cloud
+* Check [platform/README.md](platform/README.md) for more deatil settings.
 
 ### Database tunning
 #### If you encounter database performance issue, you can try following procedure:
