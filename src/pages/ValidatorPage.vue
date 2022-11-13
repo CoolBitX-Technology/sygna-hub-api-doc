@@ -1,29 +1,32 @@
 <template>
-  <q-card class="my-card">
-    <q-splitter v-model="splitterModel">
-      <template v-slot:before>
-        <validator-form></validator-form>
-      </template>
-      <template v-slot:after>
-        <preview-panel></preview-panel>
-      </template>
-    </q-splitter>
-  </q-card>
+  <div class="row content-start fit full-width">
+    <div style="min-width: 300px">
+      <yww-sidebar></yww-sidebar>
+    </div>
+    <div class="col">
+      <q-card class="my-card full-width">
+        <config-form v-if="target === 'config.yml'"></config-form>
+      </q-card>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { ref } from 'vue';
-import ValidatorForm from 'src/components/validator-page/ValidatorForm.vue';
-import PreviewPanel from 'src/components/validator-page/PreviewPanel.vue';
-
+import ConfigForm from 'src/components/validator-page/ConfigForm.vue';
+import YwwSidebar from 'src/components/validator-page/YwwSidebar.vue';
+import { storeToRefs } from 'pinia';
+import { useValidatorStore } from 'src/stores/validator';
+const { target } = storeToRefs(useValidatorStore());
 export default {
   components: {
-    ValidatorForm,
-    PreviewPanel,
+    ConfigForm,
+    YwwSidebar,
   },
   setup() {
     return {
       splitterModel: ref(65),
+      target,
     };
   },
 };

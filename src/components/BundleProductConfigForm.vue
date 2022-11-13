@@ -64,15 +64,13 @@
 // import { useQuasar } from 'quasar';
 import { useGeneratorStore } from 'src/stores/generator';
 import { storeToRefs } from 'pinia';
+// const $q = useQuasar();
+
+const generator = useGeneratorStore();
+const { vaspCode, licenseKey, webhookURL } = storeToRefs(useGeneratorStore());
+
 export default {
   setup() {
-    // const $q = useQuasar();
-
-    const generator = useGeneratorStore();
-    const { vaspCode, licenseKey, webhookURL } = storeToRefs(
-      useGeneratorStore()
-    );
-
     return {
       vaspCode,
       licenseKey,
