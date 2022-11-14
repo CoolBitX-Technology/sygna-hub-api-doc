@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Config, Nullable } from 'src/components/models';
+import type { Config, Nullable } from 'src/components/models';
 
 interface State {
   step: number;

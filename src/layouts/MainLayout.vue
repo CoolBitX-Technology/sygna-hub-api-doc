@@ -28,6 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import TabMenu from 'components/TabMenu.vue';
+import ValidatorPage from 'pages/ValidatorPage.vue';
 
 const linksList = [
   {
@@ -83,6 +84,7 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
 
     return {
+      ValidatorPage,
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {
