@@ -205,7 +205,7 @@
                     :rules="[
                       (val) =>
                         (val !== null && val !== '') ||
-                        'Please type your db host',
+                        'Please type your db port',
                     ]"
                   />
                 </div>
@@ -251,6 +251,101 @@
                   ]"
                 />
               </div>
+            </q-expansion-item>
+            <q-expansion-item
+              expand-separator
+              dense
+              label="Server"
+              default-opened
+            >
+              <div class="q-gutter-md row items-start">
+                <q-input
+                  class="col-5"
+                  clearable
+                  type="text"
+                  v-model="config.server.host"
+                  label="Host *"
+                  lazy-rules
+                  :rules="[
+                    (val) =>
+                      (val !== null && val !== '') ||
+                      'Please type your server host',
+                  ]"
+                />
+                <q-input
+                  class="col-5"
+                  clearable
+                  type="text"
+                  v-model="config.server.port"
+                  label="Port *"
+                  lazy-rules
+                  :rules="[
+                    (val) =>
+                      (val !== null && val !== '') ||
+                      'Please type your server port',
+                  ]"
+                />
+              </div>
+              <div>
+                <q-toggle
+                  v-model="config.server.enableRotateLog"
+                  checked-icon="check"
+                  color="green"
+                  unchecked-icon="clear"
+                  leftLabel
+                  label="Enable Rotate Log"
+                />
+              </div>
+              <div>
+                <q-toggle
+                  v-model="config.server.allowOrigins"
+                  checked-icon="check"
+                  color="green"
+                  unchecked-icon="clear"
+                  leftLabel
+                  label="Enable Rotate Log"
+                />
+              </div>
+              <div class="q-gutter-md row items-start">
+                <q-input
+                  class="col-5"
+                  clearable
+                  type="text"
+                  v-model="config.db.user"
+                  label="User *"
+                  lazy-rules
+                  :rules="[
+                    (val) =>
+                      (val !== null && val !== '') ||
+                      'Please type your db user',
+                  ]"
+                />
+                <q-input
+                  class="col-5"
+                  clearable
+                  type="text"
+                  v-model="config.db.password"
+                  label="Password *"
+                  lazy-rules
+                  :rules="[
+                    (val) =>
+                      (val !== null && val !== '') ||
+                      'Please type your db password',
+                  ]"
+                />
+              </div>
+
+              <q-input
+                clearable
+                type="text"
+                v-model="config.db.name"
+                label="Name *"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val !== null && val !== '') || 'Please type your db name',
+                ]"
+              />
             </q-expansion-item>
           </q-list>
 

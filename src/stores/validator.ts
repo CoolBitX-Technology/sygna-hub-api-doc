@@ -31,6 +31,45 @@ export const useValidatorStore = defineStore('validator', {
         port: 5432,
         name: 'db',
       },
+      server: {
+        host: '0.0.0.0',
+        port: 8080,
+        enableRotateLog: true,
+        enableCORS: true,
+        allowOrigins: [
+          'http://localhost:8000'
+        ],
+        callbackHost: null,
+      },
+      googleLogin: {
+        id: null,
+        secret: null
+      },
+      logFile: {
+        fileName: 'temp',
+        maxSize: 100,
+        maxBackups: 30,
+        maxAge: 30
+      },
+      emailService: {
+        host: null,
+        account: null,
+        password: 'p@ssWord0',
+        displayName: 'Hub Sender',
+        subjectPrefix: '[TEST]'
+      },
+      frontend: {
+        url: null,
+      },
+      trisaServer: {
+        url: 'http://localhost:8081',
+        host: '0.0.0.0',
+        port: 443,
+        restfulPort: 8081
+      },
+      shyftServer: {
+        rpcURL: 'ws://shyft-realy:8545'
+      }
     },
   }),
   getters: {},
