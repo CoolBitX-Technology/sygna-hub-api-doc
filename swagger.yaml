@@ -1,4 +1,11 @@
 definitions:
+  decimal.NullDecimal:
+    properties:
+      decimal:
+        type: number
+      valid:
+        type: boolean
+    type: object
   errors.SystemError:
     properties:
       code:
@@ -21,12 +28,95 @@ definitions:
       extra_info:
         type: object
     type: object
+  model.Address:
+    properties:
+      address_line:
+        items:
+          type: string
+        type: array
+      address_type:
+        type: string
+      building_name:
+        type: string
+      building_number:
+        type: string
+      country:
+        type: string
+      country_sub_division:
+        type: string
+      department:
+        type: string
+      district_name:
+        type: string
+      floor:
+        type: string
+      post_box:
+        type: string
+      post_code:
+        type: string
+      room:
+        type: string
+      street_name:
+        type: string
+      sub_department:
+        type: string
+      town_location_name:
+        type: string
+      town_name:
+        type: string
+    type: object
+  model.Asset:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      currency_name:
+        type: string
+      currency_symbol:
+        type: string
+      extra_info:
+        $ref: '#/definitions/model.StringObject'
+      id:
+        type: string
+      is_kyt_supported:
+        type: boolean
+      is_sygna_supported:
+        type: boolean
+      labels:
+        items:
+          type: string
+        type: array
+      last_screened:
+        type: string
+      risk_score:
+        type: string
+      risk_score_provider:
+        type: string
+      updated_at:
+        type: string
+      value:
+        $ref: '#/definitions/decimal.NullDecimal'
+      value_usd:
+        $ref: '#/definitions/decimal.NullDecimal'
+        description: only used in response
+    type: object
   model.BeneficiaryPrivateInfo:
     properties:
       natural_person_name:
         $ref: '#/definitions/model.NaturalPersonName'
-      legal_person_name:
-        $ref: '#/definitions/model.LegalPersonName'
+        description: |-
+          primary_identifier is required and secondary_identifier is optional if customer_type is NaturalPerson ;
+          legal_person_name is required if customer_type is LegalPerson
+    type: object
+  model.Birth:
+    properties:
+      date_of_birth:
+        type: string
+      place_of_birth:
+        type: string
     type: object
   model.Currency:
     properties:
@@ -111,6 +201,17 @@ definitions:
       last_name:
         type: string
     type: object
+  model.National:
+    properties:
+      country_of_issue:
+        type: string
+      national_identifier:
+        type: string
+      national_identifier_type:
+        type: string
+      registration_authority:
+        type: string
+    type: object
   model.NaturalPersonName:
     properties:
       local_name:
@@ -147,6 +248,8 @@ definitions:
         type: integer
       status_text:
         type: string
+      transaction_information:
+        type: object
       updated_at:
         type: string
     type: object
@@ -366,6 +469,10 @@ definitions:
         type: string
       vasp_code:
         type: string
+    type: object
+  model.StringObject:
+    additionalProperties:
+      type: string
     type: object
   model.SupportedService:
     properties:
@@ -796,15 +903,15 @@ definitions:
   schema.PatchCustomersInput:
     properties:
       address:
-        $ref: '#/definitions/schema.Address'
+        $ref: '#/definitions/model.Address'
       assets:
         items:
-          $ref: '#/definitions/schema.PatchAssetInput'
+          $ref: '#/definitions/model.Asset'
         type: array
       assets_ignore_kyt:
         type: boolean
       birth:
-        $ref: '#/definitions/schema.DateAndPlaceOfBirth'
+        $ref: '#/definitions/model.Birth'
       country:
         type: string
       customer_id:
@@ -818,9 +925,11 @@ definitions:
       legal_person_name:
         $ref: '#/definitions/schema.LegalPersonName'
       national:
-        $ref: '#/definitions/schema.NationalIdentification'
+        $ref: '#/definitions/model.National'
       natural_person_name:
         $ref: '#/definitions/schema.NaturalPersonName'
+      update_status:
+        type: boolean
     type: object
   schema.PatchOwnershipAssetValidationAcceptInput:
     properties:
@@ -947,10 +1056,6 @@ definitions:
   schema.PatchTransactionsStatus:
     properties:
       action:
-        description: |-
-          Action
-          * 0 - Unblock
-          * 1 - Cancel
         type: integer
       id:
         format: uuid
@@ -979,9 +1084,10 @@ definitions:
         type: string
       is_active:
         type: boolean
+      role_id:
+        type: integer
     required:
     - id
-    - is_active
     type: object
   schema.PostAssetInput:
     properties:
@@ -1086,36 +1192,39 @@ definitions:
     - account
     - credential
     type: object
-  schema.PostOwnershipAssetInput:
-    properties:
-      address:
-        type: string
-      currency_id:
-        type: string
-      value:
-        type: string
-    required:
-    - address
-    - currency_id
-    - value
-    type: object
   schema.PostOwnershipInput:
     properties:
-      assets:
-        items:
-          $ref: '#/definitions/schema.PostOwnershipAssetInput'
-        type: array
       assets_ignore_kyt:
         type: boolean
       owner_email:
         format: email
         type: string
+      private_wallet_address:
+        items:
+          type: string
+        type: array
       sender_email:
         format: email
         type: string
+      transaction_information:
+        $ref: '#/definitions/schema.PostOwnershipTransactionInformationInput'
     required:
-    - assets
     - owner_email
+    - private_wallet_address
+    - transaction_information
+    type: object
+  schema.PostOwnershipTransactionInformationInput:
+    properties:
+      currency_id:
+        type: string
+      value:
+        type: string
+      vasp_beneficiary_wallet_address:
+        type: string
+    required:
+    - currency_id
+    - value
+    - vasp_beneficiary_wallet_address
     type: object
   schema.PostSanctionMatchInput:
     properties:
@@ -1468,7 +1577,7 @@ info:
   contact: {}
   description: Sygna Hub API
   title: Sygna HUB
-  version: 1.16.0
+  version: 1.17.0
 paths:
   /:
     get:
@@ -1593,7 +1702,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get supported currencies
       tags:
       - currencies
@@ -1722,7 +1831,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get customers
       tags:
       - customers
@@ -1758,7 +1867,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: update customers
       tags:
       - customers
@@ -1794,7 +1903,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: create customers
       tags:
       - customers
@@ -1830,7 +1939,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: update customers
       tags:
       - customers
@@ -1950,7 +2059,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: generate customers report
       tags:
       - customers-export
@@ -1978,7 +2087,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: download customer report
       tags:
       - customers-export
@@ -2011,7 +2120,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get customer report processing status
       tags:
       - customers-export
@@ -2092,7 +2201,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get specific customer detail
       tags:
       - customers
@@ -2263,7 +2372,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: generate transaction report
       tags:
       - data-transfer-export
@@ -2291,7 +2400,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: download transactions report
       tags:
       - data-transfer-export
@@ -2324,7 +2433,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get transaction report processing status
       tags:
       - data-transfer-export
@@ -2412,7 +2521,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get global-vasp
       tags:
       - global-vasp
@@ -2436,7 +2545,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: delete oauth token from database
       tags:
       - oauth2
@@ -2499,7 +2608,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you want to see a list of all validations
       tags:
       - ownerships
@@ -2539,7 +2648,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you want to validate an address whether
         belong to a user who owns private wallet
       tags:
@@ -2579,7 +2688,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you want to see a validation detail
       tags:
       - ownerships
@@ -2616,7 +2725,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: you couldn't validate some address that it is processing or accepted
         until you cancel it
       tags:
@@ -2654,7 +2763,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you received a reply from the receiver and
         you want to accept or reject the reply
       tags:
@@ -2692,7 +2801,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when a receiver lets you send a email again
       tags:
       - ownerships
@@ -2729,7 +2838,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when the validation that including risky address
         wouldn't be sent until you unblock it
       tags:
@@ -2767,7 +2876,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you get the ownership identifier from the
         link that you received and want to reply to the validation
       tags:
@@ -2807,7 +2916,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: the API would be used when you received a link that asks you to validate
         the address whether belong to you
       tags:
@@ -2844,7 +2953,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get rollback
       tags:
       - rollback
@@ -2881,7 +2990,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: update rollback
       tags:
       - rollback
@@ -3017,7 +3126,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get services
       tags:
       - services
@@ -3056,7 +3165,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: create services
       tags:
       - services
@@ -3095,7 +3204,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: update services
       tags:
       - services
@@ -3209,7 +3318,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get supported services and its config
       tags:
       - services
@@ -3245,7 +3354,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get settings
       tags:
       - settings
@@ -3282,7 +3391,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: create settings
       tags:
       - settings
@@ -3319,7 +3428,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: update settings
       tags:
       - settings
@@ -3350,7 +3459,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get default settings
       tags:
       - settings
@@ -3381,7 +3490,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get supported settings
       tags:
       - settings
@@ -3561,7 +3670,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get transactions
       tags:
       - transactions
@@ -3597,7 +3706,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: create transactions
       tags:
       - transactions
@@ -3636,7 +3745,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get specific transaction
       tags:
       - transactions
@@ -3674,7 +3783,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send email to originator VASP and ask him to fill customer information
       tags:
       - transactions/email-protocol
@@ -3712,7 +3821,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: accept or reject this transaction when received customer information
         from originator
       tags:
@@ -3752,7 +3861,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send own customer information to beneficiary or reject this request
         when received email from beneficiary
       tags:
@@ -3791,7 +3900,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send transaction hash when received accept from beneficiary
       tags:
       - transactions/email-protocol
@@ -3829,7 +3938,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send permission to originator from email protocol VASP
       tags:
       - transactions/email-protocol
@@ -3904,7 +4013,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send permission to originator
       tags:
       - transactions
@@ -3939,7 +4048,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: let user do sanction screening
       tags:
       - transactions
@@ -3975,7 +4084,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get report from sanction screening service
       tags:
       - transactions
@@ -4012,7 +4121,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: unblock or cancel transactions
       tags:
       - transactions
@@ -4049,7 +4158,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: send transaction identifier on blockchain to beneficiary
       tags:
       - transactions
@@ -4095,25 +4204,26 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: use /wallet-address-filter from Sygna Bridge and use KYT service by
         own credential to get address information
       tags:
       - transactions
   /users:
     delete:
-      description: |-
-        only admin could use this method
-        all accounts would be logout if admin deleted them
       parameters:
-      - description: patch /users params
-        in: body
-        name: body
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/schema.DeleteUsersInput'
-          type: array
+      - description: filter users by identifier
+        in: query
+        name: id
+        type: string
+      - description: filter transactions by a range of created time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'
+          means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z
+          inclusive)
+        in: query
+        items:
+          type: string
+        name: created_at
+        type: array
       responses:
         "200":
           description: OK
@@ -4136,8 +4246,8 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
-      summary: delete users(member)
+      - Bearer Token: []
+      summary: get users audit history
       tags:
       - users
     get:
@@ -4242,7 +4352,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get all users
       tags:
       - users
@@ -4281,7 +4391,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: activate or deactivate users(member)
       tags:
       - users
@@ -4318,7 +4428,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: create users
       tags:
       - users
@@ -4360,7 +4470,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: get specific or self user data
       tags:
       - users
@@ -4399,7 +4509,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: change login password
       tags:
       - users
@@ -4435,7 +4545,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: link your account to third party service
       tags:
       - users
@@ -4472,7 +4582,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: unlink your account from third party service
       tags:
       - users
@@ -4498,7 +4608,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: Synchronize Sygna Bridge Transactions
       tags:
       - vendors
@@ -4524,7 +4634,7 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: Synchronize Shyft Attestations
       tags:
       - vendors
@@ -4572,15 +4682,15 @@ paths:
           schema:
             $ref: '#/definitions/errors.SystemError'
       security:
-      - CookieAuth: []
+      - Bearer Token: []
       summary: test if third-party service is available
       tags:
       - vendors
 schemes:
 - https
 securityDefinitions:
-  CookieAuth:
+  Bearer Token:
     in: header
-    name: Cookie
+    name: Authorization
     type: apiKey
 swagger: "2.0"
