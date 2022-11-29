@@ -3550,7 +3550,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
-        - CookieAuth: []
+        - BearerToken: []
     patch:
       tags:
         - users
@@ -3805,28 +3805,39 @@ paths:
       parameters:
         - schema:
             type: array
+            items:
+              type: integer
           in: query
           name: action
-        - schema:
-            type: array
-          in: query
-          name: last_user_email
-        - schema:
-            type: array
-          in: query
-          name: ref_user_email
-        - name: created_at
-          in: query
           style: form
-          explode: false
-          schema:
+        - schema:
             type: array
             items:
-              type: string
+              type: integer
+          in: query
+          name: last_user_email
+          style: form
         - schema:
             type: array
+            items:
+              type: integer
+          in: query
+          name: ref_user_email
+          style: form
+        - schema:
+            type: array
+            items:
+              type: integer
           in: query
           name: orderby
+          style: form
+        - schema:
+            type: array
+            items:
+              type: integer
+          in: query
+          name: created_at
+          style: form
       responses:
         '200':
           description: OK

@@ -5680,7 +5680,7 @@
         },
         "security": [
           {
-            "CookieAuth": []
+            "BearerToken": []
           }
         ]
       },
@@ -6089,43 +6089,58 @@
         "parameters": [
           {
             "schema": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "in": "query",
-            "name": "action"
+            "name": "action",
+            "style": "form"
           },
           {
-            "schema": {
-              "type": "array"
-            },
-            "in": "query",
-            "name": "last_user_email"
-          },
-          {
-            "schema": {
-              "type": "array"
-            },
-            "in": "query",
-            "name": "ref_user_email"
-          },
-          {
-            "name": "created_at",
-            "in": "query",
-            "style": "form",
-            "explode": false,
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "integer"
               }
-            }
+            },
+            "in": "query",
+            "name": "last_user_email",
+            "style": "form"
           },
           {
             "schema": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
             },
             "in": "query",
-            "name": "orderby"
+            "name": "ref_user_email",
+            "style": "form"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "in": "query",
+            "name": "orderby",
+            "style": "form"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "in": "query",
+            "name": "created_at",
+            "style": "form"
           }
         ],
         "responses": {
