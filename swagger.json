@@ -4,7 +4,7 @@
     "title": "Sygna HUB",
     "description": "Sygna Hub API",
     "contact": {},
-    "version": "1.16.1"
+    "version": "1.17.0"
   },
   "servers": [
     {
@@ -5610,30 +5610,22 @@
         "tags": [
           "users"
         ],
-        "summary": "get users audit history",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "description": "filter users by identifier",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "created_at",
-            "in": "query",
-            "description": "filter transactions by a range of created time(ie. '2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)",
-            "style": "form",
-            "explode": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
+        "summary": "delete users(member)",
+        "description": "only admin could use this method\nall accounts would be logout if admin deleted them",
+        "requestBody": {
+          "description": "patch /users params",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/schema.DeleteUsersInput"
+                }
               }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -5688,7 +5680,7 @@
         },
         "security": [
           {
-            "BearerToken": []
+            "CookieAuth": []
           }
         ]
       },
