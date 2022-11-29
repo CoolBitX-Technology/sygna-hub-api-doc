@@ -6091,7 +6091,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "integer"
+                "type": "str"
               }
             },
             "in": "query",
@@ -6102,7 +6102,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "integer"
+                "type": "str"
               }
             },
             "in": "query",
@@ -6113,7 +6113,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "integer"
+                "type": "str"
               }
             },
             "in": "query",
@@ -6124,7 +6124,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "integer"
+                "type": "str"
               }
             },
             "in": "query",
@@ -6135,7 +6135,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "integer"
+                "type": "str"
               }
             },
             "in": "query",

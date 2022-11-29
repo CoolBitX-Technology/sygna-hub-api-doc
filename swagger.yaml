@@ -3806,35 +3806,35 @@ paths:
         - schema:
             type: array
             items:
-              type: integer
+              type: str
           in: query
           name: action
           style: form
         - schema:
             type: array
             items:
-              type: integer
+              type: str
           in: query
           name: last_user_email
           style: form
         - schema:
             type: array
             items:
-              type: integer
+              type: str
           in: query
           name: ref_user_email
           style: form
         - schema:
             type: array
             items:
-              type: integer
+              type: str
           in: query
           name: orderby
           style: form
         - schema:
             type: array
             items:
-              type: integer
+              type: str
           in: query
           name: created_at
           style: form
