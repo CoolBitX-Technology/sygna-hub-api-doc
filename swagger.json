@@ -6,11 +6,7 @@
     "contact": {},
     "version": "1.17.0"
   },
-  "servers": [
-    {
-      "url": "/"
-    }
-  ],
+  "servers": [],
   "paths": {
     "/": {
       "get": {
@@ -529,73 +525,45 @@
                 }
               },
               "examples": {
-                "Example 1": {
+                "Example": {
                   "value": [
                     {
-                      "address": {
-                        "address_line": [
-                          "string"
-                        ],
-                        "address_type": "string",
-                        "building_name": "string",
-                        "building_number": "string",
-                        "country": "string",
-                        "country_sub_division": "string",
-                        "department": "string",
-                        "district_name": "string",
-                        "floor": "string",
-                        "post_box": "string",
-                        "post_code": "string",
-                        "room": "string",
-                        "street_name": "string",
-                        "sub_department": "string",
-                        "town_location_name": "string",
-                        "town_name": "string"
+                      "is_active": false,
+                      "customer_type": 0,
+                      "customer_id": "yuweiwei",
+                      "country": "TW",
+                      "natural_person_name": {
+                        "name": {
+                          "first_name": "yuwei",
+                          "last_name": "chen"
+                        }
                       },
                       "assets": [
                         {
-                          "address": "string",
-                          "currency_id": "string",
+                          "address": "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55",
                           "extra_info": {},
-                          "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-                          "value": "string"
+                          "id": "be54f510-8859-405d-a104-7eaeb2c53630",
+                          "currency_id": "sygna:0x80000000"
+                        },
+                        {
+                          "address": "0x1b7844ed817ebF8B559D25A4f6D9F45931227970",
+                          "extra_info": {},
+                          "id": "862670a5-e079-418f-b07e-3946f951583d",
+                          "currency_id": "sygna:0x8000003c"
                         }
                       ],
-                      "assets_ignore_kyt": true,
-                      "birth": {
-                        "date_of_birth": "string",
-                        "place_of_birth": "string"
-                      },
-                      "country": "string",
-                      "customer_id": "string",
-                      "customer_type": 0,
-                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-                      "is_active": true,
-                      "legal_person_name": {
-                        "local_name": "string",
-                        "name": "string",
-                        "phonetic_name": "string"
-                      },
                       "national": {
-                        "country_of_issue": "string",
-                        "national_identifier": "string",
-                        "national_identifier_type": "string",
-                        "registration_authority": "string"
+                        "national_identifier_type": "CCPT",
+                        "national_identifier": "1111-1111-1111-1111",
+                        "country_of_issue": "TW",
+                        "registration_authority": "Coolbitx"
                       },
-                      "natural_person_name": {
-                        "local_name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        },
-                        "name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        },
-                        "phonetic_name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        }
-                      }
+                      "birth": {
+                        "place_of_birth": "Taipei Zoo",
+                        "date_of_birth": "2022-11-30"
+                      },
+                      "id": "b52e9794-1ea1-42ad-8a59-db582bf7bb07",
+                      "assets_ignore_kyt": true
                     }
                   ]
                 }
@@ -683,129 +651,80 @@
                     {
                       "is_active": true,
                       "customer_type": 0,
-                      "customer_id": "www",
-                      "country": "AF",
+                      "customer_id": "yuweiwei",
+                      "country": "TW",
                       "natural_person_name": {
                         "name": {
-                          "first_name": "www",
-                          "last_name": "www"
-                        },
-                        "local_name": {
-                          "first_name": "www",
-                          "last_name": "www"
-                        },
-                        "phonetic_name": {
-                          "first_name": "www",
-                          "last_name": "www"
+                          "first_name": "yuwei",
+                          "last_name": "chen"
                         }
                       },
-                      "national": {
-                        "national_identifier_type": "ARNU",
-                        "national_identifier": "www",
-                        "country_of_issue": "AM",
-                        "registration_authority": "www"
-                      },
                       "birth": {
-                        "place_of_birth": "www",
-                        "date_of_birth": "2022-11-03"
+                        "place_of_birth": "Taipei Zoo",
+                        "date_of_birth": "2022-11-30"
                       },
-                      "address": {
-                        "address_type": "HOME",
-                        "country": "AF",
-                        "department": "ww",
-                        "sub_department": "www",
-                        "street_name": "www",
-                        "building_number": "www",
-                        "building_name": "www",
-                        "floor": "www",
-                        "post_box": "www",
-                        "room": "www",
-                        "post_code": "www",
-                        "town_name": "www",
-                        "town_location_name": "www",
-                        "district_name": "www",
-                        "country_sub_division": "www",
-                        "address_line": [
-                          "www"
-                        ]
+                      "national": {
+                        "national_identifier_type": "CCPT",
+                        "national_identifier": "1111-1111-1111",
+                        "country_of_issue": "TW",
+                        "registration_authority": "Coolbitx"
                       },
                       "assets": [
                         {
-                          "address": "194xdeb9U4inrJqarTSE7G6H44o56bZu5P",
-                          "extra_info": {
-                            "tag": "www"
-                          },
-                          "currency_id": "sygna:0x80000090"
+                          "address": "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55",
+                          "extra_info": {},
+                          "currency_id": "sygna:0x80000000"
+                        },
+                        {
+                          "address": "0x1b7844ed817ebF8B559D25A4f6D9F45931227970",
+                          "extra_info": {},
+                          "currency_id": "sygna:0x8000003c"
                         }
                       ],
                       "assets_ignore_kyt": true
                     }
                   ]
                 },
-                "Example 1": {
+                "Legal Person": {
                   "value": [
                     {
+                      "is_active": true,
+                      "customer_type": 1,
+                      "customer_id": "cb001",
+                      "country": "TW",
+                      "legal_person_name": {
+                        "name": "Coolbitx"
+                      },
                       "address": {
+                        "address_type": "HOME",
+                        "country": "TW",
+                        "department": "",
+                        "sub_department": "",
+                        "street_name": "Changchun Road",
+                        "building_number": "",
+                        "building_name": "",
+                        "floor": "",
+                        "post_box": "",
+                        "room": "",
+                        "post_code": "",
+                        "town_name": "Taipei",
+                        "town_location_name": "",
+                        "district_name": "",
+                        "country_sub_division": "",
                         "address_line": [
-                          "string"
-                        ],
-                        "address_type": "string",
-                        "building_name": "string",
-                        "building_number": "string",
-                        "country": "string",
-                        "country_sub_division": "string",
-                        "department": "string",
-                        "district_name": "string",
-                        "floor": "string",
-                        "post_box": "string",
-                        "post_code": "string",
-                        "room": "string",
-                        "street_name": "string",
-                        "sub_department": "string",
-                        "town_location_name": "string",
-                        "town_name": "string"
+                          "8 F., No. 176, Changchun Rd., Zhongshan Dist., Taipei City 10485, Taiwan (R.O.C.)"
+                        ]
                       },
                       "assets": [
                         {
-                          "address": "string",
-                          "currency_id": "string",
-                          "extra_info": {},
-                          "value": "string"
+                          "address": "0xC964bE081211144e987828293dffa5828c6f509b",
+                          "extra_info": {
+                            "flag": "1"
+                          },
+                          "currency_id": "sygna:0x800002ca"
                         }
                       ],
-                      "assets_ignore_kyt": true,
-                      "birth": {
-                        "date_of_birth": "string",
-                        "place_of_birth": "string"
-                      },
-                      "country": "string",
-                      "customer_id": "string",
-                      "customer_type": 0,
-                      "legal_person_name": {
-                        "local_name": "string",
-                        "name": "string",
-                        "phonetic_name": "string"
-                      },
-                      "national": {
-                        "country_of_issue": "string",
-                        "national_identifier": "string",
-                        "national_identifier_type": "string",
-                        "registration_authority": "string"
-                      },
-                      "natural_person_name": {
-                        "local_name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        },
-                        "name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        },
-                        "phonetic_name": {
-                          "first_name": "string",
-                          "last_name": "string"
-                        }
-                      }
+                      "assets_ignore_kyt": true
                     }
                   ]
                 }
@@ -893,6 +812,14 @@
                     {
                       "id": "5bd43419-aff3-4828-b739-3319ed4fffb6",
                       "is_actie": false
+                    }
+                  ]
+                },
+                "Example 2": {
+                  "value": [
+                    {
+                      "id": "b52e9794-1ea1-42ad-8a59-db582bf7bb07",
+                      "is_active": true
                     }
                   ]
                 }
@@ -2117,8 +2044,8 @@
               "examples": {
                 "Example 1": {
                   "value": {
-                    "account": "string",
-                    "credential": "string",
+                    "account": "originator@gmail.com",
+                    "credential": "P@ssword0",
                     "login_type": "password"
                   }
                 }
@@ -2329,17 +2256,16 @@
                 "Example 1": {
                   "value": [
                     {
-                      "assets_ignore_kyt": true,
-                      "owner_email": "user@example.com",
-                      "private_wallet_address": [
-                        "string"
-                      ],
-                      "sender_email": "user@example.com",
+                      "owner_email": "owner@example.com",
                       "transaction_information": {
-                        "currency_id": "string",
-                        "value": "string",
-                        "vasp_beneficiary_wallet_address": "string"
-                      }
+                        "vasp_beneficiary_wallet_address": "1Ed5wjp7LpcU5tzQBNnKkk5zWDdpJ3e3bP",
+                        "currency_id": "sygna:0x80000000",
+                        "value": "1"
+                      },
+                      "private_wallet_address": [
+                        "1N7BCTX2uEjsRUoDtfeZTjaTEXuDZSsR3R"
+                      ],
+                      "sender_email": "my@example.com"
                     }
                   ]
                 }
@@ -4069,6 +3995,45 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PostSettingInput"
                 }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "type": "blockchain_analytics_timing",
+                      "rule": {
+                        "originator": "before sending",
+                        "beneficiary": "receiving"
+                      }
+                    },
+                    {
+                      "type": "sanction_screening_timing",
+                      "rule": {
+                        "originator": "before sending",
+                        "beneficiary": "receiving"
+                      }
+                    },
+                    {
+                      "type": "automation_settings",
+                      "rule": {
+                        "auto_accept": true
+                      }
+                    },
+                    {
+                      "type": "personal_info_checking_items",
+                      "rule": {
+                        "follow_ivms101": true,
+                        "name_checking_rule": "one_name_matched"
+                      }
+                    },
+                    {
+                      "type": "forced_sending_when_VASP_is_not_healthy",
+                      "rule": {
+                        "forced_sending": true
+                      }
+                    }
+                  ]
+                }
               }
             }
           },
@@ -4146,6 +4111,45 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/schema.PostSettingInput"
+                }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "type": "blockchain_analytics_timing",
+                      "rule": {
+                        "originator": "before sending",
+                        "beneficiary": "receiving"
+                      }
+                    },
+                    {
+                      "type": "sanction_screening_timing",
+                      "rule": {
+                        "originator": "before sending",
+                        "beneficiary": "receiving"
+                      }
+                    },
+                    {
+                      "type": "automation_settings",
+                      "rule": {
+                        "auto_accept": true
+                      }
+                    },
+                    {
+                      "type": "personal_info_checking_items",
+                      "rule": {
+                        "follow_ivms101": true,
+                        "name_checking_rule": "one_name_matched"
+                      }
+                    },
+                    {
+                      "type": "forced_sending_when_VASP_is_not_healthy",
+                      "rule": {
+                        "forced_sending": true
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -4695,7 +4699,41 @@
                   ]
                 }
               },
-              "examples": {}
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "customer_id": "b52e9794-1ea1-42ad-8a59-db582bf7bb07",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "1",
+                      "originator": {
+                        "assets": [
+                          "be54f510-8859-405d-a104-7eaeb2c53630"
+                        ]
+                      },
+                      "beneficiary": {
+                        "addrs": [
+                          {
+                            "address": "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55",
+                            "extra_info": {}
+                          }
+                        ],
+                        "customer_type": 0,
+                        "vasp_code": "CYWWTWTY",
+                        "private_info": {
+                          "natural_person_name": {
+                            "name": {
+                              "last_name": "yuwei"
+                            }
+                          }
+                        }
+                      },
+                      "expire_date": null,
+                      "protocol": "Sygna_Bridge"
+                    }
+                  ]
+                }
+              }
             }
           },
           "required": true
@@ -4774,6 +4812,30 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/model.PostEmailProtocolDepositInput"
+                }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "customer_id": "b52e9794-1ea1-42ad-8a59-db582bf7bb07",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "2",
+                      "beneficiary": {
+                        "assets": [
+                          "be54f510-8859-405d-a104-7eaeb2c53630"
+                        ]
+                      },
+                      "originator": {
+                        "addrs": [
+                          {
+                            "address": "1Bxzf2hA8FrRkpKU3VQNrgLu6iEGo6bUm7",
+                            "extra_info": {}
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -5095,7 +5157,8 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PostEmailProtocolPermissionInput"
                 }
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -5254,6 +5317,16 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PatchPermissionInput"
                 }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "permission_status": 0,
+                      "id": "b6d9e3f0-533b-4867-a3ed-17e84b9cd32c"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -5330,6 +5403,14 @@
             "*/*": {
               "schema": {
                 "$ref": "#/components/schemas/schema.PostSanctionMatchInput"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "name": "willy",
+                    "customer_type": 0
+                  }
+                }
               }
             }
           },
@@ -5564,6 +5645,16 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PatchTxIdInput"
                 }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "txid": "tx111111111",
+                      "id": "9bc36928-7328-4b01-9635-a8676dc847ff"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -5642,6 +5733,18 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/schema.PostWalletAddressFilterInput"
+                }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "addrs": [
+                        "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55"
+                      ],
+                      "currency_id": "sygna:0x80000000"
+                    }
+                  ]
                 }
               }
             }
@@ -6022,6 +6125,15 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PostUsersInput"
                 }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "account": "user@example.com"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -6178,6 +6290,16 @@
                 "items": {
                   "$ref": "#/components/schemas/schema.PatchUsersInput"
                 }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "id": "781fe1f1-4f1e-446e-b707-f914048b972e",
+                      "is_active": false
+                    }
+                  ]
+                }
               }
             }
           },
@@ -6332,6 +6454,15 @@
             "*/*": {
               "schema": {
                 "$ref": "#/components/schemas/schema.PostUsersLinkInput"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "account": "string",
+                    "credential": "string",
+                    "login_type": "string"
+                  }
+                }
               }
             }
           },
@@ -8736,7 +8867,8 @@
               "TRISA",
               "Sygna_Bridge",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Veriscope on Shyft"
             ]
           },
           "type": {
@@ -8763,8 +8895,11 @@
           "type": {
             "type": "string",
             "enum": [
-              "blockchain_analytics_timing",
-              "sanction_screening_timing"
+              "personal_info_checking_items",
+              "automation_settings",
+              "sanction_screening_timing",
+              "forced_sending_when_VASP_is_not_healthy",
+              "blockchain_analytics_timing"
             ]
           }
         }
