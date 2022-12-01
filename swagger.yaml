@@ -408,6 +408,7 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      operationId: ''
     post:
       tags:
         - customers
@@ -2316,6 +2317,7 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      parameters: []
   /services/supported:
     get:
       tags:
@@ -2941,7 +2943,6 @@ paths:
       tags:
         - transactions
       summary: create transactions
-      operationId: ''
       requestBody:
         description: post /transactions params
         content:
@@ -3228,7 +3229,64 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PostEmailProtocolPermissionInput'
-            examples: {}
+            examples:
+              Example 1:
+                value:
+                  - customer:
+                      address:
+                        address_line:
+                          - string
+                        address_type: string
+                        building_name: string
+                        building_number: string
+                        country: string
+                        country_sub_division: string
+                        department: string
+                        district_name: string
+                        floor: string
+                        post_box: string
+                        post_code: string
+                        room: string
+                        street_name: string
+                        sub_department: string
+                        town_location_name: string
+                        town_name: string
+                      assets:
+                        - address: string
+                          currency_id: string
+                          extra_info: {}
+                          value: string
+                      assets_ignore_kyt: true
+                      birth:
+                        date_of_birth: string
+                        place_of_birth: string
+                      country: string
+                      customer_id: string
+                      customer_type: 0
+                      legal_person_name:
+                        local_name: string
+                        name: string
+                        phonetic_name: string
+                      national:
+                        country_of_issue: string
+                        national_identifier: string
+                        national_identifier_type: string
+                        registration_authority: string
+                      natural_person_name:
+                        local_name:
+                          first_name: string
+                          last_name: string
+                        name:
+                          first_name: string
+                          last_name: string
+                        phonetic_name:
+                          first_name: string
+                          last_name: string
+                    forced_sending_when_VASP_is_not_healthy: true
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    permission_status: 0
+                    reject_code: BVRC001
+                    reject_message: string
         required: true
       responses:
         '200':
@@ -4880,6 +4938,7 @@ components:
           type: string
         updated_at:
           type: string
+      title: ''
     model.SupportedSetting:
       type: object
       properties:
