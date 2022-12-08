@@ -1351,6 +1351,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
+      description: API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)
     delete:
       tags:
         - oauth2
@@ -2579,7 +2580,9 @@ paths:
       tags:
         - settings
       summary: create settings
-      description: only allow admin to use this method
+      description: |-
+        only allow admin to use this method. 
+        Please also check the API response of GET `/settings/supported` to get the complete supported settings configuration.
       requestBody:
         description: post /settings params
         content:
@@ -2689,7 +2692,7 @@ paths:
       tags:
         - settings
       summary: get supported settings
-      description: only allow admin to use this method
+      description: 'only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`'
       responses:
         '200':
           description: OK

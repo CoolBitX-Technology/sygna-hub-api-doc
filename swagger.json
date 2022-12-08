@@ -628,7 +628,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "operationId": ""
       },
       "post": {
         "tags": [
@@ -2096,7 +2097,8 @@
               }
             }
           }
-        }
+        },
+        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)"
       },
       "delete": {
         "tags": [
@@ -3686,7 +3688,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "parameters": []
       }
     },
     "/services/supported": {
@@ -4102,7 +4105,7 @@
           "settings"
         ],
         "summary": "create settings",
-        "description": "only allow admin to use this method",
+        "description": "only allow admin to use this method. \nPlease also check the API response of GET `/settings/supported` to get the complete supported settings configuration.",
         "requestBody": {
           "description": "post /settings params",
           "content": {
@@ -4290,7 +4293,7 @@
           "settings"
         ],
         "summary": "get supported settings",
-        "description": "only allow admin to use this method",
+        "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
         "responses": {
           "200": {
             "description": "OK",
@@ -4675,7 +4678,6 @@
           "transactions"
         ],
         "summary": "create transactions",
-        "operationId": "",
         "requestBody": {
           "description": "post /transactions params",
           "content": {
@@ -5158,7 +5160,82 @@
                   "$ref": "#/components/schemas/schema.PostEmailProtocolPermissionInput"
                 }
               },
-              "examples": {}
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "customer": {
+                        "address": {
+                          "address_line": [
+                            "string"
+                          ],
+                          "address_type": "string",
+                          "building_name": "string",
+                          "building_number": "string",
+                          "country": "string",
+                          "country_sub_division": "string",
+                          "department": "string",
+                          "district_name": "string",
+                          "floor": "string",
+                          "post_box": "string",
+                          "post_code": "string",
+                          "room": "string",
+                          "street_name": "string",
+                          "sub_department": "string",
+                          "town_location_name": "string",
+                          "town_name": "string"
+                        },
+                        "assets": [
+                          {
+                            "address": "string",
+                            "currency_id": "string",
+                            "extra_info": {},
+                            "value": "string"
+                          }
+                        ],
+                        "assets_ignore_kyt": true,
+                        "birth": {
+                          "date_of_birth": "string",
+                          "place_of_birth": "string"
+                        },
+                        "country": "string",
+                        "customer_id": "string",
+                        "customer_type": 0,
+                        "legal_person_name": {
+                          "local_name": "string",
+                          "name": "string",
+                          "phonetic_name": "string"
+                        },
+                        "national": {
+                          "country_of_issue": "string",
+                          "national_identifier": "string",
+                          "national_identifier_type": "string",
+                          "registration_authority": "string"
+                        },
+                        "natural_person_name": {
+                          "local_name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          },
+                          "name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          },
+                          "phonetic_name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          }
+                        }
+                      },
+                      "forced_sending_when_VASP_is_not_healthy": true,
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "permission_status": 0,
+                      "reject_code": "BVRC001",
+                      "reject_message": "string"
+                    }
+                  ]
+                }
+              }
             }
           },
           "required": true
@@ -7787,7 +7864,8 @@
           "updated_at": {
             "type": "string"
           }
-        }
+        },
+        "title": ""
       },
       "model.SupportedSetting": {
         "type": "object",
