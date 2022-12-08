@@ -4293,7 +4293,7 @@
           "settings"
         ],
         "summary": "get supported settings",
-        "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
+        "description": "",
         "responses": {
           "200": {
             "description": "OK",
@@ -7021,7 +7021,7 @@
           "vendors"
         ],
         "summary": "test if third-party service is available",
-        "description": "only allow admin to use this method\nonly support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+        "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
         "requestBody": {
           "description": "post /vendors/test params",
           "content": {
