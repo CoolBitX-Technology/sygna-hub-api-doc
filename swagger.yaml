@@ -6120,17 +6120,7 @@ components:
         need_validate_address:
           type: boolean
         originator:
-          type: object
-          description: 'Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier'
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            assets:
-              type: array
-              items:
-                type: string
+          $ref: '#/components/schemas/OriginatorAsset'
         protocol:
           type: string
           enum:
@@ -6183,28 +6173,17 @@ components:
         need_validate_address:
           type: boolean
         originator:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            assets:
-              type: array
-              items:
-                type: string
-          description: 'Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier'
+          $ref: '#/components/schemas/OriginatorAsset'
         protocol:
           type: string
-          nullable: true
           enum:
             - null
             - Sygna_Bridge
             - Sygna_EmailProtocol
             - TRISA
+          nullable: true
         protocol_extra_info:
           type: object
-          properties: {}
         txid:
           type: string
         value:
@@ -6237,17 +6216,7 @@ components:
           type: string
           description: Choose target identifier from GET /customers
         originator:
-          type: object
-          description: 'Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier'
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            assets:
-              type: array
-              items:
-                type: string
+          $ref: '#/components/schemas/OriginatorAsset'
         protocol:
           type: string
           enum:
@@ -6299,17 +6268,7 @@ components:
           description: Choose target identifier from GET /customers
           type: string
         originator:
-          description: 'Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier'
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Address'
-            assets:
-              type: array
-              items:
-                type: string
+          $ref: '#/components/schemas/OriginatorAsset'
         protocol:
           type: string
           enum:
@@ -6332,6 +6291,24 @@ components:
         - protocol
         - txid
         - value
+    OriginatorAsset:
+      anyOf:
+        - properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+          required:
+            - addrs
+        - properties:
+            assets:
+              type: array
+              items:
+                type: string
+          required:
+            - assets
+      type: object
+      title: ''
   securitySchemes:
     BearerToken:
       type: apiKey
