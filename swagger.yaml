@@ -2958,6 +2958,7 @@ paths:
                   - $ref: '#/components/schemas/PostTransactionSygnaBridge'
                   - $ref: '#/components/schemas/PostTransactionSygnaEmail'
                   - $ref: '#/components/schemas/PostTransactionTrisa'
+                  - $ref: '#/components/schemas/PostTransactionShyft'
             examples:
               Unknown:
                 value:
@@ -2990,7 +2991,6 @@ paths:
                         natural_person_name:
                           name:
                             last_name: Yuwei Chen
-                    expire_date: null
                     protocol: Sygna_Bridge
               Sygna Email:
                 value:

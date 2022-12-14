@@ -4697,6 +4697,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/PostTransactionTrisa"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PostTransactionShyft"
                     }
                   ]
                 }
@@ -4753,7 +4756,6 @@
                           }
                         }
                       },
-                      "expire_date": null,
                       "protocol": "Sygna_Bridge"
                     }
                   ]
