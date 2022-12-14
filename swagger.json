@@ -9763,6 +9763,62 @@
           "value"
         ]
       },
+      "PostTransactionShyft": {
+        "title": "PostTransactionShyft",
+        "type": "object",
+        "description": "This schema is for 'Shyft' protocol",
+        "properties": {
+          "beneficiary": {
+            "type": "object",
+            "required": [
+              "addrs"
+            ],
+            "properties": {
+              "addrs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/model.Addr"
+                }
+              }
+            }
+          },
+          "currency_id": {
+            "description": "Choose target currency identifier from GET /currencies",
+            "type": "string"
+          },
+          "customer_id": {
+            "description": "Choose target identifier from GET /customers",
+            "type": "string"
+          },
+          "originator": {
+            "$ref": "#/components/schemas/OriginatorAsset"
+          },
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "null",
+              "Sygna_Bridge",
+              "Sygna_EmailProtocol",
+              "TRISA"
+            ]
+          },
+          "protocol_extra_info": {
+            "type": "object"
+          },
+          "value": {
+            "description": "The value of the currency requested to transfer.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "beneficiary",
+          "currency_id",
+          "customer_id",
+          "originator",
+          "protocol",
+          "value"
+        ]
+      },
       "OriginatorAsset": {
         "anyOf": [
           {
