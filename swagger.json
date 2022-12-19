@@ -4756,6 +4756,7 @@
                           }
                         }
                       },
+                      "expire_date": null,
                       "protocol": "Sygna_Bridge"
                     }
                   ]
@@ -7377,12 +7378,14 @@
         }
       },
       "model.BeneficiaryPrivateInfo": {
-        "type": "object",
-        "properties": {
-          "natural_person_name": {
+        "oneOf": [
+          {
             "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          {
+            "$ref": "#/components/schemas/model.LegalPersonName"
           }
-        }
+        ]
       },
       "model.Birth": {
         "type": "object",

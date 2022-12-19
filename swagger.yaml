@@ -2991,6 +2991,7 @@ paths:
                         natural_person_name:
                           name:
                             last_name: Yuwei Chen
+                    expire_date: null
                     protocol: Sygna_Bridge
               Sygna Email:
                 value:
@@ -4594,10 +4595,9 @@ components:
         value_usd:
           $ref: '#/components/schemas/decimal.NullDecimal'
     model.BeneficiaryPrivateInfo:
-      type: object
-      properties:
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
+      oneOf:
+        - $ref: '#/components/schemas/model.NaturalPersonName'
+        - $ref: '#/components/schemas/model.LegalPersonName'
     model.Birth:
       type: object
       properties:
