@@ -1,8 +1,5 @@
 {
   "openapi": "3.0.1",
-  "x-stoplight": {
-    "id": "e12a7bkgzoq5i"
-  },
   "info": {
     "title": "Sygna HUB",
     "description": "Sygna Hub API",
@@ -4574,7 +4571,8 @@
                 "enum": [
                   "Sygna_Bridge",
                   "Sygna_EmailProtocol",
-                  "TRISA"
+                  "TRISA",
+                  "Veriscope on Shyft"
                 ]
               }
             }
@@ -7844,7 +7842,8 @@
             "enum": [
               "Sygna_Bridge",
               "Sygna_EmailProtocol",
-              "TRISA"
+              "TRISA",
+              "Veriscope on Shyft"
             ]
           },
           "protocol_extra_info": {
@@ -9595,9 +9594,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_Bridge"
             ],
             "nullable": true
           },
@@ -9661,16 +9658,6 @@
           "originator": {
             "$ref": "#/components/schemas/OriginatorAsset"
           },
-          "protocol": {
-            "type": "string",
-            "enum": [
-              null,
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
-            ],
-            "nullable": true
-          },
           "protocol_extra_info": {
             "type": "object"
           },
@@ -9723,9 +9710,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_EmailProtocol"
             ],
             "nullable": true
           },
@@ -9789,9 +9774,6 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "null",
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
               "TRISA"
             ]
           },
@@ -9849,10 +9831,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "null",
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Veriscope on Shyft"
             ]
           },
           "protocol_extra_info": {

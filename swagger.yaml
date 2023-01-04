@@ -1,6 +1,4 @@
 openapi: 3.0.1
-x-stoplight:
-  id: e12a7bkgzoq5i
 info:
   title: Sygna HUB
   description: Sygna Hub API
@@ -2885,6 +2883,7 @@ paths:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
                 - TRISA
+                - Veriscope on Shyft
         - name: created_at
           in: query
           description: 'filter data by a range of created data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
@@ -4912,6 +4911,7 @@ components:
             - Sygna_Bridge
             - Sygna_EmailProtocol
             - TRISA
+            - Veriscope on Shyft
         protocol_extra_info:
           type: object
           properties: {}
@@ -6157,8 +6157,6 @@ components:
           type: string
           enum:
             - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
           nullable: true
         value:
           type: string
@@ -6206,14 +6204,6 @@ components:
           type: boolean
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
-        protocol:
-          type: string
-          enum:
-            - null
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
-          nullable: true
         protocol_extra_info:
           type: object
         txid:
@@ -6252,9 +6242,7 @@ components:
         protocol:
           type: string
           enum:
-            - Sygna_Bridge
             - Sygna_EmailProtocol
-            - TRISA
           nullable: true
         value:
           type: string
@@ -6304,9 +6292,6 @@ components:
         protocol:
           type: string
           enum:
-            - 'null'
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
             - TRISA
         protocol_extra_info:
           type: object
@@ -6348,10 +6333,7 @@ components:
         protocol:
           type: string
           enum:
-            - 'null'
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
+            - Veriscope on Shyft
         protocol_extra_info:
           type: object
         value:
