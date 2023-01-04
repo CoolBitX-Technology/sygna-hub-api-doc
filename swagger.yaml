@@ -1,4 +1,6 @@
 openapi: 3.0.1
+x-stoplight:
+  id: e12a7bkgzoq5i
 info:
   title: Sygna HUB
   description: Sygna Hub API
@@ -2309,7 +2311,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
-              examples: {}
         '400':
           description: Bad Request
           content:

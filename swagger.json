@@ -1,5 +1,8 @@
 {
   "openapi": "3.0.1",
+  "x-stoplight": {
+    "id": "e12a7bkgzoq5i"
+  },
   "info": {
     "title": "Sygna HUB",
     "description": "Sygna Hub API",
@@ -3666,8 +3669,7 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithMutation"
-                },
-                "examples": {}
+                }
               }
             }
           },
