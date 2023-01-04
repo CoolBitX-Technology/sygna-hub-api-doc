@@ -262,7 +262,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "description": "Please refer to the GET /currencies API response body for the \"key\" in each coin/token's extra information (addr_extra_info)."
       }
     },
     "/customers": {
@@ -327,7 +328,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -950,7 +952,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -2063,7 +2066,16 @@
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithStatus"
                 },
-                "examples": {}
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "data": {
+                        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjowLCJhdWQiOiJvcmlnaW5hdG9yQGdtYWlsLmNvbSIsImV4cCI6MTY3MjgzMjg0NiwiaWF0IjoxNjcyNzk2ODQ2LCJpc3MiOiJzeWduYS1idW5kbGUtcHJvZHVjdCIsInZhc3BfY29kZSI6IkNZV1dUV1RZIiwidXNlcl9pZCI6IjQ3Zjk5MjcwLWEzYjMtNGZmMy1iMjE0LWEzMWY5MTZjMTBlMCIsImxvZ2luX3R5cGUiOiJwYXNzd29yZCIsImxvZ2luX2lkIjoiZWNlY2RlNWQtZDA1ZS00Yzc5LThjOWEtZDZlNTIxM2FkZDdjIiwiYWNjb3VudCI6Im9yaWdpbmF0b3JAZ21haWwuY29tIn0.1fRpXseNGrRrWkPRCkTIoAMhIHpjV9E-bb8qMiK7XeE",
+                        "success": true
+                      }
+                    }
+                  }
+                }
               }
             }
           },
@@ -3163,7 +3175,8 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -3466,7 +3479,7 @@
           "services"
         ],
         "summary": "create services",
-        "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
+        "description": "Only allow admin to use this method use GET `/services/supported` to understand which credential is required by provider\nPlease must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol.\n",
         "requestBody": {
           "description": "post /services params",
           "content": {
@@ -3529,6 +3542,21 @@
                       "is_active": true,
                       "credential": {
                         "api_key": "bbbb"
+                      },
+                      "settings": {
+                        "high_risk_score": 50
+                      }
+                    }
+                  ]
+                },
+                "Coinfirm (Sandbox)": {
+                  "value": [
+                    {
+                      "type": "Blockchain Analytics",
+                      "provider": "Coinfirm (Sandbox)",
+                      "is_active": true,
+                      "credential": {
+                        "sandbox_access_token": "3uhQGUlzNTsKTVUJOwC0dvG0A2RuA6ieV9LckrHdcY0AXQciDnnoxBvXJs2aS8ha"
                       },
                       "settings": {
                         "high_risk_score": 50
@@ -3614,7 +3642,7 @@
                     }
                   ]
                 },
-                "Shyft": {
+                "Veriscope on Shyft": {
                   "value": [
                     {
                       "type": "Travel Rule",
@@ -3732,7 +3760,8 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -4696,7 +4725,7 @@
                       "$ref": "#/components/schemas/PostTransactionSygnaEmail"
                     },
                     {
-                      "$ref": "#/components/schemas/PostTransactionTrisa"
+                      "$ref": "#/components/schemas/PostTransactionTRISA"
                     },
                     {
                       "$ref": "#/components/schemas/PostTransactionShyft"
@@ -4784,7 +4813,7 @@
                     }
                   ]
                 },
-                "Trisa": {
+                "TRISA": {
                   "value": [
                     {
                       "customer_id": "78045c2e-f82a-4d85-ad80-a3a450a2c3f9",
@@ -4817,7 +4846,7 @@
                     }
                   ]
                 },
-                "Shyft": {
+                "Veriscope on Shyft": {
                   "value": [
                     {
                       "customer_id": "14e67e17-7b02-43a5-8e2e-06a4ad827c43",
@@ -5501,11 +5530,22 @@
                 }
               },
               "examples": {
-                "Example 1": {
+                "Accept": {
                   "value": [
                     {
                       "permission_status": 0,
                       "id": "b6d9e3f0-533b-4867-a3ed-17e84b9cd32c"
+                    }
+                  ]
+                },
+                "Reject": {
+                  "value": [
+                    {
+                      "forced_sending_when_VASP_is_not_healthy": true,
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "permission_status": 1,
+                      "reject_code": "BVRC999",
+                      "reject_message": "Unknown address"
                     }
                   ]
                 }
@@ -9053,6 +9093,7 @@
               "Sygna_Bridge",
               "Dow Jones",
               "Coinfirm",
+              "Coinfirm (Sandbox)",
               "Veriscope on Shyft"
             ]
           },
@@ -9156,7 +9197,8 @@
               "Merkle Science",
               "TRISA",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "type": {
@@ -9342,7 +9384,8 @@
               "TRISA",
               "Sygna_Bridge",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "settings": {
@@ -9411,23 +9454,26 @@
         }
       },
       "schema.RespWithStatus": {
-        "required": [
-          "data"
-        ],
         "type": "object",
         "properties": {
           "data": {
+            "type": "object",
             "required": [
               "success"
             ],
-            "type": "object",
             "properties": {
               "success": {
                 "type": "boolean"
+              },
+              "accessToken": {
+                "type": "string"
               }
             }
           }
-        }
+        },
+        "required": [
+          "data"
+        ]
       },
       "schema.RespWithStatusAndMessage": {
         "required": [
@@ -9695,8 +9741,8 @@
           "value"
         ]
       },
-      "PostTransactionTrisa": {
-        "title": "PostTransactionTrisa",
+      "PostTransactionTRISA": {
+        "title": "PostTransactionTRISA",
         "type": "object",
         "description": "This schema is for 'TRISA' protocol",
         "properties": {
@@ -9771,7 +9817,7 @@
       "PostTransactionShyft": {
         "title": "PostTransactionShyft",
         "type": "object",
-        "description": "This schema is for 'Shyft' protocol",
+        "description": "This schema is for 'Veriscope on Shyft' protocol",
         "properties": {
           "beneficiary": {
             "type": "object",

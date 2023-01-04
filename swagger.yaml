@@ -170,6 +170,7 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      description: Please refer to the GET /currencies API response body for the "key" in each coin/token's extra information (addr_extra_info).
   /customers:
     get:
       tags:
@@ -219,6 +220,7 @@ paths:
                 - Merkle Science
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: max_risk_score
           in: query
           description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
@@ -618,6 +620,7 @@ paths:
                 - Merkle Science
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: max_risk_score
           in: query
           description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
@@ -1332,7 +1335,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithStatus'
-              examples: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjowLCJhdWQiOiJvcmlnaW5hdG9yQGdtYWlsLmNvbSIsImV4cCI6MTY3MjgzMjg0NiwiaWF0IjoxNjcyNzk2ODQ2LCJpc3MiOiJzeWduYS1idW5kbGUtcHJvZHVjdCIsInZhc3BfY29kZSI6IkNZV1dUV1RZIiwidXNlcl9pZCI6IjQ3Zjk5MjcwLWEzYjMtNGZmMy1iMjE0LWEzMWY5MTZjMTBlMCIsImxvZ2luX3R5cGUiOiJwYXNzd29yZCIsImxvZ2luX2lkIjoiZWNlY2RlNWQtZDA1ZS00Yzc5LThjOWEtZDZlNTIxM2FkZDdjIiwiYWNjb3VudCI6Im9yaWdpbmF0b3JAZ21haWwuY29tIn0.1fRpXseNGrRrWkPRCkTIoAMhIHpjV9E-bb8qMiK7XeE
+                      success: true
         '400':
           description: Bad Request
           content:
@@ -1987,6 +1995,7 @@ paths:
                 - TRISA
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: type
           in: query
           description: filter services by type
@@ -2180,9 +2189,9 @@ paths:
       tags:
         - services
       summary: create services
-      description: |-
-        only allow admin to use this method
-        use GET /services/supported to understand which credential is required by provider
+      description: |
+        Only allow admin to use this method use GET `/services/supported` to understand which credential is required by provider
+        Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol.
       requestBody:
         description: post /services params
         content:
@@ -2225,6 +2234,15 @@ paths:
                     is_active: true
                     credential:
                       api_key: bbbb
+                    settings:
+                      high_risk_score: 50
+              Coinfirm (Sandbox):
+                value:
+                  - type: Blockchain Analytics
+                    provider: Coinfirm (Sandbox)
+                    is_active: true
+                    credential:
+                      sandbox_access_token: 3uhQGUlzNTsKTVUJOwC0dvG0A2RuA6ieV9LckrHdcY0AXQciDnnoxBvXJs2aS8ha
                     settings:
                       high_risk_score: 50
               Merkle Science:
@@ -2276,7 +2294,7 @@ paths:
                       p12: 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
                       password: FSDFEWGDSGERG
                       registration_id: tttt
-              Shyft:
+              Veriscope on Shyft:
                 value:
                   - type: Travel Rule
                     provider: Veriscope on Shyft
@@ -2354,6 +2372,7 @@ paths:
                 - TRISA
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: type
           in: query
           description: filter services by type
@@ -2957,7 +2976,7 @@ paths:
                   - $ref: '#/components/schemas/PostTransactionUnknown'
                   - $ref: '#/components/schemas/PostTransactionSygnaBridge'
                   - $ref: '#/components/schemas/PostTransactionSygnaEmail'
-                  - $ref: '#/components/schemas/PostTransactionTrisa'
+                  - $ref: '#/components/schemas/PostTransactionTRISA'
                   - $ref: '#/components/schemas/PostTransactionShyft'
             examples:
               Unknown:
@@ -3006,7 +3025,7 @@ paths:
                         - address: bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97
                           extra_info: {}
                     protocol: Sygna_EmailProtocol
-              Trisa:
+              TRISA:
                 value:
                   - customer_id: 78045c2e-f82a-4d85-ad80-a3a450a2c3f9
                     currency_id: 'sygna:0x80000000'
@@ -3026,7 +3045,7 @@ paths:
                             last_name: Coolbitx
                     txid: xxxxxxxxxxxx
                     protocol: TRISA
-              Shyft:
+              Veriscope on Shyft:
                 value:
                   - customer_id: 14e67e17-7b02-43a5-8e2e-06a4ad827c43
                     currency_id: 'sygna:0x80000000'
@@ -3447,10 +3466,17 @@ paths:
               items:
                 $ref: '#/components/schemas/schema.PatchPermissionInput'
             examples:
-              Example 1:
+              Accept:
                 value:
                   - permission_status: 0
                     id: b6d9e3f0-533b-4867-a3ed-17e84b9cd32c
+              Reject:
+                value:
+                  - forced_sending_when_VASP_is_not_healthy: true
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    permission_status: 1
+                    reject_code: BVRC999
+                    reject_message: Unknown address
         required: true
       responses:
         '200':
@@ -5756,6 +5782,7 @@ components:
             - Sygna_Bridge
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
             - Veriscope on Shyft
         type:
           type: string
@@ -5846,6 +5873,7 @@ components:
             - TRISA
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
         type:
           type: string
           enum:
@@ -5981,6 +6009,7 @@ components:
             - Sygna_Bridge
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
         settings:
           type: object
           properties: {}
@@ -6025,17 +6054,19 @@ components:
         paging:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.RespWithStatus:
-      required:
-        - data
       type: object
       properties:
         data:
+          type: object
           required:
             - success
-          type: object
           properties:
             success:
               type: boolean
+            accessToken:
+              type: string
+      required:
+        - data
     schema.RespWithStatusAndMessage:
       required:
         - data
@@ -6234,8 +6265,8 @@ components:
         - originator
         - protocol
         - value
-    PostTransactionTrisa:
-      title: PostTransactionTrisa
+    PostTransactionTRISA:
+      title: PostTransactionTRISA
       type: object
       description: This schema is for 'TRISA' protocol
       properties:
@@ -6294,7 +6325,7 @@ components:
     PostTransactionShyft:
       title: PostTransactionShyft
       type: object
-      description: This schema is for 'Shyft' protocol
+      description: This schema is for 'Veriscope on Shyft' protocol
       properties:
         beneficiary:
           type: object
