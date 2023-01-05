@@ -87,3 +87,4 @@ RECEIVE_APPROVED_TRANSACTION_LOW_RISK | Your data transfer was approved by benef
 RECEIVE_APPROVED_TRANSACTION_HIGH_RISK | Your data transfer was approved by beneficiary VASP and the Beneficiary risk is high, please transfer transaction hash to beneficiary VASP by PATCH /txid | Originator VASP | No | no error code is applicable |
 RECEIVE_DATA_TRANSFER_TRANSACTION | Receiving a data transfer when Originator VASP send the data transfer and Beneficiary VASP turned off auto-accept setting. Please accept or reject this data transfer by hitting PATCH /permission | Beneficiary VASP | No | no error code is applicable |
 SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR | The Counterparty server is not healthy | Both VASP | No | no error code is applicable |
+SEND_DATA_TRANSFER_EXPIRED | When the data transfer has passed with its expire_date, and this data transfer will become expired. | Both VASPs | No | no error code is applicable |

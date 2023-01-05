@@ -262,7 +262,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "description": "Please refer to the GET /currencies API response body for the \"key\" in each coin/token's extra information (addr_extra_info)."
       }
     },
     "/customers": {
@@ -327,7 +328,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -628,7 +630,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "operationId": ""
       },
       "post": {
         "tags": [
@@ -949,7 +952,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -2062,7 +2066,16 @@
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithStatus"
                 },
-                "examples": {}
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "data": {
+                        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjowLCJhdWQiOiJvcmlnaW5hdG9yQGdtYWlsLmNvbSIsImV4cCI6MTY3MjgzMjg0NiwiaWF0IjoxNjcyNzk2ODQ2LCJpc3MiOiJzeWduYS1idW5kbGUtcHJvZHVjdCIsInZhc3BfY29kZSI6IkNZV1dUV1RZIiwidXNlcl9pZCI6IjQ3Zjk5MjcwLWEzYjMtNGZmMy1iMjE0LWEzMWY5MTZjMTBlMCIsImxvZ2luX3R5cGUiOiJwYXNzd29yZCIsImxvZ2luX2lkIjoiZWNlY2RlNWQtZDA1ZS00Yzc5LThjOWEtZDZlNTIxM2FkZDdjIiwiYWNjb3VudCI6Im9yaWdpbmF0b3JAZ21haWwuY29tIn0.1fRpXseNGrRrWkPRCkTIoAMhIHpjV9E-bb8qMiK7XeE",
+                        "success": true
+                      }
+                    }
+                  }
+                }
               }
             }
           },
@@ -2096,7 +2109,8 @@
               }
             }
           }
-        }
+        },
+        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)"
       },
       "delete": {
         "tags": [
@@ -3161,7 +3175,8 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -3464,7 +3479,7 @@
           "services"
         ],
         "summary": "create services",
-        "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
+        "description": "Only allow admin to use this method use GET `/services/supported` to understand which credential is required by provider\nPlease must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol.\n",
         "requestBody": {
           "description": "post /services params",
           "content": {
@@ -3527,6 +3542,21 @@
                       "is_active": true,
                       "credential": {
                         "api_key": "bbbb"
+                      },
+                      "settings": {
+                        "high_risk_score": 50
+                      }
+                    }
+                  ]
+                },
+                "Coinfirm (Sandbox)": {
+                  "value": [
+                    {
+                      "type": "Blockchain Analytics",
+                      "provider": "Coinfirm (Sandbox)",
+                      "is_active": true,
+                      "credential": {
+                        "sandbox_access_token": "3uhQGUlzNTsKTVUJOwC0dvG0A2RuA6ieV9LckrHdcY0AXQciDnnoxBvXJs2aS8ha"
                       },
                       "settings": {
                         "high_risk_score": 50
@@ -3612,7 +3642,7 @@
                     }
                   ]
                 },
-                "Shyft": {
+                "Veriscope on Shyft": {
                   "value": [
                     {
                       "type": "Travel Rule",
@@ -3636,8 +3666,7 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithMutation"
-                },
-                "examples": {}
+                }
               }
             }
           },
@@ -3686,7 +3715,8 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "parameters": []
       }
     },
     "/services/supported": {
@@ -3729,7 +3759,8 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -4102,7 +4133,7 @@
           "settings"
         ],
         "summary": "create settings",
-        "description": "only allow admin to use this method",
+        "description": "only allow admin to use this method. \nPlease also check the API response of GET `/settings/supported` to get the complete supported settings configuration.",
         "requestBody": {
           "description": "post /settings params",
           "content": {
@@ -4290,7 +4321,7 @@
           "settings"
         ],
         "summary": "get supported settings",
-        "description": "only allow admin to use this method",
+        "description": "",
         "responses": {
           "200": {
             "description": "OK",
@@ -4540,7 +4571,8 @@
                 "enum": [
                   "Sygna_Bridge",
                   "Sygna_EmailProtocol",
-                  "TRISA"
+                  "TRISA",
+                  "Veriscope on Shyft"
                 ]
               }
             }
@@ -4675,7 +4707,6 @@
           "transactions"
         ],
         "summary": "create transactions",
-        "operationId": "",
         "requestBody": {
           "description": "post /transactions params",
           "content": {
@@ -4694,21 +4725,47 @@
                       "$ref": "#/components/schemas/PostTransactionSygnaEmail"
                     },
                     {
-                      "$ref": "#/components/schemas/PostTransactionTrisa"
+                      "$ref": "#/components/schemas/PostTransactionTRISA"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PostTransactionShyft"
                     }
                   ]
                 }
               },
               "examples": {
-                "Example 1": {
+                "Unknown": {
                   "value": [
                     {
-                      "customer_id": "b52e9794-1ea1-42ad-8a59-db582bf7bb07",
+                      "customer_id": "6bf8c118-3395-40fa-83d3-be3be1a5f95f",
                       "currency_id": "sygna:0x80000000",
-                      "value": "1",
+                      "value": "111",
                       "originator": {
                         "assets": [
-                          "be54f510-8859-405d-a104-7eaeb2c53630"
+                          "190c2b76-6a93-4f58-ae3b-2b21b0157083"
+                        ]
+                      },
+                      "beneficiary": {
+                        "addrs": [
+                          {
+                            "address": "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55",
+                            "extra_info": {}
+                          }
+                        ],
+                        "customer_type": 0
+                      }
+                    }
+                  ]
+                },
+                "Sygna Bridge": {
+                  "value": [
+                    {
+                      "customer_id": "6bf8c118-3395-40fa-83d3-be3be1a5f95f",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "111",
+                      "originator": {
+                        "assets": [
+                          "190c2b76-6a93-4f58-ae3b-2b21b0157083"
                         ]
                       },
                       "beneficiary": {
@@ -4723,13 +4780,92 @@
                         "private_info": {
                           "natural_person_name": {
                             "name": {
-                              "last_name": "yuwei"
+                              "last_name": "Yuwei Chen"
                             }
                           }
                         }
                       },
                       "expire_date": null,
                       "protocol": "Sygna_Bridge"
+                    }
+                  ]
+                },
+                "Sygna Email": {
+                  "value": [
+                    {
+                      "customer_id": "6bf8c118-3395-40fa-83d3-be3be1a5f95f",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "222",
+                      "originator": {
+                        "assets": [
+                          "190c2b76-6a93-4f58-ae3b-2b21b0157083"
+                        ]
+                      },
+                      "beneficiary": {
+                        "addrs": [
+                          {
+                            "address": "bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97",
+                            "extra_info": {}
+                          }
+                        ]
+                      },
+                      "protocol": "Sygna_EmailProtocol"
+                    }
+                  ]
+                },
+                "TRISA": {
+                  "value": [
+                    {
+                      "customer_id": "78045c2e-f82a-4d85-ad80-a3a450a2c3f9",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "444",
+                      "originator": {
+                        "assets": [
+                          "0bf367bb-7144-49ba-816b-ef4071f05995"
+                        ]
+                      },
+                      "beneficiary": {
+                        "addrs": [
+                          {
+                            "address": "3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55",
+                            "extra_info": {}
+                          }
+                        ],
+                        "customer_type": 0,
+                        "vasp_code": "COOLBITX LTD. TAIWAN BRANCH (CAYMAN) - DEV-HUB",
+                        "private_info": {
+                          "natural_person_name": {
+                            "name": {
+                              "last_name": "Coolbitx"
+                            }
+                          }
+                        }
+                      },
+                      "txid": "xxxxxxxxxxxx",
+                      "protocol": "TRISA"
+                    }
+                  ]
+                },
+                "Veriscope on Shyft": {
+                  "value": [
+                    {
+                      "customer_id": "14e67e17-7b02-43a5-8e2e-06a4ad827c43",
+                      "currency_id": "sygna:0x80000000",
+                      "value": "111",
+                      "originator": {
+                        "assets": [
+                          "5b6c6789-6c9c-4239-a4d6-f7c2470dbf92"
+                        ]
+                      },
+                      "beneficiary": {
+                        "addrs": [
+                          {
+                            "address": "1LinPJGYAVsraWnyEY4iDPVroD1Fi6NrLz",
+                            "extra_info": {}
+                          }
+                        ]
+                      },
+                      "protocol": "Veriscope on Shyft"
                     }
                   ]
                 }
@@ -5158,7 +5294,82 @@
                   "$ref": "#/components/schemas/schema.PostEmailProtocolPermissionInput"
                 }
               },
-              "examples": {}
+              "examples": {
+                "Example 1": {
+                  "value": [
+                    {
+                      "customer": {
+                        "address": {
+                          "address_line": [
+                            "string"
+                          ],
+                          "address_type": "string",
+                          "building_name": "string",
+                          "building_number": "string",
+                          "country": "string",
+                          "country_sub_division": "string",
+                          "department": "string",
+                          "district_name": "string",
+                          "floor": "string",
+                          "post_box": "string",
+                          "post_code": "string",
+                          "room": "string",
+                          "street_name": "string",
+                          "sub_department": "string",
+                          "town_location_name": "string",
+                          "town_name": "string"
+                        },
+                        "assets": [
+                          {
+                            "address": "string",
+                            "currency_id": "string",
+                            "extra_info": {},
+                            "value": "string"
+                          }
+                        ],
+                        "assets_ignore_kyt": true,
+                        "birth": {
+                          "date_of_birth": "string",
+                          "place_of_birth": "string"
+                        },
+                        "country": "string",
+                        "customer_id": "string",
+                        "customer_type": 0,
+                        "legal_person_name": {
+                          "local_name": "string",
+                          "name": "string",
+                          "phonetic_name": "string"
+                        },
+                        "national": {
+                          "country_of_issue": "string",
+                          "national_identifier": "string",
+                          "national_identifier_type": "string",
+                          "registration_authority": "string"
+                        },
+                        "natural_person_name": {
+                          "local_name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          },
+                          "name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          },
+                          "phonetic_name": {
+                            "first_name": "string",
+                            "last_name": "string"
+                          }
+                        }
+                      },
+                      "forced_sending_when_VASP_is_not_healthy": true,
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "permission_status": 0,
+                      "reject_code": "BVRC001",
+                      "reject_message": "string"
+                    }
+                  ]
+                }
+              }
             }
           },
           "required": true
@@ -5319,11 +5530,22 @@
                 }
               },
               "examples": {
-                "Example 1": {
+                "Accept": {
                   "value": [
                     {
                       "permission_status": 0,
                       "id": "b6d9e3f0-533b-4867-a3ed-17e84b9cd32c"
+                    }
+                  ]
+                },
+                "Reject": {
+                  "value": [
+                    {
+                      "forced_sending_when_VASP_is_not_healthy": true,
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "permission_status": 1,
+                      "reject_code": "BVRC999",
+                      "reject_message": "Unknown address"
                     }
                   ]
                 }
@@ -6944,7 +7166,7 @@
           "vendors"
         ],
         "summary": "test if third-party service is available",
-        "description": "only allow admin to use this method\nonly support Sygna_Bridge,ComplyAdvantage,Elliptic,Chainalysis V1,Chainalysis V2,Merkle Science,TRISA,Dow Jones,Coinfirm for provider now\nonly support Travel Rule,Blockchain Analytics,Sanction Screening for type now",
+        "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
         "requestBody": {
           "description": "post /vendors/test params",
           "content": {
@@ -7196,12 +7418,14 @@
         }
       },
       "model.BeneficiaryPrivateInfo": {
-        "type": "object",
-        "properties": {
-          "natural_person_name": {
+        "oneOf": [
+          {
             "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          {
+            "$ref": "#/components/schemas/model.LegalPersonName"
           }
-        }
+        ]
       },
       "model.Birth": {
         "type": "object",
@@ -7618,7 +7842,8 @@
             "enum": [
               "Sygna_Bridge",
               "Sygna_EmailProtocol",
-              "TRISA"
+              "TRISA",
+              "Veriscope on Shyft"
             ]
           },
           "protocol_extra_info": {
@@ -7787,7 +8012,8 @@
           "updated_at": {
             "type": "string"
           }
-        }
+        },
+        "title": ""
       },
       "model.SupportedSetting": {
         "type": "object",
@@ -8868,6 +9094,7 @@
               "Sygna_Bridge",
               "Dow Jones",
               "Coinfirm",
+              "Coinfirm (Sandbox)",
               "Veriscope on Shyft"
             ]
           },
@@ -8971,7 +9198,8 @@
               "Merkle Science",
               "TRISA",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "type": {
@@ -9157,7 +9385,8 @@
               "TRISA",
               "Sygna_Bridge",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "settings": {
@@ -9226,23 +9455,26 @@
         }
       },
       "schema.RespWithStatus": {
-        "required": [
-          "data"
-        ],
         "type": "object",
         "properties": {
           "data": {
+            "type": "object",
             "required": [
               "success"
             ],
-            "type": "object",
             "properties": {
               "success": {
                 "type": "boolean"
+              },
+              "accessToken": {
+                "type": "string"
               }
             }
           }
-        }
+        },
+        "required": [
+          "data"
+        ]
       },
       "schema.RespWithStatusAndMessage": {
         "required": [
@@ -9357,29 +9589,12 @@
             "type": "boolean"
           },
           "originator": {
-            "type": "object",
-            "description": "Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier",
-            "properties": {
-              "addrs": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/model.Addr"
-                }
-              },
-              "assets": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OriginatorAsset"
           },
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_Bridge"
             ],
             "nullable": true
           },
@@ -9441,36 +9656,10 @@
             "type": "boolean"
           },
           "originator": {
-            "type": "object",
-            "properties": {
-              "addrs": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/model.Addr"
-                }
-              },
-              "assets": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier"
-          },
-          "protocol": {
-            "type": "string",
-            "nullable": true,
-            "enum": [
-              null,
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
-            ]
+            "$ref": "#/components/schemas/OriginatorAsset"
           },
           "protocol_extra_info": {
-            "type": "object",
-            "properties": {}
+            "type": "object"
           },
           "txid": {
             "type": "string"
@@ -9516,29 +9705,12 @@
             "description": "Choose target identifier from GET /customers"
           },
           "originator": {
-            "type": "object",
-            "description": "Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier",
-            "properties": {
-              "addrs": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/model.Addr"
-                }
-              },
-              "assets": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OriginatorAsset"
           },
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_EmailProtocol"
             ],
             "nullable": true
           },
@@ -9556,8 +9728,8 @@
           "value"
         ]
       },
-      "PostTransactionTrisa": {
-        "title": "PostTransactionTrisa",
+      "PostTransactionTRISA": {
+        "title": "PostTransactionTRISA",
         "type": "object",
         "description": "This schema is for 'TRISA' protocol",
         "properties": {
@@ -9597,29 +9769,11 @@
             "type": "string"
           },
           "originator": {
-            "description": "Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier",
-            "type": "object",
-            "properties": {
-              "addrs": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/model.Address"
-                }
-              },
-              "assets": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OriginatorAsset"
           },
           "protocol": {
             "type": "string",
             "enum": [
-              "null",
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
               "TRISA"
             ]
           },
@@ -9643,6 +9797,91 @@
           "txid",
           "value"
         ]
+      },
+      "PostTransactionShyft": {
+        "title": "PostTransactionShyft",
+        "type": "object",
+        "description": "This schema is for 'Veriscope on Shyft' protocol",
+        "properties": {
+          "beneficiary": {
+            "type": "object",
+            "required": [
+              "addrs"
+            ],
+            "properties": {
+              "addrs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/model.Addr"
+                }
+              }
+            }
+          },
+          "currency_id": {
+            "description": "Choose target currency identifier from GET /currencies",
+            "type": "string"
+          },
+          "customer_id": {
+            "description": "Choose target identifier from GET /customers",
+            "type": "string"
+          },
+          "originator": {
+            "$ref": "#/components/schemas/OriginatorAsset"
+          },
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "Veriscope on Shyft"
+            ]
+          },
+          "protocol_extra_info": {
+            "type": "object"
+          },
+          "value": {
+            "description": "The value of the currency requested to transfer.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "beneficiary",
+          "currency_id",
+          "customer_id",
+          "originator",
+          "protocol",
+          "value"
+        ]
+      },
+      "OriginatorAsset": {
+        "anyOf": [
+          {
+            "properties": {
+              "addrs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/model.Addr"
+                }
+              }
+            },
+            "required": [
+              "addrs"
+            ]
+          },
+          {
+            "properties": {
+              "assets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "assets"
+            ]
+          }
+        ],
+        "type": "object",
+        "title": ""
       }
     },
     "securitySchemes": {
