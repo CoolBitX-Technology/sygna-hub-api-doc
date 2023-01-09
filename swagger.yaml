@@ -3092,7 +3092,7 @@ paths:
       security:
         - BearerToken: []
       tags:
-        - Hub/transactions/
+        - Hub/transactions
   /transactions/email-protocol/deposits:
     post:
       summary: send email to originator VASP and ask him to fill customer information
@@ -3511,7 +3511,7 @@ paths:
       security:
         - BearerToken: []
       tags:
-        - Hub/transactions/
+        - Hub/transactions
   /transactions/sanction-match:
     post:
       summary: let user do sanction screening
