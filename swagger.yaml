@@ -2188,9 +2188,7 @@ paths:
         - Hub/services
     post:
       summary: create services
-      description: |
-        Only allow admin to use this method use GET `/services/supported` to understand which credential is required by provider
-        Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol.
+      description: 'Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol. (Only allow admin to use this method use GET /services/supported to understand which credential is required by provider.)'
       requestBody:
         description: post /services params
         content:
@@ -3462,8 +3460,26 @@ paths:
           '*/*':
             schema:
               type: array
+              x-examples:
+                Example 1:
+                  - permission_status: 0
+                    id: 22232c21-a90e-4220-99d3-cdeb6b47e971
+                    reject_code: BVRC001
+                    reject_message: TEST
               items:
-                $ref: '#/components/schemas/schema.PatchPermissionInput'
+                type: object
+                properties:
+                  permission_status:
+                    type: integer
+                  id:
+                    type: string
+                  reject_code:
+                    type: string
+                  reject_message:
+                    type: string
+                required:
+                  - permission_status
+                  - id
             examples:
               Accept:
                 value:
@@ -5763,15 +5779,13 @@ components:
         name:
           type: string
     schema.PostServicesInput:
-      required:
-        - credential
-        - provider
-        - type
       type: object
       properties:
         credential:
           type: object
-          properties: {}
+          description: |-
+            Please be noted that the "private_key" related to povider "Sygna_Bridge" has to be in HEX form.
+            The command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`
         provider:
           type: string
           enum:
@@ -5792,6 +5806,10 @@ components:
             - Blockchain Analytics
             - Sanction Screening
             - Travel Rule
+      required:
+        - credential
+        - provider
+        - type
     schema.PostSettingInput:
       required:
         - rule
