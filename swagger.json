@@ -6,7 +6,12 @@
     "contact": {},
     "version": "1.17.0"
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "httsp://example.com/v1",
+      "description": ""
+    }
+  ],
   "paths": {
     "/": {
       "get": {
@@ -78,9 +83,6 @@
     },
     "/currencies": {
       "get": {
-        "tags": [
-          "currencies"
-        ],
         "summary": "Get supported currencies",
         "operationId": "GetCurrencies",
         "parameters": [
@@ -263,13 +265,16 @@
             "BearerToken": []
           }
         ],
-        "description": "Please refer to the GET /currencies API response body for the \"key\" in each coin/token's extra information (addr_extra_info)."
+        "description": "Please refer to the GET /currencies API response body for the \"key\" in each coin/token's extra information (addr_extra_info).",
+        "tags": [
+          "Hub/currencies"
+        ]
       }
     },
     "/customers": {
       "get": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "Get customers",
         "parameters": [
@@ -513,7 +518,7 @@
       },
       "put": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "update customers",
         "requestBody": {
@@ -635,7 +640,7 @@
       },
       "post": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "Create customers",
         "requestBody": {
@@ -796,7 +801,7 @@
       },
       "patch": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "update customers",
         "requestBody": {
@@ -892,9 +897,6 @@
     },
     "/customers-export": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "generate customers report",
         "parameters": [
           {
@@ -1116,14 +1118,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers-export/download": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "download customer report",
         "responses": {
           "200": {
@@ -1175,14 +1177,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers-export/status": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "get customer report processing status",
         "responses": {
           "200": {
@@ -1248,14 +1250,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers/{id}": {
       "get": {
-        "tags": [
-          "customers"
-        ],
         "summary": "get specific customer detail",
         "parameters": [
           {
@@ -1423,14 +1425,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers"
         ]
       }
     },
     "/data-transfer-export": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "generate transaction report",
         "parameters": [
           {
@@ -1724,14 +1726,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/data-transfer-export/download": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "download transactions report",
         "responses": {
           "200": {
@@ -1783,14 +1785,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/data-transfer-export/status": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "get transaction report processing status",
         "responses": {
           "200": {
@@ -1856,14 +1858,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/global-vasp": {
       "get": {
-        "tags": [
-          "global-vasp"
-        ],
         "summary": "get global-vasp",
         "description": "only admin could get encrypted credentials",
         "parameters": [
@@ -2029,14 +2031,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/global-vasp"
         ]
       }
     },
     "/oauth2": {
       "post": {
-        "tags": [
-          "oauth2"
-        ],
         "summary": "get oauth token",
         "requestBody": {
           "description": "post /oauth2 param",
@@ -2110,12 +2112,12 @@
             }
           }
         },
-        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)"
+        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)",
+        "tags": [
+          "Hub/oauth2"
+        ]
       },
       "delete": {
-        "tags": [
-          "oauth2"
-        ],
         "summary": "delete oauth token from database",
         "responses": {
           "200": {
@@ -2163,14 +2165,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/oauth2"
         ]
       }
     },
     "/ownerships": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to see a list of all validations",
         "responses": {
           "200": {
@@ -2239,12 +2241,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       },
       "post": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to validate an address whether belong to a user who owns private wallet",
         "parameters": [
           {
@@ -2344,14 +2346,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/cancel": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "you couldn't validate some address that it is processing or accepted until you cancel it",
         "requestBody": {
           "description": "patch /ownerships/cancel params",
@@ -2432,14 +2434,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/confirm": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you received a reply from the receiver and you want to accept or reject the reply",
         "requestBody": {
           "description": "patch /ownerships/confirm params",
@@ -2532,14 +2534,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/resend": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when a receiver lets you send a email again",
         "requestBody": {
           "description": "patch /ownerships/resend params",
@@ -2620,14 +2622,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/unblock": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when the validation that including risky address wouldn't be sent until you unblock it",
         "requestBody": {
           "description": "patch /ownerships/unblock params",
@@ -2708,14 +2710,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/validate": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation",
         "requestBody": {
           "description": "patch /ownerships/validate params",
@@ -2809,14 +2811,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/verify-token/{token}": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you received a link that asks you to validate the address whether belong to you",
         "parameters": [
           {
@@ -2893,14 +2895,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/{id}": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to see a validation detail",
         "parameters": [
           {
@@ -2977,14 +2979,15 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "tags": [
+          "Hub/ownerships"
+        ],
+        "description": ""
       }
     },
     "/rollback": {
       "get": {
-        "tags": [
-          "rollback"
-        ],
         "summary": "get rollback",
         "description": "only admin could get encrypted credentials",
         "responses": {
@@ -3054,12 +3057,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/rollback"
         ]
       },
       "put": {
-        "tags": [
-          "rollback"
-        ],
         "summary": "update rollback",
         "description": "only allow admin to use this method",
         "requestBody": {
@@ -3132,14 +3135,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/rollback"
         ]
       }
     },
     "/services": {
       "get": {
-        "tags": [
-          "services"
-        ],
         "summary": "get services",
         "description": "only admin could get encrypted credentials",
         "parameters": [
@@ -3381,12 +3384,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       },
       "put": {
-        "tags": [
-          "services"
-        ],
         "summary": "update services",
         "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
         "requestBody": {
@@ -3472,14 +3475,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       },
       "post": {
-        "tags": [
-          "services"
-        ],
         "summary": "create services",
-        "description": "Only allow admin to use this method use GET `/services/supported` to understand which credential is required by provider\nPlease must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol.\n",
+        "description": "Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol. (Only allow admin to use this method use GET /services/supported to understand which credential is required by provider.)",
         "requestBody": {
           "description": "post /services params",
           "content": {
@@ -3716,14 +3719,14 @@
             "BearerToken": []
           }
         ],
-        "parameters": []
+        "parameters": [],
+        "tags": [
+          "Hub/services"
+        ]
       }
     },
     "/services/supported": {
       "get": {
-        "tags": [
-          "services"
-        ],
         "summary": "get supported services and its config",
         "description": "only allow admin to use this method",
         "parameters": [
@@ -3932,14 +3935,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       }
     },
     "/settings": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get settings",
         "description": "only admin could get encrypted credentials",
         "responses": {
@@ -4009,12 +4012,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       },
       "put": {
-        "tags": [
-          "settings"
-        ],
         "summary": "update settings",
         "description": "only allow admin to use this method",
         "requestBody": {
@@ -4126,12 +4129,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       },
       "post": {
-        "tags": [
-          "settings"
-        ],
         "summary": "create settings",
         "description": "only allow admin to use this method. \nPlease also check the API response of GET `/settings/supported` to get the complete supported settings configuration.",
         "requestBody": {
@@ -4243,14 +4246,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/settings/default": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get default settings",
         "description": "only allow admin to use this method",
         "responses": {
@@ -4312,14 +4315,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/settings/supported": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get supported settings",
         "description": "",
         "responses": {
@@ -4381,14 +4384,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/transactions": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get transactions",
         "parameters": [
           {
@@ -4700,12 +4703,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       },
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "create transactions",
         "requestBody": {
           "description": "post /transactions params",
@@ -4930,14 +4933,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/email-protocol/deposits": {
       "post": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send email to originator VASP and ask him to fill customer information",
         "description": "only for email protocol",
         "requestBody": {
@@ -5034,14 +5037,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/permission": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "accept or reject this transaction when received customer information from originator",
         "description": "only for email protocol",
         "requestBody": {
@@ -5114,14 +5117,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/permission-request": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send own customer information to beneficiary or reject this request when received email from beneficiary",
         "description": "only for email protocol",
         "requestBody": {
@@ -5194,14 +5197,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/txid": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send transaction hash when received accept from beneficiary",
         "description": "only for email protocol",
         "requestBody": {
@@ -5274,14 +5277,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/permission": {
       "post": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send permission to originator from email protocol VASP",
         "description": "only for email protocol",
         "requestBody": {
@@ -5430,14 +5433,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/verify-token/{token}": {
       "get": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "verify if token is valid and get its transaction identifier",
         "description": "only for email protocol",
         "parameters": [
@@ -5510,14 +5513,14 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Hub/transactions/email-protocol"
+        ]
       }
     },
     "/transactions/permission": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "send permission to originator",
         "requestBody": {
           "description": "patch /transactions/permission params",
@@ -5526,7 +5529,25 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/schema.PatchPermissionInput"
+                  "type": "object",
+                  "properties": {
+                    "permission_status": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "reject_code": {
+                      "type": "string"
+                    },
+                    "reject_message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "permission_status",
+                    "id"
+                  ]
                 }
               },
               "examples": {
@@ -5610,14 +5631,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/sanction-match": {
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "let user do sanction screening",
         "requestBody": {
           "description": "post /transactions/sanction-match params",
@@ -5694,14 +5715,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/sanction-match"
         ]
       }
     },
     "/transactions/sanction-report/{searchId}": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get report from sanction screening service",
         "parameters": [
           {
@@ -5770,14 +5791,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/sanction-match"
         ]
       }
     },
     "/transactions/status": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "unblock or cancel transactions",
         "requestBody": {
           "description": "patch /transactions/status params",
@@ -5849,14 +5870,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/txid": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "send transaction identifier on blockchain to beneficiary",
         "requestBody": {
           "description": "patch /transactions/txid params",
@@ -5938,14 +5959,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/wallet-address-filter": {
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "use /wallet-address-filter from Sygna Bridge and use KYT service by own credential to get address information",
         "requestBody": {
           "description": "post /transactions/wallet-address-filter params",
@@ -6043,14 +6064,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/{id}": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get specific transaction",
         "parameters": [
           {
@@ -6127,14 +6148,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/users": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get all users",
         "description": "only admin could use this method",
         "parameters": [
@@ -6330,12 +6351,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "post": {
-        "tags": [
-          "users"
-        ],
         "summary": "create users",
         "description": "only admin could use this method",
         "requestBody": {
@@ -6417,12 +6438,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "delete": {
-        "tags": [
-          "users"
-        ],
         "summary": "delete users(member)",
         "description": "only admin could use this method\nall accounts would be logout if admin deleted them",
         "requestBody": {
@@ -6495,12 +6516,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "patch": {
-        "tags": [
-          "users"
-        ],
         "summary": "activate or deactivate users(member)",
         "description": "only admin could use this method\nall accounts would be logout if admin deactivated them",
         "requestBody": {
@@ -6583,14 +6604,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/change-password": {
       "patch": {
-        "tags": [
-          "users"
-        ],
         "summary": "change login password",
         "description": "admin or member only could change self password\nall accounts would be logout if one of users changed password\nuser must use password to login if he want to change his password",
         "requestBody": {
@@ -6660,14 +6681,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/link": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "summary": "link your account to third party service",
         "description": "admin or member could only link self account",
         "requestBody": {
@@ -6746,14 +6767,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/link/{login_type}": {
       "delete": {
-        "tags": [
-          "users"
-        ],
         "summary": "unlink your account from third party service",
         "description": "admin or member could only unlink self account\nall accounts which linked with specific third party service would be logout if one of users unlinked",
         "parameters": [
@@ -6823,14 +6844,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/{id}": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get specific or self user data",
         "description": "admin could get specific or self user data\nmember could only get self user data",
         "parameters": [
@@ -6908,14 +6929,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/history": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get users audit history",
         "description": "get users audit history",
         "parameters": [
@@ -7039,14 +7060,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/vendors/bridge/sync": {
       "get": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "Synchronize Sygna Bridge Transactions",
         "responses": {
           "200": {
@@ -7098,14 +7119,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
         ]
       }
     },
     "/vendors/shyft/attestations/sync": {
       "get": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "Synchronize Shyft Attestations",
         "responses": {
           "200": {
@@ -7157,14 +7178,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
         ]
       }
     },
     "/vendors/test": {
       "post": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "test if third-party service is available",
         "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
         "requestBody": {
@@ -7248,6 +7269,9 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
         ]
       }
     }
@@ -9071,16 +9095,11 @@
         }
       },
       "schema.PostServicesInput": {
-        "required": [
-          "credential",
-          "provider",
-          "type"
-        ],
         "type": "object",
         "properties": {
           "credential": {
             "type": "object",
-            "properties": {}
+            "description": "Please be noted that the \"private_key\" related to povider \"Sygna_Bridge\" has to be in HEX form.\nThe command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`"
           },
           "provider": {
             "type": "string",
@@ -9106,7 +9125,12 @@
               "Travel Rule"
             ]
           }
-        }
+        },
+        "required": [
+          "credential",
+          "provider",
+          "type"
+        ]
       },
       "schema.PostSettingInput": {
         "required": [

@@ -4,7 +4,9 @@ info:
   description: Sygna Hub API
   contact: {}
   version: 1.17.0
-servers: []
+servers:
+  - url: 'httsp://example.com/v1'
+    description: ''
 paths:
   /:
     get:
@@ -3460,12 +3462,6 @@ paths:
           '*/*':
             schema:
               type: array
-              x-examples:
-                Example 1:
-                  - permission_status: 0
-                    id: 22232c21-a90e-4220-99d3-cdeb6b47e971
-                    reject_code: BVRC001
-                    reject_message: TEST
               items:
                 type: object
                 properties:
