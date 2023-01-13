@@ -4523,6 +4523,158 @@ paths:
         - BearerToken: []
       tags:
         - Hub/vendors
+  /webhook-log:
+    get:
+      summary: get all webhook logs
+      parameters:
+        - name: id
+          in: query
+          description: filter log by webhook event id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: status
+          in: query
+          description: filter log by webhook event status
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: transaction_uuid
+          in: query
+          description: filter log by transaction uuid
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: counterparty_vasp_code
+          in: query
+          description: filter log by counterparty vasp code
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: protocol
+          in: query
+          description: filter log by transaction protocol
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
+          schema:
+            type: integer
+        - name: orderby
+          in: query
+          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/model.WebhookEvent'
+                  schema.RespWithPaging:
+                    $ref: '#/components/schemas/schema.RespWithPaging'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/webhook-log
+  /webhook-log/sync:
+    get:
+      summary: resend failed webhook event
+      parameters:
+        - name: id
+          in: query
+          description: resend specified webhook event
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/webhook-log
 components:
   schemas:
     decimal.NullDecimal:
@@ -5068,6 +5220,42 @@ components:
         role_id:
           type: integer
         updated_at:
+          type: string
+    model.WebhookEvent:
+      type: object
+      properties:
+        created_at:
+          type: string
+        id:
+          type: string
+        request_id:
+          type: string
+        event:
+          type: string
+        payload:
+          type: object
+        transaction_uuid:
+          type: string
+        protocol:
+          type: string
+        counter_party_vasp_code:
+          type: string
+        status:
+          type: string
+        retry_count:
+          type: string
+        webhook_logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Webhook_logs'
+    model.Webhook_logs:
+      type: object
+      properties:
+        created_at:
+          type: string
+        success:
+          type: boolean
+        trigger:
           type: string
     sanctionscreening.GetSanctionScoreOutput:
       type: object
