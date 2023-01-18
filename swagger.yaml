@@ -1281,9 +1281,64 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/model.GlobalVasp'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        vasp_identifier:
+                          type: string
+                          description: 'Sygna: VASP code; TRISA: Member ID'
+                        protocol:
+                          type: string
+                        vasp_name:
+                          type: string
+                          description: complete VASP name
+                        extra_info:
+                          type: object
+                          description: extra_info content will be different depend on the protocol that VASP belongs to
+                          properties:
+                            country_code:
+                              type: string
+                            regulatory_status:
+                              type: string
+                              description: 'information from Sygna parter: VASPnet'
+                            supervisory_authority:
+                              type: string
+                              description: 'information from Sygna parter: VASPnet'
+                            vasp_pubkey:
+                              type: string
+                            business_category:
+                              type: integer
+                              description: 'information from Sygna partner: TRISA'
+                            common_name:
+                              type: string
+                              description: TRISA VASP's common ID
+                            country:
+                              type: string
+                            endpoint:
+                              type: string
+                              description: TRISA Service Endpoint
+                            registered_directory:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                            vasp_categories:
+                              type: array
+                              description: 'information from Sygna partner: TRISA'
+                              items:
+                                type: string
+                            verified_on:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                            website:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                        vasp_server_status:
+                          type: string
+                          description: 'Sygna VASP server health check status: healthy, unhealthy or unknown'
         '400':
           description: Bad Request
           content:
