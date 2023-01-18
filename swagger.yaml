@@ -2762,7 +2762,7 @@ paths:
               type: string
         - name: name
           in: query
-          description: filter transactions by customer name
+          description: filter transactions by the customer's name ( the phonetic name and local name is also applicable)
           style: form
           explode: false
           schema:
@@ -5521,6 +5521,7 @@ components:
           description: 'Name                  string                      `json:"name,omitempty"`'
         direction:
           type: integer
+          description: '0 for withdrawal, 1 for deposit'
         expire_date:
           type: string
         id:
