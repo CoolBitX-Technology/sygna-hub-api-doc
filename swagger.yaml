@@ -726,159 +726,6 @@ paths:
         - BearerToken: []
       tags:
         - Hub/customers-export
-  /global-vasp-export - copy:
-    get:
-      summary: generate customers report
-      parameters:
-        - name: id
-          in: query
-          description: filter customers by customer identifier
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: name
-          in: query
-          description: filter customers by customer name
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: is_active
-          in: query
-          description: filter customers by if status is activated
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: boolean
-        - name: risk_score_provider
-          in: query
-          description: filter customers by risk score provider
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - Elliptic
-                - Chainalysis V1
-                - Chainalysis V2
-                - Merkle Science
-                - Dow Jones
-                - Coinfirm
-                - Coinfirm (Sandbox)
-        - name: max_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: avg_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: label
-          in: query
-          description: filter customers by labels from KYT service searched
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: last_screened
-          in: query
-          description: 'filter customers by a range of last screened date(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: created_at
-          in: query
-          description: 'filter data by a range of created data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: limit
-          in: query
-          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
-          schema:
-            type: integer
-        - name: offset
-          in: query
-          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
-          schema:
-            type: integer
-        - name: orderby
-          in: query
-          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: updated_at
-          in: query
-          description: 'filter data by a range of updated data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: OK
-          content: {}
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/customers-export
   /customers-export/download:
     get:
       summary: download customer report
@@ -4885,21 +4732,39 @@ paths:
         - Hub/webhook-log
   /global-vasp-export:
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: generate global-vasp report
       responses:
         '200':
           description: OK
+          content: {}
         '400':
           description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
         '401':
           description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
         '403':
           description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
         '500':
           description: Internal Server Error
-      operationId: get-global-vasp-export
-      description: export a new global-vasp report
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/global-vasp-export
   /global-vasp-export/status:
     get:
       summary: get global-vasp report processing status
