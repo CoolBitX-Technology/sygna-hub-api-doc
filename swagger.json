@@ -1975,11 +1975,88 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/model.GlobalVasp"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "vasp_identifier": {
+                            "type": "string",
+                            "description": "Sygna: VASP code; TRISA: Member ID"
+                          },
+                          "protocol": {
+                            "type": "string"
+                          },
+                          "vasp_name": {
+                            "type": "string",
+                            "description": "complete VASP name"
+                          },
+                          "extra_info": {
+                            "type": "object",
+                            "description": "extra_info content will be different depend on the protocol that VASP belongs to",
+                            "properties": {
+                              "country_code": {
+                                "type": "string"
+                              },
+                              "regulatory_status": {
+                                "type": "string",
+                                "description": "information from Sygna parter: VASPnet"
+                              },
+                              "supervisory_authority": {
+                                "type": "string",
+                                "description": "information from Sygna parter: VASPnet"
+                              },
+                              "vasp_pubkey": {
+                                "type": "string"
+                              },
+                              "business_category": {
+                                "type": "integer",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "common_name": {
+                                "type": "string",
+                                "description": "TRISA VASP's common ID"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "endpoint": {
+                                "type": "string",
+                                "description": "TRISA Service Endpoint"
+                              },
+                              "registered_directory": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "vasp_categories": {
+                                "type": "array",
+                                "description": "information from Sygna partner: TRISA",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "verified_on": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "website": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              }
+                            }
+                          },
+                          "vasp_server_status": {
+                            "type": "string",
+                            "description": "Sygna VASP server health check status: healthy, unhealthy or unknown"
+                          }
+                        }
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -4410,7 +4487,7 @@
           {
             "name": "name",
             "in": "query",
-            "description": "filter transactions by customer name",
+            "description": "filter transactions by the customer's name ( the phonetic name and local name is also applicable)",
             "style": "form",
             "explode": false,
             "schema": {
@@ -7516,6 +7593,163 @@
           "Hub/webhook-log"
         ]
       }
+    },
+    "/global-vasp-export": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "operationId": "get-global-vasp-export",
+        "description": "export a new global-vasp report"
+      }
+    },
+    "/global-vasp-export/status": {
+      "get": {
+        "summary": "get global-vasp report processing status",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/model.Report"
+                    },
+                    "schema.Resp": {
+                      "$ref": "#/components/schemas/schema.Resp"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/global-vasp-export"
+        ]
+      }
+    },
+    "/global-vasp-export/download": {
+      "get": {
+        "summary": "download global-vasp report",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/global-vasp-export"
+        ]
+      }
     }
   },
   "components": {
@@ -8759,7 +8993,8 @@
             "description": "Name                  string                      `json:\"name,omitempty\"`"
           },
           "direction": {
-            "type": "integer"
+            "type": "integer",
+            "description": "0 for withdrawal, 1 for deposit"
           },
           "expire_date": {
             "type": "string"
