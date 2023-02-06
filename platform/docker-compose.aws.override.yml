@@ -73,6 +73,7 @@ services:
       
       # https (SSL/TLS) is required
       - ALLOW_ORIGINS=[<FRONTEND_URL, like https://frontend.test.net >]
+      - PORT=80
       
       # a url endpoint used when Sygna Bridge want to send you a "permission" request
       # https (SSL/TLS) is required
@@ -98,11 +99,6 @@ services:
       # 8 characters code. Please check your Sygna Hub account registration completion mail for this information.
       - VASP_CODE=XXXXXXXX
       
-      # (Optional) required only if you want to enable Google login
-      # its value should match google_login/id entry in config.yml file used by backend
-      # please add it with your valid GOOGLE_SSO_CLIENT_ID. eg. GOOGLE_SSO_CLIENT_ID=<ID>
-      - PORT=80
-      
       # hostname and port of your email service
       # https (SSL/TLS) is required
       - EMAIL_HOST=
@@ -118,7 +114,12 @@ services:
       - EMAIL_TLS_SUPPORT=
       # from_email: <the email address of your sender>
       - EMAIL_FROM_EMAIL=
-
+      
+      # (Optional) required only if you want to enable Google login
+      # its value should match google_login/id entry in config.yml file used by backend
+      # please add it with your valid GOOGLE_SSO_CLIENT_ID
+      #GOOGLE_SSO_CLIENT_ID=<ID>
+      
 x-aws-cloudformation:
   Resources:
     FrontendTCP80Listener:
