@@ -3522,6 +3522,7 @@ paths:
                 properties:
                   permission_status:
                     type: integer
+                    description: '0 for accept, 1 for reject'
                   id:
                     type: string
                   reject_code:
