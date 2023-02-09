@@ -2355,6 +2355,17 @@ paths:
                     is_active: true
                     credential:
                       private_key: 7d919954170d1b35a186a44b7df63fd7fada892b891d423cbb851bb3fa44a343
+              World-Check One:
+                value:
+                  - type: Sanction Screening
+                    provider: World-Check
+                    is_active: true
+                    credential:
+                      api-key: xxxxxx
+                      secret: xxxxxx
+                    settings:
+                      provider_types:
+                        - Watchlist
         required: true
       responses:
         '200':
@@ -2426,6 +2437,7 @@ paths:
                 - Dow Jones
                 - Coinfirm
                 - Coinfirm (Sandbox)
+                - World-Check
         - name: type
           in: query
           description: filter services by type
