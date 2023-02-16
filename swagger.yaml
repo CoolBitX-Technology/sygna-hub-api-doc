@@ -3534,7 +3534,6 @@ paths:
                 properties:
                   permission_status:
                     type: integer
-                    description: '0 for accept, 1 for reject'
                   id:
                     type: string
                   reject_code:
@@ -6534,6 +6533,17 @@ components:
           type: integer
         forced_sending_when_VASP_is_not_healthy:
           type: boolean
+          description: |-
+            1. 
+            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
+            The data transfer will still be successfully sent out by oVASP to the Sygna server.
+
+            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
+            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
+              
+            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
+
+            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
         need_validate_address:
           type: boolean
         originator:
