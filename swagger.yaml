@@ -1,9 +1,9 @@
 openapi: 3.0.1
 info:
-  title: Sygna HUB
-  description: Sygna Hub API
+  title: Sygna Hub
+  description: Sygna Hub API Document
   contact: {}
-  version: 1.17.0
+  version: 1.19.0
 servers:
   - url: 'httsp://example.com/v1'
     description: ''
