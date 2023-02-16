@@ -2517,9 +2517,882 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/model.SupportedService'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        type:
+                          type: string
+                        rule:
+                          type: object
+                          properties:
+                            schema:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                properties:
+                                  type: object
+                                  properties:
+                                    legal_person:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        required:
+                                          type: array
+                                          items:
+                                            type: string
+                                        properties:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    local_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    phonetic_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                additionalProperties:
+                                                  type: boolean
+                                            geographic_address:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    room:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    floor:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_box:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_code:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    street_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_line:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    district_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    sub_department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_number:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_location_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country_sub_division:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            country_of_registration:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            customer_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            national_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    country_of_issue:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    registration_authority:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                        additionalProperties:
+                                          type: boolean
+                                    follow_ivms101:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                    natural_person:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        required:
+                                          type: array
+                                          items:
+                                            type: string
+                                        properties:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    local_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    phonetic_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                additionalProperties:
+                                                  type: boolean
+                                            geographic_address:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    room:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    floor:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_box:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_code:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    street_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_line:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    district_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    sub_department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_number:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_location_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country_sub_division:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            country_of_residence:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            customer_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            date_and_place_of_birth:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    date_of_birth:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    place_of_birth:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            national_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    country_of_issue:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    registration_authority:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                        additionalProperties:
+                                          type: boolean
+                                    name_checking_rule:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    originator:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    beneficiary:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    auto_accept:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                additionalProperties:
+                                  type: boolean
+                                required:
+                                  type: array
+                                  items:
+                                    type: string
+                x-examples:
+                  Example 1:
+                    data:
+                      - id: 0b549f1f-a098-4e0a-84c1-374f50bd842d
+                        created_at: '2022-09-06T09:19:28.000Z'
+                        updated_at: '2022-09-06T09:19:28.000Z'
+                        type: personal_info_checking_items
+                        rule:
+                          schema:
+                            type: object
+                            properties:
+                              legal_person:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  name:
+                                    type: object
+                                    required:
+                                      - name_identifier
+                                    properties:
+                                      name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                      local_name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                      phonetic_name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                    additionalProperties: false
+                                  geographic_address:
+                                    type: object
+                                    properties:
+                                      room:
+                                        type: boolean
+                                      floor:
+                                        type: boolean
+                                      country:
+                                        type: boolean
+                                      post_box:
+                                        type: boolean
+                                      post_code:
+                                        type: boolean
+                                      town_name:
+                                        type: boolean
+                                      department:
+                                        type: boolean
+                                      street_name:
+                                        type: boolean
+                                      address_line:
+                                        type: boolean
+                                      address_type:
+                                        type: boolean
+                                      building_name:
+                                        type: boolean
+                                      district_name:
+                                        type: boolean
+                                      sub_department:
+                                        type: boolean
+                                      building_number:
+                                        type: boolean
+                                      town_location_name:
+                                        type: boolean
+                                      country_sub_division:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  country_of_registration:
+                                    type: boolean
+                                  customer_identification:
+                                    type: boolean
+                                  national_identification:
+                                    type: object
+                                    properties:
+                                      country_of_issue:
+                                        type: boolean
+                                      national_identifier:
+                                        type: boolean
+                                      registration_authority:
+                                        type: boolean
+                                      national_identifier_type:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                additionalProperties: false
+                              follow_ivms101:
+                                type: boolean
+                              natural_person:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  name:
+                                    type: object
+                                    required:
+                                      - name_identifier
+                                    properties:
+                                      name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          name_identifier_type:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                        additionalProperties: false
+                                      local_name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          name_identifier_type:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                        additionalProperties: false
+                                      phonetic_name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          name_identifier_type:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                        additionalProperties: false
+                                    additionalProperties: false
+                                  geographic_address:
+                                    type: object
+                                    properties:
+                                      room:
+                                        type: boolean
+                                      floor:
+                                        type: boolean
+                                      country:
+                                        type: boolean
+                                      post_box:
+                                        type: boolean
+                                      post_code:
+                                        type: boolean
+                                      town_name:
+                                        type: boolean
+                                      department:
+                                        type: boolean
+                                      street_name:
+                                        type: boolean
+                                      address_line:
+                                        type: boolean
+                                      address_type:
+                                        type: boolean
+                                      building_name:
+                                        type: boolean
+                                      district_name:
+                                        type: boolean
+                                      sub_department:
+                                        type: boolean
+                                      building_number:
+                                        type: boolean
+                                      town_location_name:
+                                        type: boolean
+                                      country_sub_division:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  country_of_residence:
+                                    type: boolean
+                                  customer_identification:
+                                    type: boolean
+                                  date_and_place_of_birth:
+                                    type: object
+                                    properties:
+                                      date_of_birth:
+                                        type: boolean
+                                      place_of_birth:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  national_identification:
+                                    type: object
+                                    properties:
+                                      country_of_issue:
+                                        type: boolean
+                                      national_identifier:
+                                        type: boolean
+                                      registration_authority:
+                                        type: boolean
+                                      national_identifier_type:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                additionalProperties: false
+                              name_checking_rule:
+                                enum:
+                                  - all_names_matched
+                                  - one_name_matched
+                                type: string
+                            additionalProperties: false
+                      - id: 87a36eef-48d1-4ef6-ae8f-9cf99200c466
+                        created_at: '2022-09-06T09:19:28.000Z'
+                        updated_at: '2022-09-06T09:19:28.000Z'
+                        type: blockchain_analytics_timing
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - originator
+                              - beneficiary
+                            properties:
+                              originator:
+                                enum:
+                                  - before sending
+                                  - receiving
+                                  - before sending and receiving
+                                  - never
+                                type: string
+                              beneficiary:
+                                enum:
+                                  - receiving
+                                  - never
+                                type: string
+                            additionalProperties: false
+                      - id: 90b4b1da-2799-4932-bc4d-3b93ecba781c
+                        created_at: '2022-09-06T09:19:28.000Z'
+                        updated_at: '2022-09-06T09:19:28.000Z'
+                        type: sanction_screening_timing
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - originator
+                              - beneficiary
+                            properties:
+                              originator:
+                                enum:
+                                  - before sending
+                                  - receiving
+                                  - before sending and receiving
+                                  - never
+                                type: string
+                              beneficiary:
+                                enum:
+                                  - receiving
+                                  - never
+                                type: string
+                            additionalProperties: false
+                      - id: a00a2254-0bf8-44f2-9a8b-1aa9ab7e287e
+                        created_at: '2022-10-04T07:06:39.000Z'
+                        updated_at: '2022-10-04T07:06:39.000Z'
+                        type: forced_sending_when_VASP_is_not_healthy
+                        rule:
+                          schema:
+                            schema:
+                              type: object
+                              required:
+                                - forced_sending
+                              properties:
+                                forced_sending:
+                                  type: boolean
+                              additionalProperties: false
+                      - id: eac3229d-f51f-4fd3-a2c5-96997c7b2474
+                        created_at: '2022-09-06T09:19:28.000Z'
+                        updated_at: '2022-09-06T09:19:28.000Z'
+                        type: automation_settings
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - auto_accept
+                            properties:
+                              auto_accept:
+                                type: boolean
+                            additionalProperties: false
         '400':
           description: Bad Request
           content:
