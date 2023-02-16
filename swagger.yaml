@@ -353,12 +353,12 @@ paths:
                 value:
                   - is_active: false
                     customer_type: 0
-                    customer_id: yuweiwei
+                    customer_id: sygnasygna
                     country: TW
                     natural_person_name:
                       name:
-                        first_name: yuwei
-                        last_name: chen
+                        first_name: sygna
+                        last_name: sygna
                     assets:
                       - address: 3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55
                         extra_info: {}
@@ -430,12 +430,12 @@ paths:
                 value:
                   - is_active: true
                     customer_type: 0
-                    customer_id: yuweiwei
+                    customer_id: sygnasygna
                     country: TW
                     natural_person_name:
                       name:
-                        first_name: yuwei
-                        last_name: chen
+                        first_name: sygna
+                        last_name: sygna
                     birth:
                       place_of_birth: Taipei Zoo
                       date_of_birth: '2022-11-30'
@@ -3948,7 +3948,7 @@ paths:
                       private_info:
                         natural_person_name:
                           name:
-                            last_name: Yuwei Chen
+                            last_name: sygna sample
                     expire_date: null
                     protocol: Sygna_Bridge
               Sygna Email:
