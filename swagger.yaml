@@ -2514,6 +2514,293 @@ paths:
               schema:
                 type: object
                 properties:
+                  code:
+                    type: string
+                  extra_data:
+                    type: object
+                    properties: {}
+                  help:
+                    type: string
+                  message:
+                    type: string
+                  stack:
+                    type: object
+                    properties: {}
+                  type:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: string
+                    extra_data: {}
+                    help: string
+                    message: string
+                    stack: {}
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/services
+  /settings:
+    get:
+      summary: get settings
+      description: only admin could get encrypted credentials
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/model.Setting'
+                  schema.RespWithPaging:
+                    $ref: '#/components/schemas/schema.RespWithPaging'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/settings
+    put:
+      summary: update settings
+      description: only allow admin to use this method
+      requestBody:
+        description: put /settings params
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostSettingInput'
+            examples:
+              Example 1:
+                value:
+                  - type: blockchain_analytics_timing
+                    rule:
+                      originator: before sending
+                      beneficiary: receiving
+                  - type: sanction_screening_timing
+                    rule:
+                      originator: before sending
+                      beneficiary: receiving
+                  - type: automation_settings
+                    rule:
+                      auto_accept: true
+                  - type: personal_info_checking_items
+                    rule:
+                      follow_ivms101: true
+                      name_checking_rule: one_name_matched
+                  - type: forced_sending_when_VASP_is_not_healthy
+                    rule:
+                      forced_sending: true
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/settings
+    post:
+      summary: create settings
+      description: |-
+        only allow admin to use this method. 
+        Please also check the API response of GET `/settings/supported` to get the complete supported settings configuration.
+      requestBody:
+        description: post /settings params
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostSettingInput'
+            examples:
+              Example 1:
+                value:
+                  - type: blockchain_analytics_timing
+                    rule:
+                      originator: before sending
+                      beneficiary: receiving
+                  - type: sanction_screening_timing
+                    rule:
+                      originator: before sending
+                      beneficiary: receiving
+                  - type: automation_settings
+                    rule:
+                      auto_accept: true
+                  - type: personal_info_checking_items
+                    rule:
+                      follow_ivms101: true
+                      name_checking_rule: one_name_matched
+                  - type: forced_sending_when_VASP_is_not_healthy
+                    rule:
+                      forced_sending: true
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/settings
+  /settings/default:
+    get:
+      summary: get default settings
+      description: only allow admin to use this method
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schema.PostSettingInput'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/settings
+  /settings/supported:
+    get:
+      summary: get supported settings
+      description: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
                   data:
                     type: array
                     items:
@@ -3393,272 +3680,6 @@ paths:
                               auto_accept:
                                 type: boolean
                             additionalProperties: false
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/services
-  /settings:
-    get:
-      summary: get settings
-      description: only admin could get encrypted credentials
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Setting'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/settings
-    put:
-      summary: update settings
-      description: only allow admin to use this method
-      requestBody:
-        description: put /settings params
-        content:
-          '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PostSettingInput'
-            examples:
-              Example 1:
-                value:
-                  - type: blockchain_analytics_timing
-                    rule:
-                      originator: before sending
-                      beneficiary: receiving
-                  - type: sanction_screening_timing
-                    rule:
-                      originator: before sending
-                      beneficiary: receiving
-                  - type: automation_settings
-                    rule:
-                      auto_accept: true
-                  - type: personal_info_checking_items
-                    rule:
-                      follow_ivms101: true
-                      name_checking_rule: one_name_matched
-                  - type: forced_sending_when_VASP_is_not_healthy
-                    rule:
-                      forced_sending: true
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/schema.RespWithMutation'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/settings
-    post:
-      summary: create settings
-      description: |-
-        only allow admin to use this method. 
-        Please also check the API response of GET `/settings/supported` to get the complete supported settings configuration.
-      requestBody:
-        description: post /settings params
-        content:
-          '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PostSettingInput'
-            examples:
-              Example 1:
-                value:
-                  - type: blockchain_analytics_timing
-                    rule:
-                      originator: before sending
-                      beneficiary: receiving
-                  - type: sanction_screening_timing
-                    rule:
-                      originator: before sending
-                      beneficiary: receiving
-                  - type: automation_settings
-                    rule:
-                      auto_accept: true
-                  - type: personal_info_checking_items
-                    rule:
-                      follow_ivms101: true
-                      name_checking_rule: one_name_matched
-                  - type: forced_sending_when_VASP_is_not_healthy
-                    rule:
-                      forced_sending: true
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/schema.RespWithMutation'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/settings
-  /settings/default:
-    get:
-      summary: get default settings
-      description: only allow admin to use this method
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/schema.PostSettingInput'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/settings
-  /settings/supported:
-    get:
-      summary: get supported settings
-      description: ''
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/model.SupportedSetting'
         '400':
           description: Bad Request
           content:
