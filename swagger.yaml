@@ -4423,20 +4423,30 @@ paths:
           '*/*':
             schema:
               type: array
+              x-examples:
+                Example 1:
+                  - forced_sending_when_VASP_is_not_healthy: true
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    permission_status: 1
+                    reject_code: BVRC999
+                    reject_message: Unknown address
               items:
                 type: object
                 properties:
-                  permission_status:
-                    type: integer
+                  forced_sending_when_VASP_is_not_healthy:
+                    type: boolean
+                    description: Please check the object information in the API <POST /transactions>.
                   id:
                     type: string
+                  permission_status:
+                    type: integer
                   reject_code:
                     type: string
                   reject_message:
                     type: string
                 required:
-                  - permission_status
                   - id
+                  - permission_status
             examples:
               Accept:
                 value:
