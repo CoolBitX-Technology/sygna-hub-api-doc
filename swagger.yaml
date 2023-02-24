@@ -4691,7 +4691,7 @@ paths:
         - Hub/transactions
   /transactions/wallet-address-filter:
     post:
-      summary: use /wallet-address-filter from Sygna Bridge and use KYT service by own credential to get address information
+      summary: determine whether a specific wallet address belongs to a VASP or an unhosted wallet
       requestBody:
         description: post /transactions/wallet-address-filter params
         content:
@@ -4714,15 +4714,62 @@ paths:
             '*/*':
               schema:
                 type: object
+                x-examples:
+                  Example 1:
+                    data:
+                      - - type: PRIVATE_WALLET
+                          is_vasp: false
+                          address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
+                          currency_id: 'sygna:0x80000000'
+                          extra_data:
+                            address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
+                            asset: BTC
+                            blockchain_analytics_vendor: Chainalysis V1
+                            chainalysisIdentification: null
+                            cluster: null
+                            customAddress: null
+                            rating: unknown
+                          success: true
                 properties:
                   data:
                     type: array
                     items:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/schema.PostWalletAddressFilterOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: |-
+                            - SYGNA_VASP: This category is determined based on the data in the Sygna server's wallet address directory. If the sending and receiving addresses are listed in the API Bridge </permission-request> or API Hub </transactions>, they will be classified under this category. 
+                            - EMAIL_PROTOCOL: This category is determined based on the data in the Sygna server's wallet address directory. If the wallet address has been onboarded during the Sygna Email Protocol VASP account registration, it will be classified under this category. 
+                            - OTHER_VASP: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider. 
+                            - PRIVATE_WALLET: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider.
+                            - FAILED: This category is displayed when the selected Blockchain Analytics (KYT) service is currently unavailable.
+                        is_vasp:
+                          type: boolean
+                        address:
+                          type: string
+                        currency_id:
+                          type: string
+                        extra_data:
+                          type: object
+                          description: will be returend based on the response from your Blockchain Analytics service provider if \"type\" is not SYGNA_VASP.
+                          properties:
+                            address:
+                              type: string
+                            asset:
+                              type: string
+                            blockchain_analytics_vendor:
+                              type: string
+                            chainalysisIdentification:
+                              nullable: true
+                            cluster:
+                              nullable: true
+                            customAddress:
+                              nullable: true
+                            rating:
+                              type: string
+                        success:
+                          type: boolean
         '400':
           description: Bad Request
           content:
@@ -4751,6 +4798,7 @@ paths:
         - BearerToken: []
       tags:
         - Hub/transactions
+      description: 'The Sygna Wallet Address Filter (WAF) API is a key feature that enables you to determine whether a specific wallet address belongs to a VASP or an unhosted wallet based on the Sygna server''s directory and your selected blockchain analytics (KYT) vendor. If the wallet address is associated with an un-hosted wallet, your KYT vendor will return a risk score for the address. If you have not yet collaborated with a blockchain analytics vendor, please contact services@sygna.io'
   '/transactions/{id}':
     get:
       summary: get specific transaction
