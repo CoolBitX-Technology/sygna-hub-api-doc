@@ -30,7 +30,7 @@
 
 1. Finish previous section to start hub on aws
 
-2. Get the IAM role arn of backend service ( like arn:aws:iam::654655157226:role/platform-BackendTaskExecutionRole-XXXXX ) created by docker-compose in AWS IAM
+2. Get the IAM role arn of backend service ( like arn:aws:iam::XXXXXX:role/platform-BackendTaskExecutionRole-XXXXX ) created by docker-compose in AWS IAM
 
 3. Update [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) with IAM role arn from previous step and other parameters reference to updated [docker-compose.aws.override.yml](docker-compose.aws.override.yml), the strings need to be changed would be
     - <DATA_ENCRYPTION_KEY> ( same with docker-compose.aws.override.yml )
