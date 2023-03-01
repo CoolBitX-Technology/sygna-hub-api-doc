@@ -1,6 +1,6 @@
 # Sygna Hub Document 
 
-![image](hub_on_aws.jpg)
+![image](assets/hub_on_aws.jpg)
 
 
 ### How to launch Hub service in AWS
@@ -39,9 +39,11 @@
     - <IAM_ROLE_ARN_OF_PLATFORM_BACKEND>  ( get the IAM role ARN from step 1 )
 
 4. Register a new ECS tas definition on [AWS-ECS Task definition](https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/taskDefinitions) with updated [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) in step 2.
+    - ![image](assets/ECS_Create_task_definition_with_json.png)
 
 5. Create a AWS Network Load Balancer to receive incoming tcp traffic going into trisa in [AWS EC2 console](https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#LoadBalancers:sort=loadBalancerName)
     1. The parameters to be setting in Configure Load Balancer :
+        -  ![image](assets/LB_step_1_configure_LB.png)
         - name : hub-trisa
         - Scheme : internet-facing
         - IP address type : ipv4
@@ -52,6 +54,7 @@
     2. Ignore the Waring message of 'Improve your load balancer’s security. Your load balancer is not using any secure listener.' and click Next: Configure Routing
     
     3. The parameters to be setting in Configure Routing :
+        -  ![image](assets/LB_step_3_configure_routing.png)
         - Target group : New Target group
         - Name : hub-trisa
         - Target type : IP
@@ -64,6 +67,7 @@
 6. Create Task service
     1. Head into [ECS service console] (https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/clusters/platform/services) created by previous Phase.
     2. Turn off "New ECS Experience" since we need service discover utilits which is not support yet.
+        -  ![image](assets/ECS_Turn_off_new_ecs_experience.png)
     3. Finish Step 1. Configure service with following parameters
         - Launch type : fargate
         - Operating system family : Linux
