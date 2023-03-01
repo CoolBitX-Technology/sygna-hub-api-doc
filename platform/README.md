@@ -26,6 +26,7 @@
 
 
 ### How to add trisa gateway service to Hub service in AWS
+#### These steps counld not be done by docker-compsoe up since Trisa gateway have to use different load balancer and open multi ports.
 
 1. Finish previous section to start hub on aws
 
@@ -57,7 +58,8 @@
         - Protocol : TCP
         - Pport : 443
 
-    4. Ignore the Step 4: Register Targets and Create the Network Load Balancera and Target group 
+    4. Ignore the Step 4: Register Targets and Create the Network Load Balancer and Target group 
+    5. (Optional) Change your DNS record of Trisa endpoint to point into this Network Load Balancer.
 
 6. Create Task service
     1. Head into [ECS service console] (https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/clusters/platform/services) created by previous Phase.
