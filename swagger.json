@@ -4,7 +4,7 @@
     "title": "Sygna Hub",
     "description": "Sygna Hub API Document",
     "contact": {},
-    "version": "1.19.0"
+    "version": "1.20.0"
   },
   "servers": [
     {
@@ -29,9 +29,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/schema.GetRootOutput"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -213,18 +210,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Currency"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Currency"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -453,18 +454,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/schema.GetCustomersOutput"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/schema.GetCustomersOutput"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -1196,9 +1201,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.Report"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -1371,9 +1373,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/schema.GetCustomerOutput"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -1804,9 +1803,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.Report"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -2257,18 +2253,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Ownership"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Ownership"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -2918,9 +2918,6 @@
                   "properties": {
                     "data": {
                       "type": "string"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -2998,15 +2995,19 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/model.Ownership"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/model.Ownership"
+                        }
+                      }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -3073,18 +3074,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Rollback"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Rollback"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -3400,18 +3405,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Service"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Service"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -4058,18 +4067,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Setting"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Setting"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -5656,18 +5669,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/schema.GetTransactionsOutput"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/schema.GetTransactionsOutput"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -6478,9 +6495,6 @@
                   "properties": {
                     "data": {
                       "type": "string"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -7028,9 +7042,6 @@
                           "$ref": "#/components/schemas/schema.PostWalletAddressFilterOutput"
                         }
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -7305,18 +7316,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.User"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.User"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -7890,9 +7905,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.User"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -8021,9 +8033,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.User"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -8230,9 +8239,6 @@
                       "items": {
                         "$ref": "#/components/schemas/schema.PostVendorsTestOutput"
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -8392,18 +8398,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.WebhookEvent"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.WebhookEvent"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -8604,9 +8614,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.Report"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -8899,6 +8906,16 @@
           }
         ]
       },
+      "model.OriginatorPrivateInfo": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          {
+            "$ref": "#/components/schemas/model.LegalPersonName"
+          }
+        ]
+      },
       "model.Birth": {
         "type": "object",
         "properties": {
@@ -8980,6 +8997,84 @@
           }
         }
       },
+      "model.Customer": {
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/model.Address"
+          },
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/model.Asset"
+            },
+            "type": "array"
+          },
+          "assets_ignore_kyt": {
+            "type": "boolean"
+          },
+          "avg_risk_score": {
+            "type": "string"
+          },
+          "birth": {
+            "$ref": "#/components/schemas/model.Birth"
+          },
+          "country": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "customer_id": {
+            "type": "string"
+          },
+          "customer_type": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "last_screened": {
+            "type": "string"
+          },
+          "legal_person_name": {
+            "$ref": "#/components/schemas/model.LegalPersonName"
+          },
+          "max_risk_score": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "national": {
+            "$ref": "#/components/schemas/model.National"
+          },
+          "natural_person_name": {
+            "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          "protocol_extra_info": {
+            "$ref": "#/components/schemas/model.Object",
+            "description": "for now specifically for shyft"
+          },
+          "risk_score_provider": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "model.LegalPersonName": {
         "title": "LegalPersonName",
         "required": [
@@ -9057,6 +9152,398 @@
             "type": "string"
           }
         }
+      },
+      "ivms101.Address": {
+        "properties": {
+          "address_line": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "address_type": {
+            "type": "string"
+          },
+          "building_name": {
+            "type": "string"
+          },
+          "building_number": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "country_sub_division": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "district_name": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "post_box": {
+            "type": "string"
+          },
+          "post_code": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "street_name": {
+            "type": "string"
+          },
+          "sub_department": {
+            "type": "string"
+          },
+          "town_location_name": {
+            "type": "string"
+          },
+          "town_name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Beneficiary": {
+        "properties": {
+          "account_numbers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "beneficiary_persons": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Person"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.DateAndPlaceOfBirth": {
+        "properties": {
+          "date_of_birth": {
+            "type": "string"
+          },
+          "place_of_birth": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.GeographicAddress": {
+        "properties": {
+          "addressLine": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "addressType": {
+            "type": "string"
+          },
+          "buildingName": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "countrySubDivision": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "districtName": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "postBox": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "subDepartment": {
+            "type": "string"
+          },
+          "townLocation_name": {
+            "type": "string"
+          },
+          "townName": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPerson": {
+        "properties": {
+          "countryOfRegistration": {
+            "type": "string"
+          },
+          "customerIdentification": {
+            "type": "string"
+          },
+          "geographicAddress": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.GeographicAddress"
+            },
+            "type": "array"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ivms101.LegalPersonName"
+          },
+          "nationalIdentification": {
+            "$ref": "#/components/schemas/ivms101.NationalIdentification"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPersonName": {
+        "properties": {
+          "localNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LocalLegalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "nameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LegalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "phoneticNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LocalLegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LocalNaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NationalIdentification": {
+        "properties": {
+          "countryOfIssue": {
+            "type": "string"
+          },
+          "nationalIdentifier": {
+            "type": "string"
+          },
+          "nationalIdentifierType": {
+            "type": "string"
+          },
+          "registrationAuthority": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPerson": {
+        "properties": {
+          "country_of_residence": {
+            "type": "string"
+          },
+          "customer_identification": {
+            "type": "string"
+          },
+          "date_and_place_of_birth": {
+            "$ref": "#/components/schemas/ivms101.DateAndPlaceOfBirth"
+          },
+          "geographic_addresses": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Address"
+            },
+            "type": "array"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ivms101.NaturalPersonName"
+          },
+          "national_identification": {
+            "$ref": "#/components/schemas/ivms101.NationalIdentification"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPersonName": {
+        "properties": {
+          "localNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "nameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.NaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "phoneticNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Originator": {
+        "properties": {
+          "account_numbers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "originator_persons": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Person"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Person": {
+        "properties": {
+          "legalPerson": {
+            "$ref": "#/components/schemas/ivms101.LegalPerson"
+          },
+          "naturalPerson": {
+            "$ref": "#/components/schemas/ivms101.NaturalPerson"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.PhoneticLegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.PhoneticNaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "model.BeneficiaryInfo": {
+        "properties": {
+          "address_matched": {
+            "type": "boolean"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/model.Customer"
+          },
+          "name_matched": {
+            "type": "boolean"
+          },
+          "private_info": {
+            "$ref": "#/components/schemas/ivms101.Beneficiary"
+          },
+          "type_matched": {
+            "type": "boolean"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "model.OriginatorInfo": {
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/model.Customer"
+          },
+          "private_info": {
+            "$ref": "#/components/schemas/ivms101.Originator"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
       },
       "model.NaturalPersonName": {
         "title": "NaturalPersonName",
@@ -9866,55 +10353,109 @@
         }
       },
       "schema.GetTransactionOutput": {
-        "required": [
-          "created_at",
-          "currency_id",
-          "direction",
-          "id",
-          "protocol",
-          "status",
-          "status_text",
-          "updated_at",
-          "value"
-        ],
-        "type": "object",
         "properties": {
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/schema.TransactionAsset"
+            },
+            "type": "array"
+          },
+          "beneficiary_info": {
+            "$ref": "#/components/schemas/model.BeneficiaryInfo"
+          },
+          "counter_party_vasp_info": {
+            "$ref": "#/components/schemas/model.StringObject"
+          },
           "created_at": {
             "type": "string"
           },
           "currency_id": {
             "type": "string"
           },
+          "currency_name": {
+            "type": "string"
+          },
+          "currency_symbol": {
+            "type": "string"
+          },
           "customer": {
-            "$ref": "#/components/schemas/schema.GetCustomerOutput"
+            "$ref": "#/components/schemas/model.Customer"
           },
           "direction": {
             "type": "integer"
           },
+          "error": {
+            "$ref": "#/components/schemas/model.Object"
+          },
+          "expire_date": {
+            "type": "string"
+          },
+          "forced_sending_when_VASP_is_not_healthy": {
+            "type": "boolean"
+          },
           "high_risk": {
-            "type": "boolean",
-            "description": "if your KYT service is Elliptic, high_risk would be true when maximum risk score of address in this transaction is greater than score which is mantain in /services ;\nif your KYT service is Chainalysis, high_risk would be true when one of addresses is high in result which scanned by Chainalysis\nif sanction_score is greater than 0, high_risk would be true"
+            "type": "boolean"
           },
           "id": {
             "type": "string"
           },
+          "is_high_risk": {
+            "type": "boolean"
+          },
           "max_risk_score": {
             "type": "string"
           },
+          "need_validate_address": {
+            "type": "boolean"
+          },
+          "originator_info": {
+            "$ref": "#/components/schemas/model.OriginatorInfo"
+          },
+          "performed_at": {
+            "type": "string"
+          },
+          "performed_by": {
+            "type": "string"
+          },
+          "permission_status": {
+            "description": "Status of the transfer permission, 0 for accept, 1 for reject",
+            "type": "integer"
+          },
           "protocol": {
-            "type": "string",
-            "description": "The default is Sygna_Bridge"
+            "type": "string"
+          },
+          "protocol_extra_info": {
+            "$ref": "#/components/schemas/model.Object"
+          },
+          "reject_code": {
+            "type": "string"
+          },
+          "reject_message": {
+            "type": "string"
           },
           "risk_score_provider": {
             "type": "string"
           },
           "sanction_report_link": {
-            "type": "string",
-            "description": "sanction_report_link would be valuable if sanction screening service is enabled, it provides a report to download"
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "sanction_score": {
-            "type": "integer",
-            "description": "sanction_score would be valuable if sanction screening service is enabled"
+            "type": "integer"
+          },
+          "sanction_score_provider": {
+            "type": "string"
+          },
+          "sanction_screened_time": {
+            "type": "string"
+          },
+          "sanction_search_id": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "status": {
             "type": "integer"
@@ -9922,25 +10463,26 @@
           "status_text": {
             "type": "string"
           },
-          "transaction_asset": {
-            "$ref": "#/components/schemas/schema.TransactionAsset"
-          },
           "transfer_id": {
             "type": "string"
           },
-          "tx_id": {
+          "txid": {
             "type": "string"
           },
           "updated_at": {
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "$ref": "#/components/schemas/decimal.NullDecimal"
           },
           "value_usd": {
+            "$ref": "#/components/schemas/decimal.NullDecimal"
+          },
+          "vasp_code": {
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "schema.GetTransactionsOutput": {
         "type": "object",
@@ -10973,10 +11515,6 @@
       "schema.RespWithPaging": {
         "type": "object",
         "properties": {
-          "data": {
-            "type": "object",
-            "properties": {}
-          },
           "paging": {
             "$ref": "#/components/schemas/schema.PagingResult"
           }
