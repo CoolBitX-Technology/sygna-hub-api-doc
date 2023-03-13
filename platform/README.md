@@ -25,21 +25,25 @@
 7. Update DNS record to point the frontend/backend location into ALB DNS name in step 6.
 ### How to add trisa gateway service to Hub service in AWS
 #### These steps could not be done by docker-compose up since Trisa gateway have to use a different load balancer and open multi ports.
-
+0. Make sure you have full permission for following AWS services
+    - IAM
+    - EC2
+    - ECS
+    - ECR
 1. Finish the previous section to start hub on AWS.
 
-2. Get the IAM role arn of backend service (like arn:aws:iam::XXXXXX:role/platform-BackendTaskExecutionRole-XXXXX) created by docker-compose in AWS IAM.
+2. Get the IAM role arn of [backend service task-definiton](https://ap-northeast-1.console.aws.amazon.com/ecs/v2/task-definitions/platform-backend?status=ACTIVE&region=ap-northeast-1) (like arn:aws:iam::XXXXXX:role/platform-BackendTaskExecutionRole-XXXXX) created by docker-compose in AWS IAM from previous section.
 
-3. Update [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) with IAM role arn from the previous step and other parameters referenced in updated [docker-compose.aws.override.yml](docker-compose.aws.override.yml). The strings that need to be changed would be:
+3. Update [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) with IAM role arn  you got from step 2 and other parameters referenced in updated [docker-compose.aws.override.yml](docker-compose.aws.override.yml). The strings that need to be changed would be:
     - <DATA_ENCRYPTION_KEY> (same with docker-compose.aws.override.yml)
     - <POSTGRES_USER> (same with docker-compose.aws.override.yml)
     - <POSTGRES_PASSWORD> (same with docker-compose.aws.override.yml)
-    - <IAM_ROLE_ARN_OF_PLATFORM_BACKEND> (get the IAM role ARN from step 1)
+    - <IAM_ROLE_ARN_OF_PLATFORM_BACKEND> (get the IAM role ARN from step 2)
 
 4. Register a new ECS task definition on [AWS-ECS Task definition](https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/taskDefinitions) with updated [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) in step 2.
     - ![image](assets/ECS_Create_task_definition_with_json.png)
 
-5. Create an AWS Network Load Balancer to receive incoming tcp traffic going into trisa in [AWS EC2 console](https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#LoadBalancers:sort=loadBalancerName)
+5. Create an `Network Load Balancer` to receive incoming tcp traffic going into trisa in [AWS EC2 console](https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#LoadBalancers:sort=loadBalancerName) , you can turn off the `New EC2 Experience` in web console to match following steps.
     1. The parameters to be set in Configure Load Balancer:
         - ![image](assets/LB_step_1_configure_LB.png)
         - name: hub-trisa
@@ -66,7 +70,7 @@
     1. Head into [ECS service console] (https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/clusters/platform/services) created by the previous Phase.
     2. Turn off "New ECS Experience" since we need service discover utilities which are not supported yet.
         - ![image](assets/ECS_Turn_off_new_ecs_experience.png)
-    3. Finish Step 1. Configure service with the following parameters:
+    3. Finish "Step 1. Configure service" with the following parameters:
         - Launch type: fargate
         - Operating system family: Linux
         - Task Definition: platform-trisa (created by step 4.)
@@ -80,7 +84,7 @@
         - Deployment circuit breaker: Disabled
         - Deployment type: Rolling Updated 
     
-    4. Finish Step 2. Configure network with following parameters
+    4. Finish "Step 2. Configure network" with following parameters
         - Cluster VPC: Same as hub backend service , supporse to be default VPC.
         - Subnets: Same as hub backend service
         - Security groups:  Same as hub backend service 
@@ -95,6 +99,13 @@
         - Enable ECS task health propagation: checked
         - DNS record type: A
         - TTL: 60
-    5. Ignore Step 3: Set Auto Scaling (optional) and Step 4: Review to Create the service.
+    5. Ignore "Step 3: Set Auto Scaling (optional)" and "Step 4: Review" to Create the service.
 
     6. After the Status of trisa become  "ACTIVE", you can set up trisa settings from hub console. 
+
+### Recommand production settings note for AWS 
+
+ 1. Use AWS RDS instead of ECS started database.
+ 2. Use Secret Manager for environment  variables instead fo plan text in task-definition.
+ 3. Increase backend and frontend task number for high availability.
+
