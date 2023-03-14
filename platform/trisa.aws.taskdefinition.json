@@ -57,6 +57,10 @@
                     "value": "<DATA_ENCRYPTION_KEY , like  00000000000000000000000000000000 , same with backend tasks>"
                 },
                 {
+                    "name": "VASP_CODE",
+                    "value": "<VASP_CODE, you can find this from registration mail , same as backend tasks>"
+                },
+                {
                     "name": "DB_PORT",
                     "value": "5432"
                 },

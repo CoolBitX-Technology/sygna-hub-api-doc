@@ -38,6 +38,7 @@
     - <DATA_ENCRYPTION_KEY> (same with docker-compose.aws.override.yml)
     - <POSTGRES_USER> (same with docker-compose.aws.override.yml)
     - <POSTGRES_PASSWORD> (same with docker-compose.aws.override.yml)
+    - <VASP_CODE> (same with docker-compose.aws.override.yml)
     - <IAM_ROLE_ARN_OF_PLATFORM_BACKEND> (get the IAM role ARN from step 2)
 
 4. Register a new ECS task definition on [AWS-ECS Task definition](https://ap-northeast-1.console.aws.amazon.com/ecs/home?region=ap-northeast-1#/taskDefinitions) with updated [trisa.aws.taskdefinition.json](trisa.aws.taskdefinition.json) in step 2.
