@@ -1,0 +1,173 @@
+{
+    "data_id": [
+        "1063cfc7-57f8-4869-8213-f59f3da472d1"
+    ],
+    "event": "RECEIVE_HIGH_RISK_TRANSACTION",
+    "payload": {
+        "id": "1063cfc7-57f8-4869-8213-f59f3da472d1",
+        "created_at": "2022-08-16T16: 23: 04.418Z",
+        "updated_at": "2022-08-16T16: 23: 08.690Z",
+        "vasp_code": "KUMILCOR",
+        "txid": null,
+        "transfer_id": "69f15e3f402786340a60ce910d1f35d0f9521a809c172c582105723a8c986598",
+        "direction": 1,
+        "value": "1",
+        "status": 1,
+        "status_text": "Blocked",
+        "currency_id": "sygna: 0x80000000",
+        "originator_info": {
+            "vasp_code": "KUMILCOR",
+            "private_info": {
+                "account_numbers": [
+                    "3HXWVGWNaLHtdwgT5fdQgvJHByUw6zVoJY"
+                ],
+                "originator_persons": [
+                    {
+                        "natural_person": {
+                            "date_and_place_of_birth": {
+                                "date_of_birth": "2022-08-17",
+                                "place_of_birth": "taipei"
+                            },
+                            "name": {
+                                "name_identifiers": [
+                                    {
+                                        "name_identifier_type": "LEGL",
+                                        "primary_identifier": "Liu",
+                                        "secondary_identifier": "Kunming"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "customer": null
+        },
+        "beneficiary_info": {
+            "vasp_code": "KUMILCOR",
+            "private_info": {
+                "account_numbers": [
+                    "3Bv4kRyHPwoi4h4bdbeYSvPmj8v8VM5Hdv"
+                ],
+                "beneficiary_persons": [
+                    {
+                        "legal_person": {
+                            "name": {
+                                "name_identifiers": [
+                                    {
+                                        "legal_person_name": "None",
+                                        "legal_person_name_identifier_type": "LEGL"
+                                    }
+                                ],
+                                "phonetic_name_identifiers": [
+                                    {
+                                        "legal_person_name": "タカハシ リリコ",
+                                        "legal_person_name_identifier_type": "LEGL"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "address_matched": true,
+            "type_matched": true,
+            "name_matched": true,
+            "customer": {
+                "id": "a49488c0-c102-4d0b-a341-b5b7144f3067",
+                "updated_at": "2022-08-16T15: 56: 45.427Z",
+                "vasp_code": "KUMILCOR",
+                "customer_type": 1,
+                "customer_id": null,
+                "natural_person_name": {},
+                "legal_person_name": {
+                    "name": "None",
+                    "phonetic_name": "タカハシ リリコ"
+                },
+                "is_active": true,
+                "created_at": "2022-08-02T10: 25: 26.382Z",
+                "risk_score_provider": null,
+                "labels": [],
+                "last_screened": null,
+                "assets": [
+                    {
+                        "id": "1a6de348-9d49-4a45-ab02-82c498a52052",
+                        "updated_at": "2022-08-09T12: 25: 22.414Z",
+                        "currency_id": "sygna: 0x80000000",
+                        "address": "3Bv4kRyHPwoi4h4bdbeYSvPmj8v8VM5Hdv",
+                        "extra_info": {},
+                        "risk_score_provider": "Elliptic",
+                        "labels": [],
+                        "created_at": "2022-08-09T12: 25: 22.414Z",
+                        "last_screened": null
+                    }
+                ],
+                "protocol_extra_info": null
+            }
+        },
+        "performed_at": "2022-08-16T16: 23: 04.472Z",
+        "performed_by": "Auto Deposit",
+        "expire_date": null,
+        "counter_party_vasp_info": {
+            "country": "",
+            "license_registration_id": "",
+            "regulatory_status": "Not Regulated Yet",
+            "supervisory_authority": "",
+            "vasp_code": "KUMILCOR",
+            "vasp_legal_name": "local originator for kunming"
+        },
+        "permission_status": 1,
+        "reject_code": "BVRC004",
+        "reject_message": "compliance_check_fail",
+        "sanction_score": null,
+        "sanction_search_id": [],
+        "sanction_screened_time": null,
+        "assets": [
+            {
+                "id": "961f0fae-588d-4d54-8d15-2e91a6ce89c1",
+                "updated_at": "2022-08-16T16: 23: 08.696Z",
+                "vasp_code": "KUMILCOR",
+                "address": "3HXWVGWNaLHtdwgT5fdQgvJHByUw6zVoJY",
+                "extra_info": {},
+                "risk_score": "10.00",
+                "risk_score_provider": "Elliptic",
+                "labels": [
+                    "Peer-to-Peer Exchange",
+                    "Gambling",
+                    "Dark Market - Centralised",
+                    "Trading Platform",
+                    "Privacy Wallet",
+                    "Credit Card Data Vendor",
+                    "Unknown",
+                    "Exchange",
+                    "Payment Services Provider",
+                    "Data",
+                    "OFAC Sanctioned Entity",
+                    "ATM",
+                    "Coin Swap Service",
+                    "Crypto-Exchange",
+                    "Dark Forum",
+                    "Token"
+                ],
+                "created_at": "2022-08-16T16: 23: 08.696Z",
+                "last_screened": "2022-08-16T16: 23: 06.273Z",
+                "direction": 0
+            },
+            {
+                "id": "883cee49-4e3b-4266-b35a-208079ecf87b",
+                "updated_at": "2022-08-16T16: 23: 08.696Z",
+                "vasp_code": "KUMILCOR",
+                "address": "3Bv4kRyHPwoi4h4bdbeYSvPmj8v8VM5Hdv",
+                "extra_info": {},
+                "labels": [],
+                "created_at": "2022-08-16T16: 23: 08.696Z",
+                "direction": 1
+            }
+        ],
+        "error": null,
+        "protocol": "Sygna_Bridge",
+        "protocol_extra_info": null
+    },
+    "request_id": "9aa35d09-03bc-4fd1-8cc3-53b170def925",
+    "time": "2022-08-16T16: 23: 08.728Z"
+}

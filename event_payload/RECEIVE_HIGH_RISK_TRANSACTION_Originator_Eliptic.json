@@ -1,0 +1,167 @@
+{
+    "data_id": [
+        "d268a4ca-cad7-4010-adf8-9660f8bd06cb"
+    ],
+    "event": "RECEIVE_HIGH_RISK_TRANSACTION",
+    "payload": {
+        "id": "d268a4ca-cad7-4010-adf8-9660f8bd06cb",
+        "created_at": "2022-08-16T16: 26: 49.717Z",
+        "updated_at": "2022-08-16T16: 26: 49.717Z",
+        "vasp_code": "KUMILCOR",
+        "txid": null,
+        "transfer_id": "",
+        "direction": 0,
+        "value": "1",
+        "status": 1,
+        "status_text": "Blocked",
+        "currency_id": "sygna: 0x80000000",
+        "originator_info": {
+            "vasp_code": "KUMILCOR",
+            "private_info": {
+                "account_numbers": [
+                    "3HXWVGWNaLHtdwgT5fdQgvJHByUw6zVoJY"
+                ],
+                "originator_persons": [
+                    {
+                        "natural_person": {
+                            "date_and_place_of_birth": {
+                                "date_of_birth": "2022-08-17",
+                                "place_of_birth": "taipei"
+                            },
+                            "name": {
+                                "name_identifiers": [
+                                    {
+                                        "name_identifier_type": "LEGL",
+                                        "primary_identifier": "Liu",
+                                        "secondary_identifier": "Kunming"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "customer": {
+                "id": "78d67cb5-a9eb-4162-8584-fd55115128c9",
+                "updated_at": "2022-08-16T16: 23: 01.517Z",
+                "vasp_code": "KUMILCOR",
+                "customer_type": 0,
+                "natural_person_name": {
+                    "name": {
+                        "first_name": "Kunming",
+                        "last_name": "Liu"
+                    }
+                },
+                "is_active": true,
+                "created_at": "2022-08-02T09: 25: 41.795Z",
+                "birth": {
+                    "date_of_birth": "2022-08-17",
+                    "place_of_birth": "taipei"
+                },
+                "labels": [],
+                "assets": [
+                    {
+                        "id": "9a53c2a8-51f4-42d4-bfe3-10ad812e936f",
+                        "updated_at": "2022-08-16T16: 19: 08.221Z",
+                        "currency_id": "sygna: 0x80000000",
+                        "address": "3HXWVGWNaLHtdwgT5fdQgvJHByUw6zVoJY",
+                        "extra_info": {},
+                        "risk_score_provider": "Elliptic",
+                        "labels": [],
+                        "created_at": "2022-08-16T16: 19: 08.221Z"
+                    }
+                ]
+            }
+        },
+        "beneficiary_info": {
+            "vasp_code": "KUMILCOR",
+            "private_info": {
+                "account_numbers": [
+                    "3Bv4kRyHPwoi4h4bdbeYSvPmj8v8VM5Hdv"
+                ],
+                "beneficiary_persons": [
+                    {
+                        "legal_person": {
+                            "name": {
+                                "name_identifiers": [
+                                    {
+                                        "legal_person_name": "None",
+                                        "legal_person_name_identifier_type": "LEGL"
+                                    }
+                                ],
+                                "phonetic_name_identifiers": [
+                                    {
+                                        "legal_person_name": "タカハシ リリコ",
+                                        "legal_person_name_identifier_type": "LEGL"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "address_matched": null,
+            "type_matched": null,
+            "name_matched": null,
+            "customer": null
+        },
+        "performed_at": "2022-08-16T16: 26: 49.706Z",
+        "performed_by": "22411076-07d6-4b29-ac7e-d8722137eef2",
+        "expire_date": "2022-09-15T16: 05: 00.000Z",
+        "counter_party_vasp_info": null,
+        "reject_code": "BVRC004",
+        "reject_message": "compliance_check_fail",
+        "sanction_score": null,
+        "sanction_search_id": [],
+        "sanction_screened_time": null,
+        "assets": [
+            {
+                "id": "af2513af-b822-45a9-a53f-e45398c0066d",
+                "updated_at": "2022-08-16T16: 26: 49.728Z",
+                "vasp_code": "KUMILCOR",
+                "address": "3HXWVGWNaLHtdwgT5fdQgvJHByUw6zVoJY",
+                "extra_info": {},
+                "labels": [],
+                "created_at": "2022-08-16T16: 26: 49.728Z",
+                "last_screened": null,
+                "direction": 0
+            },
+            {
+                "id": "09871471-1272-4bdc-9835-b1706d7f17e6",
+                "updated_at": "2022-08-16T16: 26: 49.728Z",
+                "vasp_code": "KUMILCOR",
+                "address": "3Bv4kRyHPwoi4h4bdbeYSvPmj8v8VM5Hdv",
+                "extra_info": {},
+                "risk_score": "10.00",
+                "risk_score_provider": "Elliptic",
+                "labels": [
+                    "Payment Services Provider",
+                    "Peer-to-Peer Exchange",
+                    "Privacy Wallet",
+                    "Data",
+                    "Trading Platform",
+                    "Crypto-Exchange",
+                    "Exchange",
+                    "ATM",
+                    "Coin Swap Service",
+                    "Dark Market - Centralised",
+                    "Token",
+                    "Unknown",
+                    "Gambling",
+                    "Credit Card Data Vendor",
+                    "Dark Forum",
+                    "OFAC Sanctioned Entity"
+                ],
+                "created_at": "2022-08-16T16: 26: 49.728Z",
+                "last_screened": "2022-08-16T16: 26: 49.774Z",
+                "direction": 1
+            }
+        ],
+        "error": null,
+        "protocol": "Sygna_Bridge",
+        "protocol_extra_info": null,
+        "need_validate_address": false
+    },
+    "request_id": "03165165-1803-4b67-89e9-1f7978348cb7",
+    "time": "2022-08-16T16: 26: 52.374Z"
+}
