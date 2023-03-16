@@ -1,10 +1,12 @@
 openapi: 3.0.1
 info:
-  title: Sygna HUB
-  description: Sygna Hub API
+  title: Sygna Hub
+  description: Sygna Hub API Document
   contact: {}
-  version: 1.17.0
-servers: []
+  version: 1.20.0
+servers:
+  - url: 'httsp://example.com/v1'
+    description: ''
 paths:
   /:
     get:
@@ -21,8 +23,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/schema.GetRootOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '401':
           description: Unauthorized
           content:
@@ -49,8 +49,6 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
   /currencies:
     get:
-      tags:
-        - currencies
       summary: Get supported currencies
       operationId: GetCurrencies
       parameters:
@@ -142,14 +140,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Currency'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.Currency'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -170,10 +168,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      description: Please refer to the GET /currencies API response body for the "key" in each coin/token's extra information (addr_extra_info).
+      tags:
+        - Hub/currencies
   /customers:
     get:
       tags:
-        - customers
+        - Hub/customers
       summary: Get customers
       parameters:
         - name: id
@@ -219,6 +220,7 @@ paths:
                 - Merkle Science
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: max_risk_score
           in: query
           description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
@@ -298,14 +300,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/schema.GetCustomersOutput'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/schema.GetCustomersOutput'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -334,7 +336,7 @@ paths:
         - BearerToken: []
     put:
       tags:
-        - customers
+        - Hub/customers
       summary: update customers
       requestBody:
         description: put /customers params
@@ -349,12 +351,12 @@ paths:
                 value:
                   - is_active: false
                     customer_type: 0
-                    customer_id: yuweiwei
+                    customer_id: sygnasygna
                     country: TW
                     natural_person_name:
                       name:
-                        first_name: yuwei
-                        last_name: chen
+                        first_name: sygna
+                        last_name: sygna
                     assets:
                       - address: 3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55
                         extra_info: {}
@@ -411,7 +413,7 @@ paths:
       operationId: ''
     post:
       tags:
-        - customers
+        - Hub/customers
       summary: Create customers
       requestBody:
         description: post /customers params
@@ -426,12 +428,12 @@ paths:
                 value:
                   - is_active: true
                     customer_type: 0
-                    customer_id: yuweiwei
+                    customer_id: sygnasygna
                     country: TW
                     natural_person_name:
                       name:
-                        first_name: yuwei
-                        last_name: chen
+                        first_name: sygna
+                        last_name: sygna
                     birth:
                       place_of_birth: Taipei Zoo
                       date_of_birth: '2022-11-30'
@@ -516,7 +518,7 @@ paths:
         - BearerToken: []
     patch:
       tags:
-        - customers
+        - Hub/customers
       summary: update customers
       requestBody:
         description: patch /customers params
@@ -571,8 +573,6 @@ paths:
         - BearerToken: []
   /customers-export:
     get:
-      tags:
-        - customers-export
       summary: generate customers report
       parameters:
         - name: id
@@ -618,6 +618,7 @@ paths:
                 - Merkle Science
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: max_risk_score
           in: query
           description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
@@ -721,10 +722,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/customers-export
   /customers-export/download:
     get:
-      tags:
-        - customers-export
       summary: download customer report
       responses:
         '200':
@@ -756,10 +757,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/customers-export
   /customers-export/status:
     get:
-      tags:
-        - customers-export
       summary: get customer report processing status
       responses:
         '200':
@@ -771,8 +772,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/model.Report'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -799,10 +798,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/customers-export
   '/customers/{id}':
     get:
-      tags:
-        - customers
       summary: get specific customer detail
       parameters:
         - name: id
@@ -884,8 +883,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/schema.GetCustomerOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -912,10 +909,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/customers
   /data-transfer-export:
     get:
-      tags:
-        - data-transfer-export
       summary: generate transaction report
       parameters:
         - name: id
@@ -1116,10 +1113,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/data-transfer-export
   /data-transfer-export/download:
     get:
-      tags:
-        - data-transfer-export
       summary: download transactions report
       responses:
         '200':
@@ -1151,10 +1148,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/data-transfer-export
   /data-transfer-export/status:
     get:
-      tags:
-        - data-transfer-export
       summary: get transaction report processing status
       responses:
         '200':
@@ -1166,8 +1163,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/model.Report'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -1194,10 +1189,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/data-transfer-export
   /global-vasp:
     get:
-      tags:
-        - global-vasp
       summary: get global-vasp
       description: only admin could get encrypted credentials
       parameters:
@@ -1278,9 +1273,64 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/model.GlobalVasp'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        vasp_identifier:
+                          type: string
+                          description: 'Sygna: VASP code; TRISA: Member ID'
+                        protocol:
+                          type: string
+                        vasp_name:
+                          type: string
+                          description: complete VASP name
+                        extra_info:
+                          type: object
+                          description: extra_info content will be different depend on the protocol that VASP belongs to
+                          properties:
+                            country_code:
+                              type: string
+                            regulatory_status:
+                              type: string
+                              description: 'information from Sygna parter: VASPnet'
+                            supervisory_authority:
+                              type: string
+                              description: 'information from Sygna parter: VASPnet'
+                            vasp_pubkey:
+                              type: string
+                            business_category:
+                              type: integer
+                              description: 'information from Sygna partner: TRISA'
+                            common_name:
+                              type: string
+                              description: TRISA VASP's common ID
+                            country:
+                              type: string
+                            endpoint:
+                              type: string
+                              description: TRISA Service Endpoint
+                            registered_directory:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                            vasp_categories:
+                              type: array
+                              description: 'information from Sygna partner: TRISA'
+                              items:
+                                type: string
+                            verified_on:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                            website:
+                              type: string
+                              description: 'information from Sygna partner: TRISA'
+                        vasp_server_status:
+                          type: string
+                          description: 'Sygna VASP server health check status: healthy, unhealthy or unknown'
         '400':
           description: Bad Request
           content:
@@ -1307,10 +1357,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/global-vasp
   /oauth2:
     post:
-      tags:
-        - oauth2
       summary: get oauth token
       requestBody:
         description: post /oauth2 param
@@ -1332,7 +1382,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithStatus'
-              examples: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjowLCJhdWQiOiJvcmlnaW5hdG9yQGdtYWlsLmNvbSIsImV4cCI6MTY3MjgzMjg0NiwiaWF0IjoxNjcyNzk2ODQ2LCJpc3MiOiJzeWduYS1idW5kbGUtcHJvZHVjdCIsInZhc3BfY29kZSI6IkNZV1dUV1RZIiwidXNlcl9pZCI6IjQ3Zjk5MjcwLWEzYjMtNGZmMy1iMjE0LWEzMWY5MTZjMTBlMCIsImxvZ2luX3R5cGUiOiJwYXNzd29yZCIsImxvZ2luX2lkIjoiZWNlY2RlNWQtZDA1ZS00Yzc5LThjOWEtZDZlNTIxM2FkZDdjIiwiYWNjb3VudCI6Im9yaWdpbmF0b3JAZ21haWwuY29tIn0.1fRpXseNGrRrWkPRCkTIoAMhIHpjV9E-bb8qMiK7XeE
+                      success: true
         '400':
           description: Bad Request
           content:
@@ -1352,9 +1407,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       description: API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)
-    delete:
       tags:
-        - oauth2
+        - Hub/oauth2
+    delete:
       summary: delete oauth token from database
       responses:
         '200':
@@ -1383,10 +1438,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/oauth2
   /ownerships:
     get:
-      tags:
-        - ownerships
       summary: the API would be used when you want to see a list of all validations
       responses:
         '200':
@@ -1394,14 +1449,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Ownership'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.Ownership'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -1428,9 +1483,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    post:
       tags:
-        - ownerships
+        - Hub/ownerships
+    post:
       summary: the API would be used when you want to validate an address whether belong to a user who owns private wallet
       parameters:
         - name: accept_high_risk
@@ -1491,10 +1546,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   /ownerships/cancel:
     patch:
-      tags:
-        - ownerships
       summary: you couldn't validate some address that it is processing or accepted until you cancel it
       requestBody:
         description: patch /ownerships/cancel params
@@ -1542,10 +1597,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   /ownerships/confirm:
     patch:
-      tags:
-        - ownerships
       summary: the API would be used when you received a reply from the receiver and you want to accept or reject the reply
       requestBody:
         description: patch /ownerships/confirm params
@@ -1599,10 +1654,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   /ownerships/resend:
     patch:
-      tags:
-        - ownerships
       summary: the API would be used when a receiver lets you send a email again
       requestBody:
         description: patch /ownerships/resend params
@@ -1650,10 +1705,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   /ownerships/unblock:
     patch:
-      tags:
-        - ownerships
       summary: the API would be used when the validation that including risky address wouldn't be sent until you unblock it
       requestBody:
         description: patch /ownerships/unblock params
@@ -1701,10 +1756,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   /ownerships/validate:
     patch:
-      tags:
-        - ownerships
       summary: the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation
       requestBody:
         description: patch /ownerships/validate params
@@ -1759,10 +1814,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   '/ownerships/verify-token/{token}':
     get:
-      tags:
-        - ownerships
       summary: the API would be used when you received a link that asks you to validate the address whether belong to you
       parameters:
         - name: token
@@ -1781,8 +1836,6 @@ paths:
                 properties:
                   data:
                     type: string
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -1809,10 +1862,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
   '/ownerships/{id}':
     get:
-      tags:
-        - ownerships
       summary: the API would be used when you want to see a validation detail
       parameters:
         - name: id
@@ -1827,12 +1880,12 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/model.Ownership'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/model.Ownership'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -1859,10 +1912,11 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/ownerships
+      description: ''
   /rollback:
     get:
-      tags:
-        - rollback
       summary: get rollback
       description: only admin could get encrypted credentials
       responses:
@@ -1871,14 +1925,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Rollback'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.Rollback'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -1905,9 +1959,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    put:
       tags:
-        - rollback
+        - Hub/rollback
+    put:
       summary: update rollback
       description: only allow admin to use this method
       requestBody:
@@ -1952,10 +2006,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/rollback
   /services:
     get:
-      tags:
-        - services
       summary: get services
       description: only admin could get encrypted credentials
       parameters:
@@ -1987,6 +2041,7 @@ paths:
                 - TRISA
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
         - name: type
           in: query
           description: filter services by type
@@ -2085,14 +2140,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Service'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.Service'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -2119,9 +2174,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    put:
       tags:
-        - services
+        - Hub/services
+    put:
       summary: update services
       description: |-
         only allow admin to use this method
@@ -2176,13 +2231,11 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    post:
       tags:
-        - services
+        - Hub/services
+    post:
       summary: create services
-      description: |-
-        only allow admin to use this method
-        use GET /services/supported to understand which credential is required by provider
+      description: 'Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol. (Only allow admin to use this method use GET /services/supported to understand which credential is required by provider.)'
       requestBody:
         description: post /services params
         content:
@@ -2225,6 +2278,15 @@ paths:
                     is_active: true
                     credential:
                       api_key: bbbb
+                    settings:
+                      high_risk_score: 50
+              Coinfirm (Sandbox):
+                value:
+                  - type: Blockchain Analytics
+                    provider: Coinfirm (Sandbox)
+                    is_active: true
+                    credential:
+                      sandbox_access_token: 3uhQGUlzNTsKTVUJOwC0dvG0A2RuA6ieV9LckrHdcY0AXQciDnnoxBvXJs2aS8ha
                     settings:
                       high_risk_score: 50
               Merkle Science:
@@ -2276,13 +2338,24 @@ paths:
                       p12: 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
                       password: FSDFEWGDSGERG
                       registration_id: tttt
-              Shyft:
+              Veriscope on Shyft:
                 value:
                   - type: Travel Rule
                     provider: Veriscope on Shyft
                     is_active: true
                     credential:
                       private_key: 7d919954170d1b35a186a44b7df63fd7fada892b891d423cbb851bb3fa44a343
+              World-Check One:
+                value:
+                  - type: Sanction Screening
+                    provider: World-Check
+                    is_active: true
+                    credential:
+                      api-key: xxxxxx
+                      secret: xxxxxx
+                    settings:
+                      provider_types:
+                        - Watchlist
         required: true
       responses:
         '200':
@@ -2291,7 +2364,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
-              examples: {}
         '400':
           description: Bad Request
           content:
@@ -2319,10 +2391,10 @@ paths:
       security:
         - BearerToken: []
       parameters: []
+      tags:
+        - Hub/services
   /services/supported:
     get:
-      tags:
-        - services
       summary: get supported services and its config
       description: only allow admin to use this method
       parameters:
@@ -2354,6 +2426,8 @@ paths:
                 - TRISA
                 - Dow Jones
                 - Coinfirm
+                - Coinfirm (Sandbox)
+                - World-Check
         - name: type
           in: query
           description: filter services by type
@@ -2430,12 +2504,20 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.SupportedService'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                  code:
+                    type: string
+                  extra_data:
+                    type: object
+                    properties: {}
+                  help:
+                    type: string
+                  message:
+                    type: string
+                  stack:
+                    type: object
+                    properties: {}
+                  type:
+                    type: string
         '400':
           description: Bad Request
           content:
@@ -2462,10 +2544,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/services
   /settings:
     get:
-      tags:
-        - settings
       summary: get settings
       description: only admin could get encrypted credentials
       responses:
@@ -2474,14 +2556,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.Setting'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.Setting'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -2508,9 +2590,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    put:
       tags:
-        - settings
+        - Hub/settings
+    put:
       summary: update settings
       description: only allow admin to use this method
       requestBody:
@@ -2576,9 +2658,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    post:
       tags:
-        - settings
+        - Hub/settings
+    post:
       summary: create settings
       description: |-
         only allow admin to use this method. 
@@ -2646,10 +2728,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/settings
   /settings/default:
     get:
-      tags:
-        - settings
       summary: get default settings
       description: only allow admin to use this method
       responses:
@@ -2687,10 +2769,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/settings
   /settings/supported:
     get:
-      tags:
-        - settings
       summary: get supported settings
       description: ''
       responses:
@@ -2699,9 +2781,580 @@ paths:
           content:
             '*/*':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/model.SupportedSetting'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        type:
+                          type: string
+                        rule:
+                          type: object
+                          properties:
+                            schema:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                properties:
+                                  type: object
+                                  properties:
+                                    legal_person:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        required:
+                                          type: array
+                                          items:
+                                            type: string
+                                        properties:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    local_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    phonetic_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            legal_person_name:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            legal_person_name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                        additionalProperties:
+                                                          type: boolean
+                                                additionalProperties:
+                                                  type: boolean
+                                            geographic_address:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    room:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    floor:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_box:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_code:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    street_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_line:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    district_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    sub_department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_number:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_location_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country_sub_division:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            country_of_registration:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            customer_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            national_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    country_of_issue:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    registration_authority:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                        additionalProperties:
+                                          type: boolean
+                                    follow_ivms101:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                    natural_person:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        required:
+                                          type: array
+                                          items:
+                                            type: string
+                                        properties:
+                                          type: object
+                                          properties:
+                                            name:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                required:
+                                                  type: array
+                                                  items:
+                                                    type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    local_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                    phonetic_name_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                        required:
+                                                          type: array
+                                                          items:
+                                                            type: string
+                                                        properties:
+                                                          type: object
+                                                          properties:
+                                                            primary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            name_identifier_type:
+                                                              type: object
+                                                              properties:
+                                                                const:
+                                                                  type: boolean
+                                                            secondary_identifier:
+                                                              type: object
+                                                              properties:
+                                                                type:
+                                                                  type: string
+                                                        additionalProperties:
+                                                          type: boolean
+                                                additionalProperties:
+                                                  type: boolean
+                                            geographic_address:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    room:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    floor:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_box:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    post_code:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    street_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_line:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    address_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    district_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    sub_department:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    building_number:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    town_location_name:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    country_sub_division:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            country_of_residence:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            customer_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                            date_and_place_of_birth:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    date_of_birth:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    place_of_birth:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                            national_identification:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                properties:
+                                                  type: object
+                                                  properties:
+                                                    country_of_issue:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    registration_authority:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                    national_identifier_type:
+                                                      type: object
+                                                      properties:
+                                                        type:
+                                                          type: string
+                                                minProperties:
+                                                  type: integer
+                                                additionalProperties:
+                                                  type: boolean
+                                        additionalProperties:
+                                          type: boolean
+                                    name_checking_rule:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    originator:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    beneficiary:
+                                      type: object
+                                      properties:
+                                        enum:
+                                          type: array
+                                          items:
+                                            type: string
+                                        type:
+                                          type: string
+                                    auto_accept:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                additionalProperties:
+                                  type: boolean
+                                required:
+                                  type: array
+                                  items:
+                                    type: string
         '400':
           description: Bad Request
           content:
@@ -2728,10 +3381,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/settings
   /transactions:
     get:
-      tags:
-        - transactions
       summary: get transactions
       parameters:
         - name: id
@@ -2745,7 +3398,7 @@ paths:
               type: string
         - name: name
           in: query
-          description: filter transactions by customer name
+          description: filter transactions by the customer's name ( the phonetic name and local name is also applicable)
           style: form
           explode: false
           schema:
@@ -2865,6 +3518,7 @@ paths:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
                 - TRISA
+                - Veriscope on Shyft
         - name: created_at
           in: query
           description: 'filter data by a range of created data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
@@ -2908,14 +3562,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/schema.GetTransactionsOutput'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/schema.GetTransactionsOutput'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -2942,9 +3596,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    post:
       tags:
-        - transactions
+        - Hub/transactions
+    post:
       summary: create transactions
       requestBody:
         description: post /transactions params
@@ -2957,7 +3611,7 @@ paths:
                   - $ref: '#/components/schemas/PostTransactionUnknown'
                   - $ref: '#/components/schemas/PostTransactionSygnaBridge'
                   - $ref: '#/components/schemas/PostTransactionSygnaEmail'
-                  - $ref: '#/components/schemas/PostTransactionTrisa'
+                  - $ref: '#/components/schemas/PostTransactionTRISA'
                   - $ref: '#/components/schemas/PostTransactionShyft'
             examples:
               Unknown:
@@ -2990,7 +3644,7 @@ paths:
                       private_info:
                         natural_person_name:
                           name:
-                            last_name: Yuwei Chen
+                            last_name: sygna sample
                     expire_date: null
                     protocol: Sygna_Bridge
               Sygna Email:
@@ -3006,7 +3660,7 @@ paths:
                         - address: bc1qgdjqv0av3q56jvd82tkdjpy7gdp9ut8tlqmgrpmv24sq90ecnvqqjwvw97
                           extra_info: {}
                     protocol: Sygna_EmailProtocol
-              Trisa:
+              TRISA:
                 value:
                   - customer_id: 78045c2e-f82a-4d85-ad80-a3a450a2c3f9
                     currency_id: 'sygna:0x80000000'
@@ -3026,7 +3680,7 @@ paths:
                             last_name: Coolbitx
                     txid: xxxxxxxxxxxx
                     protocol: TRISA
-              Shyft:
+              Veriscope on Shyft:
                 value:
                   - customer_id: 14e67e17-7b02-43a5-8e2e-06a4ad827c43
                     currency_id: 'sygna:0x80000000'
@@ -3073,10 +3727,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
   /transactions/email-protocol/deposits:
     post:
-      tags:
-        - transactions/email-protocol
       summary: send email to originator VASP and ask him to fill customer information
       description: only for email protocol
       requestBody:
@@ -3134,10 +3788,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/email-protocol
   /transactions/email-protocol/deposits/permission:
     patch:
-      tags:
-        - transactions/email-protocol
       summary: accept or reject this transaction when received customer information from originator
       description: only for email protocol
       requestBody:
@@ -3182,10 +3836,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/email-protocol
   /transactions/email-protocol/deposits/permission-request:
     patch:
-      tags:
-        - transactions/email-protocol
       summary: send own customer information to beneficiary or reject this request when received email from beneficiary
       description: only for email protocol
       requestBody:
@@ -3230,10 +3884,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/email-protocol
   /transactions/email-protocol/deposits/txid:
     patch:
-      tags:
-        - transactions/email-protocol
       summary: send transaction hash when received accept from beneficiary
       description: only for email protocol
       requestBody:
@@ -3278,10 +3932,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/email-protocol
   /transactions/email-protocol/permission:
     post:
-      tags:
-        - transactions/email-protocol
       summary: send permission to originator from email protocol VASP
       description: only for email protocol
       requestBody:
@@ -3384,10 +4038,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/email-protocol
   '/transactions/email-protocol/verify-token/{token}':
     get:
-      tags:
-        - transactions/email-protocol
       summary: verify if token is valid and get its transaction identifier
       description: only for email protocol
       parameters:
@@ -3407,8 +4061,6 @@ paths:
                 properties:
                   data:
                     type: string
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -3433,10 +4085,10 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
+      tags:
+        - Hub/transactions/email-protocol
   /transactions/permission:
     patch:
-      tags:
-        - transactions
       summary: send permission to originator
       requestBody:
         description: patch /transactions/permission params
@@ -3445,12 +4097,34 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/schema.PatchPermissionInput'
+                type: object
+                properties:
+                  forced_sending_when_VASP_is_not_healthy:
+                    type: boolean
+                    description: Please check the object information in the API <POST /transactions>.
+                  id:
+                    type: string
+                  permission_status:
+                    type: integer
+                  reject_code:
+                    type: string
+                  reject_message:
+                    type: string
+                required:
+                  - id
+                  - permission_status
             examples:
-              Example 1:
+              Accept:
                 value:
                   - permission_status: 0
                     id: b6d9e3f0-533b-4867-a3ed-17e84b9cd32c
+              Reject:
+                value:
+                  - forced_sending_when_VASP_is_not_healthy: true
+                    id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+                    permission_status: 1
+                    reject_code: BVRC999
+                    reject_message: Unknown address
         required: true
       responses:
         '200':
@@ -3485,10 +4159,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
   /transactions/sanction-match:
     post:
-      tags:
-        - transactions
       summary: let user do sanction screening
       requestBody:
         description: post /transactions/sanction-match params
@@ -3535,10 +4209,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/sanction-match
   '/transactions/sanction-report/{searchId}':
     get:
-      tags:
-        - transactions
       summary: get report from sanction screening service
       parameters:
         - name: searchId
@@ -3580,10 +4254,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions/sanction-match
   /transactions/status:
     patch:
-      tags:
-        - transactions
       summary: unblock or cancel transactions
       requestBody:
         description: patch /transactions/status params
@@ -3627,10 +4301,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
   /transactions/txid:
     patch:
-      tags:
-        - transactions
       summary: send transaction identifier on blockchain to beneficiary
       requestBody:
         description: patch /transactions/txid params
@@ -3679,11 +4353,11 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
   /transactions/wallet-address-filter:
     post:
-      tags:
-        - transactions
-      summary: use /wallet-address-filter from Sygna Bridge and use KYT service by own credential to get address information
+      summary: determine whether a specific wallet address belongs to a VASP or an unhosted wallet
       requestBody:
         description: post /transactions/wallet-address-filter params
         content:
@@ -3706,15 +4380,62 @@ paths:
             '*/*':
               schema:
                 type: object
+                x-examples:
+                  Example 1:
+                    data:
+                      - - type: PRIVATE_WALLET
+                          is_vasp: false
+                          address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
+                          currency_id: 'sygna:0x80000000'
+                          extra_data:
+                            address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
+                            asset: BTC
+                            blockchain_analytics_vendor: Chainalysis V1
+                            chainalysisIdentification: null
+                            cluster: null
+                            customAddress: null
+                            rating: unknown
+                          success: true
                 properties:
                   data:
                     type: array
                     items:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/schema.PostWalletAddressFilterOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: |-
+                            - SYGNA_VASP: This category is determined based on the data in the Sygna server's wallet address directory. If the sending and receiving addresses are listed in the API Bridge </permission-request> or API Hub </transactions>, they will be classified under this category. 
+                            - EMAIL_PROTOCOL: This category is determined based on the data in the Sygna server's wallet address directory. If the wallet address has been onboarded during the Sygna Email Protocol VASP account registration, it will be classified under this category. 
+                            - OTHER_VASP: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider. 
+                            - PRIVATE_WALLET: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider.
+                            - FAILED: This category is displayed when the selected Blockchain Analytics (KYT) service is currently unavailable.
+                        is_vasp:
+                          type: boolean
+                        address:
+                          type: string
+                        currency_id:
+                          type: string
+                        extra_data:
+                          type: object
+                          description: will be returend based on the response from your Blockchain Analytics service provider if \"type\" is not SYGNA_VASP.
+                          properties:
+                            address:
+                              type: string
+                            asset:
+                              type: string
+                            blockchain_analytics_vendor:
+                              type: string
+                            chainalysisIdentification:
+                              nullable: true
+                            cluster:
+                              nullable: true
+                            customAddress:
+                              nullable: true
+                            rating:
+                              type: string
+                        success:
+                          type: boolean
         '400':
           description: Bad Request
           content:
@@ -3741,10 +4462,11 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
+      description: 'The Sygna Wallet Address Filter (WAF) API is a key feature that enables you to determine whether a specific wallet address belongs to a VASP or an unhosted wallet based on the Sygna server''s directory and your selected blockchain analytics (KYT) vendor. If the wallet address is associated with an un-hosted wallet, your KYT vendor will return a risk score for the address. If you have not yet collaborated with a blockchain analytics vendor, please contact services@sygna.io'
   '/transactions/{id}':
     get:
-      tags:
-        - transactions
       summary: get specific transaction
       parameters:
         - name: id
@@ -3763,8 +4485,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/schema.GetTransactionOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -3791,10 +4511,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/transactions
   /users:
     get:
-      tags:
-        - users
       summary: get all users
       description: only admin could use this method
       parameters:
@@ -3889,14 +4609,14 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/model.User'
-                  schema.RespWithPaging:
-                    $ref: '#/components/schemas/schema.RespWithPaging'
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.User'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -3923,9 +4643,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    post:
       tags:
-        - users
+        - Hub/users
+    post:
       summary: create users
       description: only admin could use this method
       requestBody:
@@ -3974,9 +4694,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    delete:
       tags:
-        - users
+        - Hub/users
+    delete:
       summary: delete users(member)
       description: |-
         only admin could use this method
@@ -4023,9 +4743,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-    patch:
       tags:
-        - users
+        - Hub/users
+    patch:
       summary: activate or deactivate users(member)
       description: |-
         only admin could use this method
@@ -4077,10 +4797,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   /users/change-password:
     patch:
-      tags:
-        - users
       summary: change login password
       description: |-
         admin or member only could change self password
@@ -4126,10 +4846,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   /users/link:
     post:
-      tags:
-        - users
       summary: link your account to third party service
       description: admin or member could only link self account
       requestBody:
@@ -4178,10 +4898,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   '/users/link/{login_type}':
     delete:
-      tags:
-        - users
       summary: unlink your account from third party service
       description: |-
         admin or member could only unlink self account
@@ -4226,10 +4946,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   '/users/{id}':
     get:
-      tags:
-        - users
       summary: get specific or self user data
       description: |-
         admin could get specific or self user data
@@ -4251,8 +4971,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/model.User'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '401':
           description: Unauthorized
           content:
@@ -4279,10 +4997,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   /users/history:
     get:
-      tags:
-        - users
       summary: get users audit history
       description: get users audit history
       parameters:
@@ -4331,8 +5049,6 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/model.User'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '401':
           description: Unauthorized
           content:
@@ -4359,10 +5075,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/users
   /vendors/bridge/sync:
     get:
-      tags:
-        - vendors
       summary: Synchronize Sygna Bridge Transactions
       responses:
         '200':
@@ -4394,10 +5110,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/vendors
   /vendors/shyft/attestations/sync:
     get:
-      tags:
-        - vendors
       summary: Synchronize Shyft Attestations
       responses:
         '200':
@@ -4429,10 +5145,10 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/vendors
   /vendors/test:
     post:
-      tags:
-        - vendors
       summary: test if third-party service is available
       description: 'only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`'
       requestBody:
@@ -4456,8 +5172,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/schema.PostVendorsTestOutput'
-                  schema.Resp:
-                    $ref: '#/components/schemas/schema.Resp'
         '400':
           description: Bad Request
           content:
@@ -4484,6 +5198,271 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      tags:
+        - Hub/vendors
+  /webhook-log:
+    get:
+      summary: get all webhook logs
+      parameters:
+        - name: id
+          in: query
+          description: filter log by webhook event id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: status
+          in: query
+          description: filter log by webhook event status
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: transaction_uuid
+          in: query
+          description: filter log by transaction uuid
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: counterparty_vasp_code
+          in: query
+          description: filter log by counterparty vasp code
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: protocol
+          in: query
+          description: filter log by transaction protocol
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
+          schema:
+            type: integer
+        - name: orderby
+          in: query
+          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/model.WebhookEvent'
+                  - $ref: '#/components/schemas/schema.RespWithPaging'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/webhook-log
+  /webhook-log/sync:
+    get:
+      summary: resend failed webhook event
+      parameters:
+        - name: id
+          in: query
+          description: resend specified webhook event
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/webhook-log
+  /global-vasp-export:
+    get:
+      summary: generate global-vasp report
+      responses:
+        '200':
+          description: OK
+          content: {}
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/global-vasp-export
+  /global-vasp-export/status:
+    get:
+      summary: get global-vasp report processing status
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/model.Report'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/global-vasp-export
+  /global-vasp-export/download:
+    get:
+      summary: download global-vasp report
+      responses:
+        '200':
+          description: OK
+          content: {}
+        '400':
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/global-vasp-export
 components:
   schemas:
     decimal.NullDecimal:
@@ -4598,6 +5577,10 @@ components:
       oneOf:
         - $ref: '#/components/schemas/model.NaturalPersonName'
         - $ref: '#/components/schemas/model.LegalPersonName'
+    model.OriginatorPrivateInfo:
+      oneOf:
+        - $ref: '#/components/schemas/model.NaturalPersonName'
+        - $ref: '#/components/schemas/model.LegalPersonName'
     model.Birth:
       type: object
       properties:
@@ -4651,6 +5634,58 @@ components:
           type: string
         vasp_server_status:
           type: string
+    model.Customer:
+      properties:
+        address:
+          $ref: '#/components/schemas/model.Address'
+        assets:
+          items:
+            $ref: '#/components/schemas/model.Asset'
+          type: array
+        assets_ignore_kyt:
+          type: boolean
+        avg_risk_score:
+          type: string
+        birth:
+          $ref: '#/components/schemas/model.Birth'
+        country:
+          type: string
+        created_at:
+          type: string
+        customer_id:
+          type: string
+        customer_type:
+          type: integer
+        id:
+          type: string
+        is_active:
+          type: boolean
+        labels:
+          items:
+            type: string
+          type: array
+        last_screened:
+          type: string
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        max_risk_score:
+          type: string
+        name:
+          type: string
+        national:
+          $ref: '#/components/schemas/model.National'
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+        protocol_extra_info:
+          $ref: '#/components/schemas/model.Object'
+          description: for now specifically for shyft
+        risk_score_provider:
+          type: string
+        updated_at:
+          type: string
+        vasp_code:
+          type: string
+      type: object
     model.LegalPersonName:
       title: LegalPersonName
       required:
@@ -4703,6 +5738,261 @@ components:
           type: string
         registration_authority:
           type: string
+    ivms101.Address:
+      properties:
+        address_line:
+          items:
+            type: string
+          type: array
+        address_type:
+          type: string
+        building_name:
+          type: string
+        building_number:
+          type: string
+        country:
+          type: string
+        country_sub_division:
+          type: string
+        department:
+          type: string
+        district_name:
+          type: string
+        floor:
+          type: string
+        post_box:
+          type: string
+        post_code:
+          type: string
+        room:
+          type: string
+        street_name:
+          type: string
+        sub_department:
+          type: string
+        town_location_name:
+          type: string
+        town_name:
+          type: string
+      type: object
+    ivms101.Beneficiary:
+      properties:
+        account_numbers:
+          items:
+            type: string
+          type: array
+        beneficiary_persons:
+          items:
+            $ref: '#/components/schemas/ivms101.Person'
+          type: array
+      type: object
+    ivms101.DateAndPlaceOfBirth:
+      properties:
+        date_of_birth:
+          type: string
+        place_of_birth:
+          type: string
+      type: object
+    ivms101.GeographicAddress:
+      properties:
+        addressLine:
+          items:
+            type: string
+          type: array
+        addressType:
+          type: string
+        buildingName:
+          type: string
+        buildingNumber:
+          type: string
+        country:
+          type: string
+        countrySubDivision:
+          type: string
+        department:
+          type: string
+        districtName:
+          type: string
+        floor:
+          type: string
+        postBox:
+          type: string
+        postCode:
+          type: string
+        room:
+          type: string
+        streetName:
+          type: string
+        subDepartment:
+          type: string
+        townLocation_name:
+          type: string
+        townName:
+          type: string
+      type: object
+    ivms101.LegalPerson:
+      properties:
+        countryOfRegistration:
+          type: string
+        customerIdentification:
+          type: string
+        geographicAddress:
+          items:
+            $ref: '#/components/schemas/ivms101.GeographicAddress'
+          type: array
+        name:
+          $ref: '#/components/schemas/ivms101.LegalPersonName'
+        nationalIdentification:
+          $ref: '#/components/schemas/ivms101.NationalIdentification'
+      type: object
+    ivms101.LegalPersonName:
+      properties:
+        localNameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.LocalLegalPersonNameIdentifier'
+          type: array
+        nameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.LegalPersonNameIdentifier'
+          type: array
+        phoneticNameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier'
+          type: array
+      type: object
+    ivms101.LegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
+          type: string
+        legalPersonNameIdentifierType:
+          type: string
+      type: object
+    ivms101.LocalLegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
+          type: string
+        legalPersonNameIdentifierType:
+          type: string
+      type: object
+    ivms101.LocalNaturalPersonNameIdentifier:
+      properties:
+        nameIdentifierType:
+          type: string
+        primaryIdentifier:
+          type: string
+        secondaryIdentifier:
+          type: string
+      type: object
+    ivms101.NationalIdentification:
+      properties:
+        countryOfIssue:
+          type: string
+        nationalIdentifier:
+          type: string
+        nationalIdentifierType:
+          type: string
+        registrationAuthority:
+          type: string
+      type: object
+    ivms101.NaturalPerson:
+      properties:
+        country_of_residence:
+          type: string
+        customer_identification:
+          type: string
+        date_and_place_of_birth:
+          $ref: '#/components/schemas/ivms101.DateAndPlaceOfBirth'
+        geographic_addresses:
+          items:
+            $ref: '#/components/schemas/ivms101.Address'
+          type: array
+        name:
+          $ref: '#/components/schemas/ivms101.NaturalPersonName'
+        national_identification:
+          $ref: '#/components/schemas/ivms101.NationalIdentification'
+      type: object
+    ivms101.NaturalPersonName:
+      properties:
+        localNameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier'
+          type: array
+        nameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.NaturalPersonNameIdentifier'
+          type: array
+        phoneticNameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier'
+          type: array
+      type: object
+    ivms101.NaturalPersonNameIdentifier:
+      properties:
+        nameIdentifierType:
+          type: string
+        primaryIdentifier:
+          type: string
+        secondaryIdentifier:
+          type: string
+      type: object
+    ivms101.Originator:
+      properties:
+        account_numbers:
+          items:
+            type: string
+          type: array
+        originator_persons:
+          items:
+            $ref: '#/components/schemas/ivms101.Person'
+          type: array
+      type: object
+    ivms101.Person:
+      properties:
+        legalPerson:
+          $ref: '#/components/schemas/ivms101.LegalPerson'
+        naturalPerson:
+          $ref: '#/components/schemas/ivms101.NaturalPerson'
+      type: object
+    ivms101.PhoneticLegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
+          type: string
+        legalPersonNameIdentifierType:
+          type: string
+      type: object
+    ivms101.PhoneticNaturalPersonNameIdentifier:
+      properties:
+        nameIdentifierType:
+          type: string
+        primaryIdentifier:
+          type: string
+        secondaryIdentifier:
+          type: string
+      type: object
+    model.BeneficiaryInfo:
+      properties:
+        address_matched:
+          type: boolean
+        customer:
+          $ref: '#/components/schemas/model.Customer'
+        name_matched:
+          type: boolean
+        private_info:
+          $ref: '#/components/schemas/ivms101.Beneficiary'
+        type_matched:
+          type: boolean
+        vasp_code:
+          type: string
+      type: object
+    model.OriginatorInfo:
+      properties:
+        customer:
+          $ref: '#/components/schemas/model.Customer'
+        private_info:
+          $ref: '#/components/schemas/ivms101.Originator'
+        vasp_code:
+          type: string
+      type: object
     model.NaturalPersonName:
       title: NaturalPersonName
       required:
@@ -4885,6 +6175,7 @@ components:
             - Sygna_Bridge
             - Sygna_EmailProtocol
             - TRISA
+            - Veriscope on Shyft
         protocol_extra_info:
           type: object
           properties: {}
@@ -5028,6 +6319,42 @@ components:
         role_id:
           type: integer
         updated_at:
+          type: string
+    model.WebhookEvent:
+      type: object
+      properties:
+        created_at:
+          type: string
+        id:
+          type: string
+        request_id:
+          type: string
+        event:
+          type: string
+        payload:
+          type: object
+        transaction_uuid:
+          type: string
+        protocol:
+          type: string
+        counter_party_vasp_code:
+          type: string
+        status:
+          type: string
+        retry_count:
+          type: string
+        webhook_logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Webhook_logs'
+    model.Webhook_logs:
+      type: object
+      properties:
+        created_at:
+          type: string
+        success:
+          type: boolean
+        trigger:
           type: string
     sanctionscreening.GetSanctionScoreOutput:
       type: object
@@ -5218,63 +6545,93 @@ components:
         version:
           type: string
     schema.GetTransactionOutput:
-      required:
-        - created_at
-        - currency_id
-        - direction
-        - id
-        - protocol
-        - status
-        - status_text
-        - updated_at
-        - value
-      type: object
       properties:
+        assets:
+          items:
+            $ref: '#/components/schemas/schema.TransactionAsset'
+          type: array
+        beneficiary_info:
+          $ref: '#/components/schemas/model.BeneficiaryInfo'
+        counter_party_vasp_info:
+          $ref: '#/components/schemas/model.StringObject'
         created_at:
           type: string
         currency_id:
           type: string
+        currency_name:
+          type: string
+        currency_symbol:
+          type: string
         customer:
-          $ref: '#/components/schemas/schema.GetCustomerOutput'
+          $ref: '#/components/schemas/model.Customer'
         direction:
           type: integer
+        error:
+          $ref: '#/components/schemas/model.Object'
+        expire_date:
+          type: string
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
         high_risk:
           type: boolean
-          description: |-
-            if your KYT service is Elliptic, high_risk would be true when maximum risk score of address in this transaction is greater than score which is mantain in /services ;
-            if your KYT service is Chainalysis, high_risk would be true when one of addresses is high in result which scanned by Chainalysis
-            if sanction_score is greater than 0, high_risk would be true
         id:
           type: string
+        is_high_risk:
+          type: boolean
         max_risk_score:
           type: string
+        need_validate_address:
+          type: boolean
+        originator_info:
+          $ref: '#/components/schemas/model.OriginatorInfo'
+        performed_at:
+          type: string
+        performed_by:
+          type: string
+        permission_status:
+          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
+          type: integer
         protocol:
           type: string
-          description: The default is Sygna_Bridge
+        protocol_extra_info:
+          $ref: '#/components/schemas/model.Object'
+        reject_code:
+          type: string
+        reject_message:
+          type: string
         risk_score_provider:
           type: string
         sanction_report_link:
-          type: string
-          description: 'sanction_report_link would be valuable if sanction screening service is enabled, it provides a report to download'
+          items:
+            type: string
+          type: array
         sanction_score:
           type: integer
-          description: sanction_score would be valuable if sanction screening service is enabled
+        sanction_score_provider:
+          type: string
+        sanction_screened_time:
+          type: string
+        sanction_search_id:
+          items:
+            type: string
+          type: array
         status:
           type: integer
         status_text:
           type: string
-        transaction_asset:
-          $ref: '#/components/schemas/schema.TransactionAsset'
         transfer_id:
           type: string
-        tx_id:
+        txid:
           type: string
         updated_at:
           type: string
         value:
-          type: string
+          $ref: '#/components/schemas/decimal.NullDecimal'
         value_usd:
+          $ref: '#/components/schemas/decimal.NullDecimal'
+        vasp_code:
           type: string
+      type: object
     schema.GetTransactionsOutput:
       type: object
       properties:
@@ -5293,6 +6650,7 @@ components:
           description: 'Name                  string                      `json:"name,omitempty"`'
         direction:
           type: integer
+          description: '0 for withdrawal, 1 for deposit'
         expire_date:
           type: string
         id:
@@ -5735,15 +7093,13 @@ components:
         name:
           type: string
     schema.PostServicesInput:
-      required:
-        - credential
-        - provider
-        - type
       type: object
       properties:
         credential:
           type: object
-          properties: {}
+          description: |-
+            Please be noted that the "private_key" related to povider "Sygna_Bridge" has to be in HEX form.
+            The command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`
         provider:
           type: string
           enum:
@@ -5756,6 +7112,7 @@ components:
             - Sygna_Bridge
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
             - Veriscope on Shyft
         type:
           type: string
@@ -5763,6 +7120,10 @@ components:
             - Blockchain Analytics
             - Sanction Screening
             - Travel Rule
+      required:
+        - credential
+        - provider
+        - type
     schema.PostSettingInput:
       required:
         - rule
@@ -5846,6 +7207,7 @@ components:
             - TRISA
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
         type:
           type: string
           enum:
@@ -5981,6 +7343,7 @@ components:
             - Sygna_Bridge
             - Dow Jones
             - Coinfirm
+            - Coinfirm (Sandbox)
         settings:
           type: object
           properties: {}
@@ -6019,23 +7382,22 @@ components:
     schema.RespWithPaging:
       type: object
       properties:
-        data:
-          type: object
-          properties: {}
         paging:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.RespWithStatus:
-      required:
-        - data
       type: object
       properties:
         data:
+          type: object
           required:
             - success
-          type: object
           properties:
             success:
               type: boolean
+            accessToken:
+              type: string
+      required:
+        - data
     schema.RespWithStatusAndMessage:
       required:
         - data
@@ -6117,6 +7479,17 @@ components:
           type: integer
         forced_sending_when_VASP_is_not_healthy:
           type: boolean
+          description: |-
+            1. 
+            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
+            The data transfer will still be successfully sent out by oVASP to the Sygna server.
+
+            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
+            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
+              
+            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
+
+            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
         need_validate_address:
           type: boolean
         originator:
@@ -6125,8 +7498,6 @@ components:
           type: string
           enum:
             - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
           nullable: true
         value:
           type: string
@@ -6174,14 +7545,6 @@ components:
           type: boolean
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
-        protocol:
-          type: string
-          enum:
-            - null
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
-          nullable: true
         protocol_extra_info:
           type: object
         txid:
@@ -6220,9 +7583,7 @@ components:
         protocol:
           type: string
           enum:
-            - Sygna_Bridge
             - Sygna_EmailProtocol
-            - TRISA
           nullable: true
         value:
           type: string
@@ -6234,8 +7595,8 @@ components:
         - originator
         - protocol
         - value
-    PostTransactionTrisa:
-      title: PostTransactionTrisa
+    PostTransactionTRISA:
+      title: PostTransactionTRISA
       type: object
       description: This schema is for 'TRISA' protocol
       properties:
@@ -6272,9 +7633,6 @@ components:
         protocol:
           type: string
           enum:
-            - 'null'
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
             - TRISA
         protocol_extra_info:
           type: object
@@ -6294,7 +7652,7 @@ components:
     PostTransactionShyft:
       title: PostTransactionShyft
       type: object
-      description: This schema is for 'Shyft' protocol
+      description: This schema is for 'Veriscope on Shyft' protocol
       properties:
         beneficiary:
           type: object
@@ -6316,10 +7674,7 @@ components:
         protocol:
           type: string
           enum:
-            - 'null'
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
+            - Veriscope on Shyft
         protocol_extra_info:
           type: object
         value:
