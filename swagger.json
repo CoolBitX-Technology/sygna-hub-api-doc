@@ -1,12 +1,17 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Sygna HUB",
-    "description": "Sygna Hub API",
+    "title": "Sygna Hub",
+    "description": "Sygna Hub API Document",
     "contact": {},
-    "version": "1.17.0"
+    "version": "1.20.0"
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "httsp://example.com/v1",
+      "description": ""
+    }
+  ],
   "paths": {
     "/": {
       "get": {
@@ -24,9 +29,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/schema.GetRootOutput"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -78,9 +80,6 @@
     },
     "/currencies": {
       "get": {
-        "tags": [
-          "currencies"
-        ],
         "summary": "Get supported currencies",
         "operationId": "GetCurrencies",
         "parameters": [
@@ -211,18 +210,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Currency"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Currency"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -262,13 +265,17 @@
           {
             "BearerToken": []
           }
+        ],
+        "description": "Please refer to the GET /currencies API response body for the \"key\" in each coin/token's extra information (addr_extra_info).",
+        "tags": [
+          "Hub/currencies"
         ]
       }
     },
     "/customers": {
       "get": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "Get customers",
         "parameters": [
@@ -327,7 +334,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -446,18 +454,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/schema.GetCustomersOutput"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/schema.GetCustomersOutput"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -511,7 +523,7 @@
       },
       "put": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "update customers",
         "requestBody": {
@@ -530,12 +542,12 @@
                     {
                       "is_active": false,
                       "customer_type": 0,
-                      "customer_id": "yuweiwei",
+                      "customer_id": "sygnasygna",
                       "country": "TW",
                       "natural_person_name": {
                         "name": {
-                          "first_name": "yuwei",
-                          "last_name": "chen"
+                          "first_name": "sygna",
+                          "last_name": "sygna"
                         }
                       },
                       "assets": [
@@ -633,7 +645,7 @@
       },
       "post": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "Create customers",
         "requestBody": {
@@ -652,12 +664,12 @@
                     {
                       "is_active": true,
                       "customer_type": 0,
-                      "customer_id": "yuweiwei",
+                      "customer_id": "sygnasygna",
                       "country": "TW",
                       "natural_person_name": {
                         "name": {
-                          "first_name": "yuwei",
-                          "last_name": "chen"
+                          "first_name": "sygna",
+                          "last_name": "sygna"
                         }
                       },
                       "birth": {
@@ -794,7 +806,7 @@
       },
       "patch": {
         "tags": [
-          "customers"
+          "Hub/customers"
         ],
         "summary": "update customers",
         "requestBody": {
@@ -890,9 +902,6 @@
     },
     "/customers-export": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "generate customers report",
         "parameters": [
           {
@@ -950,7 +959,8 @@
                   "Chainalysis V2",
                   "Merkle Science",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -1113,14 +1123,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers-export/download": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "download customer report",
         "responses": {
           "200": {
@@ -1172,14 +1182,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers-export/status": {
       "get": {
-        "tags": [
-          "customers-export"
-        ],
         "summary": "get customer report processing status",
         "responses": {
           "200": {
@@ -1191,9 +1201,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.Report"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -1245,14 +1252,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers-export"
         ]
       }
     },
     "/customers/{id}": {
       "get": {
-        "tags": [
-          "customers"
-        ],
         "summary": "get specific customer detail",
         "parameters": [
           {
@@ -1366,9 +1373,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/schema.GetCustomerOutput"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -1420,14 +1424,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/customers"
         ]
       }
     },
     "/data-transfer-export": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "generate transaction report",
         "parameters": [
           {
@@ -1721,14 +1725,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/data-transfer-export/download": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "download transactions report",
         "responses": {
           "200": {
@@ -1780,14 +1784,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/data-transfer-export/status": {
       "get": {
-        "tags": [
-          "data-transfer-export"
-        ],
         "summary": "get transaction report processing status",
         "responses": {
           "200": {
@@ -1799,9 +1803,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.Report"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -1853,14 +1854,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/data-transfer-export"
         ]
       }
     },
     "/global-vasp": {
       "get": {
-        "tags": [
-          "global-vasp"
-        ],
         "summary": "get global-vasp",
         "description": "only admin could get encrypted credentials",
         "parameters": [
@@ -1970,11 +1971,88 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/model.GlobalVasp"
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "vasp_identifier": {
+                            "type": "string",
+                            "description": "Sygna: VASP code; TRISA: Member ID"
+                          },
+                          "protocol": {
+                            "type": "string"
+                          },
+                          "vasp_name": {
+                            "type": "string",
+                            "description": "complete VASP name"
+                          },
+                          "extra_info": {
+                            "type": "object",
+                            "description": "extra_info content will be different depend on the protocol that VASP belongs to",
+                            "properties": {
+                              "country_code": {
+                                "type": "string"
+                              },
+                              "regulatory_status": {
+                                "type": "string",
+                                "description": "information from Sygna parter: VASPnet"
+                              },
+                              "supervisory_authority": {
+                                "type": "string",
+                                "description": "information from Sygna parter: VASPnet"
+                              },
+                              "vasp_pubkey": {
+                                "type": "string"
+                              },
+                              "business_category": {
+                                "type": "integer",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "common_name": {
+                                "type": "string",
+                                "description": "TRISA VASP's common ID"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "endpoint": {
+                                "type": "string",
+                                "description": "TRISA Service Endpoint"
+                              },
+                              "registered_directory": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "vasp_categories": {
+                                "type": "array",
+                                "description": "information from Sygna partner: TRISA",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "verified_on": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              },
+                              "website": {
+                                "type": "string",
+                                "description": "information from Sygna partner: TRISA"
+                              }
+                            }
+                          },
+                          "vasp_server_status": {
+                            "type": "string",
+                            "description": "Sygna VASP server health check status: healthy, unhealthy or unknown"
+                          }
+                        }
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -2026,14 +2104,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/global-vasp"
         ]
       }
     },
     "/oauth2": {
       "post": {
-        "tags": [
-          "oauth2"
-        ],
         "summary": "get oauth token",
         "requestBody": {
           "description": "post /oauth2 param",
@@ -2063,7 +2141,16 @@
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithStatus"
                 },
-                "examples": {}
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "data": {
+                        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjowLCJhdWQiOiJvcmlnaW5hdG9yQGdtYWlsLmNvbSIsImV4cCI6MTY3MjgzMjg0NiwiaWF0IjoxNjcyNzk2ODQ2LCJpc3MiOiJzeWduYS1idW5kbGUtcHJvZHVjdCIsInZhc3BfY29kZSI6IkNZV1dUV1RZIiwidXNlcl9pZCI6IjQ3Zjk5MjcwLWEzYjMtNGZmMy1iMjE0LWEzMWY5MTZjMTBlMCIsImxvZ2luX3R5cGUiOiJwYXNzd29yZCIsImxvZ2luX2lkIjoiZWNlY2RlNWQtZDA1ZS00Yzc5LThjOWEtZDZlNTIxM2FkZDdjIiwiYWNjb3VudCI6Im9yaWdpbmF0b3JAZ21haWwuY29tIn0.1fRpXseNGrRrWkPRCkTIoAMhIHpjV9E-bb8qMiK7XeE",
+                        "success": true
+                      }
+                    }
+                  }
+                }
               }
             }
           },
@@ -2098,12 +2185,12 @@
             }
           }
         },
-        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)"
+        "description": "API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)",
+        "tags": [
+          "Hub/oauth2"
+        ]
       },
       "delete": {
-        "tags": [
-          "oauth2"
-        ],
         "summary": "delete oauth token from database",
         "responses": {
           "200": {
@@ -2151,14 +2238,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/oauth2"
         ]
       }
     },
     "/ownerships": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to see a list of all validations",
         "responses": {
           "200": {
@@ -2166,18 +2253,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Ownership"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Ownership"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -2227,12 +2318,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       },
       "post": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to validate an address whether belong to a user who owns private wallet",
         "parameters": [
           {
@@ -2332,14 +2423,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/cancel": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "you couldn't validate some address that it is processing or accepted until you cancel it",
         "requestBody": {
           "description": "patch /ownerships/cancel params",
@@ -2420,14 +2511,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/confirm": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you received a reply from the receiver and you want to accept or reject the reply",
         "requestBody": {
           "description": "patch /ownerships/confirm params",
@@ -2520,14 +2611,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/resend": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when a receiver lets you send a email again",
         "requestBody": {
           "description": "patch /ownerships/resend params",
@@ -2608,14 +2699,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/unblock": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when the validation that including risky address wouldn't be sent until you unblock it",
         "requestBody": {
           "description": "patch /ownerships/unblock params",
@@ -2696,14 +2787,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/validate": {
       "patch": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation",
         "requestBody": {
           "description": "patch /ownerships/validate params",
@@ -2797,14 +2888,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/verify-token/{token}": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you received a link that asks you to validate the address whether belong to you",
         "parameters": [
           {
@@ -2827,9 +2918,6 @@
                   "properties": {
                     "data": {
                       "type": "string"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -2881,14 +2969,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/ownerships"
         ]
       }
     },
     "/ownerships/{id}": {
       "get": {
-        "tags": [
-          "ownerships"
-        ],
         "summary": "the API would be used when you want to see a validation detail",
         "parameters": [
           {
@@ -2907,15 +2995,19 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/model.Ownership"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/model.Ownership"
+                        }
+                      }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -2965,14 +3057,15 @@
           {
             "BearerToken": []
           }
-        ]
+        ],
+        "tags": [
+          "Hub/ownerships"
+        ],
+        "description": ""
       }
     },
     "/rollback": {
       "get": {
-        "tags": [
-          "rollback"
-        ],
         "summary": "get rollback",
         "description": "only admin could get encrypted credentials",
         "responses": {
@@ -2981,18 +3074,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Rollback"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Rollback"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -3042,12 +3139,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/rollback"
         ]
       },
       "put": {
-        "tags": [
-          "rollback"
-        ],
         "summary": "update rollback",
         "description": "only allow admin to use this method",
         "requestBody": {
@@ -3120,14 +3217,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/rollback"
         ]
       }
     },
     "/services": {
       "get": {
-        "tags": [
-          "services"
-        ],
         "summary": "get services",
         "description": "only admin could get encrypted credentials",
         "parameters": [
@@ -3163,7 +3260,8 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)"
                 ]
               }
             }
@@ -3307,18 +3405,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Service"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Service"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -3368,12 +3470,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       },
       "put": {
-        "tags": [
-          "services"
-        ],
         "summary": "update services",
         "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
         "requestBody": {
@@ -3459,14 +3561,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       },
       "post": {
-        "tags": [
-          "services"
-        ],
         "summary": "create services",
-        "description": "only allow admin to use this method\nuse GET /services/supported to understand which credential is required by provider",
+        "description": "Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol. (Only allow admin to use this method use GET /services/supported to understand which credential is required by provider.)",
         "requestBody": {
           "description": "post /services params",
           "content": {
@@ -3529,6 +3631,21 @@
                       "is_active": true,
                       "credential": {
                         "api_key": "bbbb"
+                      },
+                      "settings": {
+                        "high_risk_score": 50
+                      }
+                    }
+                  ]
+                },
+                "Coinfirm (Sandbox)": {
+                  "value": [
+                    {
+                      "type": "Blockchain Analytics",
+                      "provider": "Coinfirm (Sandbox)",
+                      "is_active": true,
+                      "credential": {
+                        "sandbox_access_token": "3uhQGUlzNTsKTVUJOwC0dvG0A2RuA6ieV9LckrHdcY0AXQciDnnoxBvXJs2aS8ha"
                       },
                       "settings": {
                         "high_risk_score": 50
@@ -3614,7 +3731,7 @@
                     }
                   ]
                 },
-                "Shyft": {
+                "Veriscope on Shyft": {
                   "value": [
                     {
                       "type": "Travel Rule",
@@ -3622,6 +3739,24 @@
                       "is_active": true,
                       "credential": {
                         "private_key": "7d919954170d1b35a186a44b7df63fd7fada892b891d423cbb851bb3fa44a343"
+                      }
+                    }
+                  ]
+                },
+                "World-Check One": {
+                  "value": [
+                    {
+                      "type": "Sanction Screening",
+                      "provider": "World-Check",
+                      "is_active": true,
+                      "credential": {
+                        "api-key": "xxxxxx",
+                        "secret": "xxxxxx"
+                      },
+                      "settings": {
+                        "provider_types": [
+                          "Watchlist"
+                        ]
                       }
                     }
                   ]
@@ -3638,8 +3773,7 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/schema.RespWithMutation"
-                },
-                "examples": {}
+                }
               }
             }
           },
@@ -3689,14 +3823,14 @@
             "BearerToken": []
           }
         ],
-        "parameters": []
+        "parameters": [],
+        "tags": [
+          "Hub/services"
+        ]
       }
     },
     "/services/supported": {
       "get": {
-        "tags": [
-          "services"
-        ],
         "summary": "get supported services and its config",
         "description": "only allow admin to use this method",
         "parameters": [
@@ -3732,7 +3866,9 @@
                   "Merkle Science",
                   "TRISA",
                   "Dow Jones",
-                  "Coinfirm"
+                  "Coinfirm",
+                  "Coinfirm (Sandbox)",
+                  "World-Check"
                 ]
               }
             }
@@ -3845,14 +3981,25 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.SupportedService"
-                      }
+                    "code": {
+                      "type": "string"
                     },
-                    "schema.RespWithPaging": {
-                      "$ref": "#/components/schemas/schema.RespWithPaging"
+                    "extra_data": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "help": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "stack": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "type": {
+                      "type": "string"
                     }
                   }
                 }
@@ -3904,14 +4051,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/services"
         ]
       }
     },
     "/settings": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get settings",
         "description": "only admin could get encrypted credentials",
         "responses": {
@@ -3920,18 +4067,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.Setting"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.Setting"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -3981,12 +4132,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       },
       "put": {
-        "tags": [
-          "settings"
-        ],
         "summary": "update settings",
         "description": "only allow admin to use this method",
         "requestBody": {
@@ -4098,12 +4249,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       },
       "post": {
-        "tags": [
-          "settings"
-        ],
         "summary": "create settings",
         "description": "only allow admin to use this method. \nPlease also check the API response of GET `/settings/supported` to get the complete supported settings configuration.",
         "requestBody": {
@@ -4215,14 +4366,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/settings/default": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get default settings",
         "description": "only allow admin to use this method",
         "responses": {
@@ -4284,14 +4435,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/settings/supported": {
       "get": {
-        "tags": [
-          "settings"
-        ],
         "summary": "get supported settings",
         "description": "",
         "responses": {
@@ -4300,9 +4451,916 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/model.SupportedSetting"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "rule": {
+                            "type": "object",
+                            "properties": {
+                              "schema": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "properties": {
+                                    "type": "object",
+                                    "properties": {
+                                      "legal_person": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string"
+                                          },
+                                          "required": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "properties": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "required": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "legal_person_name": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "legal_person_name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      },
+                                                      "local_name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "legal_person_name": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "legal_person_name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      },
+                                                      "phonetic_name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "legal_person_name": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "legal_person_name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              },
+                                              "geographic_address": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "room": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "floor": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "country": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "post_box": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "post_code": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "town_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "department": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "street_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "address_line": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "address_type": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "building_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "district_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "sub_department": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "building_number": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "town_location_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "country_sub_division": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "minProperties": {
+                                                    "type": "integer"
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              },
+                                              "country_of_registration": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              },
+                                              "customer_identification": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              },
+                                              "national_identification": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "country_of_issue": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "national_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "registration_authority": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "national_identifier_type": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "minProperties": {
+                                                    "type": "integer"
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "additionalProperties": {
+                                            "type": "boolean"
+                                          }
+                                        }
+                                      },
+                                      "follow_ivms101": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "natural_person": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string"
+                                          },
+                                          "required": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "properties": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "required": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "primary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "secondary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "type": {
+                                                                    "type": "string"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      },
+                                                      "local_name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "primary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "secondary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "type": {
+                                                                    "type": "string"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      },
+                                                      "phonetic_name_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          },
+                                                          "required": {
+                                                            "type": "array",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "properties": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "primary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "name_identifier_type": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "const": {
+                                                                    "type": "boolean"
+                                                                  }
+                                                                }
+                                                              },
+                                                              "secondary_identifier": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                  "type": {
+                                                                    "type": "string"
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          "additionalProperties": {
+                                                            "type": "boolean"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              },
+                                              "geographic_address": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "room": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "floor": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "country": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "post_box": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "post_code": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "town_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "department": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "street_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "address_line": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "address_type": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "building_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "district_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "sub_department": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "building_number": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "town_location_name": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "country_sub_division": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "minProperties": {
+                                                    "type": "integer"
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              },
+                                              "country_of_residence": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              },
+                                              "customer_identification": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              },
+                                              "date_and_place_of_birth": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "date_of_birth": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "place_of_birth": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "minProperties": {
+                                                    "type": "integer"
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              },
+                                              "national_identification": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "type": {
+                                                    "type": "string"
+                                                  },
+                                                  "properties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "country_of_issue": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "national_identifier": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "registration_authority": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      },
+                                                      "national_identifier_type": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "type": {
+                                                            "type": "string"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  "minProperties": {
+                                                    "type": "integer"
+                                                  },
+                                                  "additionalProperties": {
+                                                    "type": "boolean"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          "additionalProperties": {
+                                            "type": "boolean"
+                                          }
+                                        }
+                                      },
+                                      "name_checking_rule": {
+                                        "type": "object",
+                                        "properties": {
+                                          "enum": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "originator": {
+                                        "type": "object",
+                                        "properties": {
+                                          "enum": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "beneficiary": {
+                                        "type": "object",
+                                        "properties": {
+                                          "enum": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      "auto_accept": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "additionalProperties": {
+                                    "type": "boolean"
+                                  },
+                                  "required": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -4353,14 +5411,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/settings"
         ]
       }
     },
     "/transactions": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get transactions",
         "parameters": [
           {
@@ -4379,7 +5437,7 @@
           {
             "name": "name",
             "in": "query",
-            "description": "filter transactions by customer name",
+            "description": "filter transactions by the customer's name ( the phonetic name and local name is also applicable)",
             "style": "form",
             "explode": false,
             "schema": {
@@ -4543,7 +5601,8 @@
                 "enum": [
                   "Sygna_Bridge",
                   "Sygna_EmailProtocol",
-                  "TRISA"
+                  "TRISA",
+                  "Veriscope on Shyft"
                 ]
               }
             }
@@ -4610,18 +5669,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/schema.GetTransactionsOutput"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/schema.GetTransactionsOutput"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -4671,12 +5734,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       },
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "create transactions",
         "requestBody": {
           "description": "post /transactions params",
@@ -4696,7 +5759,7 @@
                       "$ref": "#/components/schemas/PostTransactionSygnaEmail"
                     },
                     {
-                      "$ref": "#/components/schemas/PostTransactionTrisa"
+                      "$ref": "#/components/schemas/PostTransactionTRISA"
                     },
                     {
                       "$ref": "#/components/schemas/PostTransactionShyft"
@@ -4751,7 +5814,7 @@
                         "private_info": {
                           "natural_person_name": {
                             "name": {
-                              "last_name": "Yuwei Chen"
+                              "last_name": "sygna sample"
                             }
                           }
                         }
@@ -4784,7 +5847,7 @@
                     }
                   ]
                 },
-                "Trisa": {
+                "TRISA": {
                   "value": [
                     {
                       "customer_id": "78045c2e-f82a-4d85-ad80-a3a450a2c3f9",
@@ -4817,7 +5880,7 @@
                     }
                   ]
                 },
-                "Shyft": {
+                "Veriscope on Shyft": {
                   "value": [
                     {
                       "customer_id": "14e67e17-7b02-43a5-8e2e-06a4ad827c43",
@@ -4901,14 +5964,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/email-protocol/deposits": {
       "post": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send email to originator VASP and ask him to fill customer information",
         "description": "only for email protocol",
         "requestBody": {
@@ -5005,14 +6068,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/permission": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "accept or reject this transaction when received customer information from originator",
         "description": "only for email protocol",
         "requestBody": {
@@ -5085,14 +6148,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/permission-request": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send own customer information to beneficiary or reject this request when received email from beneficiary",
         "description": "only for email protocol",
         "requestBody": {
@@ -5165,14 +6228,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/deposits/txid": {
       "patch": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send transaction hash when received accept from beneficiary",
         "description": "only for email protocol",
         "requestBody": {
@@ -5245,14 +6308,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/permission": {
       "post": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "send permission to originator from email protocol VASP",
         "description": "only for email protocol",
         "requestBody": {
@@ -5401,14 +6464,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/email-protocol"
         ]
       }
     },
     "/transactions/email-protocol/verify-token/{token}": {
       "get": {
-        "tags": [
-          "transactions/email-protocol"
-        ],
         "summary": "verify if token is valid and get its transaction identifier",
         "description": "only for email protocol",
         "parameters": [
@@ -5432,9 +6495,6 @@
                   "properties": {
                     "data": {
                       "type": "string"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -5481,14 +6541,14 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "Hub/transactions/email-protocol"
+        ]
       }
     },
     "/transactions/permission": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "send permission to originator",
         "requestBody": {
           "description": "patch /transactions/permission params",
@@ -5497,15 +6557,48 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/schema.PatchPermissionInput"
+                  "type": "object",
+                  "properties": {
+                    "forced_sending_when_VASP_is_not_healthy": {
+                      "type": "boolean",
+                      "description": "Please check the object information in the API <POST /transactions>."
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "permission_status": {
+                      "type": "integer"
+                    },
+                    "reject_code": {
+                      "type": "string"
+                    },
+                    "reject_message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "permission_status"
+                  ]
                 }
               },
               "examples": {
-                "Example 1": {
+                "Accept": {
                   "value": [
                     {
                       "permission_status": 0,
                       "id": "b6d9e3f0-533b-4867-a3ed-17e84b9cd32c"
+                    }
+                  ]
+                },
+                "Reject": {
+                  "value": [
+                    {
+                      "forced_sending_when_VASP_is_not_healthy": true,
+                      "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                      "permission_status": 1,
+                      "reject_code": "BVRC999",
+                      "reject_message": "Unknown address"
                     }
                   ]
                 }
@@ -5570,14 +6663,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/sanction-match": {
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "let user do sanction screening",
         "requestBody": {
           "description": "post /transactions/sanction-match params",
@@ -5654,14 +6747,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/sanction-match"
         ]
       }
     },
     "/transactions/sanction-report/{searchId}": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get report from sanction screening service",
         "parameters": [
           {
@@ -5730,14 +6823,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions/sanction-match"
         ]
       }
     },
     "/transactions/status": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "unblock or cancel transactions",
         "requestBody": {
           "description": "patch /transactions/status params",
@@ -5809,14 +6902,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/txid": {
       "patch": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "send transaction identifier on blockchain to beneficiary",
         "requestBody": {
           "description": "patch /transactions/txid params",
@@ -5898,14 +6991,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/wallet-address-filter": {
       "post": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "use /wallet-address-filter from Sygna Bridge and use KYT service by own credential to get address information",
         "requestBody": {
           "description": "post /transactions/wallet-address-filter params",
@@ -5949,9 +7042,6 @@
                           "$ref": "#/components/schemas/schema.PostWalletAddressFilterOutput"
                         }
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -6003,14 +7093,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/transactions/{id}": {
       "get": {
-        "tags": [
-          "transactions"
-        ],
         "summary": "get specific transaction",
         "parameters": [
           {
@@ -6033,9 +7123,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/schema.GetTransactionOutput"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -6087,14 +7174,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/transactions"
         ]
       }
     },
     "/users": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get all users",
         "description": "only admin could use this method",
         "parameters": [
@@ -6229,18 +7316,22 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/model.User"
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.User"
+                          }
+                        }
                       }
                     },
-                    "schema.RespWithPaging": {
+                    {
                       "$ref": "#/components/schemas/schema.RespWithPaging"
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -6290,12 +7381,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "post": {
-        "tags": [
-          "users"
-        ],
         "summary": "create users",
         "description": "only admin could use this method",
         "requestBody": {
@@ -6377,12 +7468,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "delete": {
-        "tags": [
-          "users"
-        ],
         "summary": "delete users(member)",
         "description": "only admin could use this method\nall accounts would be logout if admin deleted them",
         "requestBody": {
@@ -6455,12 +7546,12 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       },
       "patch": {
-        "tags": [
-          "users"
-        ],
         "summary": "activate or deactivate users(member)",
         "description": "only admin could use this method\nall accounts would be logout if admin deactivated them",
         "requestBody": {
@@ -6543,14 +7634,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/change-password": {
       "patch": {
-        "tags": [
-          "users"
-        ],
         "summary": "change login password",
         "description": "admin or member only could change self password\nall accounts would be logout if one of users changed password\nuser must use password to login if he want to change his password",
         "requestBody": {
@@ -6620,14 +7711,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/link": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "summary": "link your account to third party service",
         "description": "admin or member could only link self account",
         "requestBody": {
@@ -6706,14 +7797,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/link/{login_type}": {
       "delete": {
-        "tags": [
-          "users"
-        ],
         "summary": "unlink your account from third party service",
         "description": "admin or member could only unlink self account\nall accounts which linked with specific third party service would be logout if one of users unlinked",
         "parameters": [
@@ -6783,14 +7874,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/{id}": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get specific or self user data",
         "description": "admin could get specific or self user data\nmember could only get self user data",
         "parameters": [
@@ -6814,9 +7905,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.User"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -6868,14 +7956,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/users/history": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "summary": "get users audit history",
         "description": "get users audit history",
         "parameters": [
@@ -6945,9 +8033,6 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/model.User"
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -6999,14 +8084,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/users"
         ]
       }
     },
     "/vendors/bridge/sync": {
       "get": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "Synchronize Sygna Bridge Transactions",
         "responses": {
           "200": {
@@ -7058,14 +8143,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
         ]
       }
     },
     "/vendors/shyft/attestations/sync": {
       "get": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "Synchronize Shyft Attestations",
         "responses": {
           "200": {
@@ -7117,14 +8202,14 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
         ]
       }
     },
     "/vendors/test": {
       "post": {
-        "tags": [
-          "vendors"
-        ],
         "summary": "test if third-party service is available",
         "description": "only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`",
         "requestBody": {
@@ -7154,9 +8239,6 @@
                       "items": {
                         "$ref": "#/components/schemas/schema.PostVendorsTestOutput"
                       }
-                    },
-                    "schema.Resp": {
-                      "$ref": "#/components/schemas/schema.Resp"
                     }
                   }
                 }
@@ -7208,6 +8290,443 @@
           {
             "BearerToken": []
           }
+        ],
+        "tags": [
+          "Hub/vendors"
+        ]
+      }
+    },
+    "/webhook-log": {
+      "get": {
+        "summary": "get all webhook logs",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "filter log by webhook event id",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "filter log by webhook event status",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transaction_uuid",
+            "in": "query",
+            "description": "filter log by transaction uuid",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "counterparty_vasp_code",
+            "in": "query",
+            "description": "filter log by counterparty vasp code",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "protocol",
+            "in": "query",
+            "description": "filter log by transaction protocol",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "orderby",
+            "in": "query",
+            "description": "Specifies sequences to sort data (ie.orderby=id:desc)",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/model.WebhookEvent"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/schema.RespWithPaging"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/webhook-log"
+        ]
+      }
+    },
+    "/webhook-log/sync": {
+      "get": {
+        "summary": "resend failed webhook event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "resend specified webhook event",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/webhook-log"
+        ]
+      }
+    },
+    "/global-vasp-export": {
+      "get": {
+        "summary": "generate global-vasp report",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/global-vasp-export"
+        ]
+      }
+    },
+    "/global-vasp-export/status": {
+      "get": {
+        "summary": "get global-vasp report processing status",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/model.Report"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/global-vasp-export"
+        ]
+      }
+    },
+    "/global-vasp-export/download": {
+      "get": {
+        "summary": "download global-vasp report",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/errors.SystemError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerToken": []
+          }
+        ],
+        "tags": [
+          "Hub/global-vasp-export"
         ]
       }
     }
@@ -7387,6 +8906,16 @@
           }
         ]
       },
+      "model.OriginatorPrivateInfo": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          {
+            "$ref": "#/components/schemas/model.LegalPersonName"
+          }
+        ]
+      },
       "model.Birth": {
         "type": "object",
         "properties": {
@@ -7468,6 +8997,84 @@
           }
         }
       },
+      "model.Customer": {
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/model.Address"
+          },
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/model.Asset"
+            },
+            "type": "array"
+          },
+          "assets_ignore_kyt": {
+            "type": "boolean"
+          },
+          "avg_risk_score": {
+            "type": "string"
+          },
+          "birth": {
+            "$ref": "#/components/schemas/model.Birth"
+          },
+          "country": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "customer_id": {
+            "type": "string"
+          },
+          "customer_type": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "last_screened": {
+            "type": "string"
+          },
+          "legal_person_name": {
+            "$ref": "#/components/schemas/model.LegalPersonName"
+          },
+          "max_risk_score": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "national": {
+            "$ref": "#/components/schemas/model.National"
+          },
+          "natural_person_name": {
+            "$ref": "#/components/schemas/model.NaturalPersonName"
+          },
+          "protocol_extra_info": {
+            "$ref": "#/components/schemas/model.Object",
+            "description": "for now specifically for shyft"
+          },
+          "risk_score_provider": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "model.LegalPersonName": {
         "title": "LegalPersonName",
         "required": [
@@ -7545,6 +9152,398 @@
             "type": "string"
           }
         }
+      },
+      "ivms101.Address": {
+        "properties": {
+          "address_line": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "address_type": {
+            "type": "string"
+          },
+          "building_name": {
+            "type": "string"
+          },
+          "building_number": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "country_sub_division": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "district_name": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "post_box": {
+            "type": "string"
+          },
+          "post_code": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "street_name": {
+            "type": "string"
+          },
+          "sub_department": {
+            "type": "string"
+          },
+          "town_location_name": {
+            "type": "string"
+          },
+          "town_name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Beneficiary": {
+        "properties": {
+          "account_numbers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "beneficiary_persons": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Person"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.DateAndPlaceOfBirth": {
+        "properties": {
+          "date_of_birth": {
+            "type": "string"
+          },
+          "place_of_birth": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.GeographicAddress": {
+        "properties": {
+          "addressLine": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "addressType": {
+            "type": "string"
+          },
+          "buildingName": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "countrySubDivision": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "districtName": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "postBox": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "subDepartment": {
+            "type": "string"
+          },
+          "townLocation_name": {
+            "type": "string"
+          },
+          "townName": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPerson": {
+        "properties": {
+          "countryOfRegistration": {
+            "type": "string"
+          },
+          "customerIdentification": {
+            "type": "string"
+          },
+          "geographicAddress": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.GeographicAddress"
+            },
+            "type": "array"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ivms101.LegalPersonName"
+          },
+          "nationalIdentification": {
+            "$ref": "#/components/schemas/ivms101.NationalIdentification"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPersonName": {
+        "properties": {
+          "localNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LocalLegalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "nameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LegalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "phoneticNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LocalLegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.LocalNaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NationalIdentification": {
+        "properties": {
+          "countryOfIssue": {
+            "type": "string"
+          },
+          "nationalIdentifier": {
+            "type": "string"
+          },
+          "nationalIdentifierType": {
+            "type": "string"
+          },
+          "registrationAuthority": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPerson": {
+        "properties": {
+          "country_of_residence": {
+            "type": "string"
+          },
+          "customer_identification": {
+            "type": "string"
+          },
+          "date_and_place_of_birth": {
+            "$ref": "#/components/schemas/ivms101.DateAndPlaceOfBirth"
+          },
+          "geographic_addresses": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Address"
+            },
+            "type": "array"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ivms101.NaturalPersonName"
+          },
+          "national_identification": {
+            "$ref": "#/components/schemas/ivms101.NationalIdentification"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPersonName": {
+        "properties": {
+          "localNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "nameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.NaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          },
+          "phoneticNameIdentifier": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.NaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Originator": {
+        "properties": {
+          "account_numbers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "originator_persons": {
+            "items": {
+              "$ref": "#/components/schemas/ivms101.Person"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.Person": {
+        "properties": {
+          "legalPerson": {
+            "$ref": "#/components/schemas/ivms101.LegalPerson"
+          },
+          "naturalPerson": {
+            "$ref": "#/components/schemas/ivms101.NaturalPerson"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.PhoneticLegalPersonNameIdentifier": {
+        "properties": {
+          "legalPersonName": {
+            "type": "string"
+          },
+          "legalPersonNameIdentifierType": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ivms101.PhoneticNaturalPersonNameIdentifier": {
+        "properties": {
+          "nameIdentifierType": {
+            "type": "string"
+          },
+          "primaryIdentifier": {
+            "type": "string"
+          },
+          "secondaryIdentifier": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "model.BeneficiaryInfo": {
+        "properties": {
+          "address_matched": {
+            "type": "boolean"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/model.Customer"
+          },
+          "name_matched": {
+            "type": "boolean"
+          },
+          "private_info": {
+            "$ref": "#/components/schemas/ivms101.Beneficiary"
+          },
+          "type_matched": {
+            "type": "boolean"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "model.OriginatorInfo": {
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/model.Customer"
+          },
+          "private_info": {
+            "$ref": "#/components/schemas/ivms101.Originator"
+          },
+          "vasp_code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
       },
       "model.NaturalPersonName": {
         "title": "NaturalPersonName",
@@ -7802,7 +9801,8 @@
             "enum": [
               "Sygna_Bridge",
               "Sygna_EmailProtocol",
-              "TRISA"
+              "TRISA",
+              "Veriscope on Shyft"
             ]
           },
           "protocol_extra_info": {
@@ -8017,6 +10017,61 @@
             "type": "integer"
           },
           "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "model.WebhookEvent": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          },
+          "transaction_uuid": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          },
+          "counter_party_vasp_code": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "retry_count": {
+            "type": "string"
+          },
+          "webhook_logs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/model.Webhook_logs"
+            }
+          }
+        }
+      },
+      "model.Webhook_logs": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "trigger": {
             "type": "string"
           }
         }
@@ -8298,55 +10353,109 @@
         }
       },
       "schema.GetTransactionOutput": {
-        "required": [
-          "created_at",
-          "currency_id",
-          "direction",
-          "id",
-          "protocol",
-          "status",
-          "status_text",
-          "updated_at",
-          "value"
-        ],
-        "type": "object",
         "properties": {
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/schema.TransactionAsset"
+            },
+            "type": "array"
+          },
+          "beneficiary_info": {
+            "$ref": "#/components/schemas/model.BeneficiaryInfo"
+          },
+          "counter_party_vasp_info": {
+            "$ref": "#/components/schemas/model.StringObject"
+          },
           "created_at": {
             "type": "string"
           },
           "currency_id": {
             "type": "string"
           },
+          "currency_name": {
+            "type": "string"
+          },
+          "currency_symbol": {
+            "type": "string"
+          },
           "customer": {
-            "$ref": "#/components/schemas/schema.GetCustomerOutput"
+            "$ref": "#/components/schemas/model.Customer"
           },
           "direction": {
             "type": "integer"
           },
+          "error": {
+            "$ref": "#/components/schemas/model.Object"
+          },
+          "expire_date": {
+            "type": "string"
+          },
+          "forced_sending_when_VASP_is_not_healthy": {
+            "type": "boolean"
+          },
           "high_risk": {
-            "type": "boolean",
-            "description": "if your KYT service is Elliptic, high_risk would be true when maximum risk score of address in this transaction is greater than score which is mantain in /services ;\nif your KYT service is Chainalysis, high_risk would be true when one of addresses is high in result which scanned by Chainalysis\nif sanction_score is greater than 0, high_risk would be true"
+            "type": "boolean"
           },
           "id": {
             "type": "string"
           },
+          "is_high_risk": {
+            "type": "boolean"
+          },
           "max_risk_score": {
             "type": "string"
           },
+          "need_validate_address": {
+            "type": "boolean"
+          },
+          "originator_info": {
+            "$ref": "#/components/schemas/model.OriginatorInfo"
+          },
+          "performed_at": {
+            "type": "string"
+          },
+          "performed_by": {
+            "type": "string"
+          },
+          "permission_status": {
+            "description": "Status of the transfer permission, 0 for accept, 1 for reject",
+            "type": "integer"
+          },
           "protocol": {
-            "type": "string",
-            "description": "The default is Sygna_Bridge"
+            "type": "string"
+          },
+          "protocol_extra_info": {
+            "$ref": "#/components/schemas/model.Object"
+          },
+          "reject_code": {
+            "type": "string"
+          },
+          "reject_message": {
+            "type": "string"
           },
           "risk_score_provider": {
             "type": "string"
           },
           "sanction_report_link": {
-            "type": "string",
-            "description": "sanction_report_link would be valuable if sanction screening service is enabled, it provides a report to download"
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "sanction_score": {
-            "type": "integer",
-            "description": "sanction_score would be valuable if sanction screening service is enabled"
+            "type": "integer"
+          },
+          "sanction_score_provider": {
+            "type": "string"
+          },
+          "sanction_screened_time": {
+            "type": "string"
+          },
+          "sanction_search_id": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "status": {
             "type": "integer"
@@ -8354,25 +10463,26 @@
           "status_text": {
             "type": "string"
           },
-          "transaction_asset": {
-            "$ref": "#/components/schemas/schema.TransactionAsset"
-          },
           "transfer_id": {
             "type": "string"
           },
-          "tx_id": {
+          "txid": {
             "type": "string"
           },
           "updated_at": {
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "$ref": "#/components/schemas/decimal.NullDecimal"
           },
           "value_usd": {
+            "$ref": "#/components/schemas/decimal.NullDecimal"
+          },
+          "vasp_code": {
             "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
       "schema.GetTransactionsOutput": {
         "type": "object",
@@ -8397,7 +10507,8 @@
             "description": "Name                  string                      `json:\"name,omitempty\"`"
           },
           "direction": {
-            "type": "integer"
+            "type": "integer",
+            "description": "0 for withdrawal, 1 for deposit"
           },
           "expire_date": {
             "type": "string"
@@ -9030,16 +11141,11 @@
         }
       },
       "schema.PostServicesInput": {
-        "required": [
-          "credential",
-          "provider",
-          "type"
-        ],
         "type": "object",
         "properties": {
           "credential": {
             "type": "object",
-            "properties": {}
+            "description": "Please be noted that the \"private_key\" related to povider \"Sygna_Bridge\" has to be in HEX form.\nThe command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`"
           },
           "provider": {
             "type": "string",
@@ -9053,6 +11159,7 @@
               "Sygna_Bridge",
               "Dow Jones",
               "Coinfirm",
+              "Coinfirm (Sandbox)",
               "Veriscope on Shyft"
             ]
           },
@@ -9064,7 +11171,12 @@
               "Travel Rule"
             ]
           }
-        }
+        },
+        "required": [
+          "credential",
+          "provider",
+          "type"
+        ]
       },
       "schema.PostSettingInput": {
         "required": [
@@ -9156,7 +11268,8 @@
               "Merkle Science",
               "TRISA",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "type": {
@@ -9342,7 +11455,8 @@
               "TRISA",
               "Sygna_Bridge",
               "Dow Jones",
-              "Coinfirm"
+              "Coinfirm",
+              "Coinfirm (Sandbox)"
             ]
           },
           "settings": {
@@ -9401,33 +11515,32 @@
       "schema.RespWithPaging": {
         "type": "object",
         "properties": {
-          "data": {
-            "type": "object",
-            "properties": {}
-          },
           "paging": {
             "$ref": "#/components/schemas/schema.PagingResult"
           }
         }
       },
       "schema.RespWithStatus": {
-        "required": [
-          "data"
-        ],
         "type": "object",
         "properties": {
           "data": {
+            "type": "object",
             "required": [
               "success"
             ],
-            "type": "object",
             "properties": {
               "success": {
                 "type": "boolean"
+              },
+              "accessToken": {
+                "type": "string"
               }
             }
           }
-        }
+        },
+        "required": [
+          "data"
+        ]
       },
       "schema.RespWithStatusAndMessage": {
         "required": [
@@ -9536,7 +11649,8 @@
             "type": "integer"
           },
           "forced_sending_when_VASP_is_not_healthy": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "1. \nTrue: Forced sending data transfers even counterparty VASP server status is NOT healthy.\nThe data transfer will still be successfully sent out by oVASP to the Sygna server.\n\nFalse: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.\nThe data transfer will not be sent out. The oVASP needs to resend the data transfer manually.\n  \n2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.\n\n3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file."
           },
           "need_validate_address": {
             "type": "boolean"
@@ -9547,9 +11661,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_Bridge"
             ],
             "nullable": true
           },
@@ -9613,16 +11725,6 @@
           "originator": {
             "$ref": "#/components/schemas/OriginatorAsset"
           },
-          "protocol": {
-            "type": "string",
-            "enum": [
-              null,
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
-            ],
-            "nullable": true
-          },
           "protocol_extra_info": {
             "type": "object"
           },
@@ -9675,9 +11777,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Sygna_EmailProtocol"
             ],
             "nullable": true
           },
@@ -9695,8 +11795,8 @@
           "value"
         ]
       },
-      "PostTransactionTrisa": {
-        "title": "PostTransactionTrisa",
+      "PostTransactionTRISA": {
+        "title": "PostTransactionTRISA",
         "type": "object",
         "description": "This schema is for 'TRISA' protocol",
         "properties": {
@@ -9741,9 +11841,6 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "null",
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
               "TRISA"
             ]
           },
@@ -9771,7 +11868,7 @@
       "PostTransactionShyft": {
         "title": "PostTransactionShyft",
         "type": "object",
-        "description": "This schema is for 'Shyft' protocol",
+        "description": "This schema is for 'Veriscope on Shyft' protocol",
         "properties": {
           "beneficiary": {
             "type": "object",
@@ -9801,10 +11898,7 @@
           "protocol": {
             "type": "string",
             "enum": [
-              "null",
-              "Sygna_Bridge",
-              "Sygna_EmailProtocol",
-              "TRISA"
+              "Veriscope on Shyft"
             ]
           },
           "protocol_extra_info": {
