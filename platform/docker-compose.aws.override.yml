@@ -153,7 +153,7 @@ x-aws-cloudformation:
     Default443Ingress:
       Properties:
         CidrIp: 0.0.0.0/0
-        Description: backend:443/tcp on default network
+        Description: frontend:443/tcp on default network
         FromPort: 443
         GroupId:
           Ref: DefaultNetwork
