@@ -1,4 +1,12 @@
 # Sygna Hub Document
+
+## Hub service
+![image](platform/assets/hub_docker-compose.jpg)
+
+
+## Hub service with nginx
+![image](platform/assets/hub_docker-compose_with_nginx.jpg)
+
 ### How to launch Hub service
 1. install docker engine and docker-compose
 * [Docker](https://docs.docker.com/engine/install/#server)
