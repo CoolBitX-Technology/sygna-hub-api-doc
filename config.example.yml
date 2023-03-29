@@ -54,9 +54,13 @@ server:
   allow_origins:
   # https (SSL/TLS) is required
     - http://localhost:8000
-  # a url endpoint used when Sygna Bridge want to send you a "permission" request
+
+  # This URL endpoint is used by the Sygna (Bridge) server to send a "permission request" to you.
+  # Upon bringing up the Sygna Hub docker, the "callback_host" will be applied to the four callback endpoint URLs of the VASP on the Sygna server: callback_permission_request_url, callback_txid_url, callback_validate_addr_url, and callback_vasp_server_health_check_url.
+  # If the "callback_host" is updated, the VASP needs to restart the docker for the host on the Sygna (Bridge) server to be refreshed automatically (estimated from version 1.21.0).
   # https (SSL/TLS) is required
   callback_host: <your callback host url>
+  
   # url of your primary domain, used in set-cookie, is not required since 1.17.0 (1.17.0-beta.1) and will be deprecated at 2023.2.1
   # https (SSL/TLS) is required
   cookie_domain: <your primary domain>
