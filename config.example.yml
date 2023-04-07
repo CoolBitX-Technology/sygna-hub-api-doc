@@ -98,7 +98,10 @@ email_service:
   subject_prefix: "[TEST]"
   # Please enable the below attributes if you want to support TLS
   # from_email: <the email address of your sender>
-  # tls_support: true
+  # "tls_support" will be deprecated in the May 2023 release
+  # "encryption_mode" will override the value of "tls_support"
+  # Supported options for "encryption_mode": "NONE" | "SSL/TLS" | "STARTTLS"
+  encryption_mode: "NONE"
 
 frontend:
   # url of hub frontend, used in email protocol
