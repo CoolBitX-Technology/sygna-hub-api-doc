@@ -46,6 +46,25 @@ services:
   #     PMA_HOST: mysql
   #     PMA_PORT: 3306
 
+  # (Optional)It's not required to set up nginx infront of backend and front
+  # if nginx enabled , frontend -> environment -> BACKEND_API_URL should be BACKEND_API_URL=http://localhost/v1 and ports forwarding of frontend / backend should be removed
+  # Remeber to update nginx.conf for http / https connection
+  #
+  # nginx:
+  #   image: nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - backend
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     # (Optional) If you want to enable ssl for nginx , mount your server key , crt and password.txt into nginx container
+  #     - ./ssl/private.key:/etc/nginx/ssl/private.key
+  #     - ./ssl/server.crt:/etc/nginx/ssl/server.crt
+  #     - ./ssl/ssl_passwords.txt:/etc/nginx/ssl/ssl_passwords.txt
+
+
   # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
   frontend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags

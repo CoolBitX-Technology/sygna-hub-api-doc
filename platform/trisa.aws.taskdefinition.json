@@ -1,0 +1,133 @@
+{
+    "family": "platform-trisa",
+    "containerDefinitions": [
+        {
+            "name": "Trisa_ResolvConf_InitContainer",
+            "image": "docker/ecs-searchdomain-sidecar:1.0",
+            "cpu": 0,
+            "portMappings": [],
+            "essential": false,
+            "command": [
+                "ap-northeast-1.compute.internal",
+                "platform.local"
+            ],
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dockerLabels": {},
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/docker-compose/platform",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "platform"
+                }
+            }
+        },
+        {
+            "name": "trisa",
+            "image": "sygna/sygna-hub-trisa-gateway:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "trisa-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                },
+                {
+                    "name": "trisa-443-tcp",
+                    "containerPort": 443,
+                    "hostPort": 443,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DB_DRIVER",
+                    "value": "postgres"
+                },
+                {
+                    "name": "PORT",
+                    "value": "443"
+                },
+                {
+                    "name": "DATA_ENCRYPTION_KEY",
+                    "value": "<DATA_ENCRYPTION_KEY , like  00000000000000000000000000000000 , same with backend tasks>"
+                },
+                {
+                    "name": "VASP_CODE",
+                    "value": "<VASP_CODE, you can find this from registration mail , same as backend tasks>"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "JWT_SECRET",
+                    "value": "p@ssWord0"
+                },
+                {
+                    "name": "DB_USER",
+                    "value": "<POSTGRES_USER>"
+                },
+                {
+                    "name": "ALLOW_ORIGINS",
+                    "value": "['*']"
+                },
+                {
+                    "name": "HOST",
+                    "value": "0.0.0.0"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "db"
+                },
+                {
+                    "name": "TRISA_RESTFUL_PORT",
+                    "value": "80"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "postgres.platform.local"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "<POSTGRES_PASSWORD>"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "linuxParameters": {},
+            "dependsOn": [
+                {
+                    "containerName": "Trisa_ResolvConf_InitContainer",
+                    "condition": "SUCCESS"
+                }
+            ],
+            "dockerLabels": {},
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/docker-compose/platform",
+                    "awslogs-region": "ap-northeast-1",
+                    "awslogs-stream-prefix": "platform"
+                }
+            }
+        }
+    ],
+    "executionRoleArn": "<IAM_ROLE_ARN_OF_PLATFORM_BACKEND>",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "tags": [
+        {
+            "key": "com.docker.compose.project",
+            "value": "platform"
+        }
+    ]
+}
