@@ -7647,7 +7647,6 @@ components:
         - customer_id
         - originator
         - protocol
-        - txid
         - value
     PostTransactionShyft:
       title: PostTransactionShyft
