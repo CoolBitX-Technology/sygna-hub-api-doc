@@ -49,8 +49,7 @@ server:
   enable_rotate_log: true
   # allow web front-end hosted in different domain to connect to hub
   enable_cors: true
-  # only take effect if enable_cors set to true
-  # list of origins that are allowed to connect to hub server
+  # The "allow_origins" setting requires "enable_cors" to be true and specifies a list of allowed origins for connecting to the Sygna Hub backend.
   allow_origins:
   # https (SSL/TLS) is required
     - http://localhost:8000
