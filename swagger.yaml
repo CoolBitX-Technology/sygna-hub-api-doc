@@ -3,7 +3,7 @@ info:
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
-  version: 1.20.0
+  version: 1.21.0
 servers:
   - url: 'httsp://example.com/v1'
     description: ''
@@ -7477,6 +7477,7 @@ components:
           description: Choose target identifier from GET /customers
         expire_date:
           type: integer
+          description: 'The value must be in Epoch & Unix Timestamp format, including milliseconds.'
         forced_sending_when_VASP_is_not_healthy:
           type: boolean
           description: |-
