@@ -87,16 +87,18 @@ email_service:
   # hostname and port of your email service
   # https (SSL/TLS) is required
   host: <your smtp url>:<port>
-  # email address and password of sender
-  # please input the AWS IAM user name and password if you want to use AWS SES to send email
-  account: noreply@<your domain>.com # or <IAM User Name>
+  
+  # Please enter your email service account credentials (e.g., AWS IAM user name and password)
+  account: noreply@<your domain>.com # or <IAM user name>
   password: p@ssWord0
-  # name of sender, it would be useless when you enable TLS
+  
+  # The name of the sender, which would be useless once you enable TLS.
   display_name: Hub Sender
   # prefix of subject
   subject_prefix: "[TEST]"
-  # Please enable the below attributes if you want to support TLS
-  # from_email: <the email address of your sender>
+  
+  from_email: <the email address of your sender>
+  # Please enable the following attributes if you want to support TLS.
   # "tls_support" will be deprecated in the May 2023 release
   # "encryption_mode" will override the value of "tls_support"
   # Supported options for "encryption_mode": "NONE" | "SSL/TLS" | "STARTTLS"
