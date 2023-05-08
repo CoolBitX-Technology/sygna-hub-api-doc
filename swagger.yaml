@@ -7370,11 +7370,14 @@ components:
       x-stoplight:
         id: ezxu9gp7z2iqj
     schema.GetTransactionOutput:
+      type: object
+      x-stoplight:
+        id: uhnulslfnl4lf
       properties:
         assets:
+          type: array
           items:
             $ref: '#/components/schemas/schema.TransactionAsset'
-          type: array
         beneficiary_info:
           $ref: '#/components/schemas/model.BeneficiaryInfo'
         counter_party_vasp_info:
@@ -7427,9 +7430,9 @@ components:
         risk_score_provider:
           type: string
         sanction_report_link:
+          type: array
           items:
             type: string
-          type: array
         sanction_score:
           type: integer
         sanction_score_provider:
@@ -7437,9 +7440,9 @@ components:
         sanction_screened_time:
           type: string
         sanction_search_id:
+          type: array
           items:
             type: string
-          type: array
         status:
           type: integer
         status_text:
@@ -7456,9 +7459,11 @@ components:
           $ref: '#/components/schemas/decimal.NullDecimal'
         vasp_code:
           type: string
-      type: object
-      x-stoplight:
-        id: uhnulslfnl4lf
+        data_transfer_remarks:
+          type: string
+          x-stoplight:
+            id: enie0833nfj5q
+          example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
     schema.GetTransactionsOutput:
       type: object
       properties:
@@ -8629,8 +8634,3 @@ components:
       title: ''
       x-stoplight:
         id: vgwl4o7fckxh7
-  securitySchemes:
-    BearerToken:
-      type: apiKey
-      name: Authorization
-      in: header
