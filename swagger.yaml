@@ -8468,6 +8468,7 @@ components:
           description: Choose target identifier from GET /customers
         expire_date:
           type: integer
+          description: 'The value must be in Epoch & Unix Timestamp format, including milliseconds.'
         forced_sending_when_VASP_is_not_healthy:
           type: boolean
           description: |-
