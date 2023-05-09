@@ -1,6 +1,6 @@
 openapi: 3.0.1
 x-stoplight:
-  id: c92c3vebpud4h
+  id: jjgn1ilzkcouc
 info:
   title: Sygna Hub
   description: Sygna Hub API Document
@@ -534,7 +534,7 @@ paths:
               Example 1:
                 value:
                   - id: 5bd43419-aff3-4828-b739-3319ed4fffb6
-                    is_actie: false
+                    is_active: false
               Example 2:
                 value:
                   - id: b52e9794-1ea1-42ad-8a59-db582bf7bb07
@@ -2724,12 +2724,12 @@ paths:
                       full_width_space_equals_half_width_space:
                         type: boolean
                         x-stoplight:
-                          id: wt7h366lh2xhm
+                          id: 9l9w86yjrctmi
                         default: false
                       auto_accept:
                         type: boolean
                         x-stoplight:
-                          id: ob99j58yj2qyn
+                          id: fcz6ph6k7zifc
                         default: true
             examples:
               Example 1:
@@ -2857,17 +2857,17 @@ paths:
                             auto_accept:
                               type: boolean
                               x-stoplight:
-                                id: vyc9b0xb35q8z
+                                id: ziivbd1ch15e8
                               default: true
                             forced_sending:
                               type: boolean
                               x-stoplight:
-                                id: b6eo94hvf8yaw
+                                id: 210ppiz92sxc8
                               default: true
                             full_width_space_equals_half_width_space:
                               type: boolean
                               x-stoplight:
-                                id: bmszsfv6alyyf
+                                id: fqcrscfyokyhk
                               default: false
               examples:
                 Example 1:
@@ -3793,30 +3793,30 @@ paths:
                                     auto_accept:
                                       type: object
                                       x-stoplight:
-                                        id: tvknhh8rktd29
+                                        id: i3jmn10vyfr0t
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: 18f33ktt53z9f
+                                            id: 88p6re4az5r6r
                                     full_width_space_equals_half_width_space:
                                       type: object
                                       x-stoplight:
-                                        id: cped7asbmrr0p
+                                        id: mqdn5uftv1j2o
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: rwn59pz2x8fd4
+                                            id: sddqu0tlzjjw7
                                     forced_sending:
                                       type: object
                                       x-stoplight:
-                                        id: 6ph3ec42l1umv
+                                        id: nu8k0oxo7tycs
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: 7v7m2b0yzsdoz
+                                            id: 9hhb10b74hrwb
                                 additionalProperties:
                                   type: boolean
               examples:
@@ -6178,7 +6178,7 @@ components:
         valid:
           type: boolean
       x-stoplight:
-        id: 0o3p2eej3zh8s
+        id: fflh4retkziq6
     errors.SystemError:
       type: object
       properties:
@@ -6197,7 +6197,7 @@ components:
         type:
           type: string
       x-stoplight:
-        id: 1l509wyw80quf
+        id: 0nn7jqyeaq3l1
     model.Addr:
       required:
         - address
@@ -6209,7 +6209,7 @@ components:
           type: object
           properties: {}
       x-stoplight:
-        id: ukf2kcvs0k4dp
+        id: h5bkf14wwyio2
     model.Address:
       type: object
       properties:
@@ -6248,7 +6248,7 @@ components:
         town_name:
           type: string
       x-stoplight:
-        id: o75l5a4eh68uc
+        id: qo63g1szfzmh7
     model.Asset:
       type: object
       properties:
@@ -6287,19 +6287,19 @@ components:
         value_usd:
           $ref: '#/components/schemas/decimal.NullDecimal'
       x-stoplight:
-        id: birxf93xy53to
+        id: r4pun9rouusy2
     model.BeneficiaryPrivateInfo:
       oneOf:
         - $ref: '#/components/schemas/model.NaturalPersonName'
         - $ref: '#/components/schemas/model.LegalPersonName'
       x-stoplight:
-        id: gz48b3gtrod4n
+        id: jxys6ou6dq10h
     model.OriginatorPrivateInfo:
       oneOf:
         - $ref: '#/components/schemas/model.NaturalPersonName'
         - $ref: '#/components/schemas/model.LegalPersonName'
       x-stoplight:
-        id: qq1597kkz9j9n
+        id: dzxehvdcce50n
     model.Birth:
       type: object
       properties:
@@ -6308,7 +6308,7 @@ components:
         place_of_birth:
           type: string
       x-stoplight:
-        id: ea7y17hga4d0x
+        id: fz7kx2rjvv0sj
     model.Currency:
       type: object
       properties:
@@ -6337,7 +6337,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 7ei4px34x80xm
+        id: gvv18ker34okd
     model.GlobalVasp:
       type: object
       properties:
@@ -6358,7 +6358,7 @@ components:
         vasp_server_status:
           type: string
       x-stoplight:
-        id: 8gmsi52fnb8mk
+        id: 0zgtmli3mfrkz
     model.Customer:
       properties:
         address:
@@ -6412,7 +6412,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: 853w79fpxw8mt
+        id: qrlmh5k33krgj
     model.LegalPersonName:
       title: LegalPersonName
       required:
@@ -6427,7 +6427,7 @@ components:
           type: string
       description: required if customer type equals 1
       x-stoplight:
-        id: 39rfg8ampmrpe
+        id: yhm2vm7dty96f
     model.Login:
       title: LegalPersonName
       type: object
@@ -6450,7 +6450,7 @@ components:
           type: string
       description: ''
       x-stoplight:
-        id: mn189ihtychkv
+        id: zhsjsodcn3187
     model.NameObject:
       type: object
       properties:
@@ -6459,7 +6459,7 @@ components:
         last_name:
           type: string
       x-stoplight:
-        id: nqp3ra9bxei50
+        id: aveho0blniy6b
     model.National:
       type: object
       properties:
@@ -6472,7 +6472,7 @@ components:
         registration_authority:
           type: string
       x-stoplight:
-        id: mumjbqllq9bpp
+        id: qwpkge9y3td35
     ivms101.Address:
       properties:
         address_line:
@@ -6511,7 +6511,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: pwiezqb97xxly
+        id: cq3q3gjo9h1j1
     ivms101.Beneficiary:
       properties:
         account_numbers:
@@ -6524,7 +6524,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: 7tf8xasyj37au
+        id: wn907kmrh89sn
     ivms101.DateAndPlaceOfBirth:
       properties:
         date_of_birth:
@@ -6533,7 +6533,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: 2ta9tkkc62cez
+        id: q6rqrprkusmdu
     ivms101.GeographicAddress:
       properties:
         addressLine:
@@ -6572,7 +6572,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: fxebfja7p5z9b
+        id: sajfyd1f2p2hz
     ivms101.LegalPerson:
       properties:
         countryOfRegistration:
@@ -6589,7 +6589,7 @@ components:
           $ref: '#/components/schemas/ivms101.NationalIdentification'
       type: object
       x-stoplight:
-        id: kybqfy85moqzu
+        id: 4wbcuf3qoxe3v
     ivms101.LegalPersonName:
       properties:
         localNameIdentifier:
@@ -6606,7 +6606,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: 24hh1nt9yura8
+        id: datiucf3nrsxl
     ivms101.LegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6615,7 +6615,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: j8s2ndjf9udll
+        id: w4kb9pxvd05mz
     ivms101.LocalLegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6624,7 +6624,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: u60r42glnkzkx
+        id: gahnx8lmwfock
     ivms101.LocalNaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6635,7 +6635,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: vezeetbeca6dl
+        id: o77sivvrjt5dc
     ivms101.NationalIdentification:
       properties:
         countryOfIssue:
@@ -6648,7 +6648,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: iqlnzn17z3poy
+        id: lqwl27occ1szh
     ivms101.NaturalPerson:
       properties:
         country_of_residence:
@@ -6667,7 +6667,7 @@ components:
           $ref: '#/components/schemas/ivms101.NationalIdentification'
       type: object
       x-stoplight:
-        id: ezw76twleonss
+        id: 1wbxn4boo355q
     ivms101.NaturalPersonName:
       properties:
         localNameIdentifier:
@@ -6684,7 +6684,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: evej81fvugs6m
+        id: jcu9xlfiieh00
     ivms101.NaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6695,7 +6695,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: v5bh1lcltlwwm
+        id: r3qusywppr4b6
     ivms101.Originator:
       properties:
         account_numbers:
@@ -6708,7 +6708,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: d1s56676r5aa5
+        id: f26clq9rrij0l
     ivms101.Person:
       properties:
         legalPerson:
@@ -6717,7 +6717,7 @@ components:
           $ref: '#/components/schemas/ivms101.NaturalPerson'
       type: object
       x-stoplight:
-        id: 03bx57mcrbfmw
+        id: 84itv8fhgx2me
     ivms101.PhoneticLegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6726,7 +6726,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: kidhrbc72q8px
+        id: h10m0i8b9y1v7
     ivms101.PhoneticNaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6737,7 +6737,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: ajjyv2n20b8cj
+        id: sgphic8czvigp
     model.BeneficiaryInfo:
       properties:
         address_matched:
@@ -6754,7 +6754,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: x0fur4jup3yni
+        id: x68ao1iaibghj
     model.OriginatorInfo:
       properties:
         customer:
@@ -6765,7 +6765,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: sc3vn58usmerg
+        id: tg0393f7yx1n7
     model.NaturalPersonName:
       title: NaturalPersonName
       required:
@@ -6780,11 +6780,11 @@ components:
           $ref: '#/components/schemas/model.NameObject'
       description: required if customer type equals 0
       x-stoplight:
-        id: zg1mi6fq4csj8
+        id: y6i5i6nezykv0
     model.Object:
       type: object
       x-stoplight:
-        id: y0dx53yjhvsqz
+        id: 5n7axlbl77jmz
     model.Ownership:
       type: object
       properties:
@@ -6815,7 +6815,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 459xm7god8dkq
+        id: 0gymbtzfn7k7e
     model.OwnershipAsset:
       type: object
       properties:
@@ -6852,7 +6852,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: d5ygxtzmb05np
+        id: w1j1s1bu02m97
     model.Platform:
       type: object
       properties:
@@ -6865,7 +6865,7 @@ components:
         token_address:
           type: string
       x-stoplight:
-        id: d998fqeziyuwv
+        id: n51euqgh0cr81
     model.PostEmailProtocolDepositInput:
       required:
         - currency_id
@@ -6899,7 +6899,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: rxae67wp5aoux
+        id: nhzoesuqy1fwh
     model.PostTransactionInput:
       title: ''
       required:
@@ -6971,7 +6971,7 @@ components:
           description: The value of the currency requested to transfer.
       description: ''
       x-stoplight:
-        id: 125ird4x9zg81
+        id: fnk7c492bcp1s
     model.Report:
       type: object
       properties:
@@ -6992,7 +6992,7 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: cvnecmq8t6x6g
+        id: 5aeofefvkrzdy
     model.Rollback:
       type: object
       properties:
@@ -7005,7 +7005,7 @@ components:
         version:
           type: string
       x-stoplight:
-        id: n42zctylrh4kf
+        id: 3c3skx5w0nezp
     model.Service:
       type: object
       properties:
@@ -7037,7 +7037,7 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: caxtp6dg65jjw
+        id: i4tdda3jg9qol
     model.Setting:
       type: object
       properties:
@@ -7055,13 +7055,13 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: 3uhshzwagsnlc
+        id: jj4ql92ido254
     model.StringObject:
       type: object
       additionalProperties:
         type: string
       x-stoplight:
-        id: yr0zdq4o4egy0
+        id: 29rex6ck627lb
     model.SupportedService:
       type: object
       properties:
@@ -7087,7 +7087,7 @@ components:
           type: string
       title: ''
       x-stoplight:
-        id: vvbiy9e5s6958
+        id: w74bhnf1udfbn
     model.SupportedSetting:
       type: object
       properties:
@@ -7103,7 +7103,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: yjfrny37iwb6r
+        id: gj23q8yjhu5vd
     model.User:
       type: object
       properties:
@@ -7122,7 +7122,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 62w44vi11hwsv
+        id: 08f6x2zl1ho5d
     model.WebhookEvent:
       type: object
       properties:
@@ -7151,7 +7151,7 @@ components:
           items:
             $ref: '#/components/schemas/model.Webhook_logs'
       x-stoplight:
-        id: puwtlvjcxfs3w
+        id: cclhynmlvsigz
     model.Webhook_logs:
       type: object
       properties:
@@ -7162,7 +7162,7 @@ components:
         trigger:
           type: string
       x-stoplight:
-        id: 6s4pahultr4rl
+        id: jxtqelstcubuh
     sanctionscreening.GetSanctionScoreOutput:
       type: object
       properties:
@@ -7173,7 +7173,7 @@ components:
         score:
           type: integer
       x-stoplight:
-        id: 8wgl7hg9pzkqm
+        id: demzydthhsn8j
     schema.Address:
       type: object
       properties:
@@ -7212,7 +7212,7 @@ components:
         town_name:
           type: string
       x-stoplight:
-        id: yzbo3rr48fowc
+        id: 5i6u2mf3bgbwm
     schema.Asset:
       type: object
       properties:
@@ -7244,7 +7244,7 @@ components:
         value_usd:
           type: string
       x-stoplight:
-        id: qe9sft09arhtt
+        id: t4lucf7j0jm39
     schema.ChangePasswordInput:
       required:
         - new_password
@@ -7262,7 +7262,7 @@ components:
         old_password:
           type: string
       x-stoplight:
-        id: p0l4b0t6i6r7p
+        id: 04bsl6c35nt01
     schema.DateAndPlaceOfBirth:
       type: object
       properties:
@@ -7271,7 +7271,7 @@ components:
         place_of_birth:
           type: string
       x-stoplight:
-        id: p5rweulci4rxq
+        id: udn81puk62z62
     schema.DeleteUsersInput:
       required:
         - id
@@ -7281,7 +7281,7 @@ components:
           type: string
           description: specific user identifier
       x-stoplight:
-        id: 11figaaoii8j8
+        id: m7a0josxl1zol
     schema.GetCustomerOutput:
       type: object
       properties:
@@ -7327,7 +7327,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 2hi19wgklybah
+        id: sroxfujcqd4yl
     schema.GetCustomersOutput:
       type: object
       properties:
@@ -7359,7 +7359,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: fyvzxbevbc5v5
+        id: ggubaedxfsw2g
     schema.GetRootOutput:
       type: object
       properties:
@@ -7368,11 +7368,11 @@ components:
         version:
           type: string
       x-stoplight:
-        id: ezxu9gp7z2iqj
+        id: mkelj0gsmuu5r
     schema.GetTransactionOutput:
       type: object
       x-stoplight:
-        id: uhnulslfnl4lf
+        id: ajlv6kr9bcpzb
       properties:
         assets:
           type: array
@@ -7462,7 +7462,7 @@ components:
         data_transfer_remarks:
           type: string
           x-stoplight:
-            id: enie0833nfj5q
+            id: tausb17cohaxk
           example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
     schema.GetTransactionsOutput:
       type: object
@@ -7523,7 +7523,7 @@ components:
           type: string
           description: only used in response
       x-stoplight:
-        id: jieb065xno2d6
+        id: r9mac8cd8jsph
     schema.LegalPersonName:
       type: object
       properties:
@@ -7535,7 +7535,7 @@ components:
           type: string
       description: required if customer_type equals 1
       x-stoplight:
-        id: 16q4c6uhxi3dm
+        id: 1f46hrtfold2f
     schema.NameObject:
       type: object
       properties:
@@ -7544,7 +7544,7 @@ components:
         last_name:
           type: string
       x-stoplight:
-        id: z9hqw9rsj2lxt
+        id: 7e7mh88bygm36
     schema.NationalIdentification:
       type: object
       properties:
@@ -7557,7 +7557,7 @@ components:
         registration_authority:
           type: string
       x-stoplight:
-        id: 6hwjo0wwdm9u3
+        id: qogzr9ufytsuh
     schema.NaturalPersonName:
       type: object
       properties:
@@ -7569,7 +7569,7 @@ components:
           $ref: '#/components/schemas/schema.NameObject'
       description: required if customer_type equals 0
       x-stoplight:
-        id: 812xdprlnwq25
+        id: 2va202uhth8j0
     schema.PagingResult:
       required:
         - has_next
@@ -7590,7 +7590,7 @@ components:
         total:
           type: integer
       x-stoplight:
-        id: ei6xusbmaje0n
+        id: ehordxhlygb1b
     schema.PatchAssetInput:
       required:
         - id
@@ -7608,7 +7608,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: j4r4rdr8oyqy6
+        id: jyd10zr9w3xyj
     schema.PatchCustomersInput:
       title: ''
       required:
@@ -7644,7 +7644,7 @@ components:
         update_status:
           type: boolean
       x-stoplight:
-        id: y8bcttta19s6m
+        id: ij07ot5klvu8k
       x-examples:
         Example 1:
           address:
@@ -7732,7 +7732,7 @@ components:
           type: string
           description: Transaction identifier on blockchain
       x-stoplight:
-        id: vkfxadb4ze3gn
+        id: smuckpfynj3s8
     schema.PatchOwnershipAssetValidationConfirmInput:
       required:
         - id
@@ -7743,7 +7743,7 @@ components:
           description: Target asset identifier which you want to accept
           format: uuid
       x-stoplight:
-        id: 7peof2fpmt6yt
+        id: itz6t4st3u2f8
     schema.PatchOwnershipAssetValidationRejectInput:
       required:
         - id
@@ -7771,7 +7771,7 @@ components:
           type: string
           description: Reply detail why you reject.
       x-stoplight:
-        id: sci2brusehetq
+        id: evyuif6aodsbq
     schema.PatchOwnershipConfirmInput:
       required:
         - id
@@ -7790,7 +7790,7 @@ components:
           items:
             $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
       x-stoplight:
-        id: 7zan5f9bzn0yc
+        id: tp1xv7v0rw7o9
     schema.PatchOwnershipIdInput:
       required:
         - id
@@ -7801,7 +7801,7 @@ components:
           description: Target ownership identifier
           format: uuid
       x-stoplight:
-        id: ne1zdnr3bc2pf
+        id: z74mpijbjr2vz
     schema.PatchOwnershipValidationInput:
       type: object
       properties:
@@ -7817,7 +7817,7 @@ components:
           items:
             $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
       x-stoplight:
-        id: m7rnrclpwwdlz
+        id: vrkd54tiyjnu7
     schema.PatchPermissionInput:
       required:
         - id
@@ -7849,7 +7849,7 @@ components:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
       x-stoplight:
-        id: xlb7n0tahm2cv
+        id: z4kwzv0bem5rg
     schema.PatchTransactionsStatus:
       required:
         - action
@@ -7862,7 +7862,7 @@ components:
           type: string
           format: uuid
       x-stoplight:
-        id: n0gaorz7rsh73
+        id: gi6htovep787t
     schema.PatchTxIdInput:
       required:
         - id
@@ -7877,7 +7877,7 @@ components:
           type: string
           description: Transaction identifier on blockchain
       x-stoplight:
-        id: 1cy9h3lna9el9
+        id: vagblzgbws3hy
     schema.PatchUsersInput:
       required:
         - id
@@ -7891,7 +7891,7 @@ components:
         role_id:
           type: integer
       x-stoplight:
-        id: xcgjsh36keii7
+        id: d5e8kr9fk7bsn
     schema.PostAssetInput:
       required:
         - address
@@ -7908,7 +7908,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: 38f3ng31a1rp4
+        id: kejt5gn8cyutr
     schema.PostCustomersInput:
       required:
         - assets
@@ -7943,7 +7943,7 @@ components:
         natural_person_name:
           $ref: '#/components/schemas/model.NaturalPersonName'
       x-stoplight:
-        id: bu3dozo18qz0w
+        id: 18t2jaq96igam
     schema.PostEmailProtocolPermissionInput:
       required:
         - id
@@ -7977,7 +7977,7 @@ components:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
       x-stoplight:
-        id: 1y8ugvljyi70a
+        id: f8ga0mew57d0u
     schema.PostOauthInput:
       required:
         - account
@@ -7995,7 +7995,7 @@ components:
             - password
             - google
       x-stoplight:
-        id: 2kqo3hnjtb34p
+        id: jgzrv3m51i2zk
     schema.PostOwnershipInput:
       required:
         - owner_email
@@ -8019,7 +8019,7 @@ components:
           $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
       description: ''
       x-stoplight:
-        id: 1p698p74123fi
+        id: 6nj8r363qopaz
     schema.PostOwnershipTransactionInformationInput:
       required:
         - currency_id
@@ -8034,7 +8034,7 @@ components:
         vasp_beneficiary_wallet_address:
           type: string
       x-stoplight:
-        id: 97gz7tt2ecxig
+        id: pkkq43oth8phw
     schema.PostSanctionMatchInput:
       required:
         - customer_type
@@ -8046,7 +8046,7 @@ components:
         name:
           type: string
       x-stoplight:
-        id: t15aq4vpihush
+        id: jh53ltqv12fi7
     schema.PostServicesInput:
       type: object
       properties:
@@ -8080,7 +8080,7 @@ components:
         - provider
         - type
       x-stoplight:
-        id: zhdcudevrwgk1
+        id: 7sn2gxalz2zn6
     schema.PostSettingInput:
       required:
         - rule
@@ -8099,7 +8099,7 @@ components:
             - forced_sending_when_VASP_is_not_healthy
             - blockchain_analytics_timing
       x-stoplight:
-        id: 52hjpeh9lr1gr
+        id: 3ramz6fg7vtwx
     schema.PostUsersInput:
       required:
         - account
@@ -8129,7 +8129,7 @@ components:
             role_id is optional and its default value is 1(member).
             notice: admin could not be created if there is admin in VASP.
       x-stoplight:
-        id: 8gx2pfeejtue4
+        id: fpb9zisx8028j
     schema.PostUsersLinkInput:
       required:
         - account
@@ -8148,7 +8148,7 @@ components:
             third party service name
             only google is supported now
       x-stoplight:
-        id: nvo79ekl0upnj
+        id: 9hbvfkxztfd78
     schema.PostVendorsTestInput:
       required:
         - credential
@@ -8178,7 +8178,7 @@ components:
             - Blockchain Analytics
             - Sanction Screening
       x-stoplight:
-        id: 1qszm3n4m80k6
+        id: ipg6u040kohb1
     schema.PostVendorsTestOutput:
       required:
         - provider
@@ -8199,12 +8199,11 @@ components:
         type:
           type: string
       x-stoplight:
-        id: 7awaa64oa2i2j
+        id: gq051f81comew
     schema.PostWalletAddressFilterInput:
-      required:
-        - addrs
-        - currency_id
       type: object
+      x-stoplight:
+        id: oh24mmsdo3ml6
       properties:
         addrs:
           type: array
@@ -8214,8 +8213,17 @@ components:
         currency_id:
           type: string
           description: choose target currency identifier from GET /currencies
-      x-stoplight:
-        id: 0lnfev3scnn9y
+        elliptic_holistic_wallet_analysis:
+          type: boolean
+          x-stoplight:
+            id: 3vpdj1j6fx198
+          description: |-
+            Support Elliptic Holistic Screening.
+            VASPs must opt-in for Elliptic Holistic searching to avoid errors.
+          default: false
+      required:
+        - addrs
+        - currency_id
     schema.PostWalletAddressFilterOutput:
       type: object
       properties:
@@ -8242,7 +8250,7 @@ components:
             - OTHER_VASP
             - PRIVATE_WALLET
       x-stoplight:
-        id: yaijsx0v8qfnv
+        id: r3qbc95d8kwp7
     schema.PutCustomersInput:
       required:
         - assets
@@ -8283,7 +8291,7 @@ components:
         natural_person_name:
           $ref: '#/components/schemas/model.NaturalPersonName'
       x-stoplight:
-        id: dxz8v8gjcw3sb
+        id: qwkmtp80dn7jj
     schema.PutRollbackInout:
       required:
         - version
@@ -8292,7 +8300,7 @@ components:
         version:
           type: string
       x-stoplight:
-        id: mnq06r1btqvzd
+        id: ru4wyb2fb6das
     schema.PutServicesInput:
       required:
         - credential
@@ -8329,7 +8337,7 @@ components:
             - Sanction Screening
             - Travel Rule
       x-stoplight:
-        id: ppt2v65d6i42d
+        id: n3xfj0cw3jtc3
     schema.Resp:
       type: object
       properties:
@@ -8337,7 +8345,7 @@ components:
           type: object
           properties: {}
       x-stoplight:
-        id: lg8zv0flp8gr9
+        id: fxdu4qtfio2yl
     schema.RespWithMutation:
       title: ''
       required:
@@ -8359,14 +8367,14 @@ components:
               success:
                 type: boolean
       x-stoplight:
-        id: n0hf6v1w2lczq
+        id: 13w9ga6ctxl3u
     schema.RespWithPaging:
       type: object
       properties:
         paging:
           $ref: '#/components/schemas/schema.PagingResult'
       x-stoplight:
-        id: t3wltcm8uxwgl
+        id: mbgrs8rx6vj1b
     schema.RespWithStatus:
       type: object
       properties:
@@ -8382,7 +8390,7 @@ components:
       required:
         - data
       x-stoplight:
-        id: x3hzxdlzxa7hd
+        id: 16m1v0m2wqomy
     schema.RespWithStatusAndMessage:
       required:
         - data
@@ -8400,7 +8408,7 @@ components:
             success:
               type: boolean
       x-stoplight:
-        id: uw64zkle5xcng
+        id: 73bvg9v29wx6n
     schema.TransactionAsset:
       required:
         - id
@@ -8426,11 +8434,11 @@ components:
         risk_score_provider:
           type: string
       x-stoplight:
-        id: 1t85hkpvdjuh6
+        id: rktxpa2smu596
     types.H:
       type: object
       x-stoplight:
-        id: lq3dvkbkkgl1v
+        id: u4d6cbnshqbie
     PostTransactionSygnaBridge:
       title: PostTransactionSygnaBridge
       type: object
@@ -8502,7 +8510,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: 1us8s3omgzz6n
+        id: te9o0f7mopl7w
     PostTransactionUnknown:
       title: PostTransactionUnknown
       type: object
@@ -8553,7 +8561,7 @@ components:
         - originator
         - value
       x-stoplight:
-        id: lro9yacn9vxqa
+        id: slndl80gt9iok
     PostTransactionSygnaEmail:
       title: PostTransactionSygnaEmail
       type: object
@@ -8592,7 +8600,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: mqyf4uzqw5h75
+        id: nax2ofi3s4d6a
     PostTransactionTRISA:
       title: PostTransactionTRISA
       type: object
@@ -8647,7 +8655,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: ninfgkl8xi7mj
+        id: rjjy3d6zoeeij
     PostTransactionShyft:
       title: PostTransactionShyft
       type: object
@@ -8687,7 +8695,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: a8phubexbckvt
+        id: u5w2juda54ph6
     OriginatorAsset:
       anyOf:
         - properties:
@@ -8707,7 +8715,7 @@ components:
       type: object
       title: ''
       x-stoplight:
-        id: vgwl4o7fckxh7
+        id: 8ppzorukirnji
   securitySchemes:
     BearerToken:
       type: apiKey
