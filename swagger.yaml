@@ -7645,6 +7645,79 @@ components:
           type: boolean
       x-stoplight:
         id: y8bcttta19s6m
+      x-examples:
+        Example 1:
+          address:
+            address_line:
+              - string
+            address_type: string
+            building_name: string
+            building_number: string
+            country: string
+            country_sub_division: string
+            department: string
+            district_name: string
+            floor: string
+            post_box: string
+            post_code: string
+            room: string
+            street_name: string
+            sub_department: string
+            town_location_name: string
+            town_name: string
+          assets:
+            - address: string
+              created_at: string
+              currency_id: string
+              currency_name: string
+              currency_symbol: string
+              extra_info:
+                property1: string
+                property2: string
+              id: string
+              is_kyt_supported: true
+              is_sygna_supported: true
+              labels:
+                - string
+              last_screened: string
+              risk_score: string
+              risk_score_provider: string
+              updated_at: string
+              value:
+                decimal: 0
+                valid: true
+              value_usd:
+                decimal: 0
+                valid: true
+          assets_ignore_kyt: true
+          birth:
+            date_of_birth: string
+            place_of_birth: string
+          country: string
+          customer_id: string
+          customer_type: 0
+          id: string
+          is_active: true
+          legal_person_name:
+            local_name: string
+            name: string
+            phonetic_name: string
+          national:
+            country_of_issue: string
+            national_identifier: string
+            national_identifier_type: string
+            registration_authority: string
+          natural_person_name:
+            local_name:
+              first_name: string
+              last_name: string
+            name:
+              first_name: string
+              last_name: string
+            phonetic_name:
+              first_name: string
+              last_name: string
+          update_status: true
     schema.PatchOwnershipAssetValidationAcceptInput:
       required:
         - id
@@ -8634,3 +8707,8 @@ components:
       title: ''
       x-stoplight:
         id: vgwl4o7fckxh7
+  securitySchemes:
+    BearerToken:
+      type: apiKey
+      name: Authorization
+      in: header
