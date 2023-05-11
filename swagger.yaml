@@ -884,7 +884,250 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/schema.GetCustomerOutput'
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      updated_at:
+                        type: string
+                      vasp_code:
+                        type: string
+                      customer_type:
+                        type: integer
+                      customer_id:
+                        type: string
+                      legal_person_name:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          local_name:
+                            type: string
+                          phonetic_name:
+                            type: string
+                      country:
+                        type: string
+                      is_active:
+                        type: boolean
+                      created_at:
+                        type: string
+                      national:
+                        type: object
+                        properties:
+                          country_of_issue:
+                            type: string
+                          national_identifier:
+                            type: string
+                          national_identifier_type:
+                            type: string
+                          registration_authority:
+                            type: string
+                      address:
+                        type: object
+                        properties:
+                          address_line:
+                            type: array
+                            items:
+                              type: string
+                          address_type:
+                            type: string
+                          building_name:
+                            type: string
+                          building_number:
+                            type: string
+                          country:
+                            type: string
+                          country_sub_division:
+                            type: string
+                          department:
+                            type: string
+                          district_name:
+                            type: string
+                          floor:
+                            type: string
+                          post_box:
+                            type: string
+                          post_code:
+                            type: string
+                          room:
+                            type: string
+                          street_name:
+                            type: string
+                          sub_department:
+                            type: string
+                          town_location_name:
+                            type: string
+                          town_name:
+                            type: string
+                      labels:
+                        type: array
+                        items:
+                          type: object
+                          properties: {}
+                      assets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            updated_at:
+                              type: string
+                            currency_id:
+                              type: string
+                            currency_symbol:
+                              type: string
+                            currency_name:
+                              type: string
+                            address:
+                              type: string
+                            risk_score_provider:
+                              type: string
+                            labels:
+                              type: array
+                              items:
+                                type: object
+                                properties: {}
+                            created_at:
+                              type: string
+                            last_screened:
+                              type: 'null'
+                            is_sygna_supported:
+                              type: boolean
+                            is_kyt_supported:
+                              type: boolean
+                            extra_info:
+                              type: object
+                              properties:
+                                Tag:
+                                  type: string
+                      assets_ignore_kyt:
+                        type: boolean
+                x-examples:
+                  Example 1:
+                    data:
+                      id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+                      updated_at: '2023-05-11T06:04:55.000Z'
+                      vasp_code: OWNRTWTP
+                      customer_type: 1
+                      customer_id: '45645763456735678'
+                      legal_person_name:
+                        name: Kevin Lee
+                        local_name: Sheng　wun
+                        phonetic_name: 凱文　sdolrg
+                      country: TW
+                      is_active: true
+                      created_at: '2023-03-06T02:58:33.000Z'
+                      national:
+                        country_of_issue: AF
+                        national_identifier: '45624562456'
+                        national_identifier_type: ARNU
+                        registration_authority: sdfvasfbadfbadfb
+                      address:
+                        address_line:
+                          - bqerb
+                        address_type: HOME
+                        building_name: sdfbdfb
+                        building_number: '12'
+                        country: AM
+                        country_sub_division: qerbqerb
+                        department: '12'
+                        district_name: qerb
+                        floor: '1'
+                        post_box: '123'
+                        post_code: bsrt1312
+                        room: '123'
+                        street_name: qergqer
+                        sub_department: erge
+                        town_location_name: erbqe
+                        town_name: drvbqerb
+                      labels: []
+                      assets:
+                        - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000000'
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                        - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000090'
+                          currency_symbol: XRP
+                          currency_name: XRP
+                          address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                          extra_info:
+                            Tag: '1304'
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                      assets_ignore_kyt: false
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      id: string
+                      updated_at: string
+                      vasp_code: string
+                      customer_type: 0
+                      customer_id: string
+                      legal_person_name:
+                        name: string
+                        local_name: string
+                        phonetic_name: string
+                      country: string
+                      is_active: true
+                      created_at: string
+                      national:
+                        country_of_issue: string
+                        national_identifier: string
+                        national_identifier_type: string
+                        registration_authority: string
+                      address:
+                        address_line:
+                          - string
+                        address_type: string
+                        building_name: string
+                        building_number: string
+                        country: string
+                        country_sub_division: string
+                        department: string
+                        district_name: string
+                        floor: string
+                        post_box: string
+                        post_code: string
+                        room: string
+                        street_name: string
+                        sub_department: string
+                        town_location_name: string
+                        town_name: string
+                      labels:
+                        - {}
+                      assets:
+                        - id: string
+                          updated_at: string
+                          currency_id: string
+                          currency_symbol: string
+                          currency_name: string
+                          address: string
+                          risk_score_provider: string
+                          labels:
+                            - {}
+                          created_at: string
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                          extra_info:
+                            Tag: string
+                      assets_ignore_kyt: true
         '400':
           description: Bad Request
           content:
