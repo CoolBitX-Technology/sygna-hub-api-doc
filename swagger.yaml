@@ -1,6 +1,6 @@
 openapi: 3.0.1
 x-stoplight:
-  id: jjgn1ilzkcouc
+  id: abyr9rpdoq4cn
 info:
   title: Sygna Hub
   description: Sygna Hub API Document
@@ -761,47 +761,6 @@ paths:
         - BearerToken: []
       tags:
         - Hub/customers-export
-  /customers-export/status:
-    get:
-      summary: get customer report processing status
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/model.Report'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      tags:
-        - Hub/customers-export
   '/customers/{id}':
     get:
       summary: get specific customer detail
@@ -881,10 +840,153 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/schema.GetCustomerOutput'
+                anyOf:
+                  - $ref: '#/components/schemas/GET-customers{id}_natural-person'
+                  - $ref: '#/components/schemas/GET-customers{id}_legal-person'
+                  - type: object
+                    x-stoplight:
+                      id: hjhfem29qcq53
+              examples:
+                Natural Person:
+                  value:
+                    data:
+                      id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+                      updated_at: '2023-05-11T06:04:55.000Z'
+                      vasp_code: OWNRTWTP
+                      customer_type: 0
+                      customer_id: '45645763456735678'
+                      natural_person_name:
+                        name:
+                          first_name: Takahagi
+                          last_name: ririko
+                        local_name:
+                          first_name: 高橋
+                          last_name: 莉莉子
+                        phonetic_name:
+                          first_name: タカハシ
+                          last_name: リリコ
+                      country: TW
+                      is_active: true
+                      created_at: '2023-03-06T02:58:33.000Z'
+                      national:
+                        country_of_issue: AF
+                        national_identifier: '45624562456'
+                        national_identifier_type: ARNU
+                        registration_authority: sdfvasfbadfbadfb
+                      address:
+                        address_line:
+                          - bqerb
+                        address_type: HOME
+                        building_name: sdfbdfb
+                        building_number: '12'
+                        country: AM
+                        country_sub_division: qerbqerb
+                        department: '12'
+                        district_name: qerb
+                        floor: '1'
+                        post_box: '123'
+                        post_code: bsrt1312
+                        room: '123'
+                        street_name: qergqer
+                        sub_department: erge
+                        town_location_name: erbqe
+                        town_name: drvbqerb
+                      labels: []
+                      assets:
+                        - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000000'
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                        - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000090'
+                          currency_symbol: XRP
+                          currency_name: XRP
+                          address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                          extra_info:
+                            Tag: '1304'
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                      assets_ignore_kyt: false
+                Legal Person:
+                  value:
+                    data:
+                      id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+                      updated_at: '2023-05-11T06:04:55.000Z'
+                      vasp_code: OWNRTWTP
+                      customer_type: 0
+                      customer_id: '45645763456735678'
+                      legal_person_name:
+                        name: aaa bbb
+                        local_name: AAA_BBB
+                        phonetic_name: ＡＡＡ＿ＢＢＢ
+                      country: TW
+                      is_active: true
+                      created_at: '2023-03-06T02:58:33.000Z'
+                      national:
+                        country_of_issue: AF
+                        national_identifier: '45624562456'
+                        national_identifier_type: ARNU
+                        registration_authority: sdfvasfbadfbadfb
+                      address:
+                        address_line:
+                          - bqerb
+                        address_type: HOME
+                        building_name: sdfbdfb
+                        building_number: '12'
+                        country: AM
+                        country_sub_division: qerbqerb
+                        department: '12'
+                        district_name: qerb
+                        floor: '1'
+                        post_box: '123'
+                        post_code: bsrt1312
+                        room: '123'
+                        street_name: qergqer
+                        sub_department: erge
+                        town_location_name: erbqe
+                        town_name: drvbqerb
+                      labels: []
+                      assets:
+                        - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000000'
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                        - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000090'
+                          currency_symbol: XRP
+                          currency_name: XRP
+                          address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                          extra_info:
+                            Tag: '1304'
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                      assets_ignore_kyt: false
         '400':
           description: Bad Request
           content:
@@ -1117,6 +1219,47 @@ paths:
         - BearerToken: []
       tags:
         - Hub/data-transfer-export
+  /customers-export/status:
+    get:
+      summary: get customer report processing status
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/model.Report'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/customers-export
   /data-transfer-export/download:
     get:
       summary: download transactions report
@@ -2724,12 +2867,12 @@ paths:
                       full_width_space_equals_half_width_space:
                         type: boolean
                         x-stoplight:
-                          id: 9l9w86yjrctmi
+                          id: er2opzq67aepa
                         default: false
                       auto_accept:
                         type: boolean
                         x-stoplight:
-                          id: fcz6ph6k7zifc
+                          id: l6s49k5ykanjf
                         default: true
             examples:
               Example 1:
@@ -2857,17 +3000,17 @@ paths:
                             auto_accept:
                               type: boolean
                               x-stoplight:
-                                id: ziivbd1ch15e8
+                                id: jdkjmyr6e011s
                               default: true
                             forced_sending:
                               type: boolean
                               x-stoplight:
-                                id: 210ppiz92sxc8
+                                id: z9luhcelb8jzt
                               default: true
                             full_width_space_equals_half_width_space:
                               type: boolean
                               x-stoplight:
-                                id: fqcrscfyokyhk
+                                id: 7f182djprs4wk
                               default: false
               examples:
                 Example 1:
@@ -3793,30 +3936,30 @@ paths:
                                     auto_accept:
                                       type: object
                                       x-stoplight:
-                                        id: i3jmn10vyfr0t
+                                        id: gdqq4eydvwurf
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: 88p6re4az5r6r
+                                            id: nixqcar05o2u2
                                     full_width_space_equals_half_width_space:
                                       type: object
                                       x-stoplight:
-                                        id: mqdn5uftv1j2o
+                                        id: sywxjw144b2iu
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: sddqu0tlzjjw7
+                                            id: fponuec2qanv6
                                     forced_sending:
                                       type: object
                                       x-stoplight:
-                                        id: nu8k0oxo7tycs
+                                        id: fneko0ch95has
                                       properties:
                                         type:
                                           type: boolean
                                           x-stoplight:
-                                            id: 9hhb10b74hrwb
+                                            id: m266gs2x7u7ba
                                 additionalProperties:
                                   type: boolean
               examples:
@@ -6178,7 +6321,7 @@ components:
         valid:
           type: boolean
       x-stoplight:
-        id: fflh4retkziq6
+        id: sgds2ceb0v87x
     errors.SystemError:
       type: object
       properties:
@@ -6197,7 +6340,7 @@ components:
         type:
           type: string
       x-stoplight:
-        id: 0nn7jqyeaq3l1
+        id: sq31are86nxuh
     model.Addr:
       required:
         - address
@@ -6209,7 +6352,7 @@ components:
           type: object
           properties: {}
       x-stoplight:
-        id: h5bkf14wwyio2
+        id: gvshpqxheo984
     model.Address:
       type: object
       properties:
@@ -6248,7 +6391,7 @@ components:
         town_name:
           type: string
       x-stoplight:
-        id: qo63g1szfzmh7
+        id: 77eekpllo7ch1
     model.Asset:
       type: object
       properties:
@@ -6287,19 +6430,19 @@ components:
         value_usd:
           $ref: '#/components/schemas/decimal.NullDecimal'
       x-stoplight:
-        id: r4pun9rouusy2
+        id: h5yc4duyxik06
     model.BeneficiaryPrivateInfo:
       oneOf:
         - $ref: '#/components/schemas/model.NaturalPersonName'
         - $ref: '#/components/schemas/model.LegalPersonName'
       x-stoplight:
-        id: jxys6ou6dq10h
+        id: hmhwvqwlv9x6k
     model.OriginatorPrivateInfo:
       oneOf:
         - $ref: '#/components/schemas/model.NaturalPersonName'
         - $ref: '#/components/schemas/model.LegalPersonName'
       x-stoplight:
-        id: dzxehvdcce50n
+        id: iz5vn3f8mrfn5
     model.Birth:
       type: object
       properties:
@@ -6308,7 +6451,7 @@ components:
         place_of_birth:
           type: string
       x-stoplight:
-        id: fz7kx2rjvv0sj
+        id: x65whe1d9byn8
     model.Currency:
       type: object
       properties:
@@ -6337,7 +6480,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: gvv18ker34okd
+        id: 4u9un2k0ymn40
     model.GlobalVasp:
       type: object
       properties:
@@ -6358,7 +6501,7 @@ components:
         vasp_server_status:
           type: string
       x-stoplight:
-        id: 0zgtmli3mfrkz
+        id: q941afhz34v6a
     model.Customer:
       properties:
         address:
@@ -6412,7 +6555,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: qrlmh5k33krgj
+        id: 7qg3n0txy7k0p
     model.LegalPersonName:
       title: LegalPersonName
       required:
@@ -6427,7 +6570,7 @@ components:
           type: string
       description: required if customer type equals 1
       x-stoplight:
-        id: yhm2vm7dty96f
+        id: rpdds7qkbieip
     model.Login:
       title: LegalPersonName
       type: object
@@ -6450,7 +6593,7 @@ components:
           type: string
       description: ''
       x-stoplight:
-        id: zhsjsodcn3187
+        id: 64oez89ezpcb6
     model.NameObject:
       type: object
       properties:
@@ -6459,7 +6602,7 @@ components:
         last_name:
           type: string
       x-stoplight:
-        id: aveho0blniy6b
+        id: o6wfcol9pame4
     model.National:
       type: object
       properties:
@@ -6472,7 +6615,7 @@ components:
         registration_authority:
           type: string
       x-stoplight:
-        id: qwpkge9y3td35
+        id: s2fe5f2if5czr
     ivms101.Address:
       properties:
         address_line:
@@ -6511,7 +6654,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: cq3q3gjo9h1j1
+        id: jv0f0ycw2gf8b
     ivms101.Beneficiary:
       properties:
         account_numbers:
@@ -6524,7 +6667,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: wn907kmrh89sn
+        id: 9b1a94fbtb8yp
     ivms101.DateAndPlaceOfBirth:
       properties:
         date_of_birth:
@@ -6533,7 +6676,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: q6rqrprkusmdu
+        id: x6n84p8c3q2qx
     ivms101.GeographicAddress:
       properties:
         addressLine:
@@ -6572,7 +6715,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: sajfyd1f2p2hz
+        id: baacoep4e8v3z
     ivms101.LegalPerson:
       properties:
         countryOfRegistration:
@@ -6589,7 +6732,7 @@ components:
           $ref: '#/components/schemas/ivms101.NationalIdentification'
       type: object
       x-stoplight:
-        id: 4wbcuf3qoxe3v
+        id: au9da6z5asiwk
     ivms101.LegalPersonName:
       properties:
         localNameIdentifier:
@@ -6606,7 +6749,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: datiucf3nrsxl
+        id: 7u0d25j0x5kio
     ivms101.LegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6615,7 +6758,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: w4kb9pxvd05mz
+        id: 7x9cd5vebk50e
     ivms101.LocalLegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6624,7 +6767,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: gahnx8lmwfock
+        id: 2kyvmpkaz6a4t
     ivms101.LocalNaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6635,7 +6778,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: o77sivvrjt5dc
+        id: yjyo83idcf3yv
     ivms101.NationalIdentification:
       properties:
         countryOfIssue:
@@ -6648,7 +6791,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: lqwl27occ1szh
+        id: 6h38hv8owg49n
     ivms101.NaturalPerson:
       properties:
         country_of_residence:
@@ -6667,7 +6810,7 @@ components:
           $ref: '#/components/schemas/ivms101.NationalIdentification'
       type: object
       x-stoplight:
-        id: 1wbxn4boo355q
+        id: ppyz88imx9qz4
     ivms101.NaturalPersonName:
       properties:
         localNameIdentifier:
@@ -6684,7 +6827,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: jcu9xlfiieh00
+        id: wxx3vsygd256o
     ivms101.NaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6695,7 +6838,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: r3qusywppr4b6
+        id: kzzsdi2dlnmwh
     ivms101.Originator:
       properties:
         account_numbers:
@@ -6708,7 +6851,7 @@ components:
           type: array
       type: object
       x-stoplight:
-        id: f26clq9rrij0l
+        id: ju3sz3pmkzums
     ivms101.Person:
       properties:
         legalPerson:
@@ -6717,7 +6860,7 @@ components:
           $ref: '#/components/schemas/ivms101.NaturalPerson'
       type: object
       x-stoplight:
-        id: 84itv8fhgx2me
+        id: ke7wfngoiyqvi
     ivms101.PhoneticLegalPersonNameIdentifier:
       properties:
         legalPersonName:
@@ -6726,7 +6869,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: h10m0i8b9y1v7
+        id: uq84ru4025vu1
     ivms101.PhoneticNaturalPersonNameIdentifier:
       properties:
         nameIdentifierType:
@@ -6737,7 +6880,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: sgphic8czvigp
+        id: x7w5nfefgh2b3
     model.BeneficiaryInfo:
       properties:
         address_matched:
@@ -6754,7 +6897,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: x68ao1iaibghj
+        id: qbdgxvhgfc9zr
     model.OriginatorInfo:
       properties:
         customer:
@@ -6765,7 +6908,7 @@ components:
           type: string
       type: object
       x-stoplight:
-        id: tg0393f7yx1n7
+        id: zlg6xjd4n7dlr
     model.NaturalPersonName:
       title: NaturalPersonName
       required:
@@ -6780,11 +6923,11 @@ components:
           $ref: '#/components/schemas/model.NameObject'
       description: required if customer type equals 0
       x-stoplight:
-        id: y6i5i6nezykv0
+        id: sjskd6j2t9w5q
     model.Object:
       type: object
       x-stoplight:
-        id: 5n7axlbl77jmz
+        id: fiw5oxar81hv7
     model.Ownership:
       type: object
       properties:
@@ -6815,7 +6958,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 0gymbtzfn7k7e
+        id: rklpo6xql0y3j
     model.OwnershipAsset:
       type: object
       properties:
@@ -6852,7 +6995,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: w1j1s1bu02m97
+        id: upamovqiu3yc1
     model.Platform:
       type: object
       properties:
@@ -6865,7 +7008,7 @@ components:
         token_address:
           type: string
       x-stoplight:
-        id: n51euqgh0cr81
+        id: kz7w2972dpf1x
     model.PostEmailProtocolDepositInput:
       required:
         - currency_id
@@ -6899,7 +7042,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: nhzoesuqy1fwh
+        id: e8qszbi9a9q2d
     model.PostTransactionInput:
       title: ''
       required:
@@ -6971,7 +7114,7 @@ components:
           description: The value of the currency requested to transfer.
       description: ''
       x-stoplight:
-        id: fnk7c492bcp1s
+        id: dben78s7dnz2x
     model.Report:
       type: object
       properties:
@@ -6992,7 +7135,7 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: 5aeofefvkrzdy
+        id: 1yrsg23l7bruo
     model.Rollback:
       type: object
       properties:
@@ -7005,7 +7148,7 @@ components:
         version:
           type: string
       x-stoplight:
-        id: 3c3skx5w0nezp
+        id: vyysdfmwed7m2
     model.Service:
       type: object
       properties:
@@ -7037,7 +7180,7 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: i4tdda3jg9qol
+        id: eemf1piu0a6t1
     model.Setting:
       type: object
       properties:
@@ -7055,13 +7198,13 @@ components:
         vasp_code:
           type: string
       x-stoplight:
-        id: jj4ql92ido254
+        id: j8c9vt77icr2j
     model.StringObject:
       type: object
       additionalProperties:
         type: string
       x-stoplight:
-        id: 29rex6ck627lb
+        id: t7sh99s2ztisx
     model.SupportedService:
       type: object
       properties:
@@ -7087,7 +7230,7 @@ components:
           type: string
       title: ''
       x-stoplight:
-        id: w74bhnf1udfbn
+        id: 4p6wev7dgp94h
     model.SupportedSetting:
       type: object
       properties:
@@ -7103,7 +7246,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: gj23q8yjhu5vd
+        id: rzfp7qioyyokp
     model.User:
       type: object
       properties:
@@ -7122,7 +7265,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: 08f6x2zl1ho5d
+        id: hsx3ennf84956
     model.WebhookEvent:
       type: object
       properties:
@@ -7151,7 +7294,7 @@ components:
           items:
             $ref: '#/components/schemas/model.Webhook_logs'
       x-stoplight:
-        id: cclhynmlvsigz
+        id: jny3w33f3xldq
     model.Webhook_logs:
       type: object
       properties:
@@ -7162,7 +7305,7 @@ components:
         trigger:
           type: string
       x-stoplight:
-        id: jxtqelstcubuh
+        id: kp4k0mpzz9j4f
     sanctionscreening.GetSanctionScoreOutput:
       type: object
       properties:
@@ -7173,7 +7316,7 @@ components:
         score:
           type: integer
       x-stoplight:
-        id: demzydthhsn8j
+        id: 67m0hly4wgas9
     schema.Address:
       type: object
       properties:
@@ -7212,7 +7355,7 @@ components:
         town_name:
           type: string
       x-stoplight:
-        id: 5i6u2mf3bgbwm
+        id: 49vn3f2opj4dw
     schema.Asset:
       type: object
       properties:
@@ -7244,7 +7387,7 @@ components:
         value_usd:
           type: string
       x-stoplight:
-        id: t4lucf7j0jm39
+        id: y46hrxolu0fyx
     schema.ChangePasswordInput:
       required:
         - new_password
@@ -7262,7 +7405,7 @@ components:
         old_password:
           type: string
       x-stoplight:
-        id: 04bsl6c35nt01
+        id: 9509jibi8oz0y
     schema.DateAndPlaceOfBirth:
       type: object
       properties:
@@ -7271,7 +7414,7 @@ components:
         place_of_birth:
           type: string
       x-stoplight:
-        id: udn81puk62z62
+        id: kkbjwfws9a38o
     schema.DeleteUsersInput:
       required:
         - id
@@ -7281,53 +7424,197 @@ components:
           type: string
           description: specific user identifier
       x-stoplight:
-        id: m7a0josxl1zol
+        id: 37slep584qrbb
     schema.GetCustomerOutput:
       type: object
       properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.Asset'
-        avg_risk_score:
-          type: string
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-        created_at:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-        id:
-          type: string
-        is_active:
-          type: boolean
-        labels:
-          type: array
-          items:
-            type: string
-        last_screened:
-          type: string
-        max_risk_score:
-          type: string
-        name:
-          type: string
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        protocol_extra_info:
+        data:
           type: object
-          properties: {}
-        risk_score_provider:
-          type: string
-        updated_at:
-          type: string
-      x-stoplight:
-        id: sroxfujcqd4yl
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            legal_person_name:
+              type: object
+              properties:
+                name:
+                  type: string
+                local_name:
+                  type: string
+                phonetic_name:
+                  type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            legal_person_name:
+              name: aaa bbb
+              local_name: AAA_BBB
+              phonetic_name: ＡＡＡ＿ＢＢＢ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
     schema.GetCustomersOutput:
       type: object
       properties:
@@ -7359,7 +7646,7 @@ components:
         updated_at:
           type: string
       x-stoplight:
-        id: ggubaedxfsw2g
+        id: f1cgf18vv5rb9
     schema.GetRootOutput:
       type: object
       properties:
@@ -7368,11 +7655,11 @@ components:
         version:
           type: string
       x-stoplight:
-        id: mkelj0gsmuu5r
+        id: gthmmwfu7zux7
     schema.GetTransactionOutput:
       type: object
       x-stoplight:
-        id: ajlv6kr9bcpzb
+        id: 25bwbtfy76081
       properties:
         assets:
           type: array
@@ -7462,7 +7749,7 @@ components:
         data_transfer_remarks:
           type: string
           x-stoplight:
-            id: tausb17cohaxk
+            id: n9zgvprpandwv
           example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
     schema.GetTransactionsOutput:
       type: object
@@ -7523,7 +7810,7 @@ components:
           type: string
           description: only used in response
       x-stoplight:
-        id: r9mac8cd8jsph
+        id: gwp66floeea9r
     schema.LegalPersonName:
       type: object
       properties:
@@ -7535,7 +7822,7 @@ components:
           type: string
       description: required if customer_type equals 1
       x-stoplight:
-        id: 1f46hrtfold2f
+        id: 10cg1s7z8wum2
     schema.NameObject:
       type: object
       properties:
@@ -7544,7 +7831,7 @@ components:
         last_name:
           type: string
       x-stoplight:
-        id: 7e7mh88bygm36
+        id: m0i1ngs1ism72
     schema.NationalIdentification:
       type: object
       properties:
@@ -7557,7 +7844,7 @@ components:
         registration_authority:
           type: string
       x-stoplight:
-        id: qogzr9ufytsuh
+        id: wee8anja8s0vw
     schema.NaturalPersonName:
       type: object
       properties:
@@ -7569,7 +7856,7 @@ components:
           $ref: '#/components/schemas/schema.NameObject'
       description: required if customer_type equals 0
       x-stoplight:
-        id: 2va202uhth8j0
+        id: v19bad0di9etn
     schema.PagingResult:
       required:
         - has_next
@@ -7590,7 +7877,7 @@ components:
         total:
           type: integer
       x-stoplight:
-        id: ehordxhlygb1b
+        id: w0elhr78mivoe
     schema.PatchAssetInput:
       required:
         - id
@@ -7608,7 +7895,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: jyd10zr9w3xyj
+        id: vmkabup9t2p28
     schema.PatchCustomersInput:
       title: ''
       required:
@@ -7644,7 +7931,7 @@ components:
         update_status:
           type: boolean
       x-stoplight:
-        id: ij07ot5klvu8k
+        id: scdx5b1uw4xgi
       x-examples:
         Example 1:
           address:
@@ -7732,7 +8019,7 @@ components:
           type: string
           description: Transaction identifier on blockchain
       x-stoplight:
-        id: smuckpfynj3s8
+        id: p6ydliq4o6fvk
     schema.PatchOwnershipAssetValidationConfirmInput:
       required:
         - id
@@ -7743,7 +8030,7 @@ components:
           description: Target asset identifier which you want to accept
           format: uuid
       x-stoplight:
-        id: itz6t4st3u2f8
+        id: p33euv0gkovxh
     schema.PatchOwnershipAssetValidationRejectInput:
       required:
         - id
@@ -7771,7 +8058,7 @@ components:
           type: string
           description: Reply detail why you reject.
       x-stoplight:
-        id: evyuif6aodsbq
+        id: oxcj85bttw8fc
     schema.PatchOwnershipConfirmInput:
       required:
         - id
@@ -7790,7 +8077,7 @@ components:
           items:
             $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
       x-stoplight:
-        id: tp1xv7v0rw7o9
+        id: ezs237hc07scv
     schema.PatchOwnershipIdInput:
       required:
         - id
@@ -7801,7 +8088,7 @@ components:
           description: Target ownership identifier
           format: uuid
       x-stoplight:
-        id: z74mpijbjr2vz
+        id: bw5wg1fxq3bm9
     schema.PatchOwnershipValidationInput:
       type: object
       properties:
@@ -7817,7 +8104,7 @@ components:
           items:
             $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
       x-stoplight:
-        id: vrkd54tiyjnu7
+        id: 2e8zjdcep5nvn
     schema.PatchPermissionInput:
       required:
         - id
@@ -7849,7 +8136,7 @@ components:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
       x-stoplight:
-        id: z4kwzv0bem5rg
+        id: wprjtwobgc0u2
     schema.PatchTransactionsStatus:
       required:
         - action
@@ -7862,7 +8149,7 @@ components:
           type: string
           format: uuid
       x-stoplight:
-        id: gi6htovep787t
+        id: c0xvf6gs35xvm
     schema.PatchTxIdInput:
       required:
         - id
@@ -7877,7 +8164,7 @@ components:
           type: string
           description: Transaction identifier on blockchain
       x-stoplight:
-        id: vagblzgbws3hy
+        id: vaw5hm5bq65gt
     schema.PatchUsersInput:
       required:
         - id
@@ -7891,7 +8178,7 @@ components:
         role_id:
           type: integer
       x-stoplight:
-        id: d5e8kr9fk7bsn
+        id: 61h7ck71jh8zs
     schema.PostAssetInput:
       required:
         - address
@@ -7908,7 +8195,7 @@ components:
         value:
           type: string
       x-stoplight:
-        id: kejt5gn8cyutr
+        id: mjdvbjskc633h
     schema.PostCustomersInput:
       required:
         - assets
@@ -7943,7 +8230,7 @@ components:
         natural_person_name:
           $ref: '#/components/schemas/model.NaturalPersonName'
       x-stoplight:
-        id: 18t2jaq96igam
+        id: p9rj0p0r7e782
     schema.PostEmailProtocolPermissionInput:
       required:
         - id
@@ -7977,7 +8264,7 @@ components:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
       x-stoplight:
-        id: f8ga0mew57d0u
+        id: jxazemq8rdwrt
     schema.PostOauthInput:
       required:
         - account
@@ -7995,7 +8282,7 @@ components:
             - password
             - google
       x-stoplight:
-        id: jgzrv3m51i2zk
+        id: arseqkxfp5din
     schema.PostOwnershipInput:
       required:
         - owner_email
@@ -8019,7 +8306,7 @@ components:
           $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
       description: ''
       x-stoplight:
-        id: 6nj8r363qopaz
+        id: 8nluas09x7wvl
     schema.PostOwnershipTransactionInformationInput:
       required:
         - currency_id
@@ -8034,7 +8321,7 @@ components:
         vasp_beneficiary_wallet_address:
           type: string
       x-stoplight:
-        id: pkkq43oth8phw
+        id: u7pt9pytc3ef1
     schema.PostSanctionMatchInput:
       required:
         - customer_type
@@ -8046,7 +8333,7 @@ components:
         name:
           type: string
       x-stoplight:
-        id: jh53ltqv12fi7
+        id: lu04rog9uj1t6
     schema.PostServicesInput:
       type: object
       properties:
@@ -8080,7 +8367,7 @@ components:
         - provider
         - type
       x-stoplight:
-        id: 7sn2gxalz2zn6
+        id: l11x53d5bw4kg
     schema.PostSettingInput:
       required:
         - rule
@@ -8099,7 +8386,7 @@ components:
             - forced_sending_when_VASP_is_not_healthy
             - blockchain_analytics_timing
       x-stoplight:
-        id: 3ramz6fg7vtwx
+        id: ekpq0z6p9eoa2
     schema.PostUsersInput:
       required:
         - account
@@ -8129,7 +8416,7 @@ components:
             role_id is optional and its default value is 1(member).
             notice: admin could not be created if there is admin in VASP.
       x-stoplight:
-        id: fpb9zisx8028j
+        id: 170dg1c41d7ke
     schema.PostUsersLinkInput:
       required:
         - account
@@ -8148,7 +8435,7 @@ components:
             third party service name
             only google is supported now
       x-stoplight:
-        id: 9hbvfkxztfd78
+        id: 4me3qinkyy5la
     schema.PostVendorsTestInput:
       required:
         - credential
@@ -8178,7 +8465,7 @@ components:
             - Blockchain Analytics
             - Sanction Screening
       x-stoplight:
-        id: ipg6u040kohb1
+        id: nobbzm6dkskat
     schema.PostVendorsTestOutput:
       required:
         - provider
@@ -8199,11 +8486,11 @@ components:
         type:
           type: string
       x-stoplight:
-        id: gq051f81comew
+        id: cefbfg7741tpt
     schema.PostWalletAddressFilterInput:
       type: object
       x-stoplight:
-        id: oh24mmsdo3ml6
+        id: phctamwcn1wx6
       properties:
         addrs:
           type: array
@@ -8216,7 +8503,7 @@ components:
         elliptic_holistic_wallet_analysis:
           type: boolean
           x-stoplight:
-            id: 3vpdj1j6fx198
+            id: u2mb128qvyc46
           description: |-
             Support Elliptic Holistic Screening.
             VASPs must opt-in for Elliptic Holistic searching to avoid errors.
@@ -8250,7 +8537,7 @@ components:
             - OTHER_VASP
             - PRIVATE_WALLET
       x-stoplight:
-        id: r3qbc95d8kwp7
+        id: s8f1k0ppvubs3
     schema.PutCustomersInput:
       required:
         - assets
@@ -8291,7 +8578,7 @@ components:
         natural_person_name:
           $ref: '#/components/schemas/model.NaturalPersonName'
       x-stoplight:
-        id: qwkmtp80dn7jj
+        id: 73mmcs0lyjq24
     schema.PutRollbackInout:
       required:
         - version
@@ -8300,7 +8587,7 @@ components:
         version:
           type: string
       x-stoplight:
-        id: ru4wyb2fb6das
+        id: gnlmklfxdy9bl
     schema.PutServicesInput:
       required:
         - credential
@@ -8337,7 +8624,7 @@ components:
             - Sanction Screening
             - Travel Rule
       x-stoplight:
-        id: n3xfj0cw3jtc3
+        id: 7gwty34l77z1y
     schema.Resp:
       type: object
       properties:
@@ -8345,7 +8632,7 @@ components:
           type: object
           properties: {}
       x-stoplight:
-        id: fxdu4qtfio2yl
+        id: 2ucdqas76f5z3
     schema.RespWithMutation:
       title: ''
       required:
@@ -8367,14 +8654,14 @@ components:
               success:
                 type: boolean
       x-stoplight:
-        id: 13w9ga6ctxl3u
+        id: pncgigx5kxf4f
     schema.RespWithPaging:
       type: object
       properties:
         paging:
           $ref: '#/components/schemas/schema.PagingResult'
       x-stoplight:
-        id: mbgrs8rx6vj1b
+        id: nl6023mfb37bn
     schema.RespWithStatus:
       type: object
       properties:
@@ -8390,7 +8677,7 @@ components:
       required:
         - data
       x-stoplight:
-        id: 16m1v0m2wqomy
+        id: mqdas1hkiqm1o
     schema.RespWithStatusAndMessage:
       required:
         - data
@@ -8408,7 +8695,7 @@ components:
             success:
               type: boolean
       x-stoplight:
-        id: 73bvg9v29wx6n
+        id: ibunric01gbjv
     schema.TransactionAsset:
       required:
         - id
@@ -8434,11 +8721,11 @@ components:
         risk_score_provider:
           type: string
       x-stoplight:
-        id: rktxpa2smu596
+        id: lhug1yk9basbj
     types.H:
       type: object
       x-stoplight:
-        id: u4d6cbnshqbie
+        id: 51rk0ikcmlyc2
     PostTransactionSygnaBridge:
       title: PostTransactionSygnaBridge
       type: object
@@ -8510,7 +8797,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: te9o0f7mopl7w
+        id: ze3qut5hub0cq
     PostTransactionUnknown:
       title: PostTransactionUnknown
       type: object
@@ -8561,7 +8848,7 @@ components:
         - originator
         - value
       x-stoplight:
-        id: slndl80gt9iok
+        id: kh8r4jvaapy9b
     PostTransactionSygnaEmail:
       title: PostTransactionSygnaEmail
       type: object
@@ -8600,7 +8887,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: nax2ofi3s4d6a
+        id: 2tvdvviq3qbd9
     PostTransactionTRISA:
       title: PostTransactionTRISA
       type: object
@@ -8655,7 +8942,7 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: rjjy3d6zoeeij
+        id: 08n1if78vqlxu
     PostTransactionShyft:
       title: PostTransactionShyft
       type: object
@@ -8695,7 +8982,220 @@ components:
         - protocol
         - value
       x-stoplight:
-        id: u5w2juda54ph6
+        id: srjkc789fie57
+    'GET-customers{id}_legal-person':
+      type: object
+      x-stoplight:
+        id: vc8l2aah07upk
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            natural_person_name:
+              type: object
+              properties:
+                name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                local_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                phonetic_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            natural_person_name:
+              name:
+                first_name: Takahagi
+                last_name: ririko
+              local_name:
+                first_name: 高橋
+                last_name: 莉莉子
+              phonetic_name:
+                first_name: タカハシ
+                last_name: リリコ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
     OriginatorAsset:
       anyOf:
         - properties:
@@ -8715,7 +9215,411 @@ components:
       type: object
       title: ''
       x-stoplight:
-        id: 8ppzorukirnji
+        id: c13u1lgpml9kf
+    'GET-customers{id}_natural-person':
+      type: object
+      x-stoplight:
+        id: ax6oe7qatnuic
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            natural_person_name:
+              type: object
+              properties:
+                name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                local_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                phonetic_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            natural_person_name:
+              name:
+                first_name: Takahagi
+                last_name: ririko
+              local_name:
+                first_name: 高橋
+                last_name: 莉莉子
+              phonetic_name:
+                first_name: タカハシ
+                last_name: リリコ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
+      title: ''
+    natural-person:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            legal_person_name:
+              type: object
+              properties:
+                name:
+                  type: string
+                local_name:
+                  type: string
+                phonetic_name:
+                  type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            legal_person_name:
+              name: aaa bbb
+              local_name: AAA_BBB
+              phonetic_name: ＡＡＡ＿ＢＢＢ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
   securitySchemes:
     BearerToken:
       type: apiKey
