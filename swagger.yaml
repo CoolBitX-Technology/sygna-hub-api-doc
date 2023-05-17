@@ -5110,7 +5110,7 @@ paths:
                         type:
                           type: string
                           description: |-
-                            - SYGNA_VASP: This category is determined based on the data in the Sygna server's wallet address directory. If the sending and receiving addresses are listed in the API Bridge </permission-request> or API Hub </transactions>, they will be classified under this category. 
+                            - SYGNA_VASP: This category is determined based on the data in the Sygna server's wallet address directory. If the sending and receiving addresses are listed in the API Bridge (/permission-request) or API Hub (/transactions>), they will be classified under this category. 
                             - EMAIL_PROTOCOL: This category is determined based on the data in the Sygna server's wallet address directory. If the wallet address has been onboarded during the Sygna Email Protocol VASP account registration, it will be classified under this category. 
                             - OTHER_VASP: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider. 
                             - PRIVATE_WALLET: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider.
