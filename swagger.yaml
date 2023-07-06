@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
   version: 1.23.0
   title: Sygna Hub
@@ -904,136 +904,17 @@ paths:
           content:
             '*/*':
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      updated_at:
-                        type: string
-                      vasp_code:
-                        type: string
-                      customer_type:
-                        type: integer
-                      customer_id:
-                        type: string
-                      legal_person_name:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          local_name:
-                            type: string
-                          phonetic_name:
-                            type: string
-                      country:
-                        type: string
-                      is_active:
-                        type: boolean
-                      created_at:
-                        type: string
-                      national:
-                        type: object
-                        properties:
-                          country_of_issue:
-                            type: string
-                          national_identifier:
-                            type: string
-                          national_identifier_type:
-                            type: string
-                          registration_authority:
-                            type: string
-                      address:
-                        type: object
-                        properties:
-                          address_line:
-                            type: array
-                            items:
-                              type: string
-                          address_type:
-                            type: string
-                          building_name:
-                            type: string
-                          building_number:
-                            type: string
-                          country:
-                            type: string
-                          country_sub_division:
-                            type: string
-                          department:
-                            type: string
-                          district_name:
-                            type: string
-                          floor:
-                            type: string
-                          post_box:
-                            type: string
-                          post_code:
-                            type: string
-                          room:
-                            type: string
-                          street_name:
-                            type: string
-                          sub_department:
-                            type: string
-                          town_location_name:
-                            type: string
-                          town_name:
-                            type: string
-                      labels:
-                        type: array
-                        items:
-                          type: object
-                          properties: {}
-                      assets:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                            updated_at:
-                              type: string
-                            currency_id:
-                              type: string
-                            currency_symbol:
-                              type: string
-                            currency_name:
-                              type: string
-                            address:
-                              type: string
-                            risk_score_provider:
-                              type: string
-                            labels:
-                              type: array
-                              items:
-                                type: object
-                                properties: {}
-                            created_at:
-                              type: string
-                            last_screened:
-                              type: 'null'
-                            is_sygna_supported:
-                              type: boolean
-                            is_kyt_supported:
-                              type: boolean
-                            extra_info:
-                              type: object
-                              properties:
-                                Tag:
-                                  type: string
-                      assets_ignore_kyt:
-                        type: boolean
-                    $ref: '#/components/schemas/schema.GetCustomerOutput'
+                anyOf:
+                  - $ref: '#/components/schemas/GET-customers{id}_natural-person'
+                  - $ref: '#/components/schemas/GET-customers{id}_legal-person'
+                  - type: object
               examples:
                 Natural Person:
                   value:
                     data:
                       id: 3bd97f92-3e14-430e-bcf7-c07fa2fxxxxx
                       updated_at: '2023-05-11T06:04:55.000Z'
-                      vasp_code: OWNRTWTP
+                      vasp_code: XXXXXXXX
                       customer_type: 0
                       customer_id: 456457634567xxxxx
                       natural_person_name:
@@ -1101,64 +982,73 @@ paths:
                           is_sygna_supported: true
                           is_kyt_supported: true
                       assets_ignore_kyt: false
-              examples:
-                Example 1:
+                Legal Person:
                   value:
                     data:
-                      id: string
-                      updated_at: string
-                      vasp_code: string
+                      id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+                      updated_at: '2023-05-11T06:04:55.000Z'
+                      vasp_code: OWNRTWTP
                       customer_type: 0
-                      customer_id: string
+                      customer_id: '45645763456735678'
                       legal_person_name:
-                        name: string
-                        local_name: string
-                        phonetic_name: string
-                      country: string
+                        name: aaa bbb
+                        local_name: AAA_BBB
+                        phonetic_name: ＡＡＡ＿ＢＢＢ
+                      country: TW
                       is_active: true
-                      created_at: string
+                      created_at: '2023-03-06T02:58:33.000Z'
                       national:
-                        country_of_issue: string
-                        national_identifier: string
-                        national_identifier_type: string
-                        registration_authority: string
+                        country_of_issue: AF
+                        national_identifier: '45624562456'
+                        national_identifier_type: ARNU
+                        registration_authority: sdfvasfbadfbadfb
                       address:
                         address_line:
-                          - string
-                        address_type: string
-                        building_name: string
-                        building_number: string
-                        country: string
-                        country_sub_division: string
-                        department: string
-                        district_name: string
-                        floor: string
-                        post_box: string
-                        post_code: string
-                        room: string
-                        street_name: string
-                        sub_department: string
-                        town_location_name: string
-                        town_name: string
-                      labels:
-                        - {}
+                          - bqerb
+                        address_type: HOME
+                        building_name: sdfbdfb
+                        building_number: '12'
+                        country: AM
+                        country_sub_division: qerbqerb
+                        department: '12'
+                        district_name: qerb
+                        floor: '1'
+                        post_box: '123'
+                        post_code: bsrt1312
+                        room: '123'
+                        street_name: qergqer
+                        sub_department: erge
+                        town_location_name: erbqe
+                        town_name: drvbqerb
+                      labels: []
                       assets:
-                        - id: string
-                          updated_at: string
-                          currency_id: string
-                          currency_symbol: string
-                          currency_name: string
-                          address: string
-                          risk_score_provider: string
-                          labels:
-                            - {}
-                          created_at: string
+                        - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000000'
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
                           last_screened: null
                           is_sygna_supported: true
                           is_kyt_supported: true
+                        - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                          updated_at: '2023-05-11T06:04:55.000Z'
+                          currency_id: 'sygna:0x80000090'
+                          currency_symbol: XRP
+                          currency_name: XRP
+                          address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
                           extra_info:
-                            Tag: string
-                      assets_ignore_kyt: true
+                            Tag: '1304'
+                          risk_score_provider: Elliptic
+                          labels: []
+                          created_at: '2023-05-11T06:04:55.000Z'
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                      assets_ignore_kyt: false
         '400':
           description: Bad Request
           content:
@@ -1389,9 +1279,49 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      servers:
-        - url: 'httsp://example.com/v1'
-          description: ''
+      tags:
+        - Hub/data-transfer-export
+  /customers-export/status:
+    get:
+      summary: get customer report processing status
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/model.Report'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      tags:
+        - Hub/customers-export
   /data-transfer-export/download:
     get:
       tags:
@@ -6609,10 +6539,10 @@ components:
     schema.GetRootOutput:
       type: object
       properties:
-        release:
-          type: string
-        version:
-          type: string
+        decimal:
+          type: number
+        valid:
+          type: boolean
     errors.SystemError:
       type: object
       properties:
@@ -6628,6 +6558,17 @@ components:
           type: object
         type:
           type: string
+    model.Addr:
+      required:
+        - address
+      type: object
+      properties:
+        address:
+          type: string
+        extra_info:
+          type: object
+          properties: {}
+    model.Address:
     model.Currency:
       type: object
       properties:
@@ -6635,6 +6576,41 @@ components:
           type: array
           items:
             type: string
+        address_type:
+          type: string
+        building_name:
+          type: string
+        building_number:
+          type: string
+        country:
+          type: string
+        country_sub_division:
+          type: string
+        department:
+          type: string
+        district_name:
+          type: string
+        floor:
+          type: string
+        post_box:
+          type: string
+        post_code:
+          type: string
+        room:
+          type: string
+        street_name:
+          type: string
+        sub_department:
+          type: string
+        town_location_name:
+          type: string
+        town_name:
+          type: string
+    model.Asset:
+      type: object
+      properties:
+        address:
+          type: string
         created_at:
           type: string
         currency_id:
@@ -6655,24 +6631,62 @@ components:
           $ref: '#/components/schemas/model.Platform'
         updated_at:
           type: string
-    model.Platform:
+        value:
+          $ref: '#/components/schemas/decimal.NullDecimal'
+        value_usd:
+          $ref: '#/components/schemas/decimal.NullDecimal'
+    model.BeneficiaryPrivateInfo:
+      oneOf:
+        - $ref: '#/components/schemas/model.NaturalPersonName'
+        - $ref: '#/components/schemas/model.LegalPersonName'
+    model.OriginatorPrivateInfo:
+      oneOf:
+        - $ref: '#/components/schemas/model.NaturalPersonName'
+        - $ref: '#/components/schemas/model.LegalPersonName'
+    model.Birth:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        symbol:
+    model.Currency:
+      type: object
+      properties:
+        addr_extra_info:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+        currency_id:
+          type: string
+        currency_name:
+          type: string
+        currency_symbol:
           type: string
         token_address:
           type: string
-    schema.RespWithPaging:
+    model.GlobalVasp:
       type: object
       properties:
-        paging:
-          $ref: '#/components/schemas/schema.PagingResult'
-    schema.PagingResult:
-      type: object
+        created_at:
+          type: string
+        extra_info:
+          $ref: '#/components/schemas/model.Object'
+        id:
+          type: string
+        protocol:
+          type: string
+        updated_at:
+          type: string
+        vasp_identifier:
+          type: string
+        vasp_name:
+          type: string
+        vasp_server_status:
+          type: string
+    model.Customer:
       properties:
         has_next:
           type: boolean
@@ -6720,6 +6734,9 @@ components:
           type: string
         updated_at:
           type: string
+        vasp_code:
+          type: string
+      type: object
     model.LegalPersonName:
       type: object
       title: LegalPersonName
@@ -6731,21 +6748,30 @@ components:
           type: string
         phonetic_name:
           type: string
-      required:
-        - name
-    model.NaturalPersonName:
+      description: required if customer type equals 1
+    model.Login:
+      title: LegalPersonName
       type: object
       title: NaturalPersonName
       description: required if customer type equals 0
       properties:
-        local_name:
-          $ref: '#/components/schemas/model.NameObject'
-        name:
-          $ref: '#/components/schemas/model.NameObject'
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      required:
-        - name
+        account:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        last_login:
+          type: string
+        last_password_change:
+          type: string
+        login_type:
+          type: string
+        updated_at:
+          type: string
+      description: ''
     model.NameObject:
       type: object
       properties:
@@ -6753,7 +6779,7 @@ components:
           type: string
         last_name:
           type: string
-    schema.PutCustomersInput:
+    model.National:
       type: object
       properties:
         address:
@@ -6778,22 +6804,7 @@ components:
             * 1 - LegalPerson
         id:
           type: string
-          format: uuid
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-      required:
-        - assets
-        - country
-        - customer_type
-        - id
-    schema.Address:
-      type: object
+    ivms101.Address:
       properties:
         address_line:
           type: array
@@ -6831,6 +6842,7 @@ components:
           type: string
     schema.PatchAssetInput:
       type: object
+    ivms101.Beneficiary:
       properties:
         address:
           type: string
@@ -6847,6 +6859,7 @@ components:
         - id
     schema.DateAndPlaceOfBirth:
       type: object
+    ivms101.DateAndPlaceOfBirth:
       properties:
         date_of_birth:
           type: string
@@ -6854,36 +6867,48 @@ components:
           type: string
     schema.NationalIdentification:
       type: object
+    ivms101.GeographicAddress:
       properties:
         country_of_issue:
           type: string
         national_identifier:
           type: string
-        national_identifier_type:
+      type: object
+    ivms101.LegalPerson:
+      properties:
+        countryOfRegistration:
           type: string
         registration_authority:
           type: string
     schema.RespWithMutation:
       type: object
+    ivms101.LegalPersonName:
       properties:
         data:
           type: array
           items:
-            type: object
-            properties:
-              error:
-                $ref: '#/components/schemas/errors.SystemError'
-              id:
-                type: string
-                format: uuid
-              success:
-                type: boolean
-            required:
-              - success
-      required:
-        - data
-    schema.PostCustomersInput:
+            $ref: '#/components/schemas/ivms101.LegalPersonNameIdentifier'
+          type: array
+        phoneticNameIdentifier:
+          items:
+            $ref: '#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier'
+          type: array
       type: object
+    ivms101.LegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
+          type: string
+        legalPersonNameIdentifierType:
+          type: string
+      type: object
+    ivms101.LocalLegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
+          type: string
+        legalPersonNameIdentifierType:
+          type: string
+      type: object
+    ivms101.LocalNaturalPersonNameIdentifier:
       properties:
         address:
           $ref: '#/components/schemas/schema.Address'
@@ -6917,10 +6942,14 @@ components:
         - customer_type
     schema.PostAssetInput:
       type: object
+    ivms101.NationalIdentification:
       properties:
         address:
           type: string
-        currency_id:
+      type: object
+    ivms101.NaturalPerson:
+      properties:
+        country_of_residence:
           type: string
         extra_info:
           type: object
@@ -6931,18 +6960,19 @@ components:
         - currency_id
     schema.PatchCustomersInput:
       type: object
+    ivms101.NaturalPersonName:
       properties:
         address:
           $ref: '#/components/schemas/model.Address'
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/model.Asset'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/model.Birth'
-        country:
+            $ref: '#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier'
+          type: array
+      type: object
+    ivms101.NaturalPersonNameIdentifier:
+      properties:
+        nameIdentifierType:
           type: string
         customer_id:
           type: string
@@ -6964,26 +6994,84 @@ components:
         - id
     model.Address:
       type: object
+    ivms101.Originator:
       properties:
         address_line:
           type: array
           items:
-            type: string
-        address_type:
+            $ref: '#/components/schemas/ivms101.Person'
+          type: array
+      type: object
+    ivms101.Person:
+      properties:
+        legalPerson:
+          $ref: '#/components/schemas/ivms101.LegalPerson'
+        naturalPerson:
+          $ref: '#/components/schemas/ivms101.NaturalPerson'
+      type: object
+    ivms101.PhoneticLegalPersonNameIdentifier:
+      properties:
+        legalPersonName:
           type: string
         building_name:
           type: string
-        building_number:
+      type: object
+    ivms101.PhoneticNaturalPersonNameIdentifier:
+      properties:
+        nameIdentifierType:
           type: string
         country:
           type: string
         country_sub_division:
           type: string
-        department:
+      type: object
+    model.BeneficiaryInfo:
+      properties:
+        address_matched:
+          type: boolean
+        customer:
+          $ref: '#/components/schemas/model.Customer'
+        name_matched:
+          type: boolean
+        private_info:
+          $ref: '#/components/schemas/ivms101.Beneficiary'
+        type_matched:
+          type: boolean
+        vasp_code:
           type: string
-        district_name:
+      type: object
+    model.OriginatorInfo:
+      properties:
+        customer:
+          $ref: '#/components/schemas/model.Customer'
+        private_info:
+          $ref: '#/components/schemas/ivms101.Originator'
+        vasp_code:
           type: string
-        floor:
+      type: object
+    model.NaturalPersonName:
+      title: NaturalPersonName
+      required:
+        - name
+      type: object
+      properties:
+        local_name:
+          $ref: '#/components/schemas/model.NameObject'
+        name:
+          $ref: '#/components/schemas/model.NameObject'
+        phonetic_name:
+          $ref: '#/components/schemas/model.NameObject'
+      description: required if customer type equals 0
+    model.Object:
+      type: object
+    model.Ownership:
+      type: object
+      properties:
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.OwnershipAsset'
+        created_at:
           type: string
         post_box:
           type: string
@@ -6995,11 +7083,7 @@ components:
           type: string
         sub_department:
           type: string
-        town_location_name:
-          type: string
-        town_name:
-          type: string
-    model.Asset:
+    model.OwnershipAsset:
       type: object
       properties:
         address:
@@ -7033,14 +7117,8 @@ components:
         updated_at:
           type: string
         value:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-        value_usd:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-    model.StringObject:
-      type: object
-      additionalProperties:
-        type: string
-    decimal.NullDecimal:
+          type: string
+    model.Platform:
       type: object
       properties:
         decimal:
@@ -7054,7 +7132,12 @@ components:
           type: string
         place_of_birth:
           type: string
-    schema.LegalPersonName:
+    model.PostEmailProtocolDepositInput:
+      required:
+        - currency_id
+        - customer_id
+        - originator
+        - value
       type: object
       description: required if customer_type equals 1
       properties:
@@ -7064,7 +7147,14 @@ components:
           type: string
         phonetic_name:
           type: string
-    model.National:
+    model.PostTransactionInput:
+      title: ''
+      required:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - value
       type: object
       properties:
         country_of_issue:
@@ -7092,6 +7182,8 @@ components:
           type: string
         last_name:
           type: string
+          description: The value of the currency requested to transfer.
+      description: ''
     model.Report:
       type: object
       properties:
@@ -7111,9 +7203,7 @@ components:
           type: string
         vasp_code:
           type: string
-    model.Object:
-      type: object
-    schema.GetCustomerOutput:
+    model.Rollback:
       type: object
       properties:
         address:
@@ -7128,6 +7218,9 @@ components:
           $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
         country:
           type: string
+    model.Service:
+      type: object
+      properties:
         created_at:
           type: string
         customer_id:
@@ -7156,7 +7249,9 @@ components:
           type: string
         updated_at:
           type: string
-    schema.Asset:
+        vasp_code:
+          type: string
+    model.Setting:
       type: object
       properties:
         address:
@@ -7175,7 +7270,14 @@ components:
             type: string
         last_screened:
           type: string
-        risk_score:
+    model.StringObject:
+      type: object
+      additionalProperties:
+        type: string
+    model.SupportedService:
+      type: object
+      properties:
+        created_at:
           type: string
         risk_score_provider:
           type: string
@@ -7185,36 +7287,32 @@ components:
           type: string
         value_usd:
           type: string
-    schema.PostOauthInput:
+      title: ''
+    model.SupportedSetting:
       type: object
       properties:
         account:
           type: string
         credential:
           type: string
-        login_type:
-          enum:
-            - password
-            - google
-          default: password
-      required:
-        - account
-        - credential
-    schema.RespWithStatus:
+    model.User:
       type: object
       properties:
-        data:
-          type: object
-          properties:
-            success:
-              type: boolean
-            accessToken:
-              type: string
-          required:
-            - success
-      required:
-        - data
-    model.Ownership:
+        created_at:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        logins:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Login'
+        role_id:
+          type: integer
+        updated_at:
+          type: string
+    model.WebhookEvent:
       type: object
       properties:
         assets:
@@ -7237,11 +7335,31 @@ components:
           type: integer
         status_text:
           type: string
-        transaction_information:
-          type: object
-        updated_at:
+        retry_count:
           type: string
-    model.OwnershipAsset:
+        webhook_logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Webhook_logs'
+    model.Webhook_logs:
+      type: object
+      properties:
+        created_at:
+          type: string
+        success:
+          type: boolean
+        trigger:
+          type: string
+    sanctionscreening.GetSanctionScoreOutput:
+      type: object
+      properties:
+        profile_ids:
+          type: array
+          items:
+            type: string
+        score:
+          type: integer
+    schema.Address:
       type: object
       properties:
         address:
@@ -7276,7 +7394,7 @@ components:
           type: string
         value:
           type: string
-    schema.PostOwnershipInput:
+    schema.Asset:
       type: object
       properties:
         assets_ignore_kyt:
@@ -7290,9 +7408,7 @@ components:
             type: string
         sender_email:
           type: string
-          format: email
-        transaction_information:
-          $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
+    schema.ChangePasswordInput:
       required:
         - owner_email
         - private_wallet_address
@@ -7302,10 +7418,14 @@ components:
       properties:
         currency_id:
           type: string
-        value:
+    schema.DateAndPlaceOfBirth:
+      type: object
+      properties:
+        date_of_birth:
           type: string
         vasp_beneficiary_wallet_address:
           type: string
+    schema.DeleteUsersInput:
       required:
         - currency_id
         - value
@@ -7315,28 +7435,198 @@ components:
       properties:
         id:
           type: string
-          description: Target ownership identifier
-          format: uuid
-      required:
-        - id
-    schema.PatchOwnershipConfirmInput:
+          description: specific user identifier
+    schema.GetCustomerOutput:
       type: object
       properties:
-        accept:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationConfirmInput'
-        id:
-          type: string
-          description: Target ownership identifier
-          format: uuid
-        reject:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
-      required:
-        - id
-    schema.PatchOwnershipAssetValidationConfirmInput:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            legal_person_name:
+              type: object
+              properties:
+                name:
+                  type: string
+                local_name:
+                  type: string
+                phonetic_name:
+                  type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            legal_person_name:
+              name: aaa bbb
+              local_name: AAA_BBB
+              phonetic_name: ＡＡＡ＿ＢＢＢ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
+    schema.GetCustomersOutput:
       type: object
       properties:
         id:
@@ -7392,11 +7682,7 @@ components:
           format: uuid
         txid:
           type: string
-          description: Transaction identifier on blockchain
-      required:
-        - id
-        - txid
-    model.Rollback:
+    schema.GetRootOutput:
       type: object
       properties:
         gorm_version:
@@ -7407,7 +7693,7 @@ components:
           type: string
         version:
           type: string
-    schema.PutRollbackInout:
+    schema.GetTransactionOutput:
       type: object
       properties:
         version:
@@ -7518,21 +7804,9 @@ components:
           type: string
         vasp_code:
           type: string
-    schema.PostSettingInput:
-      type: object
-      properties:
-        rule:
-          type: object
-        type:
-          enum:
-            - personal_info_checking_items
-            - automation_settings
-            - sanction_screening_timing
-            - forced_sending_when_VASP_is_not_healthy
-            - blockchain_analytics_timing
-      required:
-        - rule
-        - type
+        data_transfer_remarks:
+          type: string
+          example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
     schema.GetTransactionsOutput:
       type: object
       properties:
@@ -7591,7 +7865,7 @@ components:
         value_usd:
           type: string
           description: only used in response
-    PostTransactionUnknown:
+    schema.LegalPersonName:
       type: object
       title: PostTransactionUnknown
       description: This schema is for 'Unknown' protocol
@@ -7631,48 +7905,13 @@ components:
           type: object
         txid:
           type: string
-        value:
-          type: string
-          description: The value of the currency requested to transfer.
-      required:
-        - beneficiary
-        - currency_id
-        - customer_id
-        - originator
-        - value
-    model.Addr:
+      description: required if customer_type equals 1
+    schema.NameObject:
       type: object
       properties:
         address:
           type: string
-        extra_info:
-          type: object
-      required:
-        - address
-    model.BeneficiaryPrivateInfo:
-      oneOf:
-        - $ref: '#/components/schemas/model.NaturalPersonName'
-        - $ref: '#/components/schemas/model.LegalPersonName'
-    OriginatorAsset:
-      type: object
-      anyOf:
-        - type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-          required:
-            - addrs
-        - type: object
-          properties:
-            assets:
-              type: array
-              items:
-                type: string
-          required:
-            - assets
-    PostTransactionSygnaBridge:
+    schema.NationalIdentification:
       type: object
       title: PostTransactionSygnaBridge
       description: This schema is for 'Sygna_Bridge' protocol
@@ -7733,7 +7972,19 @@ components:
             - null
         value:
           type: string
-          description: The value of the currency requested to transfer.
+    schema.NaturalPersonName:
+      type: object
+      properties:
+        local_name:
+          $ref: '#/components/schemas/schema.NameObject'
+        name:
+          $ref: '#/components/schemas/schema.NameObject'
+        phonetic_name:
+          $ref: '#/components/schemas/schema.NameObject'
+      description: required if customer_type equals 0
+      x-stoplight:
+        id: v19bad0di9etn
+    schema.PagingResult:
       required:
         - beneficiary
         - currency_id
@@ -7772,7 +8023,7 @@ components:
           description: The value of the currency requested to transfer.
         expire_date:
           type: integer
-          example: 1682535119
+    schema.PatchAssetInput:
       required:
         - beneficiary
         - currency_id
@@ -7824,7 +8075,8 @@ components:
           type: string
         value:
           type: string
-          description: The value of the currency requested to transfer.
+    schema.PatchCustomersInput:
+      title: ''
       required:
         - beneficiary
         - currency_id
@@ -7861,7 +8113,90 @@ components:
           type: object
         value:
           type: string
-          description: The value of the currency requested to transfer.
+        is_active:
+          type: boolean
+        legal_person_name:
+          $ref: '#/components/schemas/schema.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/model.National'
+        natural_person_name:
+          $ref: '#/components/schemas/schema.NaturalPersonName'
+        update_status:
+          type: boolean
+      x-examples:
+        Example 1:
+          address:
+            address_line:
+              - string
+            address_type: string
+            building_name: string
+            building_number: string
+            country: string
+            country_sub_division: string
+            department: string
+            district_name: string
+            floor: string
+            post_box: string
+            post_code: string
+            room: string
+            street_name: string
+            sub_department: string
+            town_location_name: string
+            town_name: string
+          assets:
+            - address: string
+              created_at: string
+              currency_id: string
+              currency_name: string
+              currency_symbol: string
+              extra_info:
+                property1: string
+                property2: string
+              id: string
+              is_kyt_supported: true
+              is_sygna_supported: true
+              labels:
+                - string
+              last_screened: string
+              risk_score: string
+              risk_score_provider: string
+              updated_at: string
+              value:
+                decimal: 0
+                valid: true
+              value_usd:
+                decimal: 0
+                valid: true
+          assets_ignore_kyt: true
+          birth:
+            date_of_birth: string
+            place_of_birth: string
+          country: string
+          customer_id: string
+          customer_type: 0
+          id: string
+          is_active: true
+          legal_person_name:
+            local_name: string
+            name: string
+            phonetic_name: string
+          national:
+            country_of_issue: string
+            national_identifier: string
+            national_identifier_type: string
+            registration_authority: string
+          natural_person_name:
+            local_name:
+              first_name: string
+              last_name: string
+            name:
+              first_name: string
+              last_name: string
+            phonetic_name:
+              first_name: string
+              last_name: string
+          update_status: true
+    schema.PatchOwnershipAssetValidationAcceptInput:
       required:
         - beneficiary
         - currency_id
@@ -7887,18 +8222,8 @@ components:
           type: string
         customer_id:
           type: string
-        originator:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-        value:
-          type: string
-        expire_date:
-          type: integer
-          example: 1682535119
+          description: Transaction identifier on blockchain
+    schema.PatchOwnershipAssetValidationConfirmInput:
       required:
         - currency_id
         - customer_id
@@ -7913,23 +8238,7 @@ components:
           type: string
           description: Target transaction identifier which status is Pending On Beneficiary
           format: uuid
-        permission_status:
-          type: integer
-          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
-        reject_code:
-          enum:
-            - BVRC001
-            - BVRC002
-            - BVRC003
-            - BVRC004
-            - BVRC005
-            - BVRC006
-            - BVRC007
-            - BVRC999
-          description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-        reject_message:
-          type: string
-          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+    schema.PatchOwnershipAssetValidationRejectInput:
       required:
         - id
         - permission_status
@@ -7960,7 +8269,8 @@ components:
           description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
         reject_message:
           type: string
-          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+          description: Reply detail why you reject.
+    schema.PatchOwnershipConfirmInput:
       required:
         - id
         - permission_status
@@ -7971,9 +8281,11 @@ components:
           type: string
           description: Target transaction identifier which status is Pending On Originator
           format: uuid
-        txid:
-          type: string
-          description: Transaction identifier on blockchain
+        reject:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
+    schema.PatchOwnershipIdInput:
       required:
         - id
         - txid
@@ -7984,10 +8296,9 @@ components:
           type: integer
         name:
           type: string
-      required:
-        - customer_type
-        - name
-    sanctionscreening.GetSanctionScoreOutput:
+          description: Target ownership identifier
+          format: uuid
+    schema.PatchOwnershipValidationInput:
       type: object
       properties:
         profile_ids:
@@ -8014,16 +8325,8 @@ components:
           type: array
           description: addresses which are searching information by Sygna Bridge
           items:
-            type: string
-        currency_id:
-          type: string
-          description: choose target currency identifier from GET /currencies
-        elliptic_holistic_wallet_analysis:
-          type: boolean
-          description: |-
-            Support Elliptic Holistic Screening.
-            VASPs must opt-in for Elliptic Holistic searching to avoid errors.
-          default: false
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
+    schema.PatchPermissionInput:
       required:
         - addrs
         - currency_id
@@ -8084,42 +8387,45 @@ components:
           type: string
         reject_message:
           type: string
-        risk_score_provider:
-          type: string
-        sanction_report_link:
-          type: array
-          items:
-            type: string
-        sanction_score:
-          type: integer
-        sanction_score_provider:
-          type: string
-        sanction_screened_time:
-          type: string
-        sanction_search_id:
-          type: array
-          items:
-            type: string
-        status:
+          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+    schema.PatchTransactionsStatus:
+      required:
+        - action
+        - id
+      type: object
+      properties:
+        action:
           type: integer
         status_text:
           type: string
-        transfer_id:
+          format: uuid
+    schema.PatchTxIdInput:
+      required:
+        - id
+        - txid
+      type: object
+      properties:
+        id:
           type: string
         txid:
           type: string
-        updated_at:
+          description: Transaction identifier on blockchain
+    schema.PatchUsersInput:
+      required:
+        - id
+      type: object
+      properties:
+        id:
           type: string
-        value:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-        value_usd:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-        vasp_code:
-          type: string
-        data_transfer_remarks:
-          type: string
-          description: "- related messages:\r\n    - (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules.\r\n    - Beneficiary Identity Check is not applicable.\r\n    - High risk data transfer"
-    schema.TransactionAsset:
+          description: specific user identifier
+        is_active:
+          type: boolean
+        role_id:
+          type: integer
+    schema.PostAssetInput:
+      required:
+        - address
+        - currency_id
       type: object
       properties:
         address:
@@ -8140,6 +8446,7 @@ components:
           type: string
         risk_score_provider:
           type: string
+    schema.PostCustomersInput:
       required:
         - id
     model.BeneficiaryInfo:
@@ -8200,16 +8507,27 @@ components:
           $ref: '#/components/schemas/model.National'
         natural_person_name:
           $ref: '#/components/schemas/model.NaturalPersonName'
-        protocol_extra_info:
-          $ref: '#/components/schemas/model.Object'
-          description: for now specifically for shyft
-        risk_score_provider:
+    schema.PostEmailProtocolPermissionInput:
+      required:
+        - id
+        - permission_status
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/schema.PostCustomersInput'
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        id:
           type: string
         updated_at:
           type: string
         vasp_code:
           type: string
-    ivms101.Beneficiary:
+          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+    schema.PostOauthInput:
+      required:
+        - account
+        - credential
       type: object
       properties:
         account_numbers:
@@ -8234,15 +8552,15 @@ components:
           type: string
         customerIdentification:
           type: string
-        geographicAddress:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.GeographicAddress'
-        name:
-          $ref: '#/components/schemas/ivms101.LegalPersonName'
-        nationalIdentification:
-          $ref: '#/components/schemas/ivms101.NationalIdentification'
-    ivms101.GeographicAddress:
+          default: password
+          enum:
+            - password
+            - google
+    schema.PostOwnershipInput:
+      required:
+        - owner_email
+        - private_wallet_address
+        - transaction_information
       type: object
       properties:
         addressLine:
@@ -8251,82 +8569,122 @@ components:
             type: string
         addressType:
           type: string
-        buildingName:
+          format: email
+        transaction_information:
+          $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
+      description: ''
+    schema.PostOwnershipTransactionInformationInput:
+      required:
+        - currency_id
+        - value
+        - vasp_beneficiary_wallet_address
+      type: object
+      properties:
+        currency_id:
           type: string
         buildingNumber:
           type: string
         country:
           type: string
-        countrySubDivision:
-          type: string
-        department:
-          type: string
-        districtName:
-          type: string
-        floor:
-          type: string
-        postBox:
-          type: string
-        postCode:
-          type: string
-        room:
-          type: string
-        streetName:
-          type: string
-        subDepartment:
-          type: string
-        townLocation_name:
-          type: string
-        townName:
-          type: string
-    ivms101.LegalPersonName:
+    schema.PostSanctionMatchInput:
+      required:
+        - customer_type
+        - name
       type: object
       properties:
-        localNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.LocalLegalPersonNameIdentifier'
-        nameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.LegalPersonNameIdentifier'
-        phoneticNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier'
-    ivms101.LocalLegalPersonNameIdentifier:
+        customer_type:
+          type: integer
+        name:
+          type: string
+    schema.PostServicesInput:
       type: object
       properties:
         legalPersonName:
           type: string
         legalPersonNameIdentifierType:
           type: string
-    ivms101.LegalPersonNameIdentifier:
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+      required:
+        - credential
+        - provider
+        - type
+    schema.PostSettingInput:
+      required:
+        - rule
+        - type
+      type: object
+      properties:
+        legalPersonName:
+          type: string
+          enum:
+            - personal_info_checking_items
+            - automation_settings
+            - sanction_screening_timing
+            - forced_sending_when_VASP_is_not_healthy
+            - blockchain_analytics_timing
+    schema.PostUsersInput:
+      required:
+        - account
       type: object
       properties:
         legalPersonName:
           type: string
         legalPersonNameIdentifierType:
           type: string
-    ivms101.PhoneticLegalPersonNameIdentifier:
-      type: object
-      properties:
-        legalPersonName:
-          type: string
-        legalPersonNameIdentifierType:
-          type: string
-    ivms101.NationalIdentification:
+          description: |-
+            password is optional and it is generated if password is empty.
+            password must be follow below rules:
+            at least 6 letters
+            at least 1 number
+            at least 1 upper case
+            at least 1 special character
+        role_id:
+          type: integer
+          description: |-
+            role_id
+            * 0 - admin
+            * 1 - member
+            role_id is optional and its default value is 1(member).
+            notice: admin could not be created if there is admin in VASP.
+    schema.PostUsersLinkInput:
+      required:
+        - account
+        - login_type
       type: object
       properties:
         countryOfIssue:
           type: string
         nationalIdentifier:
           type: string
-        nationalIdentifierType:
+          description: |-
+            third party service name
+            only google is supported now
+    schema.PostVendorsTestInput:
+      required:
+        - credential
+        - provider
+        - type
+      type: object
+      properties:
+        credential:
+          type: object
+          properties: {}
+        provider:
           type: string
         registrationAuthority:
           type: string
-    ivms101.NaturalPerson:
+          enum:
+            - Travel Rule
+            - Blockchain Analytics
+            - Sanction Screening
+    schema.PostVendorsTestOutput:
+      required:
+        - provider
+        - status_code
+        - type
       type: object
       properties:
         country_of_residence:
@@ -8350,7 +8708,7 @@ components:
           type: string
         place_of_birth:
           type: string
-    ivms101.Address:
+    schema.PostWalletAddressFilterInput:
       type: object
       properties:
         address_line:
@@ -8359,35 +8717,38 @@ components:
             type: string
         address_type:
           type: string
-        building_name:
+          description: choose target currency identifier from GET /currencies
+        elliptic_holistic_wallet_analysis:
+          type: boolean
+          description: |-
+            Support Elliptic Holistic Screening.
+            VASPs must opt-in for Elliptic Holistic searching to avoid errors.
+          default: false
+      required:
+        - addrs
+        - currency_id
+    schema.PostWalletAddressFilterOutput:
+      type: object
+      properties:
+        address:
           type: string
         building_number:
           type: string
         country:
           type: string
-        country_sub_division:
-          type: string
-        department:
-          type: string
-        district_name:
-          type: string
-        floor:
-          type: string
-        post_box:
-          type: string
-        post_code:
-          type: string
-        room:
-          type: string
-        street_name:
-          type: string
-        sub_department:
-          type: string
-        town_location_name:
-          type: string
-        town_name:
-          type: string
-    ivms101.NaturalPersonName:
+          description: which type address belongs
+          enum:
+            - SYGNA_VASP
+            - UNKNOWN
+            - FAILED
+            - OTHER_VASP
+            - PRIVATE_WALLET
+    schema.PutCustomersInput:
+      required:
+        - assets
+        - country
+        - customer_type
+        - id
       type: object
       properties:
         localNameIdentifier:
@@ -8407,49 +8768,106 @@ components:
       properties:
         nameIdentifierType:
           type: string
-        primaryIdentifier:
+          format: uuid
+        is_active:
+          type: boolean
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/schema.NationalIdentification'
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+    schema.PutRollbackInout:
+      required:
+        - version
+      type: object
+      properties:
+        nameIdentifierType:
           type: string
-        secondaryIdentifier:
-          type: string
-    ivms101.NaturalPersonNameIdentifier:
+    schema.PutServicesInput:
+      required:
+        - credential
+        - is_active
+        - provider
+        - type
       type: object
       properties:
         nameIdentifierType:
           type: string
         primaryIdentifier:
           type: string
-        secondaryIdentifier:
-          type: string
-    ivms101.PhoneticNaturalPersonNameIdentifier:
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+    schema.Resp:
       type: object
       properties:
-        nameIdentifierType:
-          type: string
-        primaryIdentifier:
-          type: string
-        secondaryIdentifier:
-          type: string
-    model.OriginatorInfo:
-      type: object
-      properties:
-        customer:
-          $ref: '#/components/schemas/model.Customer'
-        private_info:
-          $ref: '#/components/schemas/ivms101.Originator'
-        vasp_code:
-          type: string
-    ivms101.Originator:
+        data:
+          type: object
+          properties: {}
+    schema.RespWithMutation:
+      title: ''
+      required:
+        - data
       type: object
       properties:
         account_numbers:
           type: array
           items:
-            type: string
-        originator_persons:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.Person'
-    model.User:
+            required:
+              - success
+            type: object
+            properties:
+              error:
+                $ref: '#/components/schemas/errors.SystemError'
+              id:
+                type: string
+                format: uuid
+              success:
+                type: boolean
+    schema.RespWithPaging:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/schema.PagingResult'
+    schema.RespWithStatus:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+            - success
+          properties:
+            success:
+              type: boolean
+            accessToken:
+              type: string
+      required:
+        - data
+      x-stoplight:
+        id: mqdas1hkiqm1o
+    schema.RespWithStatusAndMessage:
+      required:
+        - data
+      type: object
+      properties:
+        data:
+          required:
+            - message
+            - success
+          type: object
+          properties:
+            message:
+              type: string
+              example: something
+            success:
+              type: boolean
+      x-stoplight:
+        id: ibunric01gbjv
+    schema.TransactionAsset:
+      required:
+        - id
       type: object
       properties:
         created_at:
@@ -8466,7 +8884,10 @@ components:
           type: integer
         updated_at:
           type: string
-    model.Login:
+    types.H:
+      type: object
+    PostTransactionSygnaBridge:
+      title: PostTransactionSygnaBridge
       type: object
       title: LegalPersonName
       properties:
@@ -8482,11 +8903,16 @@ components:
           type: string
         last_password_change:
           type: string
-        login_type:
-          type: string
-        updated_at:
-          type: string
-    schema.PostUsersInput:
+          description: The value of the currency requested to transfer.
+      required:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - protocol
+        - value
+    PostTransactionUnknown:
+      title: PostTransactionUnknown
       type: object
       properties:
         account:
@@ -8513,8 +8939,13 @@ components:
             role_id is optional and its default value is 1(member).
             notice: admin could not be created if there is admin in VASP.
       required:
-        - account
-    schema.DeleteUsersInput:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - value
+    PostTransactionSygnaEmail:
+      title: PostTransactionSygnaEmail
       type: object
       properties:
         id:
@@ -8548,9 +8979,14 @@ components:
         old_password:
           type: string
       required:
-        - new_password
-        - old_password
-    schema.RespWithStatusAndMessage:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - protocol
+        - value
+    PostTransactionTRISA:
+      title: PostTransactionTRISA
       type: object
       properties:
         data:
@@ -8624,10 +9060,14 @@ components:
         type:
           type: string
       required:
-        - provider
-        - status_code
-        - type
-    model.WebhookEvent:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - protocol
+        - value
+    PostTransactionShyft:
+      title: PostTransactionShyft
       type: object
       properties:
         created_at:
@@ -8642,24 +9082,646 @@ components:
           type: object
         transaction_uuid:
           type: string
-        protocol:
-          type: string
-        counter_party_vasp_code:
-          type: string
-        status:
-          type: string
-        retry_count:
-          type: string
-        webhook_logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Webhook_logs'
-    model.Webhook_logs:
+      required:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - protocol
+        - value
+    'GET-customers{id}_legal-person':
       type: object
       properties:
-        created_at:
-          type: string
-        success:
-          type: boolean
-        trigger:
-          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            natural_person_name:
+              type: object
+              properties:
+                name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                local_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                phonetic_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            natural_person_name:
+              name:
+                first_name: Takahagi
+                last_name: ririko
+              local_name:
+                first_name: 高橋
+                last_name: 莉莉子
+              phonetic_name:
+                first_name: タカハシ
+                last_name: リリコ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
+    OriginatorAsset:
+      anyOf:
+        - properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+          required:
+            - addrs
+        - properties:
+            assets:
+              type: array
+              items:
+                type: string
+          required:
+            - assets
+      type: object
+      title: ''
+    'GET-customers{id}_natural-person':
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            natural_person_name:
+              type: object
+              properties:
+                name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                local_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                phonetic_name:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            natural_person_name:
+              name:
+                first_name: Takahagi
+                last_name: ririko
+              local_name:
+                first_name: 高橋
+                last_name: 莉莉子
+              phonetic_name:
+                first_name: タカハシ
+                last_name: リリコ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
+      title: ''
+    natural-person:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            updated_at:
+              type: string
+            vasp_code:
+              type: string
+            customer_type:
+              type: integer
+            customer_id:
+              type: string
+            legal_person_name:
+              type: object
+              properties:
+                name:
+                  type: string
+                local_name:
+                  type: string
+                phonetic_name:
+                  type: string
+            country:
+              type: string
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            national:
+              type: object
+              properties:
+                country_of_issue:
+                  type: string
+                national_identifier:
+                  type: string
+                national_identifier_type:
+                  type: string
+                registration_authority:
+                  type: string
+            address:
+              type: object
+              properties:
+                address_line:
+                  type: array
+                  items:
+                    type: string
+                address_type:
+                  type: string
+                building_name:
+                  type: string
+                building_number:
+                  type: string
+                country:
+                  type: string
+                country_sub_division:
+                  type: string
+                department:
+                  type: string
+                district_name:
+                  type: string
+                floor:
+                  type: string
+                post_box:
+                  type: string
+                post_code:
+                  type: string
+                room:
+                  type: string
+                street_name:
+                  type: string
+                sub_department:
+                  type: string
+                town_location_name:
+                  type: string
+                town_name:
+                  type: string
+            labels:
+              type: array
+              items:
+                type: object
+                properties: {}
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  updated_at:
+                    type: string
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  address:
+                    type: string
+                  risk_score_provider:
+                    type: string
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  last_screened:
+                    type: 'null'
+                  is_sygna_supported:
+                    type: boolean
+                  is_kyt_supported:
+                    type: boolean
+                  extra_info:
+                    type: object
+                    properties:
+                      Tag:
+                        type: string
+            assets_ignore_kyt:
+              type: boolean
+      x-examples:
+        Example 1:
+          data:
+            id: 3bd97f92-3e14-430e-bcf7-c07fa2f84c79
+            updated_at: '2023-05-11T06:04:55.000Z'
+            vasp_code: OWNRTWTP
+            customer_type: 0
+            customer_id: '45645763456735678'
+            legal_person_name:
+              name: aaa bbb
+              local_name: AAA_BBB
+              phonetic_name: ＡＡＡ＿ＢＢＢ
+            country: TW
+            is_active: true
+            created_at: '2023-03-06T02:58:33.000Z'
+            national:
+              country_of_issue: AF
+              national_identifier: '45624562456'
+              national_identifier_type: ARNU
+              registration_authority: sdfvasfbadfbadfb
+            address:
+              address_line:
+                - bqerb
+              address_type: HOME
+              building_name: sdfbdfb
+              building_number: '12'
+              country: AM
+              country_sub_division: qerbqerb
+              department: '12'
+              district_name: qerb
+              floor: '1'
+              post_box: '123'
+              post_code: bsrt1312
+              room: '123'
+              street_name: qergqer
+              sub_department: erge
+              town_location_name: erbqe
+              town_name: drvbqerb
+            labels: []
+            assets:
+              - id: 84158bb2-e4f2-4477-8c31-1ad92c166ea0
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000000'
+                currency_symbol: BTC
+                currency_name: Bitcoin
+                address: 124EPZfzX7g5dpDiNXbdmMSxsTyW47ZgbX
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+              - id: 2cc427ed-f331-4bf5-a655-9359481574db
+                updated_at: '2023-05-11T06:04:55.000Z'
+                currency_id: 'sygna:0x80000090'
+                currency_symbol: XRP
+                currency_name: XRP
+                address: rMAGnTv4eMWktZnhKa5cHcDiY84ZiKUaQm
+                extra_info:
+                  Tag: '1304'
+                risk_score_provider: Elliptic
+                labels: []
+                created_at: '2023-05-11T06:04:55.000Z'
+                last_screened: null
+                is_sygna_supported: true
+                is_kyt_supported: true
+            assets_ignore_kyt: false
+  securitySchemes:
+    BearerToken:
+      type: apiKey
+      name: Authorization
+      in: header
