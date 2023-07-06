@@ -1,11 +1,9 @@
-openapi: 3.0.1
-x-stoplight:
-  id: afhx4b7ijc9zn
+openapi: 3.0.0
 info:
+  version: 1.22.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
-  version: 1.22.0
 servers:
   - url: 'httsp://example.com/v1'
     description: ''
@@ -49,9 +47,15 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /currencies:
     get:
+      tags:
+        - Hub/currencies
       summary: Get supported currencies
+      description: Please refer to the GET /currencies API response body for the "key" in each coin/token's extra information (addr_extra_info).
       operationId: GetCurrencies
       parameters:
         - name: currency_id
@@ -170,9 +174,9 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      description: Please refer to the GET /currencies API response body for the "key" in each coin/token's extra information (addr_extra_info).
-      tags:
-        - Hub/currencies
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /customers:
     get:
       tags:
@@ -214,7 +218,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Elliptic
                 - Chainalysis V1
@@ -336,12 +339,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     put:
       tags:
         - Hub/customers
       summary: update customers
+      operationId: ''
       requestBody:
         description: put /customers params
+        required: true
         content:
           '*/*':
             schema:
@@ -378,7 +386,6 @@ paths:
                       date_of_birth: '2022-11-30'
                     id: b52e9794-1ea1-42ad-8a59-db582bf7bb07
                     assets_ignore_kyt: true
-        required: true
       responses:
         '200':
           description: OK
@@ -412,13 +419,16 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      operationId: ''
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     post:
       tags:
         - Hub/customers
       summary: Create customers
       requestBody:
         description: post /customers params
+        required: true
         content:
           '*/*':
             schema:
@@ -484,7 +494,6 @@ paths:
                           flag: '1'
                         currency_id: 'sygna:0x800002ca'
                     assets_ignore_kyt: true
-        required: true
       responses:
         '200':
           description: OK
@@ -518,12 +527,16 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     patch:
       tags:
         - Hub/customers
       summary: update customers
       requestBody:
         description: patch /customers params
+        required: true
         content:
           '*/*':
             schema:
@@ -539,7 +552,6 @@ paths:
                 value:
                   - id: b52e9794-1ea1-42ad-8a59-db582bf7bb07
                     is_active: true
-        required: true
       responses:
         '200':
           description: OK
@@ -573,8 +585,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /customers-export:
     get:
+      tags:
+        - Hub/customers-export
       summary: generate customers report
       parameters:
         - name: id
@@ -612,7 +629,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Elliptic
                 - Chainalysis V1
@@ -697,7 +713,6 @@ paths:
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -724,15 +739,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/customers-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /customers-export/download:
     get:
+      tags:
+        - Hub/customers-export
       summary: download customer report
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -759,10 +776,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/customers-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /customers-export/status:
     get:
+      tags:
+        - Hub/customers-export
       summary: get customer report processing status
       responses:
         '200':
@@ -800,18 +820,15 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/customers-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/customers/{id}':
     get:
+      tags:
+        - Hub/customers
       summary: get specific customer detail
       parameters:
-        - name: id
-          in: path
-          description: customer identifier
-          required: true
-          schema:
-            type: string
         - name: asset_id
           in: query
           description: filter asset by ids in current customer
@@ -875,6 +892,12 @@ paths:
             type: array
             items:
               type: string
+        - name: id
+          in: path
+          description: customer identifier
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -911,10 +934,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/customers
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /data-transfer-export:
     get:
+      tags:
+        - Hub/data-transfer-export
       summary: generate transaction report
       parameters:
         - name: id
@@ -1006,7 +1032,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Processing
                 - Blocked
@@ -1043,7 +1068,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -1088,7 +1112,6 @@ paths:
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -1115,15 +1138,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/data-transfer-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /data-transfer-export/download:
     get:
+      tags:
+        - Hub/data-transfer-export
       summary: download transactions report
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -1150,10 +1175,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/data-transfer-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /data-transfer-export/status:
     get:
+      tags:
+        - Hub/data-transfer-export
       summary: get transaction report processing status
       responses:
         '200':
@@ -1191,10 +1219,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/data-transfer-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /global-vasp:
     get:
+      tags:
+        - Hub/global-vasp
       summary: get global-vasp
       description: only admin could get encrypted credentials
       parameters:
@@ -1224,7 +1255,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -1359,13 +1389,18 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/global-vasp
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /oauth2:
     post:
+      tags:
+        - Hub/oauth2
       summary: get oauth token
+      description: API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)
       requestBody:
         description: post /oauth2 param
+        required: true
         content:
           '*/*':
             schema:
@@ -1376,7 +1411,6 @@ paths:
                   account: originator@gmail.com
                   credential: P@ssword0
                   login_type: password
-        required: true
       responses:
         '200':
           description: OK
@@ -1408,10 +1442,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
-      description: API accessToken will be in the API response body and header set-cookie (cookie will be deprecated after 2023.2.1)
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    delete:
       tags:
         - Hub/oauth2
-    delete:
       summary: delete oauth token from database
       responses:
         '200':
@@ -1440,10 +1476,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/oauth2
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships:
     get:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when you want to see a list of all validations
       responses:
         '200':
@@ -1485,9 +1524,12 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    post:
       tags:
         - Hub/ownerships
-    post:
       summary: the API would be used when you want to validate an address whether belong to a user who owns private wallet
       parameters:
         - name: accept_high_risk
@@ -1497,6 +1539,7 @@ paths:
             type: boolean
       requestBody:
         description: post /ownerships params
+        required: true
         content:
           '*/*':
             schema:
@@ -1514,7 +1557,6 @@ paths:
                     private_wallet_address:
                       - 1N7BCTX2uEjsRUoDtfeZTjaTEXuDZSsR3R
                     sender_email: my@example.com
-        required: true
       responses:
         '200':
           description: OK
@@ -1548,13 +1590,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships/cancel:
     patch:
+      tags:
+        - Hub/ownerships
       summary: you couldn't validate some address that it is processing or accepted until you cancel it
       requestBody:
         description: patch /ownerships/cancel params
+        required: true
         content:
           '*/*':
             schema:
@@ -1565,7 +1611,6 @@ paths:
               Example 1:
                 value:
                   - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-        required: true
       responses:
         '200':
           description: OK
@@ -1599,13 +1644,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships/confirm:
     patch:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when you received a reply from the receiver and you want to accept or reject the reply
       requestBody:
         description: patch /ownerships/confirm params
+        required: true
         content:
           '*/*':
             schema:
@@ -1622,7 +1671,6 @@ paths:
                       - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                         reject_code: BVRC001
                         reject_message: string
-        required: true
       responses:
         '200':
           description: OK
@@ -1656,13 +1704,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships/resend:
     patch:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when a receiver lets you send a email again
       requestBody:
         description: patch /ownerships/resend params
+        required: true
         content:
           '*/*':
             schema:
@@ -1673,7 +1725,6 @@ paths:
               Example 1:
                 value:
                   - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-        required: true
       responses:
         '200':
           description: OK
@@ -1707,13 +1758,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships/unblock:
     patch:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when the validation that including risky address wouldn't be sent until you unblock it
       requestBody:
         description: patch /ownerships/unblock params
+        required: true
         content:
           '*/*':
             schema:
@@ -1724,7 +1779,6 @@ paths:
               Example 1:
                 value:
                   - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
-        required: true
       responses:
         '200':
           description: OK
@@ -1758,13 +1812,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /ownerships/validate:
     patch:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when you get the ownership identifier from the link that you received and want to reply to the validation
       requestBody:
         description: patch /ownerships/validate params
+        required: true
         content:
           '*/*':
             schema:
@@ -1782,7 +1840,6 @@ paths:
                       - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
                         reject_code: BVRC001
                         reject_message: string
-        required: true
       responses:
         '200':
           description: OK
@@ -1816,10 +1873,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/ownerships/verify-token/{token}':
     get:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when you received a link that asks you to validate the address whether belong to you
       parameters:
         - name: token
@@ -1864,11 +1924,15 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/ownerships/{id}':
     get:
+      tags:
+        - Hub/ownerships
       summary: the API would be used when you want to see a validation detail
+      description: ''
       parameters:
         - name: id
           in: path
@@ -1914,11 +1978,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/ownerships
-      description: ''
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /rollback:
     get:
+      tags:
+        - Hub/rollback
       summary: get rollback
       description: only admin could get encrypted credentials
       responses:
@@ -1961,20 +2027,23 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    put:
       tags:
         - Hub/rollback
-    put:
       summary: update rollback
       description: only allow admin to use this method
       requestBody:
         description: put /rollback params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PutRollbackInout'
-        required: true
       responses:
         '200':
           description: OK
@@ -2008,10 +2077,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/rollback
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /services:
     get:
+      tags:
+        - Hub/services
       summary: get services
       description: only admin could get encrypted credentials
       parameters:
@@ -2032,7 +2104,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Sygna_Bridge
                 - Elliptic
@@ -2052,7 +2123,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Travel Rule
                 - Blockchain Analytics
@@ -2074,7 +2144,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - activated
                 - deactivated
@@ -2176,15 +2245,19 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    put:
       tags:
         - Hub/services
-    put:
       summary: update services
       description: |-
         only allow admin to use this method
         use GET /services/supported to understand which credential is required by provider
       requestBody:
         description: put /services params
+        required: true
         content:
           '*/*':
             schema:
@@ -2199,7 +2272,6 @@ paths:
                     provider: Elliptic
                     settings: {}
                     type: Blockchain Analytics
-        required: true
       responses:
         '200':
           description: OK
@@ -2233,13 +2305,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    post:
       tags:
         - Hub/services
-    post:
       summary: create services
       description: 'Please must input “type”: “Travel Rule” & “provider”: “Sygna_Bridge” to enable your Sygna Hub’s data transfer via Sygna Bridge Travel Rule Protocol. (Only allow admin to use this method use GET /services/supported to understand which credential is required by provider.)'
       requestBody:
         description: post /services params
+        required: true
         content:
           '*/*':
             schema:
@@ -2358,7 +2434,6 @@ paths:
                     settings:
                       provider_types:
                         - Watchlist
-        required: true
       responses:
         '200':
           description: OK
@@ -2392,11 +2467,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      parameters: []
-      tags:
-        - Hub/services
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /services/supported:
     get:
+      tags:
+        - Hub/services
       summary: get supported services and its config
       description: only allow admin to use this method
       parameters:
@@ -2417,7 +2494,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Sygna_Bridge
                 - Elliptic
@@ -2438,7 +2514,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Travel Rule
                 - Blockchain Analytics
@@ -2510,14 +2585,12 @@ paths:
                     type: string
                   extra_data:
                     type: object
-                    properties: {}
                   help:
                     type: string
                   message:
                     type: string
                   stack:
                     type: object
-                    properties: {}
                   type:
                     type: string
         '400':
@@ -2546,10 +2619,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/services
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /settings:
     get:
+      tags:
+        - Hub/settings
       summary: get settings
       description: only admin could get encrypted credentials
       responses:
@@ -2592,15 +2668,19 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    put:
       tags:
         - Hub/settings
-    put:
       summary: update settings
       description: |-
         only allow admin to use this method
         Please also check the API response of GET `/settings/supported` to get the complete supported settings configuration.
       requestBody:
         description: put /settings params
+        required: true
         content:
           '*/*':
             schema:
@@ -2628,7 +2708,6 @@ paths:
                   - type: forced_sending_when_VASP_is_not_healthy
                     rule:
                       forced_sending: true
-        required: true
       responses:
         '200':
           description: OK
@@ -2662,42 +2741,23 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    post:
       tags:
         - Hub/settings
-    post:
       summary: create settings
       description: |-
         only allow admin to use this method. 
         Please also check the API response of GET `/settings/supported` to get the complete supported settings configuration.
       requestBody:
         description: post /settings params
+        required: true
         content:
           '*/*':
             schema:
               type: array
-              x-examples:
-                Example 1:
-                  - type: blockchain_analytics_timing
-                    rule:
-                      beneficiary: receiving
-                      originator: receiving
-                  - type: sanction_screening_timing
-                    rule:
-                      beneficiary: receiving
-                      originator: receiving
-                  - type: automation_settings
-                    rule:
-                      auto_accept: true
-                  - type: personal_info_checking_items
-                    rule:
-                      follow_ivms101: true
-                      name_checking_rule: one_name_matched
-                  - type: full_width_space_equals_half_width_space
-                    rule:
-                      full_width_space_equals_half_width_space: false
-                  - type: english_name_case_sensitivity
-                    rule:
-                      english_name_case_sensitivity: true
               items:
                 type: object
                 properties:
@@ -2723,13 +2783,9 @@ paths:
                         default: true
                       full_width_space_equals_half_width_space:
                         type: boolean
-                        x-stoplight:
-                          id: 3nhr44pnj0oay
                         default: false
                       auto_accept:
                         type: boolean
-                        x-stoplight:
-                          id: 7hlxx9ekh264j
                         default: true
             examples:
               Example 1:
@@ -2752,7 +2808,6 @@ paths:
                   - type: forced_sending_when_VASP_is_not_healthy
                     rule:
                       forced_sending: true
-        required: true
       responses:
         '200':
           description: OK
@@ -2786,10 +2841,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/settings
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /settings/default:
     get:
+      tags:
+        - Hub/settings
       summary: get default settings
       description: |-
         only allow admin to use this method.
@@ -2801,33 +2859,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                x-examples:
-                  Example 1:
-                    data:
-                      - type: blockchain_analytics_timing
-                        rule:
-                          beneficiary: receiving
-                          originator: receiving
-                      - type: sanction_screening_timing
-                        rule:
-                          beneficiary: receiving
-                          originator: receiving
-                      - type: automation_settings
-                        rule:
-                          auto_accept: true
-                      - type: personal_info_checking_items
-                        rule:
-                          follow_ivms101: true
-                          name_checking_rule: one_name_matched
-                      - type: forced_sending_when_VASP_is_not_healthy
-                        rule:
-                          forced_sending: true
-                      - type: full_width_space_equals_half_width_space
-                        rule:
-                          full_width_space_equals_half_width_space: false
-                      - type: english_name_case_sensitivity
-                        rule:
-                          english_name_case_sensitivity: true
                 properties:
                   data:
                     type: array
@@ -2856,18 +2887,12 @@ paths:
                               default: true
                             auto_accept:
                               type: boolean
-                              x-stoplight:
-                                id: osyukkz7f2snc
                               default: true
                             forced_sending:
                               type: boolean
-                              x-stoplight:
-                                id: 6pt0bd1pghppi
                               default: true
                             full_width_space_equals_half_width_space:
                               type: boolean
-                              x-stoplight:
-                                id: ju5l6tag3mk3v
                               default: false
               examples:
                 Example 1:
@@ -2909,10 +2934,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/settings
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /settings/supported:
     get:
+      tags:
+        - Hub/settings
       summary: get supported settings
       description: |-
         only allow admin to use this method
@@ -2924,307 +2952,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                x-examples:
-                  Example 1:
-                    data:
-                      - type: blockchain_analytics_timing
-                        rule:
-                          schema:
-                            type: object
-                            required:
-                              - originator
-                              - beneficiary
-                            properties:
-                              originator:
-                                enum:
-                                  - before sending
-                                  - receiving
-                                  - before sending and receiving
-                                  - never
-                                type: string
-                              beneficiary:
-                                enum:
-                                  - receiving
-                                  - never
-                                type: string
-                            additionalProperties: false
-                      - type: sanction_screening_timing
-                        rule:
-                          schema:
-                            type: object
-                            required:
-                              - originator
-                              - beneficiary
-                            properties:
-                              originator:
-                                enum:
-                                  - before sending
-                                  - receiving
-                                  - before sending and receiving
-                                  - never
-                                type: string
-                              beneficiary:
-                                enum:
-                                  - receiving
-                                  - never
-                                type: string
-                            additionalProperties: false
-                      - type: automation_settings
-                        rule:
-                          schema:
-                            type: object
-                            required:
-                              - auto_accept
-                            properties:
-                              auto_accept:
-                                type: boolean
-                            additionalProperties: false
-                      - type: personal_info_checking_items
-                        rule:
-                          schema:
-                            type: object
-                            properties:
-                              follow_ivms101:
-                                type: boolean
-                              name_checking_rule:
-                                enum:
-                                  - all_names_matched
-                                  - one_name_matched
-                                type: string
-                              natural_person:
-                                type: object
-                                required:
-                                  - name
-                                properties:
-                                  name:
-                                    type: object
-                                    required:
-                                      - name_identifier
-                                    properties:
-                                      name_identifier:
-                                        type: object
-                                        required:
-                                          - primary_identifier
-                                          - name_identifier_type
-                                        properties:
-                                          primary_identifier:
-                                            const: true
-                                          secondary_identifier:
-                                            type: boolean
-                                          name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                      local_name_identifier:
-                                        type: object
-                                        required:
-                                          - primary_identifier
-                                          - name_identifier_type
-                                        properties:
-                                          primary_identifier:
-                                            const: true
-                                          secondary_identifier:
-                                            type: boolean
-                                          name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                      phonetic_name_identifier:
-                                        type: object
-                                        required:
-                                          - primary_identifier
-                                          - name_identifier_type
-                                        properties:
-                                          primary_identifier:
-                                            const: true
-                                          secondary_identifier:
-                                            type: boolean
-                                          name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                    additionalProperties: false
-                                  customer_identification:
-                                    type: boolean
-                                  geographic_address:
-                                    type: object
-                                    properties:
-                                      address_type:
-                                        type: boolean
-                                      department:
-                                        type: boolean
-                                      sub_department:
-                                        type: boolean
-                                      street_name:
-                                        type: boolean
-                                      building_number:
-                                        type: boolean
-                                      building_name:
-                                        type: boolean
-                                      floor:
-                                        type: boolean
-                                      post_box:
-                                        type: boolean
-                                      room:
-                                        type: boolean
-                                      post_code:
-                                        type: boolean
-                                      town_name:
-                                        type: boolean
-                                      town_location_name:
-                                        type: boolean
-                                      district_name:
-                                        type: boolean
-                                      country_sub_division:
-                                        type: boolean
-                                      address_line:
-                                        type: boolean
-                                      country:
-                                        type: boolean
-                                    minProperties: 1
-                                    additionalProperties: false
-                                  national_identification:
-                                    type: object
-                                    properties:
-                                      national_identifier:
-                                        type: boolean
-                                      national_identifier_type:
-                                        type: boolean
-                                      country_of_issue:
-                                        type: boolean
-                                      registration_authority:
-                                        type: boolean
-                                    minProperties: 1
-                                    additionalProperties: false
-                                  date_and_place_of_birth:
-                                    type: object
-                                    properties:
-                                      date_of_birth:
-                                        type: boolean
-                                      place_of_birth:
-                                        type: boolean
-                                    minProperties: 1
-                                    additionalProperties: false
-                                  country_of_residence:
-                                    type: boolean
-                                additionalProperties: false
-                              legal_person:
-                                type: object
-                                required:
-                                  - name
-                                properties:
-                                  name:
-                                    type: object
-                                    required:
-                                      - name_identifier
-                                    properties:
-                                      name_identifier:
-                                        type: object
-                                        required:
-                                          - legal_person_name
-                                          - legal_person_name_identifier_type
-                                        properties:
-                                          legal_person_name:
-                                            const: true
-                                          legal_person_name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                      local_name_identifier:
-                                        type: object
-                                        required:
-                                          - legal_person_name
-                                          - legal_person_name_identifier_type
-                                        properties:
-                                          legal_person_name:
-                                            const: true
-                                          legal_person_name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                      phonetic_name_identifier:
-                                        type: object
-                                        required:
-                                          - legal_person_name
-                                          - legal_person_name_identifier_type
-                                        properties:
-                                          legal_person_name:
-                                            const: true
-                                          legal_person_name_identifier_type:
-                                            const: true
-                                        additionalProperties: false
-                                    additionalProperties: false
-                                  customer_identification:
-                                    type: boolean
-                                  geographic_address:
-                                    type: object
-                                    properties:
-                                      address_type:
-                                        type: boolean
-                                      department:
-                                        type: boolean
-                                      sub_department:
-                                        type: boolean
-                                      street_name:
-                                        type: boolean
-                                      building_number:
-                                        type: boolean
-                                      building_name:
-                                        type: boolean
-                                      floor:
-                                        type: boolean
-                                      post_box:
-                                        type: boolean
-                                      room:
-                                        type: boolean
-                                      post_code:
-                                        type: boolean
-                                      town_name:
-                                        type: boolean
-                                      town_location_name:
-                                        type: boolean
-                                      district_name:
-                                        type: boolean
-                                      country_sub_division:
-                                        type: boolean
-                                      address_line:
-                                        type: boolean
-                                      country:
-                                        type: boolean
-                                    minProperties: 1
-                                    additionalProperties: false
-                                  national_identification:
-                                    type: object
-                                    properties:
-                                      national_identifier:
-                                        type: boolean
-                                      national_identifier_type:
-                                        type: boolean
-                                      country_of_issue:
-                                        type: boolean
-                                      registration_authority:
-                                        type: boolean
-                                    minProperties: 1
-                                    additionalProperties: false
-                                  country_of_registration:
-                                    type: boolean
-                                additionalProperties: false
-                            additionalProperties: false
-                      - type: full_width_space_equals_half_width_space
-                        rule:
-                          schema:
-                            type: object
-                            required:
-                              - full_width_space_equals_half_width_space
-                            properties:
-                              full_width_space_equals_half_width_space:
-                                type: boolean
-                            additionalProperties: false
-                      - type: english_name_case_sensitivity
-                        rule:
-                          schema:
-                            type: object
-                            required:
-                              - english_name_case_sensitivity
-                            properties:
-                              english_name_case_sensitivity:
-                                type: boolean
-                            additionalProperties: false
                 properties:
                   data:
                     type: array
@@ -3792,31 +3519,19 @@ paths:
                                           type: boolean
                                     auto_accept:
                                       type: object
-                                      x-stoplight:
-                                        id: tyel3a16fri35
                                       properties:
                                         type:
                                           type: boolean
-                                          x-stoplight:
-                                            id: vvz3s9hqzsmzd
                                     full_width_space_equals_half_width_space:
                                       type: object
-                                      x-stoplight:
-                                        id: nl0yjldqouisk
                                       properties:
                                         type:
                                           type: boolean
-                                          x-stoplight:
-                                            id: dneorsz6e3v4o
                                     forced_sending:
                                       type: object
-                                      x-stoplight:
-                                        id: hqyl8ynhc1vsc
                                       properties:
                                         type:
                                           type: boolean
-                                          x-stoplight:
-                                            id: 063n2dp6b4xj4
                                 additionalProperties:
                                   type: boolean
               examples:
@@ -4086,10 +3801,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/settings
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions:
     get:
+      tags:
+        - Hub/transactions
       summary: get transactions
       parameters:
         - name: id
@@ -4181,7 +3899,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Processing
                 - Blocked
@@ -4218,7 +3935,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -4301,12 +4017,16 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    post:
       tags:
         - Hub/transactions
-    post:
       summary: create transactions
       requestBody:
         description: post /transactions params
+        required: true
         content:
           '*/*':
             schema:
@@ -4398,7 +4118,6 @@ paths:
                         - address: 1LinPJGYAVsraWnyEY4iDPVroD1Fxxxxxx
                           extra_info: {}
                     protocol: Veriscope on Shyft
-        required: true
       responses:
         '200':
           description: OK
@@ -4432,14 +4151,18 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/email-protocol/deposits:
     post:
+      tags:
+        - Hub/transactions/email-protocol
       summary: send email to originator VASP and ask him to fill customer information
       description: only for email protocol
       requestBody:
         description: post /transactions/email-protocol/deposits params
+        required: true
         content:
           '*/*':
             schema:
@@ -4459,7 +4182,6 @@ paths:
                       addrs:
                         - address: 1Bxzf2hA8FrRkpKU3VQNrgLu6iEGo6bUm7
                           extra_info: {}
-        required: true
       responses:
         '200':
           description: OK
@@ -4493,21 +4215,24 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/email-protocol/deposits/permission:
     patch:
+      tags:
+        - Hub/transactions/email-protocol
       summary: accept or reject this transaction when received customer information from originator
       description: only for email protocol
       requestBody:
         description: patch /transactions/email-protocol/deposits/permission params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PatchPermissionInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -4541,21 +4266,24 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/email-protocol/deposits/permission-request:
     patch:
+      tags:
+        - Hub/transactions/email-protocol
       summary: send own customer information to beneficiary or reject this request when received email from beneficiary
       description: only for email protocol
       requestBody:
         description: patch /transactions/email-protocol/deposits/permission-request params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PostEmailProtocolPermissionInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -4589,21 +4317,24 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/email-protocol/deposits/txid:
     patch:
+      tags:
+        - Hub/transactions/email-protocol
       summary: send transaction hash when received accept from beneficiary
       description: only for email protocol
       requestBody:
         description: patch /transactions/email-protocol/deposits/txid params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PatchTxIdInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -4637,14 +4368,18 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/email-protocol/permission:
     post:
+      tags:
+        - Hub/transactions/email-protocol
       summary: send permission to originator from email protocol VASP
       description: only for email protocol
       requestBody:
         description: post /transactions/email-protocol/permission params
+        required: true
         content:
           '*/*':
             schema:
@@ -4709,7 +4444,6 @@ paths:
                     permission_status: 0
                     reject_code: BVRC001
                     reject_message: string
-        required: true
       responses:
         '200':
           description: OK
@@ -4743,10 +4477,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/transactions/email-protocol/verify-token/{token}':
     get:
+      tags:
+        - Hub/transactions/email-protocol
       summary: verify if token is valid and get its transaction identifier
       description: only for email protocol
       parameters:
@@ -4790,13 +4527,17 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
-      tags:
-        - Hub/transactions/email-protocol
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/permission:
     patch:
+      tags:
+        - Hub/transactions
       summary: send permission to originator
       requestBody:
         description: patch /transactions/permission params
+        required: true
         content:
           '*/*':
             schema:
@@ -4830,7 +4571,6 @@ paths:
                     permission_status: 1
                     reject_code: BVRC999
                     reject_message: Unknown address
-        required: true
       responses:
         '200':
           description: OK
@@ -4864,13 +4604,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/sanction-match:
     post:
+      tags:
+        - Hub/transactions/sanction-match
       summary: let user do sanction screening
       requestBody:
         description: post /transactions/sanction-match params
+        required: true
         content:
           '*/*':
             schema:
@@ -4880,7 +4624,6 @@ paths:
                 value:
                   name: willy
                   customer_type: 0
-        required: true
       responses:
         '200':
           description: OK
@@ -4914,10 +4657,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/sanction-match
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/transactions/sanction-report/{searchId}':
     get:
+      tags:
+        - Hub/transactions/sanction-match
       summary: get report from sanction screening service
       parameters:
         - name: searchId
@@ -4959,20 +4705,23 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions/sanction-match
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/status:
     patch:
+      tags:
+        - Hub/transactions
       summary: unblock or cancel transactions
       requestBody:
         description: patch /transactions/status params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PatchTransactionsStatus'
-        required: true
       responses:
         '200':
           description: OK
@@ -5006,13 +4755,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/txid:
     patch:
+      tags:
+        - Hub/transactions
       summary: send transaction identifier on blockchain to beneficiary
       requestBody:
         description: patch /transactions/txid params
+        required: true
         content:
           '*/*':
             schema:
@@ -5024,7 +4777,6 @@ paths:
                 value:
                   - txid: tx111111111
                     id: 9bc36928-7328-4b01-9635-a8676dc847ff
-        required: true
       responses:
         '200':
           description: OK
@@ -5058,13 +4810,18 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /transactions/wallet-address-filter:
     post:
+      tags:
+        - Hub/transactions
       summary: determine whether a specific wallet address belongs to a VASP or an unhosted wallet
+      description: 'The Sygna Wallet Address Filter (WAF) API is a key feature that enables you to determine whether a specific wallet address belongs to a VASP or an unhosted wallet based on the Sygna server''s directory and your selected blockchain analytics (KYT) vendor. If the wallet address is associated with an un-hosted wallet, your KYT vendor will return a risk score for the address. If you have not yet collaborated with a blockchain analytics vendor, please contact services@sygna.io'
       requestBody:
         description: post /transactions/wallet-address-filter params
+        required: true
         content:
           '*/*':
             schema:
@@ -5077,7 +4834,6 @@ paths:
                   - addrs:
                       - 3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55
                     currency_id: 'sygna:0x80000000'
-        required: true
       responses:
         '200':
           description: OK
@@ -5085,22 +4841,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                x-examples:
-                  Example 1:
-                    data:
-                      - - type: PRIVATE_WALLET
-                          is_vasp: false
-                          address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
-                          currency_id: 'sygna:0x80000000'
-                          extra_data:
-                            address: bc1pl3qy0g03vj0lgmpvvxv36ysp0vymnfet9mq05lu6pslpfjdg9tyqlf5zsj
-                            asset: BTC
-                            blockchain_analytics_vendor: Chainalysis V1
-                            chainalysisIdentification: null
-                            cluster: null
-                            customAddress: null
-                            rating: unknown
-                          success: true
                 properties:
                   data:
                     type: array
@@ -5167,11 +4907,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
-      description: 'The Sygna Wallet Address Filter (WAF) API is a key feature that enables you to determine whether a specific wallet address belongs to a VASP or an unhosted wallet based on the Sygna server''s directory and your selected blockchain analytics (KYT) vendor. If the wallet address is associated with an un-hosted wallet, your KYT vendor will return a risk score for the address. If you have not yet collaborated with a blockchain analytics vendor, please contact services@sygna.io'
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/transactions/{id}':
     get:
+      tags:
+        - Hub/transactions
       summary: get specific transaction
       parameters:
         - name: id
@@ -5401,7 +5143,6 @@ paths:
                                 type: array
                                 items:
                                   type: object
-                                  properties: {}
                               assets:
                                 type: array
                                 items:
@@ -5426,7 +5167,6 @@ paths:
                                       type: array
                                       items:
                                         type: object
-                                        properties: {}
                                     created_at:
                                       type: string
                               assets_ignore_kyt:
@@ -5464,13 +5204,13 @@ paths:
                                                   legal_person_name_identifier_type:
                                                     type: string
                           address_matched:
-                            type: 'null'
+                            nullable: true
                           type_matched:
-                            type: 'null'
+                            nullable: true
                           name_matched:
-                            type: 'null'
+                            nullable: true
                           customer:
-                            type: 'null'
+                            nullable: true
                       performed_at:
                         type: string
                       performed_by:
@@ -5502,7 +5242,6 @@ paths:
                         type: array
                         items:
                           type: object
-                          properties: {}
                       sanction_screened_time:
                         type: string
                       assets:
@@ -5546,7 +5285,7 @@ paths:
                       is_high_risk:
                         type: boolean
                       forced_sending_when_VASP_is_not_healthy:
-                        type: 'null'
+                        nullable: true
                       data_transfer_remarks:
                         type: string
                       customer:
@@ -5629,7 +5368,6 @@ paths:
                             type: array
                             items:
                               type: object
-                              properties: {}
                           assets_ignore_kyt:
                             type: boolean
                       high_risk:
@@ -5641,215 +5379,7 @@ paths:
                       risk_score_provider:
                         type: string
                       sanction_report_link:
-                        type: 'null'
-                x-examples:
-                  Example 1:
-                    data:
-                      id: aff08c0d-1947-4bf4-a10c-80204be7494d
-                      created_at: '2023-05-23T03:18:52.000Z'
-                      updated_at: '2023-05-23T03:21:29.000Z'
-                      vasp_code: GHJKAILL
-                      txid: '840576829470598726'
-                      transfer_id: 8270b10dc17b6ed4df7bc97d0bcf8aa773c631915d62087ecebxxxxx246e8f1c
-                      direction: 0
-                      value: '0.001'
-                      status: 6
-                      status_text: Confirmed
-                      currency_id: 'sygna:0x80000090'
-                      currency_symbol: XRP
-                      currency_name: XRP
-                      originator_info:
-                        vasp_code: GHJKAILL
-                        private_info:
-                          account_numbers:
-                            - rMAGnTv4eMWktZnhKa5cHxxxxx4ZiKUaQm
-                          originator_persons:
-                            - legal_person:
-                                country_of_registration: TW
-                                customer_identification: '45645763456735678'
-                                geographic_addresses:
-                                  - address_line:
-                                      - jsthgsoauehrtgoaiehrg
-                                    address_type: BIZZ
-                                    building_name: Building name
-                                    building_number: dsdetnsn
-                                    country: AL
-                                    country_sub_division: rgqergweqbqeb
-                                    department: 89578uik
-                                    district_name: 45h245h
-                                    floor: Floor
-                                    post_box: dsdetnsn
-                                    post_code: dsdetnsn
-                                    room: Room Number 123
-                                    street_name: wefqrfgqerg
-                                    sub_department: dsdetnsn
-                                    town_location_name: dsdetnsn
-                                    town_name: Town name
-                                name:
-                                  local_name_identifiers:
-                                    - legal_person_name: Sheng　wun
-                                      legal_person_name_identifier_type: LEGL
-                                  name_identifiers:
-                                    - legal_person_name: KEVXX XXX
-                                      legal_person_name_identifier_type: LEGL
-                                  phonetic_name_identifiers:
-                                    - legal_person_name: 凱文　sdolrg
-                                      legal_person_name_identifier_type: LEGL
-                                national_identification:
-                                  country_of_issue: AM
-                                  national_identifier: '56356735673567'
-                                  national_identifier_type: ARNU
-                                  registration_authority: '3567356735673567'
-                        customer:
-                          id: 440daa33-2720-4dd0-a849xxxxx383a699b
-                          updated_at: '2023-05-22T09:30:36.000Z'
-                          vasp_code: GHJKAILL
-                          customer_type: 1
-                          customer_id: 4564xxxxx56735678
-                          legal_person_name:
-                            name: KEVXX XXX
-                            local_name: Sheng　wun
-                            phonetic_name: 凱文　sdolrg
-                          country: TW
-                          is_active: true
-                          created_at: '2023-05-15T02:30:44.000Z'
-                          national:
-                            country_of_issue: AM
-                            national_identifier: 5xxxxx35673567
-                            national_identifier_type: ARNU
-                            registration_authority: '3567356735673567'
-                          address:
-                            address_line:
-                              - jsthgsoaxxxxxgoaiehrg
-                            address_type: BIZZ
-                            building_name: Building name
-                            building_number: dsdetnsn
-                            country: AL
-                            country_sub_division: rgqergweqbqeb
-                            department: 89578uik
-                            district_name: 45h245h
-                            floor: Floor
-                            post_box: dsdetnsn
-                            post_code: dsdetnsn
-                            room: Room Number 123
-                            street_name: wefqrfgqerg
-                            sub_department: dsdetnsn
-                            town_location_name: dsdetnsn
-                            town_name: Town name
-                          labels: []
-                          assets:
-                            - id: 6fde3ca3-8824-4b88-8fe5xxxxx4d3735a2
-                              updated_at: '2023-05-22T08:08:19.000Z'
-                              currency_id: 'sygna:0x80000090'
-                              address: rMAGnTv4eMWktZnhKa5cHxxxxx4ZiKUaQm
-                              extra_info:
-                                tag: '1304'
-                              risk_score_provider: Merkle Science
-                              labels: []
-                              created_at: '2023-05-22T08:08:19.000Z'
-                          assets_ignore_kyt: false
-                      beneficiary_info:
-                        vasp_code: REGTTWAA
-                        private_info:
-                          account_numbers:
-                            - r3AF4w8fSks3D3NNCjJTAxxxxxWQyKg9j5
-                          beneficiary_persons:
-                            - legal_person:
-                                name:
-                                  name_identifiers:
-                                    - legal_person_name: KEVXX XXX
-                                      legal_person_name_identifier_type: LEGL
-                        address_matched: null
-                        type_matched: null
-                        name_matched: null
-                        customer: null
-                      performed_at: '2023-05-23T03:18:52.000Z'
-                      performed_by: xxxxxexxxxxcoolbitx.com
-                      expire_date: '2023-06-22T03:18:42.000Z'
-                      counter_party_vasp_info:
-                        country: TW
-                        license_registration_id: '12345'
-                        regulatory_status: '12345'
-                        supervisory_authority: Coolbitx
-                        vasp_code: XXXXXXXX
-                        vasp_legal_name: aaa
-                        vasp_sygna_registration_type: Sygna_Hub
-                      permission_status: 0
-                      sanction_score: 0
-                      sanction_search_id: []
-                      sanction_screened_time: '2023-05-23T03:19:30.000Z'
-                      assets:
-                        - id: 0657d22a-0612-4e35-81a1xxxxxdbb804d9
-                          updated_at: '2023-05-23T03:19:30.000Z'
-                          vasp_code: XXXXXXXX
-                          address: rMAGnTv4eMWktZnhKa5cHxxxxx4ZiKUaQm
-                          extra_info:
-                            tag: '1304'
-                          labels: []
-                          created_at: '2023-05-23T03:18:52.000Z'
-                          direction: 0
-                        - id: fe427616-eba4-43e1-86c2xxxxx32411569
-                          updated_at: '2023-05-23T03:19:30.000Z'
-                          vasp_code: REGTTWAA
-                          address: r3AF4w8fSks3D3NNCjJTAxxxxxWQyKg9j5
-                          extra_info:
-                            tag: '284568'
-                          risk_score: '0'
-                          risk_score_provider: Merkle Science
-                          labels:
-                            - Exchange
-                          created_at: '2023-05-23T03:18:52.000Z'
-                          last_screened: '2023-05-23T03:19:26.000Z'
-                          direction: 1
-                      protocol: Sygna_Bridge
-                      need_validate_address: true
-                      sanction_score_provider: Dow Jones
-                      is_high_risk: false
-                      forced_sending_when_VASP_is_not_healthy: null
-                      data_transfer_remarks: ''
-                      customer:
-                        id: 440daa33-2720-4dd0-a849xxxxx383a699b
-                        updated_at: '2023-05-23T03:18:57.000Z'
-                        vasp_code: XXXXXXXX
-                        customer_type: 1
-                        customer_id: '45645763456735678'
-                        legal_person_name:
-                          name: KEVXX XXX
-                          local_name: Sheng　wun
-                          phonetic_name: 凱文　sdolrg
-                        country: TW
-                        is_active: true
-                        created_at: '2023-05-15T02:30:44.000Z'
-                        national:
-                          country_of_issue: AM
-                          national_identifier: '56356735673567'
-                          national_identifier_type: ARNU
-                          registration_authority: '3567356735673567'
-                        address:
-                          address_line:
-                            - jsthgsoaxxxxxgoaiehrg
-                          address_type: BIZZ
-                          building_name: Building name
-                          building_number: dsdetnsn
-                          country: AL
-                          country_sub_division: rgqergweqbqeb
-                          department: 89578uik
-                          district_name: 45h245h
-                          floor: Floor
-                          post_box: dsdetnsn
-                          post_code: dsdetnsn
-                          room: Room Number 123
-                          street_name: wefqrfgqerg
-                          sub_department: dsdetnsn
-                          town_location_name: dsdetnsn
-                          town_name: Town name
-                        labels: []
-                        assets_ignore_kyt: false
-                      high_risk: false
-                      value_usd: '0'
-                      max_risk_score: '0'
-                      risk_score_provider: Merkle Science
-                      sanction_report_link: null
+                        nullable: true
               examples:
                 Example 1:
                   value:
@@ -6085,10 +5615,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/transactions
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users:
     get:
+      tags:
+        - Hub/users
       summary: get all users
       description: only admin could use this method
       parameters:
@@ -6127,7 +5660,6 @@ paths:
           schema:
             type: array
             items:
-              type: string
               enum:
                 - password
                 - google
@@ -6217,13 +5749,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    post:
       tags:
         - Hub/users
-    post:
       summary: create users
       description: only admin could use this method
       requestBody:
         description: post /users params
+        required: true
         content:
           '*/*':
             schema:
@@ -6234,7 +5770,6 @@ paths:
               Example 1:
                 value:
                   - account: user@example.com
-        required: true
       responses:
         '200':
           description: OK
@@ -6268,22 +5803,25 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    delete:
       tags:
         - Hub/users
-    delete:
       summary: delete users(member)
       description: |-
         only admin could use this method
         all accounts would be logout if admin deleted them
       requestBody:
         description: patch /users params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.DeleteUsersInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -6317,15 +5855,19 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+    patch:
       tags:
         - Hub/users
-    patch:
       summary: activate or deactivate users(member)
       description: |-
         only admin could use this method
         all accounts would be logout if admin deactivated them
       requestBody:
         description: patch /users params
+        required: true
         content:
           '*/*':
             schema:
@@ -6337,7 +5879,6 @@ paths:
                 value:
                   - id: 781fe1f1-4f1e-446e-b707-f914048b972e
                     is_active: false
-        required: true
       responses:
         '200':
           description: OK
@@ -6371,10 +5912,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users/change-password:
     patch:
+      tags:
+        - Hub/users
       summary: change login password
       description: |-
         admin or member only could change self password
@@ -6382,11 +5926,11 @@ paths:
         user must use password to login if he want to change his password
       requestBody:
         description: patch /users/change-password params
+        required: true
         content:
           '*/*':
             schema:
               $ref: '#/components/schemas/schema.ChangePasswordInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -6420,14 +5964,18 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users/link:
     post:
+      tags:
+        - Hub/users
       summary: link your account to third party service
       description: admin or member could only link self account
       requestBody:
         description: post /users/link params
+        required: true
         content:
           '*/*':
             schema:
@@ -6438,7 +5986,6 @@ paths:
                   account: string
                   credential: string
                   login_type: string
-        required: true
       responses:
         '200':
           description: OK
@@ -6472,10 +6019,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/users/link/{login_type}':
     delete:
+      tags:
+        - Hub/users
       summary: unlink your account from third party service
       description: |-
         admin or member could only unlink self account
@@ -6520,10 +6070,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   '/users/{id}':
     get:
+      tags:
+        - Hub/users
       summary: get specific or self user data
       description: |-
         admin could get specific or self user data
@@ -6571,48 +6124,51 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users/history:
     get:
+      tags:
+        - Hub/users
       summary: get users audit history
       description: get users audit history
       parameters:
-        - schema:
+        - name: action
+          in: query
+          style: form
+          schema:
             type: array
             items:
               type: string
+        - name: last_user_email
           in: query
-          name: action
           style: form
-        - schema:
+          schema:
             type: array
             items:
               type: string
+        - name: ref_user_email
           in: query
-          name: last_user_email
           style: form
-        - schema:
+          schema:
             type: array
             items:
               type: string
+        - name: orderby
           in: query
-          name: ref_user_email
           style: form
-        - schema:
+          schema:
             type: array
             items:
               type: string
+        - name: created_at
           in: query
-          name: orderby
           style: form
-        - schema:
+          schema:
             type: array
             items:
               type: string
-          in: query
-          name: created_at
-          style: form
       responses:
         '200':
           description: OK
@@ -6649,15 +6205,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/users
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /vendors/bridge/sync:
     get:
+      tags:
+        - Hub/vendors
       summary: Synchronize Sygna Bridge Transactions
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -6684,15 +6242,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/vendors
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /vendors/shyft/attestations/sync:
     get:
+      tags:
+        - Hub/vendors
       summary: Synchronize Shyft Attestations
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -6719,21 +6279,24 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/vendors
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /vendors/test:
     post:
+      tags:
+        - Hub/vendors
       summary: test if third-party service is available
       description: 'only allow admin to use this method. To know all the supported 3rd party vendors, please check the response of GET `/services/supported`'
       requestBody:
         description: post /vendors/test params
+        required: true
         content:
           '*/*':
             schema:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PostVendorsTestInput'
-        required: true
       responses:
         '200':
           description: OK
@@ -6772,10 +6335,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/vendors
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /webhook-log:
     get:
+      tags:
+        - Hub/webhook-log
       summary: get all webhook logs
       parameters:
         - name: id
@@ -6880,10 +6446,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/webhook-log
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /webhook-log/sync:
     get:
+      tags:
+        - Hub/webhook-log
       summary: resend failed webhook event
       parameters:
         - name: id
@@ -6924,15 +6493,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/webhook-log
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /global-vasp-export:
     get:
+      tags:
+        - Hub/global-vasp-export
       summary: generate global-vasp report
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -6959,10 +6530,13 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/global-vasp-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /global-vasp-export/status:
     get:
+      tags:
+        - Hub/global-vasp-export
       summary: get global-vasp report processing status
       responses:
         '200':
@@ -7000,15 +6574,17 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/global-vasp-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /global-vasp-export/download:
     get:
+      tags:
+        - Hub/global-vasp-export
       summary: download global-vasp report
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
           content:
@@ -7035,19 +6611,23 @@ paths:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
         - BearerToken: []
-      tags:
-        - Hub/global-vasp-export
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
 components:
+  securitySchemes:
+    BearerToken:
+      type: apiKey
+      name: Authorization
+      in: header
   schemas:
-    decimal.NullDecimal:
+    schema.GetRootOutput:
       type: object
       properties:
-        decimal:
-          type: number
-        valid:
-          type: boolean
-      x-stoplight:
-        id: v182vtl01wysv
+        release:
+          type: string
+        version:
+          type: string
     errors.SystemError:
       type: object
       properties:
@@ -7055,129 +6635,14 @@ components:
           type: string
         extra_data:
           type: object
-          properties: {}
         help:
           type: string
         message:
           type: string
         stack:
           type: object
-          properties: {}
         type:
           type: string
-      x-stoplight:
-        id: 95dqcbb2bfzss
-    model.Addr:
-      required:
-        - address
-      type: object
-      properties:
-        address:
-          type: string
-        extra_info:
-          type: object
-          properties: {}
-      x-stoplight:
-        id: scu6nnwnew100
-    model.Address:
-      type: object
-      properties:
-        address_line:
-          type: array
-          items:
-            type: string
-        address_type:
-          type: string
-        building_name:
-          type: string
-        building_number:
-          type: string
-        country:
-          type: string
-        country_sub_division:
-          type: string
-        department:
-          type: string
-        district_name:
-          type: string
-        floor:
-          type: string
-        post_box:
-          type: string
-        post_code:
-          type: string
-        room:
-          type: string
-        street_name:
-          type: string
-        sub_department:
-          type: string
-        town_location_name:
-          type: string
-        town_name:
-          type: string
-      x-stoplight:
-        id: 2f4i2rernnecc
-    model.Asset:
-      type: object
-      properties:
-        address:
-          type: string
-        created_at:
-          type: string
-        currency_id:
-          type: string
-        currency_name:
-          type: string
-        currency_symbol:
-          type: string
-        extra_info:
-          $ref: '#/components/schemas/model.StringObject'
-        id:
-          type: string
-        is_kyt_supported:
-          type: boolean
-        is_sygna_supported:
-          type: boolean
-        labels:
-          type: array
-          items:
-            type: string
-        last_screened:
-          type: string
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-        updated_at:
-          type: string
-        value:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-        value_usd:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-      x-stoplight:
-        id: 12uqkh6gteekw
-    model.BeneficiaryPrivateInfo:
-      oneOf:
-        - $ref: '#/components/schemas/model.NaturalPersonName'
-        - $ref: '#/components/schemas/model.LegalPersonName'
-      x-stoplight:
-        id: muvjk9t3xaj3c
-    model.OriginatorPrivateInfo:
-      oneOf:
-        - $ref: '#/components/schemas/model.NaturalPersonName'
-        - $ref: '#/components/schemas/model.LegalPersonName'
-      x-stoplight:
-        id: 2tg4mc4vepbjn
-    model.Birth:
-      type: object
-      properties:
-        date_of_birth:
-          type: string
-        place_of_birth:
-          type: string
-      x-stoplight:
-        id: s0eug1lze60lw
     model.Currency:
       type: object
       properties:
@@ -7205,523 +6670,6 @@ components:
           $ref: '#/components/schemas/model.Platform'
         updated_at:
           type: string
-      x-stoplight:
-        id: vc1cxg14i73ip
-    model.GlobalVasp:
-      type: object
-      properties:
-        created_at:
-          type: string
-        extra_info:
-          $ref: '#/components/schemas/model.Object'
-        id:
-          type: string
-        protocol:
-          type: string
-        updated_at:
-          type: string
-        vasp_identifier:
-          type: string
-        vasp_name:
-          type: string
-        vasp_server_status:
-          type: string
-      x-stoplight:
-        id: 6zog0r3r2hmyf
-    model.Customer:
-      properties:
-        address:
-          $ref: '#/components/schemas/model.Address'
-        assets:
-          items:
-            $ref: '#/components/schemas/model.Asset'
-          type: array
-        assets_ignore_kyt:
-          type: boolean
-        avg_risk_score:
-          type: string
-        birth:
-          $ref: '#/components/schemas/model.Birth'
-        country:
-          type: string
-        created_at:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-        id:
-          type: string
-        is_active:
-          type: boolean
-        labels:
-          items:
-            type: string
-          type: array
-        last_screened:
-          type: string
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        max_risk_score:
-          type: string
-        name:
-          type: string
-        national:
-          $ref: '#/components/schemas/model.National'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-        protocol_extra_info:
-          $ref: '#/components/schemas/model.Object'
-          description: for now specifically for shyft
-        risk_score_provider:
-          type: string
-        updated_at:
-          type: string
-        vasp_code:
-          type: string
-      type: object
-      x-stoplight:
-        id: d1kfjvzkx6j6d
-    model.LegalPersonName:
-      title: LegalPersonName
-      required:
-        - name
-      type: object
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          type: string
-      description: required if customer type equals 1
-      x-stoplight:
-        id: acwfms22g3a42
-    model.Login:
-      title: LegalPersonName
-      type: object
-      properties:
-        account:
-          type: string
-        created_at:
-          type: string
-        id:
-          type: string
-        is_active:
-          type: boolean
-        last_login:
-          type: string
-        last_password_change:
-          type: string
-        login_type:
-          type: string
-        updated_at:
-          type: string
-      description: ''
-      x-stoplight:
-        id: 1dspwiph0nb5h
-    model.NameObject:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-      x-stoplight:
-        id: j5d1sx1l04bpf
-    model.National:
-      type: object
-      properties:
-        country_of_issue:
-          type: string
-        national_identifier:
-          type: string
-        national_identifier_type:
-          type: string
-        registration_authority:
-          type: string
-      x-stoplight:
-        id: 901nztp8dzimr
-    ivms101.Address:
-      properties:
-        address_line:
-          items:
-            type: string
-          type: array
-        address_type:
-          type: string
-        building_name:
-          type: string
-        building_number:
-          type: string
-        country:
-          type: string
-        country_sub_division:
-          type: string
-        department:
-          type: string
-        district_name:
-          type: string
-        floor:
-          type: string
-        post_box:
-          type: string
-        post_code:
-          type: string
-        room:
-          type: string
-        street_name:
-          type: string
-        sub_department:
-          type: string
-        town_location_name:
-          type: string
-        town_name:
-          type: string
-      type: object
-      x-stoplight:
-        id: w1aqyttmsj12u
-    ivms101.Beneficiary:
-      properties:
-        account_numbers:
-          items:
-            type: string
-          type: array
-        beneficiary_persons:
-          items:
-            $ref: '#/components/schemas/ivms101.Person'
-          type: array
-      type: object
-      x-stoplight:
-        id: e8w3fbnc9kkkg
-    ivms101.DateAndPlaceOfBirth:
-      properties:
-        date_of_birth:
-          type: string
-        place_of_birth:
-          type: string
-      type: object
-      x-stoplight:
-        id: 5fsjdadi57ioe
-    ivms101.GeographicAddress:
-      properties:
-        addressLine:
-          items:
-            type: string
-          type: array
-        addressType:
-          type: string
-        buildingName:
-          type: string
-        buildingNumber:
-          type: string
-        country:
-          type: string
-        countrySubDivision:
-          type: string
-        department:
-          type: string
-        districtName:
-          type: string
-        floor:
-          type: string
-        postBox:
-          type: string
-        postCode:
-          type: string
-        room:
-          type: string
-        streetName:
-          type: string
-        subDepartment:
-          type: string
-        townLocation_name:
-          type: string
-        townName:
-          type: string
-      type: object
-      x-stoplight:
-        id: oix49sbcxjfkz
-    ivms101.LegalPerson:
-      properties:
-        countryOfRegistration:
-          type: string
-        customerIdentification:
-          type: string
-        geographicAddress:
-          items:
-            $ref: '#/components/schemas/ivms101.GeographicAddress'
-          type: array
-        name:
-          $ref: '#/components/schemas/ivms101.LegalPersonName'
-        nationalIdentification:
-          $ref: '#/components/schemas/ivms101.NationalIdentification'
-      type: object
-      x-stoplight:
-        id: 7pfespqr9nnbb
-    ivms101.LegalPersonName:
-      properties:
-        localNameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.LocalLegalPersonNameIdentifier'
-          type: array
-        nameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.LegalPersonNameIdentifier'
-          type: array
-        phoneticNameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier'
-          type: array
-      type: object
-      x-stoplight:
-        id: flhm0i3rmr3uf
-    ivms101.LegalPersonNameIdentifier:
-      properties:
-        legalPersonName:
-          type: string
-        legalPersonNameIdentifierType:
-          type: string
-      type: object
-      x-stoplight:
-        id: 5yee44qefrlg9
-    ivms101.LocalLegalPersonNameIdentifier:
-      properties:
-        legalPersonName:
-          type: string
-        legalPersonNameIdentifierType:
-          type: string
-      type: object
-      x-stoplight:
-        id: 8k29q3gizbrvk
-    ivms101.LocalNaturalPersonNameIdentifier:
-      properties:
-        nameIdentifierType:
-          type: string
-        primaryIdentifier:
-          type: string
-        secondaryIdentifier:
-          type: string
-      type: object
-      x-stoplight:
-        id: mx59drrg4642s
-    ivms101.NationalIdentification:
-      properties:
-        countryOfIssue:
-          type: string
-        nationalIdentifier:
-          type: string
-        nationalIdentifierType:
-          type: string
-        registrationAuthority:
-          type: string
-      type: object
-      x-stoplight:
-        id: 8r72wnp1gxytu
-    ivms101.NaturalPerson:
-      properties:
-        country_of_residence:
-          type: string
-        customer_identification:
-          type: string
-        date_and_place_of_birth:
-          $ref: '#/components/schemas/ivms101.DateAndPlaceOfBirth'
-        geographic_addresses:
-          items:
-            $ref: '#/components/schemas/ivms101.Address'
-          type: array
-        name:
-          $ref: '#/components/schemas/ivms101.NaturalPersonName'
-        national_identification:
-          $ref: '#/components/schemas/ivms101.NationalIdentification'
-      type: object
-      x-stoplight:
-        id: hkrjg6loowktz
-    ivms101.NaturalPersonName:
-      properties:
-        localNameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier'
-          type: array
-        nameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.NaturalPersonNameIdentifier'
-          type: array
-        phoneticNameIdentifier:
-          items:
-            $ref: '#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier'
-          type: array
-      type: object
-      x-stoplight:
-        id: zwvdcmqa67feh
-    ivms101.NaturalPersonNameIdentifier:
-      properties:
-        nameIdentifierType:
-          type: string
-        primaryIdentifier:
-          type: string
-        secondaryIdentifier:
-          type: string
-      type: object
-      x-stoplight:
-        id: qv55hvanlurk0
-    ivms101.Originator:
-      properties:
-        account_numbers:
-          items:
-            type: string
-          type: array
-        originator_persons:
-          items:
-            $ref: '#/components/schemas/ivms101.Person'
-          type: array
-      type: object
-      x-stoplight:
-        id: 8uudsbxmujln9
-    ivms101.Person:
-      properties:
-        legalPerson:
-          $ref: '#/components/schemas/ivms101.LegalPerson'
-        naturalPerson:
-          $ref: '#/components/schemas/ivms101.NaturalPerson'
-      type: object
-      x-stoplight:
-        id: ezkgfmlezhzrj
-    ivms101.PhoneticLegalPersonNameIdentifier:
-      properties:
-        legalPersonName:
-          type: string
-        legalPersonNameIdentifierType:
-          type: string
-      type: object
-      x-stoplight:
-        id: ke1qqmwvywzxt
-    ivms101.PhoneticNaturalPersonNameIdentifier:
-      properties:
-        nameIdentifierType:
-          type: string
-        primaryIdentifier:
-          type: string
-        secondaryIdentifier:
-          type: string
-      type: object
-      x-stoplight:
-        id: slvu7nddkekxz
-    model.BeneficiaryInfo:
-      properties:
-        address_matched:
-          type: boolean
-        customer:
-          $ref: '#/components/schemas/model.Customer'
-        name_matched:
-          type: boolean
-        private_info:
-          $ref: '#/components/schemas/ivms101.Beneficiary'
-        type_matched:
-          type: boolean
-        vasp_code:
-          type: string
-      type: object
-      x-stoplight:
-        id: ofh1e9bsidm0t
-    model.OriginatorInfo:
-      properties:
-        customer:
-          $ref: '#/components/schemas/model.Customer'
-        private_info:
-          $ref: '#/components/schemas/ivms101.Originator'
-        vasp_code:
-          type: string
-      type: object
-      x-stoplight:
-        id: jf1dlkrpsonsw
-    model.NaturalPersonName:
-      title: NaturalPersonName
-      required:
-        - name
-      type: object
-      properties:
-        local_name:
-          $ref: '#/components/schemas/model.NameObject'
-        name:
-          $ref: '#/components/schemas/model.NameObject'
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      description: required if customer type equals 0
-      x-stoplight:
-        id: nk81w4thn3rn0
-    model.Object:
-      type: object
-      x-stoplight:
-        id: n18grctd6gp9k
-    model.Ownership:
-      type: object
-      properties:
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.OwnershipAsset'
-        created_at:
-          type: string
-        error:
-          $ref: '#/components/schemas/model.Object'
-        id:
-          type: string
-        owner_email:
-          type: string
-        owner_info:
-          type: object
-          properties: {}
-        sender_email:
-          type: string
-        status:
-          type: integer
-        status_text:
-          type: string
-        transaction_information:
-          type: object
-          properties: {}
-        updated_at:
-          type: string
-      x-stoplight:
-        id: b6hs0xvymj6xj
-    model.OwnershipAsset:
-      type: object
-      properties:
-        address:
-          type: string
-        created_at:
-          type: string
-        currency_id:
-          type: string
-        currency_name:
-          type: string
-        currency_symbol:
-          type: string
-        id:
-          type: string
-        last_screened:
-          type: string
-        reject_code:
-          type: string
-        reject_message:
-          type: string
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-        txid:
-          type: string
-        updated_at:
-          type: string
-        validation_status:
-          type: integer
-        validation_status_text:
-          type: string
-        value:
-          type: string
-      x-stoplight:
-        id: rsbxvcwwyat1n
     model.Platform:
       type: object
       properties:
@@ -7733,316 +6681,132 @@ components:
           type: string
         token_address:
           type: string
-      x-stoplight:
-        id: g1o7er1mhkmrl
-    model.PostEmailProtocolDepositInput:
-      required:
-        - currency_id
-        - customer_id
-        - originator
-        - value
+    schema.RespWithPaging:
       type: object
       properties:
-        beneficiary:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            assets:
-              type: array
-              items:
-                type: string
-        currency_id:
+        paging:
+          $ref: '#/components/schemas/schema.PagingResult'
+    schema.PagingResult:
+      type: object
+      properties:
+        has_next:
+          type: boolean
+        limit:
+          type: integer
+        next_offset:
+          type: integer
+          description: next_offset is valuable when has_next is true
+        offset:
+          type: integer
+        total:
+          type: integer
+      required:
+        - has_next
+        - limit
+        - offset
+        - total
+    schema.GetCustomersOutput:
+      type: object
+      properties:
+        avg_risk_score:
+          type: string
+        created_at:
           type: string
         customer_id:
           type: string
-        originator:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-        value:
-          type: string
-      x-stoplight:
-        id: 2w88g9g1lr3yq
-    model.PostTransactionInput:
-      title: ''
-      required:
-        - beneficiary
-        - currency_id
-        - customer_id
-        - originator
-        - value
-      type: object
-      properties:
-        beneficiary:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                Required if 
-                - protocol equals Sygna_Bridge 
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        need_validate_address:
-          type: boolean
-        originator:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            assets:
-              type: array
-              items:
-                type: string
-          description: 'Choose asset identifiers from GET /customers/:id or input addresses belong to above customer identifier'
-        protocol:
-          type: string
-          nullable: true
-          enum:
-            - Sygna_Bridge
-            - Sygna_EmailProtocol
-            - TRISA
-            - Veriscope on Shyft
-        protocol_extra_info:
-          type: object
-          properties: {}
-        txid:
-          type: string
-        value:
-          type: string
-          description: The value of the currency requested to transfer.
-      description: ''
-      x-stoplight:
-        id: gzj67gwtro6md
-    model.Report:
-      type: object
-      properties:
-        created_at:
-          type: string
-        error:
-          $ref: '#/components/schemas/model.Object'
-        file_path:
-          type: string
-        id:
-          type: string
-        report_status:
-          type: integer
-        report_status_text:
-          type: string
-        updated_at:
-          type: string
-        vasp_code:
-          type: string
-      x-stoplight:
-        id: jf96eb3ivc0ru
-    model.Rollback:
-      type: object
-      properties:
-        gorm_version:
-          type: string
-        rollback_id:
-          type: string
-        sql_version:
-          type: string
-        version:
-          type: string
-      x-stoplight:
-        id: 2shlyn5t9ipqy
-    model.Service:
-      type: object
-      properties:
-        created_at:
-          type: string
-        credential:
-          type: object
-          properties: {}
-          description: this field is plain text
-        end_time:
-          type: string
+          description: 'Name              string                  `json:"name"`'
         id:
           type: string
         is_active:
           type: boolean
-        provider:
-          type: string
-        settings:
-          type: object
-          properties: {}
-        start_time:
-          type: string
-        status:
-          type: string
-        type:
-          type: string
-        updated_at:
-          type: string
-        vasp_code:
-          type: string
-      x-stoplight:
-        id: fgymsfvsscjp2
-    model.Setting:
-      type: object
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        rule:
-          type: object
-          properties: {}
-        type:
-          type: string
-        updated_at:
-          type: string
-        vasp_code:
-          type: string
-      x-stoplight:
-        id: cegpgdvj8lol0
-    model.StringObject:
-      type: object
-      additionalProperties:
-        type: string
-      x-stoplight:
-        id: wetrmdkn9bqd1
-    model.SupportedService:
-      type: object
-      properties:
-        created_at:
-          type: string
-        credential:
-          type: object
-          properties: {}
-        editable:
-          type: boolean
-        id:
-          type: string
-        is_active:
-          type: boolean
-        provider:
-          type: string
-        settings:
-          type: object
-          properties: {}
-        type:
-          type: string
-        updated_at:
-          type: string
-      title: ''
-      x-stoplight:
-        id: 5v07n9st4rw69
-    model.SupportedSetting:
-      type: object
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        rule:
-          type: object
-          properties: {}
-        type:
-          type: string
-        updated_at:
-          type: string
-      x-stoplight:
-        id: s7goo67mqh0vy
-    model.User:
-      type: object
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        is_active:
-          type: boolean
-        logins:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Login'
-        role_id:
-          type: integer
-        updated_at:
-          type: string
-      x-stoplight:
-        id: 9qblcmb8iezdv
-    model.WebhookEvent:
-      type: object
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        request_id:
-          type: string
-        event:
-          type: string
-        payload:
-          type: object
-        transaction_uuid:
-          type: string
-        protocol:
-          type: string
-        counter_party_vasp_code:
-          type: string
-        status:
-          type: string
-        retry_count:
-          type: string
-        webhook_logs:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Webhook_logs'
-      x-stoplight:
-        id: zmtebuhri5h52
-    model.Webhook_logs:
-      type: object
-      properties:
-        created_at:
-          type: string
-        success:
-          type: boolean
-        trigger:
-          type: string
-      x-stoplight:
-        id: urjcid0qbxqfu
-    sanctionscreening.GetSanctionScoreOutput:
-      type: object
-      properties:
-        profile_ids:
+        labels:
           type: array
           items:
             type: string
-        score:
+        last_screened:
+          type: string
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        max_risk_score:
+          type: string
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+        risk_score_provider:
+          type: string
+        updated_at:
+          type: string
+    model.LegalPersonName:
+      type: object
+      title: LegalPersonName
+      description: required if customer type equals 1
+      properties:
+        local_name:
+          type: string
+        name:
+          type: string
+        phonetic_name:
+          type: string
+      required:
+        - name
+    model.NaturalPersonName:
+      type: object
+      title: NaturalPersonName
+      description: required if customer type equals 0
+      properties:
+        local_name:
+          $ref: '#/components/schemas/model.NameObject'
+        name:
+          $ref: '#/components/schemas/model.NameObject'
+        phonetic_name:
+          $ref: '#/components/schemas/model.NameObject'
+      required:
+        - name
+    model.NameObject:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+    schema.PutCustomersInput:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/schema.Address'
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchAssetInput'
+        assets_ignore_kyt:
+          type: boolean
+        birth:
+          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
+        country:
+          type: string
+        customer_id:
+          type: string
+        customer_type:
           type: integer
-      x-stoplight:
-        id: fhovjjdrczyud
+          description: |-
+            Customer Type
+            * 0 - NaturalPerson
+            * 1 - LegalPerson
+        id:
+          type: string
+          format: uuid
+        is_active:
+          type: boolean
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/schema.NationalIdentification'
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+      required:
+        - assets
+        - country
+        - customer_type
+        - id
     schema.Address:
       type: object
       properties:
@@ -8080,9 +6844,177 @@ components:
           type: string
         town_name:
           type: string
-      x-stoplight:
-        id: s7k9dgn17i9t5
-    schema.Asset:
+    schema.PatchAssetInput:
+      type: object
+      properties:
+        address:
+          type: string
+        currency_id:
+          type: string
+        extra_info:
+          type: object
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+      required:
+        - id
+    schema.DateAndPlaceOfBirth:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+        place_of_birth:
+          type: string
+    schema.NationalIdentification:
+      type: object
+      properties:
+        country_of_issue:
+          type: string
+        national_identifier:
+          type: string
+        national_identifier_type:
+          type: string
+        registration_authority:
+          type: string
+    schema.RespWithMutation:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              error:
+                $ref: '#/components/schemas/errors.SystemError'
+              id:
+                type: string
+                format: uuid
+              success:
+                type: boolean
+            required:
+              - success
+      required:
+        - data
+    schema.PostCustomersInput:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/schema.Address'
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PostAssetInput'
+        assets_ignore_kyt:
+          type: boolean
+        birth:
+          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
+        country:
+          type: string
+        customer_id:
+          type: string
+        customer_type:
+          type: integer
+          description: |-
+            Customer Type
+            * 0 - NaturalPerson
+            * 1 - LegalPerson
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/schema.NationalIdentification'
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+      required:
+        - assets
+        - country
+        - customer_type
+    schema.PostAssetInput:
+      type: object
+      properties:
+        address:
+          type: string
+        currency_id:
+          type: string
+        extra_info:
+          type: object
+        value:
+          type: string
+      required:
+        - address
+        - currency_id
+    schema.PatchCustomersInput:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/model.Address'
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Asset'
+        assets_ignore_kyt:
+          type: boolean
+        birth:
+          $ref: '#/components/schemas/model.Birth'
+        country:
+          type: string
+        customer_id:
+          type: string
+        customer_type:
+          type: integer
+        id:
+          type: string
+        is_active:
+          type: boolean
+        legal_person_name:
+          $ref: '#/components/schemas/schema.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/model.National'
+        natural_person_name:
+          $ref: '#/components/schemas/schema.NaturalPersonName'
+        update_status:
+          type: boolean
+      required:
+        - id
+    model.Address:
+      type: object
+      properties:
+        address_line:
+          type: array
+          items:
+            type: string
+        address_type:
+          type: string
+        building_name:
+          type: string
+        building_number:
+          type: string
+        country:
+          type: string
+        country_sub_division:
+          type: string
+        department:
+          type: string
+        district_name:
+          type: string
+        floor:
+          type: string
+        post_box:
+          type: string
+        post_code:
+          type: string
+        room:
+          type: string
+        street_name:
+          type: string
+        sub_department:
+          type: string
+        town_location_name:
+          type: string
+        town_name:
+          type: string
+    model.Asset:
       type: object
       properties:
         address:
@@ -8091,11 +7023,18 @@ components:
           type: string
         currency_id:
           type: string
+        currency_name:
+          type: string
+        currency_symbol:
+          type: string
         extra_info:
-          type: object
-          properties: {}
+          $ref: '#/components/schemas/model.StringObject'
         id:
           type: string
+        is_kyt_supported:
+          type: boolean
+        is_sygna_supported:
+          type: boolean
         labels:
           type: array
           items:
@@ -8109,48 +7048,86 @@ components:
         updated_at:
           type: string
         value:
-          type: string
+          $ref: '#/components/schemas/decimal.NullDecimal'
         value_usd:
-          type: string
-      x-stoplight:
-        id: k1q35gn2vbkke
-    schema.ChangePasswordInput:
-      required:
-        - new_password
-        - old_password
+          $ref: '#/components/schemas/decimal.NullDecimal'
+    model.StringObject:
+      type: object
+      additionalProperties:
+        type: string
+    decimal.NullDecimal:
       type: object
       properties:
-        new_password:
-          type: string
-          description: |-
-            new password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
-        old_password:
-          type: string
-      x-stoplight:
-        id: bu0tjic3eaylo
-    schema.DateAndPlaceOfBirth:
+        decimal:
+          type: number
+        valid:
+          type: boolean
+    model.Birth:
       type: object
       properties:
         date_of_birth:
           type: string
         place_of_birth:
           type: string
-      x-stoplight:
-        id: bf8iiol44l462
-    schema.DeleteUsersInput:
-      required:
-        - id
+    schema.LegalPersonName:
+      type: object
+      description: required if customer_type equals 1
+      properties:
+        local_name:
+          type: string
+        name:
+          type: string
+        phonetic_name:
+          type: string
+    model.National:
       type: object
       properties:
+        country_of_issue:
+          type: string
+        national_identifier:
+          type: string
+        national_identifier_type:
+          type: string
+        registration_authority:
+          type: string
+    schema.NaturalPersonName:
+      type: object
+      description: required if customer_type equals 0
+      properties:
+        local_name:
+          $ref: '#/components/schemas/schema.NameObject'
+        name:
+          $ref: '#/components/schemas/schema.NameObject'
+        phonetic_name:
+          $ref: '#/components/schemas/schema.NameObject'
+    schema.NameObject:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+    model.Report:
+      type: object
+      properties:
+        created_at:
+          type: string
+        error:
+          $ref: '#/components/schemas/model.Object'
+        file_path:
+          type: string
         id:
           type: string
-          description: specific user identifier
-      x-stoplight:
-        id: pnszayzr1f33y
+        report_status:
+          type: integer
+        report_status_text:
+          type: string
+        updated_at:
+          type: string
+        vasp_code:
+          type: string
+    model.Object:
+      type: object
     schema.GetCustomerOutput:
       type: object
       properties:
@@ -8190,67 +7167,100 @@ components:
           $ref: '#/components/schemas/schema.NationalIdentification'
         protocol_extra_info:
           type: object
-          properties: {}
         risk_score_provider:
           type: string
         updated_at:
           type: string
-      x-stoplight:
-        id: 39i3cnpk9aq10
-    schema.GetCustomersOutput:
+    schema.Asset:
       type: object
       properties:
-        avg_risk_score:
+        address:
           type: string
         created_at:
           type: string
-        customer_id:
+        currency_id:
           type: string
-          description: 'Name              string                  `json:"name"`'
+        extra_info:
+          type: object
         id:
           type: string
-        is_active:
-          type: boolean
         labels:
           type: array
           items:
             type: string
         last_screened:
           type: string
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        max_risk_score:
+        risk_score:
           type: string
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
         risk_score_provider:
           type: string
         updated_at:
           type: string
-      x-stoplight:
-        id: zzz06h7yptpcl
-    schema.GetRootOutput:
+        value:
+          type: string
+        value_usd:
+          type: string
+    schema.PostOauthInput:
       type: object
       properties:
-        release:
+        account:
           type: string
-        version:
+        credential:
           type: string
-      x-stoplight:
-        id: vpvz534czsk7n
-    schema.GetTransactionOutput:
+        login_type:
+          enum:
+            - password
+            - google
+          default: password
+      required:
+        - account
+        - credential
+    schema.RespWithStatus:
       type: object
-      x-stoplight:
-        id: zpna8jv965bvl
+      properties:
+        data:
+          type: object
+          properties:
+            success:
+              type: boolean
+            accessToken:
+              type: string
+          required:
+            - success
+      required:
+        - data
+    model.Ownership:
+      type: object
       properties:
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/schema.TransactionAsset'
-        beneficiary_info:
-          $ref: '#/components/schemas/model.BeneficiaryInfo'
-        counter_party_vasp_info:
-          $ref: '#/components/schemas/model.StringObject'
+            $ref: '#/components/schemas/model.OwnershipAsset'
+        created_at:
+          type: string
+        error:
+          $ref: '#/components/schemas/model.Object'
+        id:
+          type: string
+        owner_email:
+          type: string
+        owner_info:
+          type: object
+        sender_email:
+          type: string
+        status:
+          type: integer
+        status_text:
+          type: string
+        transaction_information:
+          type: object
+        updated_at:
+          type: string
+    model.OwnershipAsset:
+      type: object
+      properties:
+        address:
+          type: string
         created_at:
           type: string
         currency_id:
@@ -8259,80 +7269,285 @@ components:
           type: string
         currency_symbol:
           type: string
-        customer:
-          $ref: '#/components/schemas/model.Customer'
-        direction:
-          type: integer
-        error:
-          $ref: '#/components/schemas/model.Object'
-        expire_date:
-          type: string
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        high_risk:
-          type: boolean
         id:
           type: string
-        is_high_risk:
-          type: boolean
-        max_risk_score:
+        last_screened:
           type: string
-        need_validate_address:
-          type: boolean
-        originator_info:
-          $ref: '#/components/schemas/model.OriginatorInfo'
-        performed_at:
-          type: string
-        performed_by:
-          type: string
-        permission_status:
-          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
-          type: integer
-        protocol:
-          type: string
-        protocol_extra_info:
-          $ref: '#/components/schemas/model.Object'
         reject_code:
           type: string
         reject_message:
           type: string
+        risk_score:
+          type: string
         risk_score_provider:
-          type: string
-        sanction_report_link:
-          type: array
-          items:
-            type: string
-        sanction_score:
-          type: integer
-        sanction_score_provider:
-          type: string
-        sanction_screened_time:
-          type: string
-        sanction_search_id:
-          type: array
-          items:
-            type: string
-        status:
-          type: integer
-        status_text:
-          type: string
-        transfer_id:
           type: string
         txid:
           type: string
         updated_at:
           type: string
+        validation_status:
+          type: integer
+        validation_status_text:
+          type: string
         value:
-          $ref: '#/components/schemas/decimal.NullDecimal'
-        value_usd:
-          $ref: '#/components/schemas/decimal.NullDecimal'
+          type: string
+    schema.PostOwnershipInput:
+      type: object
+      properties:
+        assets_ignore_kyt:
+          type: boolean
+        owner_email:
+          type: string
+          format: email
+        private_wallet_address:
+          type: array
+          items:
+            type: string
+        sender_email:
+          type: string
+          format: email
+        transaction_information:
+          $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
+      required:
+        - owner_email
+        - private_wallet_address
+        - transaction_information
+    schema.PostOwnershipTransactionInformationInput:
+      type: object
+      properties:
+        currency_id:
+          type: string
+        value:
+          type: string
+        vasp_beneficiary_wallet_address:
+          type: string
+      required:
+        - currency_id
+        - value
+        - vasp_beneficiary_wallet_address
+    schema.PatchOwnershipIdInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target ownership identifier
+          format: uuid
+      required:
+        - id
+    schema.PatchOwnershipConfirmInput:
+      type: object
+      properties:
+        accept:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationConfirmInput'
+        id:
+          type: string
+          description: Target ownership identifier
+          format: uuid
+        reject:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
+      required:
+        - id
+    schema.PatchOwnershipAssetValidationConfirmInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target asset identifier which you want to accept
+          format: uuid
+      required:
+        - id
+    schema.PatchOwnershipAssetValidationRejectInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target asset identifier which you want to accept
+          format: uuid
+        reject_code:
+          enum:
+            - BVRC001
+            - BVRC002
+            - BVRC003
+            - BVRC004
+            - BVRC005
+            - BVRC006
+            - BVRC007
+            - BVRC999
+          description: 'Reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+        reject_message:
+          type: string
+          description: Reply detail why you reject.
+      required:
+        - id
+        - reject_code
+        - reject_message
+    schema.PatchOwnershipValidationInput:
+      type: object
+      properties:
+        accept:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationAcceptInput'
+        owner_info:
+          type: object
+        reject:
+          type: array
+          items:
+            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
+    schema.PatchOwnershipAssetValidationAcceptInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target asset identifier which you want to accept
+          format: uuid
+        txid:
+          type: string
+          description: Transaction identifier on blockchain
+      required:
+        - id
+        - txid
+    model.Rollback:
+      type: object
+      properties:
+        gorm_version:
+          type: string
+        rollback_id:
+          type: string
+        sql_version:
+          type: string
+        version:
+          type: string
+    schema.PutRollbackInout:
+      type: object
+      properties:
+        version:
+          type: string
+      required:
+        - version
+    model.Service:
+      type: object
+      properties:
+        created_at:
+          type: string
+        credential:
+          type: object
+          description: this field is plain text
+        end_time:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        provider:
+          type: string
+        settings:
+          type: object
+        start_time:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
         vasp_code:
           type: string
-        data_transfer_remarks:
+    schema.PutServicesInput:
+      type: object
+      properties:
+        credential:
+          type: object
+        is_active:
+          type: boolean
+        provider:
+          enum:
+            - Elliptic
+            - Chainalysis V1
+            - Chainalysis V2
+            - ComplyAdvantage
+            - Merkle Science
+            - TRISA
+            - Sygna_Bridge
+            - Dow Jones
+            - Coinfirm
+            - Coinfirm (Sandbox)
+        settings:
+          type: object
+        type:
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+      required:
+        - credential
+        - is_active
+        - provider
+        - type
+    schema.PostServicesInput:
+      type: object
+      properties:
+        credential:
+          type: object
+          description: |-
+            Please be noted that the "private_key" related to povider "Sygna_Bridge" has to be in HEX form.
+            The command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`
+        provider:
+          enum:
+            - Elliptic
+            - Chainalysis V1
+            - Chainalysis V2
+            - ComplyAdvantage
+            - Merkle Science
+            - TRISA
+            - Sygna_Bridge
+            - Dow Jones
+            - Coinfirm
+            - Coinfirm (Sandbox)
+            - Veriscope on Shyft
+        type:
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+      required:
+        - credential
+        - provider
+        - type
+    model.Setting:
+      type: object
+      properties:
+        created_at:
           type: string
-          x-stoplight:
-            id: hf90xbc9kocrm
-          example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
+        id:
+          type: string
+        rule:
+          type: object
+        type:
+          type: string
+        updated_at:
+          type: string
+        vasp_code:
+          type: string
+    schema.PostSettingInput:
+      type: object
+      properties:
+        rule:
+          type: object
+        type:
+          enum:
+            - personal_info_checking_items
+            - automation_settings
+            - sanction_screening_timing
+            - forced_sending_when_VASP_is_not_healthy
+            - blockchain_analytics_timing
+      required:
+        - rule
+        - type
     schema.GetTransactionsOutput:
       type: object
       properties:
@@ -8391,998 +7606,9 @@ components:
         value_usd:
           type: string
           description: only used in response
-      x-stoplight:
-        id: x0nmorqhwqpf6
-    schema.LegalPersonName:
-      type: object
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          type: string
-      description: required if customer_type equals 1
-      x-stoplight:
-        id: 03hby7eu2lzc7
-    schema.NameObject:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-      x-stoplight:
-        id: f7m42qwfifnd9
-    schema.NationalIdentification:
-      type: object
-      properties:
-        country_of_issue:
-          type: string
-        national_identifier:
-          type: string
-        national_identifier_type:
-          type: string
-        registration_authority:
-          type: string
-      x-stoplight:
-        id: 33fv8vsywk4u3
-    schema.NaturalPersonName:
-      type: object
-      properties:
-        local_name:
-          $ref: '#/components/schemas/schema.NameObject'
-        name:
-          $ref: '#/components/schemas/schema.NameObject'
-        phonetic_name:
-          $ref: '#/components/schemas/schema.NameObject'
-      description: required if customer_type equals 0
-      x-stoplight:
-        id: s2ymqj5dv6lgq
-    schema.PagingResult:
-      required:
-        - has_next
-        - limit
-        - offset
-        - total
-      type: object
-      properties:
-        has_next:
-          type: boolean
-        limit:
-          type: integer
-        next_offset:
-          type: integer
-          description: next_offset is valuable when has_next is true
-        offset:
-          type: integer
-        total:
-          type: integer
-      x-stoplight:
-        id: e58kqanwnrn39
-    schema.PatchAssetInput:
-      required:
-        - id
-      type: object
-      properties:
-        address:
-          type: string
-        currency_id:
-          type: string
-        extra_info:
-          type: object
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-      x-stoplight:
-        id: z1lom0v0uqdp6
-    schema.PatchCustomersInput:
-      title: ''
-      required:
-        - id
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/model.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Asset'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/model.Birth'
-        country:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-        id:
-          type: string
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/schema.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/model.National'
-        natural_person_name:
-          $ref: '#/components/schemas/schema.NaturalPersonName'
-        update_status:
-          type: boolean
-      x-stoplight:
-        id: rdhfkd4vddrsb
-      x-examples:
-        Example 1:
-          address:
-            address_line:
-              - string
-            address_type: string
-            building_name: string
-            building_number: string
-            country: string
-            country_sub_division: string
-            department: string
-            district_name: string
-            floor: string
-            post_box: string
-            post_code: string
-            room: string
-            street_name: string
-            sub_department: string
-            town_location_name: string
-            town_name: string
-          assets:
-            - address: string
-              created_at: string
-              currency_id: string
-              currency_name: string
-              currency_symbol: string
-              extra_info:
-                property1: string
-                property2: string
-              id: string
-              is_kyt_supported: true
-              is_sygna_supported: true
-              labels:
-                - string
-              last_screened: string
-              risk_score: string
-              risk_score_provider: string
-              updated_at: string
-              value:
-                decimal: 0
-                valid: true
-              value_usd:
-                decimal: 0
-                valid: true
-          assets_ignore_kyt: true
-          birth:
-            date_of_birth: string
-            place_of_birth: string
-          country: string
-          customer_id: string
-          customer_type: 0
-          id: string
-          is_active: true
-          legal_person_name:
-            local_name: string
-            name: string
-            phonetic_name: string
-          national:
-            country_of_issue: string
-            national_identifier: string
-            national_identifier_type: string
-            registration_authority: string
-          natural_person_name:
-            local_name:
-              first_name: string
-              last_name: string
-            name:
-              first_name: string
-              last_name: string
-            phonetic_name:
-              first_name: string
-              last_name: string
-          update_status: true
-    schema.PatchOwnershipAssetValidationAcceptInput:
-      required:
-        - id
-        - txid
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target asset identifier which you want to accept
-          format: uuid
-        txid:
-          type: string
-          description: Transaction identifier on blockchain
-      x-stoplight:
-        id: zllqs6p10vwbh
-    schema.PatchOwnershipAssetValidationConfirmInput:
-      required:
-        - id
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target asset identifier which you want to accept
-          format: uuid
-      x-stoplight:
-        id: zwdw4vr4wnvlr
-    schema.PatchOwnershipAssetValidationRejectInput:
-      required:
-        - id
-        - reject_code
-        - reject_message
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target asset identifier which you want to accept
-          format: uuid
-        reject_code:
-          type: string
-          description: 'Reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-          enum:
-            - BVRC001
-            - BVRC002
-            - BVRC003
-            - BVRC004
-            - BVRC005
-            - BVRC006
-            - BVRC007
-            - BVRC999
-        reject_message:
-          type: string
-          description: Reply detail why you reject.
-      x-stoplight:
-        id: vzhrt12u414tj
-    schema.PatchOwnershipConfirmInput:
-      required:
-        - id
-      type: object
-      properties:
-        accept:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationConfirmInput'
-        id:
-          type: string
-          description: Target ownership identifier
-          format: uuid
-        reject:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
-      x-stoplight:
-        id: exc012j2md3u0
-    schema.PatchOwnershipIdInput:
-      required:
-        - id
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target ownership identifier
-          format: uuid
-      x-stoplight:
-        id: kgi7lw2s551hc
-    schema.PatchOwnershipValidationInput:
-      type: object
-      properties:
-        accept:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationAcceptInput'
-        owner_info:
-          type: object
-          properties: {}
-        reject:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchOwnershipAssetValidationRejectInput'
-      x-stoplight:
-        id: 3undtodk2p5wt
-    schema.PatchPermissionInput:
-      required:
-        - id
-        - permission_status
-      type: object
-      properties:
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        id:
-          type: string
-          description: Target transaction identifier which status is Pending On Beneficiary
-          format: uuid
-        permission_status:
-          type: integer
-          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
-        reject_code:
-          type: string
-          description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-          enum:
-            - BVRC001
-            - BVRC002
-            - BVRC003
-            - BVRC004
-            - BVRC005
-            - BVRC006
-            - BVRC007
-            - BVRC999
-        reject_message:
-          type: string
-          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-      x-stoplight:
-        id: po5875j24x7uf
-    schema.PatchTransactionsStatus:
-      required:
-        - action
-        - id
-      type: object
-      properties:
-        action:
-          type: integer
-        id:
-          type: string
-          format: uuid
-      x-stoplight:
-        id: jmg3u89fwuv66
-    schema.PatchTxIdInput:
-      required:
-        - id
-        - txid
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target transaction identifier which status is Pending On Originator
-          format: uuid
-        txid:
-          type: string
-          description: Transaction identifier on blockchain
-      x-stoplight:
-        id: jdynglnvnug2g
-    schema.PatchUsersInput:
-      required:
-        - id
-      type: object
-      properties:
-        id:
-          type: string
-          description: specific user identifier
-        is_active:
-          type: boolean
-        role_id:
-          type: integer
-      x-stoplight:
-        id: f5xgklcn9h7m3
-    schema.PostAssetInput:
-      required:
-        - address
-        - currency_id
-      type: object
-      properties:
-        address:
-          type: string
-        currency_id:
-          type: string
-        extra_info:
-          type: object
-          properties: {}
-        value:
-          type: string
-      x-stoplight:
-        id: 09y8rzwdhyzhn
-    schema.PostCustomersInput:
-      required:
-        - assets
-        - country
-        - customer_type
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PostAssetInput'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-          description: |-
-            Customer Type
-            * 0 - NaturalPerson
-            * 1 - LegalPerson
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-      x-stoplight:
-        id: i0oi42kv7ngwc
-    schema.PostEmailProtocolPermissionInput:
-      required:
-        - id
-        - permission_status
-      type: object
-      properties:
-        customer:
-          $ref: '#/components/schemas/schema.PostCustomersInput'
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        id:
-          type: string
-          description: Target transaction identifier which status is Pending On Beneficiary
-          format: uuid
-        permission_status:
-          type: integer
-          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
-        reject_code:
-          type: string
-          description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-          enum:
-            - BVRC001
-            - BVRC002
-            - BVRC003
-            - BVRC004
-            - BVRC005
-            - BVRC006
-            - BVRC007
-            - BVRC999
-        reject_message:
-          type: string
-          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-      x-stoplight:
-        id: mcwcf95mcrbd0
-    schema.PostOauthInput:
-      required:
-        - account
-        - credential
-      type: object
-      properties:
-        account:
-          type: string
-        credential:
-          type: string
-        login_type:
-          type: string
-          default: password
-          enum:
-            - password
-            - google
-      x-stoplight:
-        id: gvx6r5lwpa0ar
-    schema.PostOwnershipInput:
-      required:
-        - owner_email
-        - private_wallet_address
-        - transaction_information
-      type: object
-      properties:
-        assets_ignore_kyt:
-          type: boolean
-        owner_email:
-          type: string
-          format: email
-        private_wallet_address:
-          type: array
-          items:
-            type: string
-        sender_email:
-          type: string
-          format: email
-        transaction_information:
-          $ref: '#/components/schemas/schema.PostOwnershipTransactionInformationInput'
-      description: ''
-      x-stoplight:
-        id: lad5ekjd25agl
-    schema.PostOwnershipTransactionInformationInput:
-      required:
-        - currency_id
-        - value
-        - vasp_beneficiary_wallet_address
-      type: object
-      properties:
-        currency_id:
-          type: string
-        value:
-          type: string
-        vasp_beneficiary_wallet_address:
-          type: string
-      x-stoplight:
-        id: 4to8wfop9gwhj
-    schema.PostSanctionMatchInput:
-      required:
-        - customer_type
-        - name
-      type: object
-      properties:
-        customer_type:
-          type: integer
-        name:
-          type: string
-      x-stoplight:
-        id: ah8o2xmlamjy0
-    schema.PostServicesInput:
-      type: object
-      properties:
-        credential:
-          type: object
-          description: |-
-            Please be noted that the "private_key" related to povider "Sygna_Bridge" has to be in HEX form.
-            The command line for your reference. `openssl ec -in test.pem -outform DER | tail -c +8 | head -c 32 | xxd -p -c 32`
-        provider:
-          type: string
-          enum:
-            - Elliptic
-            - Chainalysis V1
-            - Chainalysis V2
-            - ComplyAdvantage
-            - Merkle Science
-            - TRISA
-            - Sygna_Bridge
-            - Dow Jones
-            - Coinfirm
-            - Coinfirm (Sandbox)
-            - Veriscope on Shyft
-        type:
-          type: string
-          enum:
-            - Blockchain Analytics
-            - Sanction Screening
-            - Travel Rule
-      required:
-        - credential
-        - provider
-        - type
-      x-stoplight:
-        id: zfez6mc20m3r1
-    schema.PostSettingInput:
-      required:
-        - rule
-        - type
-      type: object
-      properties:
-        rule:
-          type: object
-          properties: {}
-        type:
-          type: string
-          enum:
-            - personal_info_checking_items
-            - automation_settings
-            - sanction_screening_timing
-            - forced_sending_when_VASP_is_not_healthy
-            - blockchain_analytics_timing
-      x-stoplight:
-        id: j9mxeay4jd3hm
-    schema.PostUsersInput:
-      required:
-        - account
-      type: object
-      properties:
-        account:
-          type: string
-          description: account should be valid email address
-        email_pw_to_user:
-          type: boolean
-          description: email_pw_to_user is optional and its default value is true.
-        password:
-          type: string
-          description: |-
-            password is optional and it is generated if password is empty.
-            password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
-        role_id:
-          type: integer
-          description: |-
-            role_id
-            * 0 - admin
-            * 1 - member
-            role_id is optional and its default value is 1(member).
-            notice: admin could not be created if there is admin in VASP.
-      x-stoplight:
-        id: gdud7w1ost3ux
-    schema.PostUsersLinkInput:
-      required:
-        - account
-        - login_type
-      type: object
-      properties:
-        account:
-          type: string
-          description: your account of third party service
-        credential:
-          type: string
-          description: your credential of third party service and it would be used to validate if your account is valid
-        login_type:
-          type: string
-          description: |-
-            third party service name
-            only google is supported now
-      x-stoplight:
-        id: gse25qyg18sd5
-    schema.PostVendorsTestInput:
-      required:
-        - credential
-        - provider
-        - type
-      type: object
-      properties:
-        credential:
-          type: object
-          properties: {}
-        provider:
-          type: string
-          enum:
-            - Sygna_Bridge
-            - Elliptic
-            - Chainalysis
-            - ComplyAdvantage
-            - Merkle Science
-            - TRISA
-            - Dow Jones
-            - Coinfirm
-            - Coinfirm (Sandbox)
-        type:
-          type: string
-          enum:
-            - Travel Rule
-            - Blockchain Analytics
-            - Sanction Screening
-      x-stoplight:
-        id: kzwmbhh1qo1jf
-    schema.PostVendorsTestOutput:
-      required:
-        - provider
-        - status_code
-        - type
-      type: object
-      properties:
-        error_message:
-          type: string
-        fields:
-          type: array
-          items:
-            type: string
-        provider:
-          type: string
-        status_code:
-          type: integer
-        type:
-          type: string
-      x-stoplight:
-        id: 7sg9yq93mqqk8
-    schema.PostWalletAddressFilterInput:
-      type: object
-      x-stoplight:
-        id: ww02a9nn3z7y9
-      properties:
-        addrs:
-          type: array
-          description: addresses which are searching information by Sygna Bridge
-          items:
-            type: string
-        currency_id:
-          type: string
-          description: choose target currency identifier from GET /currencies
-        elliptic_holistic_wallet_analysis:
-          type: boolean
-          x-stoplight:
-            id: yo8in44v7v63z
-          description: |-
-            Support Elliptic Holistic Screening.
-            VASPs must opt-in for Elliptic Holistic searching to avoid errors.
-          default: false
-      required:
-        - addrs
-        - currency_id
-    schema.PostWalletAddressFilterOutput:
-      type: object
-      properties:
-        address:
-          type: string
-        currency_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/errors.SystemError'
-        extra_data:
-          $ref: '#/components/schemas/types.H'
-        is_vasp:
-          type: boolean
-          description: is_vasp indicates whether address belongs VASP
-        success:
-          type: boolean
-        type:
-          type: string
-          description: which type address belongs
-          enum:
-            - SYGNA_VASP
-            - UNKNOWN
-            - FAILED
-            - OTHER_VASP
-            - PRIVATE_WALLET
-      x-stoplight:
-        id: s55myjxilhn84
-    schema.PutCustomersInput:
-      required:
-        - assets
-        - country
-        - customer_type
-        - id
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchAssetInput'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-          description: |-
-            Customer Type
-            * 0 - NaturalPerson
-            * 1 - LegalPerson
-        id:
-          type: string
-          format: uuid
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-      x-stoplight:
-        id: v9kqryoaehf1f
-    schema.PutRollbackInout:
-      required:
-        - version
-      type: object
-      properties:
-        version:
-          type: string
-      x-stoplight:
-        id: 58gbxy5n3o4ho
-    schema.PutServicesInput:
-      required:
-        - credential
-        - is_active
-        - provider
-        - type
-      type: object
-      properties:
-        credential:
-          type: object
-          properties: {}
-        is_active:
-          type: boolean
-        provider:
-          type: string
-          enum:
-            - Elliptic
-            - Chainalysis V1
-            - Chainalysis V2
-            - ComplyAdvantage
-            - Merkle Science
-            - TRISA
-            - Sygna_Bridge
-            - Dow Jones
-            - Coinfirm
-            - Coinfirm (Sandbox)
-        settings:
-          type: object
-          properties: {}
-        type:
-          type: string
-          enum:
-            - Blockchain Analytics
-            - Sanction Screening
-            - Travel Rule
-      x-stoplight:
-        id: zjpubmaiwuvox
-    schema.Resp:
-      type: object
-      properties:
-        data:
-          type: object
-          properties: {}
-      x-stoplight:
-        id: x9o7nhfy3fmv6
-    schema.RespWithMutation:
-      title: ''
-      required:
-        - data
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            required:
-              - success
-            type: object
-            properties:
-              error:
-                $ref: '#/components/schemas/errors.SystemError'
-              id:
-                type: string
-                format: uuid
-              success:
-                type: boolean
-      x-stoplight:
-        id: kn2e2pp7ht04s
-    schema.RespWithPaging:
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/schema.PagingResult'
-      x-stoplight:
-        id: 0qpqya3a724jo
-    schema.RespWithStatus:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-            - success
-          properties:
-            success:
-              type: boolean
-            accessToken:
-              type: string
-      required:
-        - data
-      x-stoplight:
-        id: dug248i5d6qg5
-    schema.RespWithStatusAndMessage:
-      required:
-        - data
-      type: object
-      properties:
-        data:
-          required:
-            - message
-            - success
-          type: object
-          properties:
-            message:
-              type: string
-              example: something
-            success:
-              type: boolean
-      x-stoplight:
-        id: wygc5e21uhnds
-    schema.TransactionAsset:
-      required:
-        - id
-      type: object
-      properties:
-        address:
-          type: string
-        created_at:
-          type: string
-        extra_info:
-          type: object
-          properties: {}
-        id:
-          type: string
-        labels:
-          type: array
-          items:
-            type: string
-        last_screened:
-          type: string
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-      x-stoplight:
-        id: 3lojxzkcc2gxe
-    types.H:
-      type: object
-      x-stoplight:
-        id: swj0gvanuyhz0
-    PostTransactionSygnaBridge:
-      title: PostTransactionSygnaBridge
-      type: object
-      description: This schema is for 'Sygna_Bridge' protocol
-      properties:
-        beneficiary:
-          type: object
-          required:
-            - addrs
-            - customer_type
-            - private_info
-            - vasp_code
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                Required if 
-                - protocol equals Sygna_Bridge 
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-          description: 'The value must be in Epoch & Unix Timestamp format, excluding milliseconds.'
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-          description: |-
-            1. 
-            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
-            The data transfer will still be successfully sent out by oVASP to the Sygna server.
-
-            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
-            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
-              
-            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
-
-            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol:
-          type: string
-          enum:
-            - Sygna_Bridge
-          nullable: true
-        value:
-          type: string
-          description: The value of the currency requested to transfer.
-      required:
-        - beneficiary
-        - currency_id
-        - customer_id
-        - originator
-        - protocol
-        - value
-      x-stoplight:
-        id: qsoeenwodzc7d
     PostTransactionUnknown:
-      title: PostTransactionUnknown
       type: object
+      title: PostTransactionUnknown
       description: This schema is for 'Unknown' protocol
       properties:
         beneficiary:
@@ -9429,35 +7655,97 @@ components:
         - customer_id
         - originator
         - value
-      x-stoplight:
-        id: 69fda2696quoo
-    PostTransactionSygnaEmail:
-      title: PostTransactionSygnaEmail
+    model.Addr:
       type: object
-      description: This schema is for 'Sygna_EmailProtocol' protocol
       properties:
-        beneficiary:
+        address:
+          type: string
+        extra_info:
           type: object
-          required:
-            - addrs
+      required:
+        - address
+    model.BeneficiaryPrivateInfo:
+      oneOf:
+        - $ref: '#/components/schemas/model.NaturalPersonName'
+        - $ref: '#/components/schemas/model.LegalPersonName'
+    OriginatorAsset:
+      type: object
+      anyOf:
+        - type: object
           properties:
             addrs:
               type: array
               items:
                 $ref: '#/components/schemas/model.Addr'
+          required:
+            - addrs
+        - type: object
+          properties:
+            assets:
+              type: array
+              items:
+                type: string
+          required:
+            - assets
+    PostTransactionSygnaBridge:
+      type: object
+      title: PostTransactionSygnaBridge
+      description: This schema is for 'Sygna_Bridge' protocol
+      properties:
+        beneficiary:
+          type: object
+          properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+            customer_type:
+              type: integer
+              description: |-
+                Customer Type
+                Required if 
+                - protocol equals Sygna_Bridge 
+                * 0 - NaturalPerson
+                * 1 - LegalPerson
+            private_info:
+              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
+            vasp_code:
+              type: string
+          required:
+            - addrs
+            - customer_type
+            - private_info
+            - vasp_code
         currency_id:
           type: string
           description: Choose target currency identifier from GET /currencies
         customer_id:
           type: string
           description: Choose target identifier from GET /customers
+        expire_date:
+          type: integer
+          description: 'The value must be in Epoch & Unix Timestamp format, excluding milliseconds.'
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+          description: |-
+            1. 
+            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
+            The data transfer will still be successfully sent out by oVASP to the Sygna server.
+
+            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
+            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
+              
+            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
+
+            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
+        need_validate_address:
+          type: boolean
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
         protocol:
-          type: string
           enum:
-            - Sygna_EmailProtocol
-          nullable: true
+            - Sygna_Bridge
+            - null
         value:
           type: string
           description: The value of the currency requested to transfer.
@@ -9468,45 +7756,78 @@ components:
         - originator
         - protocol
         - value
-      x-stoplight:
-        id: 06wwcajoeihy9
-    PostTransactionTRISA:
-      title: PostTransactionTRISA
+    PostTransactionSygnaEmail:
       type: object
+      title: PostTransactionSygnaEmail
+      description: This schema is for 'Sygna_EmailProtocol' protocol
+      properties:
+        beneficiary:
+          type: object
+          properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+          required:
+            - addrs
+        currency_id:
+          type: string
+          description: Choose target currency identifier from GET /currencies
+        customer_id:
+          type: string
+          description: Choose target identifier from GET /customers
+        originator:
+          $ref: '#/components/schemas/OriginatorAsset'
+        protocol:
+          enum:
+            - Sygna_EmailProtocol
+            - null
+        value:
+          type: string
+          description: The value of the currency requested to transfer.
+      required:
+        - beneficiary
+        - currency_id
+        - customer_id
+        - originator
+        - protocol
+        - value
+    PostTransactionTRISA:
+      type: object
+      title: PostTransactionTRISA
       description: This schema is for 'TRISA' protocol
       properties:
         beneficiary:
           type: object
-          required:
-            - addrs
-            - customer_type
-            - private_info
-            - vasp_code
           properties:
             addrs:
               type: array
               items:
                 $ref: '#/components/schemas/model.Addr'
             customer_type:
+              type: integer
               description: |-
                 Customer Type
                 * 0 - NaturalPerson
                 * 1 - LegalPerson
-              type: integer
             private_info:
               $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
             vasp_code:
               type: string
+          required:
+            - addrs
+            - customer_type
+            - private_info
+            - vasp_code
         currency_id:
+          type: string
           description: Choose target currency identifier from GET /currencies
-          type: string
         customer_id:
-          description: Choose target identifier from GET /customers
           type: string
+          description: Choose target identifier from GET /customers
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
         protocol:
-          type: string
           enum:
             - TRISA
         protocol_extra_info:
@@ -9514,8 +7835,8 @@ components:
         txid:
           type: string
         value:
-          description: The value of the currency requested to transfer.
           type: string
+          description: The value of the currency requested to transfer.
       required:
         - beneficiary
         - currency_id
@@ -9523,39 +7844,36 @@ components:
         - originator
         - protocol
         - value
-      x-stoplight:
-        id: 1xaac57ij60su
     PostTransactionShyft:
-      title: PostTransactionShyft
       type: object
+      title: PostTransactionShyft
       description: This schema is for 'Veriscope on Shyft' protocol
       properties:
         beneficiary:
           type: object
-          required:
-            - addrs
           properties:
             addrs:
               type: array
               items:
                 $ref: '#/components/schemas/model.Addr'
+          required:
+            - addrs
         currency_id:
+          type: string
           description: Choose target currency identifier from GET /currencies
-          type: string
         customer_id:
-          description: Choose target identifier from GET /customers
           type: string
+          description: Choose target identifier from GET /customers
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
         protocol:
-          type: string
           enum:
             - Veriscope on Shyft
         protocol_extra_info:
           type: object
         value:
-          description: The value of the currency requested to transfer.
           type: string
+          description: The value of the currency requested to transfer.
       required:
         - beneficiary
         - currency_id
@@ -9563,30 +7881,372 @@ components:
         - originator
         - protocol
         - value
-      x-stoplight:
-        id: pe4a2fjclxvkl
-    OriginatorAsset:
-      anyOf:
-        - properties:
+    model.PostEmailProtocolDepositInput:
+      type: object
+      properties:
+        beneficiary:
+          type: object
+          properties:
             addrs:
               type: array
               items:
                 $ref: '#/components/schemas/model.Addr'
-          required:
-            - addrs
-        - properties:
             assets:
               type: array
               items:
                 type: string
-          required:
-            - assets
+        currency_id:
+          type: string
+        customer_id:
+          type: string
+        originator:
+          type: object
+          properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+        value:
+          type: string
+      required:
+        - currency_id
+        - customer_id
+        - originator
+        - value
+    schema.PatchPermissionInput:
       type: object
-      title: ''
-      x-stoplight:
-        id: jdvqm5dhte6pg
-  securitySchemes:
-    BearerToken:
-      type: apiKey
-      name: Authorization
-      in: header
+      properties:
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        id:
+          type: string
+          description: Target transaction identifier which status is Pending On Beneficiary
+          format: uuid
+        permission_status:
+          type: integer
+          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
+        reject_code:
+          enum:
+            - BVRC001
+            - BVRC002
+            - BVRC003
+            - BVRC004
+            - BVRC005
+            - BVRC006
+            - BVRC007
+            - BVRC999
+          description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+        reject_message:
+          type: string
+          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+      required:
+        - id
+        - permission_status
+    schema.PostEmailProtocolPermissionInput:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/schema.PostCustomersInput'
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        id:
+          type: string
+          description: Target transaction identifier which status is Pending On Beneficiary
+          format: uuid
+        permission_status:
+          type: integer
+          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
+        reject_code:
+          enum:
+            - BVRC001
+            - BVRC002
+            - BVRC003
+            - BVRC004
+            - BVRC005
+            - BVRC006
+            - BVRC007
+            - BVRC999
+          description: 'Only required when the permission_status is REJECTED, reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+        reject_message:
+          type: string
+          description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+      required:
+        - id
+        - permission_status
+    schema.PatchTxIdInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target transaction identifier which status is Pending On Originator
+          format: uuid
+        txid:
+          type: string
+          description: Transaction identifier on blockchain
+      required:
+        - id
+        - txid
+    schema.PostSanctionMatchInput:
+      type: object
+      properties:
+        customer_type:
+          type: integer
+        name:
+          type: string
+      required:
+        - customer_type
+        - name
+    sanctionscreening.GetSanctionScoreOutput:
+      type: object
+      properties:
+        profile_ids:
+          type: array
+          items:
+            type: string
+        score:
+          type: integer
+    schema.PatchTransactionsStatus:
+      type: object
+      properties:
+        action:
+          type: integer
+        id:
+          type: string
+          format: uuid
+      required:
+        - action
+        - id
+    schema.PostWalletAddressFilterInput:
+      type: object
+      properties:
+        addrs:
+          type: array
+          description: addresses which are searching information by Sygna Bridge
+          items:
+            type: string
+        currency_id:
+          type: string
+          description: choose target currency identifier from GET /currencies
+        elliptic_holistic_wallet_analysis:
+          type: boolean
+          description: |-
+            Support Elliptic Holistic Screening.
+            VASPs must opt-in for Elliptic Holistic searching to avoid errors.
+          default: false
+      required:
+        - addrs
+        - currency_id
+    model.User:
+      type: object
+      properties:
+        created_at:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        logins:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Login'
+        role_id:
+          type: integer
+        updated_at:
+          type: string
+    model.Login:
+      type: object
+      title: LegalPersonName
+      properties:
+        account:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: string
+        is_active:
+          type: boolean
+        last_login:
+          type: string
+        last_password_change:
+          type: string
+        login_type:
+          type: string
+        updated_at:
+          type: string
+    schema.PostUsersInput:
+      type: object
+      properties:
+        account:
+          type: string
+          description: account should be valid email address
+        email_pw_to_user:
+          type: boolean
+          description: email_pw_to_user is optional and its default value is true.
+        password:
+          type: string
+          description: |-
+            password is optional and it is generated if password is empty.
+            password must be follow below rules:
+            at least 6 letters
+            at least 1 number
+            at least 1 upper case
+            at least 1 special character
+        role_id:
+          type: integer
+          description: |-
+            role_id
+            * 0 - admin
+            * 1 - member
+            role_id is optional and its default value is 1(member).
+            notice: admin could not be created if there is admin in VASP.
+      required:
+        - account
+    schema.DeleteUsersInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: specific user identifier
+      required:
+        - id
+    schema.PatchUsersInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: specific user identifier
+        is_active:
+          type: boolean
+        role_id:
+          type: integer
+      required:
+        - id
+    schema.ChangePasswordInput:
+      type: object
+      properties:
+        new_password:
+          type: string
+          description: |-
+            new password must be follow below rules:
+            at least 6 letters
+            at least 1 number
+            at least 1 upper case
+            at least 1 special character
+        old_password:
+          type: string
+      required:
+        - new_password
+        - old_password
+    schema.RespWithStatusAndMessage:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: something
+            success:
+              type: boolean
+          required:
+            - message
+            - success
+      required:
+        - data
+    schema.PostUsersLinkInput:
+      type: object
+      properties:
+        account:
+          type: string
+          description: your account of third party service
+        credential:
+          type: string
+          description: your credential of third party service and it would be used to validate if your account is valid
+        login_type:
+          type: string
+          description: |-
+            third party service name
+            only google is supported now
+      required:
+        - account
+        - login_type
+    schema.PostVendorsTestInput:
+      type: object
+      properties:
+        credential:
+          type: object
+        provider:
+          enum:
+            - Sygna_Bridge
+            - Elliptic
+            - Chainalysis
+            - ComplyAdvantage
+            - Merkle Science
+            - TRISA
+            - Dow Jones
+            - Coinfirm
+            - Coinfirm (Sandbox)
+        type:
+          enum:
+            - Travel Rule
+            - Blockchain Analytics
+            - Sanction Screening
+      required:
+        - credential
+        - provider
+        - type
+    schema.PostVendorsTestOutput:
+      type: object
+      properties:
+        error_message:
+          type: string
+        fields:
+          type: array
+          items:
+            type: string
+        provider:
+          type: string
+        status_code:
+          type: integer
+        type:
+          type: string
+      required:
+        - provider
+        - status_code
+        - type
+    model.WebhookEvent:
+      type: object
+      properties:
+        created_at:
+          type: string
+        id:
+          type: string
+        request_id:
+          type: string
+        event:
+          type: string
+        payload:
+          type: object
+        transaction_uuid:
+          type: string
+        protocol:
+          type: string
+        counter_party_vasp_code:
+          type: string
+        status:
+          type: string
+        retry_count:
+          type: string
+        webhook_logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/model.Webhook_logs'
+    model.Webhook_logs:
+      type: object
+      properties:
+        created_at:
+          type: string
+        success:
+          type: boolean
+        trigger:
+          type: string
