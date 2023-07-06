@@ -907,6 +907,125 @@ paths:
                 type: object
                 properties:
                   data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      updated_at:
+                        type: string
+                      vasp_code:
+                        type: string
+                      customer_type:
+                        type: integer
+                      customer_id:
+                        type: string
+                      legal_person_name:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          local_name:
+                            type: string
+                          phonetic_name:
+                            type: string
+                      country:
+                        type: string
+                      is_active:
+                        type: boolean
+                      created_at:
+                        type: string
+                      national:
+                        type: object
+                        properties:
+                          country_of_issue:
+                            type: string
+                          national_identifier:
+                            type: string
+                          national_identifier_type:
+                            type: string
+                          registration_authority:
+                            type: string
+                      address:
+                        type: object
+                        properties:
+                          address_line:
+                            type: array
+                            items:
+                              type: string
+                          address_type:
+                            type: string
+                          building_name:
+                            type: string
+                          building_number:
+                            type: string
+                          country:
+                            type: string
+                          country_sub_division:
+                            type: string
+                          department:
+                            type: string
+                          district_name:
+                            type: string
+                          floor:
+                            type: string
+                          post_box:
+                            type: string
+                          post_code:
+                            type: string
+                          room:
+                            type: string
+                          street_name:
+                            type: string
+                          sub_department:
+                            type: string
+                          town_location_name:
+                            type: string
+                          town_name:
+                            type: string
+                      labels:
+                        type: array
+                        items:
+                          type: object
+                          properties: {}
+                      assets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            updated_at:
+                              type: string
+                            currency_id:
+                              type: string
+                            currency_symbol:
+                              type: string
+                            currency_name:
+                              type: string
+                            address:
+                              type: string
+                            risk_score_provider:
+                              type: string
+                            labels:
+                              type: array
+                              items:
+                                type: object
+                                properties: {}
+                            created_at:
+                              type: string
+                            last_screened:
+                              type: 'null'
+                            is_sygna_supported:
+                              type: boolean
+                            is_kyt_supported:
+                              type: boolean
+                            extra_info:
+                              type: object
+                              properties:
+                                Tag:
+                                  type: string
+                      assets_ignore_kyt:
+                        type: boolean
                     $ref: '#/components/schemas/schema.GetCustomerOutput'
               examples:
                 Natural Person:
@@ -982,6 +1101,64 @@ paths:
                           is_sygna_supported: true
                           is_kyt_supported: true
                       assets_ignore_kyt: false
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      id: string
+                      updated_at: string
+                      vasp_code: string
+                      customer_type: 0
+                      customer_id: string
+                      legal_person_name:
+                        name: string
+                        local_name: string
+                        phonetic_name: string
+                      country: string
+                      is_active: true
+                      created_at: string
+                      national:
+                        country_of_issue: string
+                        national_identifier: string
+                        national_identifier_type: string
+                        registration_authority: string
+                      address:
+                        address_line:
+                          - string
+                        address_type: string
+                        building_name: string
+                        building_number: string
+                        country: string
+                        country_sub_division: string
+                        department: string
+                        district_name: string
+                        floor: string
+                        post_box: string
+                        post_code: string
+                        room: string
+                        street_name: string
+                        sub_department: string
+                        town_location_name: string
+                        town_name: string
+                      labels:
+                        - {}
+                      assets:
+                        - id: string
+                          updated_at: string
+                          currency_id: string
+                          currency_symbol: string
+                          currency_name: string
+                          address: string
+                          risk_score_provider: string
+                          labels:
+                            - {}
+                          created_at: string
+                          last_screened: null
+                          is_sygna_supported: true
+                          is_kyt_supported: true
+                          extra_info:
+                            Tag: string
+                      assets_ignore_kyt: true
         '400':
           description: Bad Request
           content:
