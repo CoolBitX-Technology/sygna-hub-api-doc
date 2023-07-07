@@ -6670,21 +6670,13 @@ components:
     model.GlobalVasp:
       type: object
       properties:
-        created_at:
-          type: string
-        extra_info:
-          $ref: '#/components/schemas/model.Object'
         id:
           type: string
-        protocol:
+        name:
           type: string
-        updated_at:
+        symbol:
           type: string
-        vasp_identifier:
-          type: string
-        vasp_name:
-          type: string
-        vasp_server_status:
+        token_address:
           type: string
     model.Customer:
       properties:
@@ -6755,11 +6747,20 @@ components:
       title: NaturalPersonName
       description: required if customer type equals 0
       properties:
-        account:
+        local_name:
+          $ref: '#/components/schemas/model.NameObject'
+        name:
+          $ref: '#/components/schemas/model.NameObject'
+        phonetic_name:
+          $ref: '#/components/schemas/model.NameObject'
+      required:
+        - name
+    model.NameObject:
+      type: object
+      properties:
+        first_name:
           type: string
-        created_at:
-          type: string
-        id:
+        last_name:
           type: string
         is_active:
           type: boolean
@@ -6873,6 +6874,7 @@ components:
           type: string
         national_identifier:
           type: string
+    schema.RespWithMutation:
       type: object
     ivms101.LegalPerson:
       properties:
@@ -6889,7 +6891,6 @@ components:
           items:
             $ref: '#/components/schemas/ivms101.LegalPersonNameIdentifier'
           type: array
-        phoneticNameIdentifier:
           items:
             $ref: '#/components/schemas/ivms101.PhoneticLegalPersonNameIdentifier'
           type: array
@@ -6898,15 +6899,40 @@ components:
       properties:
         legalPersonName:
           type: string
-        legalPersonNameIdentifierType:
+        customer_id:
           type: string
+        customer_type:
+          type: integer
+          description: |-
+            Customer Type
+            * 0 - NaturalPerson
+            * 1 - LegalPerson
+        legal_person_name:
+          $ref: '#/components/schemas/model.LegalPersonName'
+        national:
+          $ref: '#/components/schemas/schema.NationalIdentification'
+        natural_person_name:
+          $ref: '#/components/schemas/model.NaturalPersonName'
+      required:
+        - assets
+        - country
+        - customer_type
+    schema.PostAssetInput:
       type: object
     ivms101.LocalLegalPersonNameIdentifier:
       properties:
-        legalPersonName:
+        address:
           type: string
-        legalPersonNameIdentifierType:
+        currency_id:
           type: string
+        extra_info:
+          type: object
+        value:
+          type: string
+      required:
+        - address
+        - currency_id
+    schema.PatchCustomersInput:
       type: object
     ivms101.LocalNaturalPersonNameIdentifier:
       properties:
@@ -7039,15 +7065,63 @@ components:
           type: boolean
         vasp_code:
           type: string
+    model.Asset:
       type: object
     model.OriginatorInfo:
       properties:
-        customer:
-          $ref: '#/components/schemas/model.Customer'
-        private_info:
-          $ref: '#/components/schemas/ivms101.Originator'
-        vasp_code:
+        address:
           type: string
+        created_at:
+          type: string
+        currency_id:
+          type: string
+        currency_name:
+          type: string
+        currency_symbol:
+          type: string
+        extra_info:
+          $ref: '#/components/schemas/model.StringObject'
+        id:
+          type: string
+        is_kyt_supported:
+          type: boolean
+        is_sygna_supported:
+          type: boolean
+        labels:
+          type: array
+          items:
+            type: string
+        last_screened:
+          type: string
+        risk_score:
+          type: string
+        risk_score_provider:
+          type: string
+        updated_at:
+          type: string
+        value:
+          $ref: '#/components/schemas/decimal.NullDecimal'
+        value_usd:
+          $ref: '#/components/schemas/decimal.NullDecimal'
+    model.StringObject:
+      type: object
+      additionalProperties:
+        type: string
+    decimal.NullDecimal:
+      type: object
+      properties:
+        decimal:
+          type: number
+        valid:
+          type: boolean
+    model.Birth:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+        place_of_birth:
+          type: string
+    schema.LegalPersonName:
       type: object
     model.NaturalPersonName:
       title: NaturalPersonName
@@ -7056,9 +7130,9 @@ components:
       type: object
       properties:
         local_name:
-          $ref: '#/components/schemas/model.NameObject'
+          type: string
         name:
-          $ref: '#/components/schemas/model.NameObject'
+          type: string
         phonetic_name:
           $ref: '#/components/schemas/model.NameObject'
       description: required if customer type equals 0
@@ -7135,9 +7209,9 @@ components:
     model.PostEmailProtocolDepositInput:
       required:
         - currency_id
-        - customer_id
-        - originator
         - value
+        - vasp_beneficiary_wallet_address
+    schema.PatchOwnershipIdInput:
       type: object
       description: required if customer_type equals 1
       properties:
@@ -7150,11 +7224,8 @@ components:
     model.PostTransactionInput:
       title: ''
       required:
-        - beneficiary
-        - currency_id
-        - customer_id
-        - originator
-        - value
+        - id
+    schema.PatchOwnershipConfirmInput:
       type: object
       properties:
         country_of_issue:
@@ -7187,21 +7258,11 @@ components:
     model.Report:
       type: object
       properties:
-        created_at:
-          type: string
-        error:
-          $ref: '#/components/schemas/model.Object'
-        file_path:
-          type: string
         id:
           type: string
-        report_status:
-          type: integer
-        report_status_text:
-          type: string
-        updated_at:
-          type: string
-        vasp_code:
+          description: Target asset identifier which you want to accept
+          format: uuid
+        txid:
           type: string
     model.Rollback:
       type: object
@@ -7804,61 +7865,48 @@ components:
           type: string
         vasp_code:
           type: string
-        data_transfer_remarks:
+        value_usd:
           type: string
           example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
     schema.GetTransactionsOutput:
       type: object
+      title: PostTransactionUnknown
+      description: This schema is for 'Unknown' protocol
       properties:
-        address:
-          type: string
-        created_at:
-          type: string
+        beneficiary:
+          type: object
+          properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+            customer_type:
+              type: integer
+              description: |-
+                Customer Type
+                * 0 - NaturalPerson
+                * 1 - LegalPerson
+            private_info:
+              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
+            vasp_code:
+              type: string
         currency_id:
           type: string
-        currency_name:
-          type: string
-        currency_symbol:
-          type: string
+          description: Choose target currency identifier from GET /currencies
         customer_id:
           type: string
-          description: 'Name                  string                      `json:"name,omitempty"`'
-        direction:
-          type: integer
-          description: '0 for withdrawal, 1 for deposit'
+          description: Choose target identifier from GET /customers
         expire_date:
-          type: string
-        id:
-          type: string
-        labels:
-          type: array
-          items:
-            type: string
-        last_screened:
-          type: string
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-        protocol:
-          type: string
+          type: integer
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        need_validate_address:
+          type: boolean
+        originator:
+          $ref: '#/components/schemas/OriginatorAsset'
         protocol_extra_info:
-          $ref: '#/components/schemas/model.Object'
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-        sanction_score:
-          type: integer
-        sanction_score_provider:
-          type: string
-        status:
-          type: integer
-        status_text:
-          type: string
-        transfer_id:
-          type: string
-        tx_id:
+          type: object
+        txid:
           type: string
         value:
           type: string
@@ -8115,13 +8163,18 @@ components:
           type: string
         is_active:
           type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/schema.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/model.National'
-        natural_person_name:
-          $ref: '#/components/schemas/schema.NaturalPersonName'
-        update_status:
+          description: |-
+            1. 
+            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
+            The data transfer will still be successfully sent out by oVASP to the Sygna server.
+
+            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
+            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
+              
+            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
+
+            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
+        need_validate_address:
           type: boolean
       x-examples:
         Example 1:
@@ -8206,6 +8259,8 @@ components:
         - value
     model.PostEmailProtocolDepositInput:
       type: object
+      title: PostTransactionSygnaEmail
+      description: This schema is for 'Sygna_EmailProtocol' protocol
       properties:
         beneficiary:
           type: object
@@ -8231,6 +8286,8 @@ components:
         - value
     schema.PatchPermissionInput:
       type: object
+      title: PostTransactionShyft
+      description: This schema is for 'Veriscope on Shyft' protocol
       properties:
         forced_sending_when_VASP_is_not_healthy:
           type: boolean
@@ -8390,7 +8447,6 @@ components:
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
     schema.PatchTransactionsStatus:
       required:
-        - action
         - id
       type: object
       properties:
@@ -8400,9 +8456,6 @@ components:
           type: string
           format: uuid
     schema.PatchTxIdInput:
-      required:
-        - id
-        - txid
       type: object
       properties:
         id:
@@ -8413,14 +8466,11 @@ components:
     schema.PatchUsersInput:
       required:
         - id
+        - txid
+    schema.PostSanctionMatchInput:
       type: object
       properties:
-        id:
-          type: string
-          description: specific user identifier
-        is_active:
-          type: boolean
-        role_id:
+        customer_type:
           type: integer
     schema.PostAssetInput:
       required:
@@ -8513,10 +8563,8 @@ components:
         - permission_status
       type: object
       properties:
-        customer:
-          $ref: '#/components/schemas/schema.PostCustomersInput'
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
+        action:
+          type: integer
         id:
           type: string
         updated_at:
@@ -8558,13 +8606,14 @@ components:
             - google
     schema.PostOwnershipInput:
       required:
-        - owner_email
-        - private_wallet_address
-        - transaction_information
+        - action
+        - id
+    schema.PostWalletAddressFilterInput:
       type: object
       properties:
         addressLine:
           type: array
+          description: addresses which are searching information by Sygna Bridge
           items:
             type: string
         addressType:
@@ -8575,9 +8624,9 @@ components:
       description: ''
     schema.PostOwnershipTransactionInformationInput:
       required:
+        - addrs
         - currency_id
-        - value
-        - vasp_beneficiary_wallet_address
+    model.User:
       type: object
       properties:
         currency_id:
@@ -8594,10 +8643,11 @@ components:
       properties:
         customer_type:
           type: integer
-        name:
+        updated_at:
           type: string
     schema.PostServicesInput:
       type: object
+      title: LegalPersonName
       properties:
         legalPersonName:
           type: string
@@ -8626,8 +8676,6 @@ components:
             - forced_sending_when_VASP_is_not_healthy
             - blockchain_analytics_timing
     schema.PostUsersInput:
-      required:
-        - account
       type: object
       properties:
         legalPersonName:
@@ -8652,7 +8700,7 @@ components:
     schema.PostUsersLinkInput:
       required:
         - account
-        - login_type
+    schema.DeleteUsersInput:
       type: object
       properties:
         countryOfIssue:
@@ -8664,12 +8712,12 @@ components:
             only google is supported now
     schema.PostVendorsTestInput:
       required:
-        - credential
-        - provider
-        - type
+        - new_password
+        - old_password
+    schema.RespWithStatusAndMessage:
       type: object
       properties:
-        credential:
+        data:
           type: object
           properties: {}
         provider:
@@ -8725,9 +8773,8 @@ components:
             VASPs must opt-in for Elliptic Holistic searching to avoid errors.
           default: false
       required:
-        - addrs
-        - currency_id
-    schema.PostWalletAddressFilterOutput:
+        - data
+    schema.PostUsersLinkInput:
       type: object
       properties:
         address:
@@ -8786,10 +8833,9 @@ components:
           type: string
     schema.PutServicesInput:
       required:
-        - credential
-        - is_active
-        - provider
-        - type
+        - account
+        - login_type
+    schema.PostVendorsTestInput:
       type: object
       properties:
         nameIdentifierType:
@@ -8797,6 +8843,7 @@ components:
         primaryIdentifier:
           type: string
           enum:
+            - Travel Rule
             - Blockchain Analytics
             - Sanction Screening
             - Travel Rule
@@ -8903,7 +8950,6 @@ components:
           type: string
         last_password_change:
           type: string
-          description: The value of the currency requested to transfer.
       required:
         - beneficiary
         - currency_id
