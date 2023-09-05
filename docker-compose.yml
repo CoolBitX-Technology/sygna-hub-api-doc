@@ -68,7 +68,7 @@ services:
   # (Optional)It's not required if you only want to use Restful API but it's required if you want to use Email Protocol
   frontend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-console/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.0.2-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub-console:1.26.0-beta.1
     # If you're in the Sygna TEST environment user, please use the version "latest-beta" or "1.xx.0-beta.1" to avoid getting license error
     image: sygna/sygna-hub-console:latest-beta
     restart: unless-stopped
@@ -86,7 +86,7 @@ services:
 
   backend:
     # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub:1.0.2-beta.1
+    # to get latest beta version tag, ex: sygna/sygna-hub:1.26.0-beta.1
     # If you're in the Sygna TEST environment user, please use the version "latest-beta" or "1.xx.0-beta.1" to avoid getting license error
     image: sygna/sygna-hub:latest-beta
     restart: unless-stopped
@@ -97,27 +97,28 @@ services:
       - "./log:/var/log"
       # point this path to your configuration file
       - "./config.yml:/app/config.yml:ro"
+      
   # (Optional) Add this service if you want to use TRISA
-  trisa:
-    # if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-trisa-gateway/tags
-    # to get latest beta version tag, ex: sygna/sygna-hub-trisa-gateway:1.0.2-beta.1
-    image: sygna/sygna-hub-trisa-gateway:latest
-    ports:
-      - 443:443
-    depends_on:
-      - backend
-    volumes:
+  #trisa:
+  #   if you want to try our beta version, please refer to https://hub.docker.com/r/sygna/sygna-hub-trisa-gateway/tags
+  #   to get latest beta version tag, ex: sygna/sygna-hub-trisa-gateway:1.0.2-beta.1
+  #  image: sygna/sygna-hub-trisa-gateway:latest
+  #  ports:
+  #    - 443:443
+  #  depends_on:
+  #    - backend
+  #  volumes:
       # replace your path to save log
-      - ./log:/var/log
-      - "./config.yml:/app/config.yml:ro"
+      #- ./log:/var/log
+      #- "./config.yml:/app/config.yml:ro"
 
   # (Optional) Add this service if you want to use Veriscope on Shyft
   # Please read README to lean how to setup shyft relay node
-  shyft-relay:
-    image: nethermind/nethermind
-    command: -c /opt/nm/shyft-relay.cfg
-    volumes:
-      - ./shyft-relay.cfg:/opt/nm/shyft-relay.cfg
-      - ./shyftchainspec.json:/opt/nm/shyftchainspec.json
-      - ./static-nodes.json:/opt/nm/static-nodes.json
-      - ./shyft-db:/opt/nm/db
+  #shyft-relay:
+  #  image: nethermind/nethermind
+  #  command: -c /opt/nm/shyft-relay.cfg
+  #  volumes:
+  #    - ./shyft-relay.cfg:/opt/nm/shyft-relay.cfg
+  #    - ./shyftchainspec.json:/opt/nm/shyftchainspec.json
+  #    - ./static-nodes.json:/opt/nm/static-nodes.json
+  #    - ./shyft-db:/opt/nm/db
