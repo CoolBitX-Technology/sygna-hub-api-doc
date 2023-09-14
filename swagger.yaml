@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.24.0
+  version: 1.26.1
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -305,14 +305,63 @@ paths:
           content:
             '*/*':
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/schema.GetCustomersOutput'
-                  - $ref: '#/components/schemas/schema.RespWithPaging'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        created_at:
+                          type: string
+                        updated_at:
+                          type: string
+                        customer_id:
+                          type: string
+                        natural_person_name:
+                          type: object
+                          properties:
+                            name:
+                              type: object
+                              properties:
+                                last_name:
+                                  type: string
+                        legal_person_name:
+                          nullable: true
+                        is_active:
+                          type: boolean
+                        risk_score_provider:
+                          nullable: true
+                        max_risk_score:
+                          nullable: true
+                        avg_risk_score:
+                          nullable: true
+                        labels:
+                          type: array
+                          items:
+                            type: object
+                        last_screened:
+                          nullable: true
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 5bc240d6-5f8a-4591-xxxx-4984371ecbd6
+                        created_at: '2023-06-06T08:37:01.318Z'
+                        updated_at: '2023-06-06T08:37:01.318Z'
+                        customer_id: testid_230606
+                        natural_person_name:
+                          name:
+                            last_name: Yang test
+                        legal_person_name: null
+                        is_active: true
+                        risk_score_provider: null
+                        max_risk_score: null
+                        avg_risk_score: null
+                        labels: []
+                        last_screened: null
         '400':
           description: Bad Request
           content:
@@ -5814,15 +5863,6 @@ components:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.PagingResult:
       type: object
-    schema.GetCustomersOutput:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target asset identifier which you want to accept
-          format: uuid
-      required:
-        - id
     schema.PutCustomersInput:
       type: object
       properties:
