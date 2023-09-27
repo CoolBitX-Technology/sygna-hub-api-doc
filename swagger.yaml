@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.26.1
+  version: 1.27.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -329,21 +329,39 @@ paths:
                                 last_name:
                                   type: string
                         legal_person_name:
-                          nullable: true
+                          type: 'null'
                         is_active:
                           type: boolean
                         risk_score_provider:
-                          nullable: true
+                          type: 'null'
                         max_risk_score:
-                          nullable: true
+                          type: 'null'
                         avg_risk_score:
-                          nullable: true
+                          type: 'null'
                         labels:
                           type: array
                           items:
                             type: object
+                            properties: {}
                         last_screened:
-                          nullable: true
+                          type: 'null'
+                x-examples:
+                  Example 1:
+                    data:
+                      - id: 5bc240d6-5f8a-4591-xxxx-4984371ecbd6
+                        created_at: '2023-06-06T08:37:01.318Z'
+                        updated_at: '2023-06-06T08:37:01.318Z'
+                        customer_id: testid_230606
+                        natural_person_name:
+                          name:
+                            last_name: Yang test
+                        legal_person_name: null
+                        is_active: true
+                        risk_score_provider: null
+                        max_risk_score: null
+                        avg_risk_score: null
+                        labels: []
+                        last_screened: null
               examples:
                 Example 1:
                   value:
@@ -3471,6 +3489,75 @@ paths:
                         items:
                           $ref: '#/components/schemas/schema.GetTransactionsOutput'
                   - $ref: '#/components/schemas/schema.RespWithPaging'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: daacc82e-18d9-4d92-ad3b-e39f5ed43005
+                        customer_id: '867248576289475608927459'
+                        legal_person_name:
+                          name: High Risk Originator Legal B
+                          local_name: 高風險 發送方 Legal B
+                          phonetic_name: Висок риск Правен изпращач B
+                        currency_id: 'sygna:0x80000000'
+                        currency_symbol: BTC
+                        currency_name: Bitcoin
+                        addresses:
+                          - 37g6WgqedzZx6nx51tYgssNG8Hnknyj5nL
+                          - 38LjCapRrJEW7w2zwbyS15P9D9UGPjWS44
+                          - 1GYuu9d5HPikafbys3k5Q3DRJq6debGsoB
+                        direction: 0
+                        value: '1'
+                        expire_date: '2023-10-18T07:31:23.000Z'
+                        tx_id: null
+                        transfer_id: f97c1dc5d994a1f8c5fdce2c3f21a81e127ec6e72ed502ddf9648cb473b0849b
+                        status: 14
+                        status_text: Awaiting Originator VASP's TxID
+                        created_at: '2023-09-18T07:31:33.412Z'
+                        last_screened: null
+                        value_usd: null
+                        sanction_score: 0
+                        protocol: Sygna_Bridge
+                        sanction_score_provider: Dow Jones
+                        counter_party_vasp_identifier: HUBPTWPG
+                        assets:
+                          - id: 2a60b887-48d7-402d-944f-b787b4cbd07a
+                            updated_at: '2023-09-18T07:31:53.954Z'
+                            vasp_code: GWCPBQOP
+                            address: 37g6WgqedzZx6nx51tYgssNG8Hnknyj5nL
+                            risk_score: HIGH
+                            risk_score_provider: Chainalysis V2
+                            labels:
+                              - sanctions
+                            created_at: '2023-09-18T07:31:33.415Z'
+                            last_screened: '2023-09-18T07:31:40.428Z'
+                            direction: 1
+                          - id: 9693acb9-f156-4797-90ac-10fa272f1838
+                            updated_at: '2023-09-18T07:31:53.954Z'
+                            vasp_code: GWCPBQOP
+                            address: 38LjCapRrJEW7w2zwbyS15P9D9UGPjWS44
+                            risk_score: HIGH
+                            risk_score_provider: Chainalysis V2
+                            labels:
+                              - sanctions
+                            created_at: '2023-09-18T07:31:33.415Z'
+                            last_screened: '2023-09-18T07:31:40.428Z'
+                            direction: 1
+                          - id: 29c5f8c9-fbcd-4b46-ba80-e2121791d987
+                            updated_at: '2023-09-18T07:31:53.954Z'
+                            vasp_code: GWCPBQOP
+                            address: 1GYuu9d5HPikafbys3k5Q3DRJq6debGsoB
+                            risk_score: HIGH
+                            risk_score_provider: Chainalysis V2
+                            labels:
+                              - sanctions
+                            created_at: '2023-09-18T07:31:33.415Z'
+                            last_screened: '2023-09-18T07:31:40.428Z'
+                            direction: 1
+                    paging:
+                      has_next: false
+                      limit: 20
+                      offset: 0
         '400':
           description: Bad Request
           content:
@@ -5863,6 +5950,15 @@ components:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.PagingResult:
       type: object
+    schema.GetCustomersOutput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Target asset identifier which you want to accept
+          format: uuid
+      required:
+        - id
     schema.PutCustomersInput:
       type: object
       properties:
