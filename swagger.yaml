@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.27.0
+  version: 1.28.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -3273,6 +3273,261 @@ paths:
             '*/*':
               schema:
                 type: object
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - type: personal_info_checking_items
+                        rule:
+                          schema:
+                            type: object
+                            properties:
+                              follow_ivms101:
+                                type: boolean
+                              name_checking_rule:
+                                enum:
+                                  - all_names_matched
+                                  - one_name_matched
+                                type: string
+                              natural_person:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  name:
+                                    type: object
+                                    required:
+                                      - name_identifier
+                                    properties:
+                                      name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                          name_identifier_type:
+                                            const: true
+                                          checking_rule:
+                                            enum:
+                                              - all_names_matched
+                                              - one_name_matched
+                                            type: string
+                                        additionalProperties: false
+                                      local_name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                          name_identifier_type:
+                                            const: true
+                                          checking_rule:
+                                            enum:
+                                              - all_names_matched
+                                              - one_name_matched
+                                            type: string
+                                        additionalProperties: false
+                                      phonetic_name_identifier:
+                                        type: object
+                                        required:
+                                          - primary_identifier
+                                          - name_identifier_type
+                                        properties:
+                                          primary_identifier:
+                                            const: true
+                                          secondary_identifier:
+                                            type: boolean
+                                          name_identifier_type:
+                                            const: true
+                                          checking_rule:
+                                            enum:
+                                              - all_names_matched
+                                              - one_name_matched
+                                            type: string
+                                        additionalProperties: false
+                                    additionalProperties: false
+                                  customer_identification:
+                                    type: boolean
+                                  geographic_address:
+                                    type: object
+                                    properties:
+                                      address_type:
+                                        type: boolean
+                                      department:
+                                        type: boolean
+                                      sub_department:
+                                        type: boolean
+                                      street_name:
+                                        type: boolean
+                                      building_number:
+                                        type: boolean
+                                      building_name:
+                                        type: boolean
+                                      floor:
+                                        type: boolean
+                                      post_box:
+                                        type: boolean
+                                      room:
+                                        type: boolean
+                                      post_code:
+                                        type: boolean
+                                      town_name:
+                                        type: boolean
+                                      town_location_name:
+                                        type: boolean
+                                      district_name:
+                                        type: boolean
+                                      country_sub_division:
+                                        type: boolean
+                                      address_line:
+                                        type: boolean
+                                      country:
+                                        type: boolean
+                                      all_data_check:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  national_identification:
+                                    type: object
+                                    properties:
+                                      national_identifier:
+                                        type: boolean
+                                      national_identifier_type:
+                                        type: boolean
+                                      country_of_issue:
+                                        type: boolean
+                                      registration_authority:
+                                        type: boolean
+                                      all_data_check:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  date_and_place_of_birth:
+                                    type: object
+                                    properties:
+                                      date_of_birth:
+                                        type: boolean
+                                      place_of_birth:
+                                        type: boolean
+                                      all_data_check:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  country_of_residence:
+                                    type: boolean
+                                additionalProperties: false
+                              legal_person:
+                                type: object
+                                required:
+                                  - name
+                                properties:
+                                  name:
+                                    type: object
+                                    required:
+                                      - name_identifier
+                                    properties:
+                                      name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                      local_name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                      phonetic_name_identifier:
+                                        type: object
+                                        required:
+                                          - legal_person_name
+                                          - legal_person_name_identifier_type
+                                        properties:
+                                          legal_person_name:
+                                            const: true
+                                          legal_person_name_identifier_type:
+                                            const: true
+                                        additionalProperties: false
+                                    additionalProperties: false
+                                  customer_identification:
+                                    type: boolean
+                                  geographic_address:
+                                    type: object
+                                    properties:
+                                      address_type:
+                                        type: boolean
+                                      department:
+                                        type: boolean
+                                      sub_department:
+                                        type: boolean
+                                      street_name:
+                                        type: boolean
+                                      building_number:
+                                        type: boolean
+                                      building_name:
+                                        type: boolean
+                                      floor:
+                                        type: boolean
+                                      post_box:
+                                        type: boolean
+                                      room:
+                                        type: boolean
+                                      post_code:
+                                        type: boolean
+                                      town_name:
+                                        type: boolean
+                                      town_location_name:
+                                        type: boolean
+                                      district_name:
+                                        type: boolean
+                                      country_sub_division:
+                                        type: boolean
+                                      address_line:
+                                        type: boolean
+                                      country:
+                                        type: boolean
+                                      all_data_check:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  national_identification:
+                                    type: object
+                                    properties:
+                                      national_identifier:
+                                        type: boolean
+                                      national_identifier_type:
+                                        type: boolean
+                                      country_of_issue:
+                                        type: boolean
+                                      registration_authority:
+                                        type: boolean
+                                      all_data_check:
+                                        type: boolean
+                                    minProperties: 1
+                                    additionalProperties: false
+                                  country_of_registration:
+                                    type: boolean
+                                additionalProperties: false
+                            additionalProperties: false
         '400':
           description: Bad Request
           content:
