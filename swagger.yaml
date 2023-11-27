@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.28.0
+  version: 1.29.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2317,6 +2317,7 @@ paths:
                 - Elliptic
                 - Chainalysis V1
                 - Chainalysis V2
+                - OKLink
                 - ComplyAdvantage
                 - Merkle Science
                 - TRISA
@@ -2597,6 +2598,13 @@ paths:
                     credential: {}
                     settings:
                       high_risk_score: 3
+              OKLink:
+                value:
+                  - type: Blockchain Analytics
+                    provider: OKLink
+                    is_active: true
+                    credential:
+                    api_key: aaaaaa
               ComplyAdvantage:
                 value:
                   - type: Sanction Screening
