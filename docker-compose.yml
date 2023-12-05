@@ -54,7 +54,7 @@ services:
   #   image: nginx
   #   restart: unless-stopped
   #   ports:
-  #     - 127.0.0.1:8000:8000
+  #     - 8000:8000
   #   depends_on:
   #     - backend
   #   volumes:
@@ -73,7 +73,7 @@ services:
     image: sygna/sygna-hub-console:latest-beta
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8000:80
+      - 8000:80
     depends_on:
       - backend
     environment:
@@ -91,7 +91,7 @@ services:
     image: sygna/sygna-hub:latest-beta
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
     volumes:
       # replace your path to save log
       - "./log:/var/log"
