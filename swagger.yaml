@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.29.0
+  version: 1.30.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2603,7 +2603,7 @@ paths:
                   - type: Blockchain Analytics
                     provider: OKLink
                     is_active: true
-                    credential:
+                    credential: null
                     api_key: aaaaaa
               ComplyAdvantage:
                 value:
@@ -3907,8 +3907,11 @@ paths:
                       private_info:
                         natural_person_name:
                           name:
-                            last_name: sygna sample
+                            first_name: sygna sample 1
+                            last_name: sygna sample 2
                     expire_date: 1681705803
+                    need_validate_address: true
+                    txid: null
                     protocol: Sygna_Bridge
               Sygna Email:
                 value:
