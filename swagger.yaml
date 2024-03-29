@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.30.0
+  version: 1.31.1
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2670,6 +2670,13 @@ paths:
                     provider: Sygna_EmailProtocol
                     settings:
                       expire_days: 30
+              GTR:
+                value:
+                  - type: Travel Rule
+                    provider: GTR
+                    credential:
+                      public_key: YnS4rRqupa1aSa4mcJqAini0PYeI/QZzp1ndkBODAwU=
+                      private_key: '1123'
       responses:
         '200':
           description: OK
@@ -2742,6 +2749,7 @@ paths:
                 - Coinfirm
                 - Coinfirm (Sandbox)
                 - World-Check
+                - GTR
         - name: type
           in: query
           description: filter services by type
@@ -2829,6 +2837,31 @@ paths:
                     type: object
                   type:
                     type: string
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 0a26f8d8-bc6c-4902-90bd-b3c8c0d6ba25
+                        created_at: '2024-03-13T06:59:44.235Z'
+                        updated_at: '2024-03-13T06:59:44.237Z'
+                        provider: GTR
+                        type: Travel Rule
+                        credential:
+                          schema:
+                            type: object
+                            required:
+                              - public_key
+                              - private_key
+                            properties:
+                              public_key:
+                                type: string
+                                minLength: 1
+                              private_key:
+                                type: string
+                                minLength: 1
+                            additionalProperties: false
+                        is_active: true
+                        editable: true
         '400':
           description: Bad Request
           content:
@@ -3959,6 +3992,26 @@ paths:
                         - address: 1LinPJGYAVsraWnyEY4iDPVroD1Fxxxxxx
                           extra_info: {}
                     protocol: Veriscope on Shyft
+              GTR:
+                value:
+                  - customer_id: bfd009e2-9ae7-41b9-ace0-a780671c51ff
+                    currency_id: 'sygna:0x8000003c'
+                    value: '0.0123'
+                    originator:
+                      assets:
+                        - b8e229bd-75a7-4ad1-acd7-37bc028ebb6c
+                    beneficiary:
+                      addrs:
+                        - address: 1.2012670978526122e+47
+                          extra_info: {}
+                      customer_type: 0
+                      vasp_code: gdummy
+                      private_info:
+                        natural_person_name:
+                          name:
+                            first_name: Test
+                            last_name: Customer
+                    protocol: GTR
       responses:
         '200':
           description: OK
@@ -5171,6 +5224,35 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  '/interop-info/{provider}':
+    get:
+      tags:
+        - 'Hub/interop-info/{provider}'
+      summary: get the amount of used transaction
+      parameters:
+        - name: provider
+          in: path
+          description: filter amount by service provider
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ''
+              examples:
+                GTR:
+                  value:
+                    data:
+                      monthlyUsed: 57
+                      quarterlyUsed: 57
+                      expirationDate: 2025/03/13
   /users:
     get:
       tags:
@@ -5835,6 +5917,20 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /vendors/gtr/random-key-pair:
+    get:
+      tag: Hub/vendors
+      summary: Generate key pair ramdomly
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                example:
+                  data:
+                    private_key: X*****************************************Y=
+                    public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
   /vendors/test:
     post:
       tags:
@@ -5850,6 +5946,14 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PostVendorsTestInput'
+            examples:
+              Example 1:
+                value:
+                  - type: Travel Rule
+                    provider: GTR
+                    credential:
+                      private_key: WNHe25NZrNOR4WRLkzd2Thyrs7COg3L2RDJ0XL5ATS8=
+                      public_key: D04SqkOZULClXkH1wq/1WTA91pQySbutt0s4tcl3n48=
       responses:
         '200':
           description: OK
