@@ -655,10 +655,183 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /customers-assets:
+    post:
+      tags:
+        - Hub/customers-assets
+      summary: create new assets for customers
+      requestBody:
+        description: post /customers-assets params
+        required: true
+        content:
+          '*/*':
+            examples:
+              Example 1:
+                value:
+                  - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
+                    assets:
+                      - currency_id: 'sygna:0x80000090'
+                        address: '569284598672948576982479586'
+                        extra_info:
+                          tag: test
+      responses:
+        '200':
+          description: ''
+          content:
+            '*/*':
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
+                        success: true
+    get:
+      tags:
+        - Hub/customers-assets
+      summary: get asset information of specific customers
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content:
+            application/zip:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 2bbbf60e-768d-45ae-b5bb-e2b10ef3908a
+                        natural_person_name:
+                          name:
+                            first_name: ShengWun
+                            last_name: Kevin
+                          local_name:
+                            first_name: ShengWun
+                            last_name: Lee
+                          phonetic_name:
+                            first_name: リュウタ
+                            last_name: シュトウ
+                        legal_person_name: null
+                        is_active: true
+                        assets:
+                          - id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                            updated_at: '2024-03-28T06:56:48.000Z'
+                            currency_id: 'sygna:0x80000000'
+                            currency_symbol: BTC
+                            currency_name: Bitcoin
+                            address: aaaaaaaaaaaaa123123123
+                            labels: []
+                            created_at: '2024-03-28T06:56:48.000Z'
+                            last_screened: null
+                            is_sygna_supported: true
+                            is_kyt_supported: true
+                    paging:
+                      has_next: true
+                      limit: 1
+                      next_offset: 1
+                      offset: 0
+      parameters:
+        - schema:
+            type: array
+          in: query
+          name: id
+          description: filter customer asset by customer identifier
+        - schema:
+            type: array
+          in: query
+          name: name
+          description: filter customer asset by customer name
+        - schema:
+            type: array
+          in: query
+          name: asset_id
+          description: filter customer asset by customer name
+        - schema:
+            type: array
+          in: query
+          name: is_active
+          description: filter customer asset by if status is activated
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
+        - schema:
+            type: array
+          in: query
+          name: orderby
+          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
+    parameters: []
+    patch:
+      tags:
+        - Hub/customers-assets
+      summary: modify the assets for specific customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  - asset_id: 3284f52e-cf78-46fa-ae9f-06d1517ae38e
+                    currency_id: 'sygna:0x80000000'
+                    address: asdaasdasdasdasdasd
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                        success: true
+    delete:
+      tags:
+        - Hub/customers-assets
+      requestBody:
+        content:
+          application/x-bittorrent:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                        success: true
   /customers-export:
     get:
       tags:
         - Hub/customers-export
+      x-stoplight:
+        id: 76c6e928de34f
       summary: generate customers report
       parameters:
         - name: id
