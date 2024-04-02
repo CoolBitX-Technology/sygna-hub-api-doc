@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.30.0
+  version: 1.31.1
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -655,10 +655,183 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /customers-assets:
+    post:
+      tags:
+        - Hub/customers-assets
+      summary: create new assets for customers
+      requestBody:
+        description: post /customers-assets params
+        required: true
+        content:
+          '*/*':
+            examples:
+              Example 1:
+                value:
+                  - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
+                    assets:
+                      - currency_id: 'sygna:0x80000090'
+                        address: '569284598672948576982479586'
+                        extra_info:
+                          tag: test
+      responses:
+        '200':
+          description: ''
+          content:
+            '*/*':
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
+                        success: true
+    get:
+      tags:
+        - Hub/customers-assets
+      summary: get asset information of specific customers
+      responses:
+        default:
+          description: ''
+          headers: {}
+          content:
+            application/zip:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 2bbbf60e-768d-45ae-b5bb-e2b10ef3908a
+                        natural_person_name:
+                          name:
+                            first_name: ShengWun
+                            last_name: Kevin
+                          local_name:
+                            first_name: ShengWun
+                            last_name: Lee
+                          phonetic_name:
+                            first_name: リュウタ
+                            last_name: シュトウ
+                        legal_person_name: null
+                        is_active: true
+                        assets:
+                          - id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                            updated_at: '2024-03-28T06:56:48.000Z'
+                            currency_id: 'sygna:0x80000000'
+                            currency_symbol: BTC
+                            currency_name: Bitcoin
+                            address: aaaaaaaaaaaaa123123123
+                            labels: []
+                            created_at: '2024-03-28T06:56:48.000Z'
+                            last_screened: null
+                            is_sygna_supported: true
+                            is_kyt_supported: true
+                    paging:
+                      has_next: true
+                      limit: 1
+                      next_offset: 1
+                      offset: 0
+      parameters:
+        - schema:
+            type: array
+          in: query
+          name: id
+          description: filter customer asset by customer identifier
+        - schema:
+            type: array
+          in: query
+          name: name
+          description: filter customer asset by customer name
+        - schema:
+            type: array
+          in: query
+          name: asset_id
+          description: filter customer asset by customer name
+        - schema:
+            type: array
+          in: query
+          name: is_active
+          description: filter customer asset by if status is activated
+        - schema:
+            type: integer
+          in: query
+          name: offset
+          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
+        - schema:
+            type: array
+          in: query
+          name: orderby
+          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
+    parameters: []
+    patch:
+      tags:
+        - Hub/customers-assets
+      summary: modify the assets for specific customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  - asset_id: 3284f52e-cf78-46fa-ae9f-06d1517ae38e
+                    currency_id: 'sygna:0x80000000'
+                    address: asdaasdasdasdasdasd
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                        success: true
+    delete:
+      tags:
+        - Hub/customers-assets
+      requestBody:
+        content:
+          application/x-bittorrent:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
+                        success: true
   /customers-export:
     get:
       tags:
         - Hub/customers-export
+      x-stoplight:
+        id: 76c6e928de34f
       summary: generate customers report
       parameters:
         - name: id
@@ -2670,6 +2843,13 @@ paths:
                     provider: Sygna_EmailProtocol
                     settings:
                       expire_days: 30
+              GTR:
+                value:
+                  - type: Travel Rule
+                    provider: GTR
+                    credential:
+                      public_key: YnS4rRqupa1aSa4mcJqAini0PYeI/QZzp1ndkBODAwU=
+                      private_key: '1123'
       responses:
         '200':
           description: OK
@@ -2742,6 +2922,7 @@ paths:
                 - Coinfirm
                 - Coinfirm (Sandbox)
                 - World-Check
+                - GTR
         - name: type
           in: query
           description: filter services by type
@@ -2829,6 +3010,31 @@ paths:
                     type: object
                   type:
                     type: string
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 0a26f8d8-bc6c-4902-90bd-b3c8c0d6ba25
+                        created_at: '2024-03-13T06:59:44.235Z'
+                        updated_at: '2024-03-13T06:59:44.237Z'
+                        provider: GTR
+                        type: Travel Rule
+                        credential:
+                          schema:
+                            type: object
+                            required:
+                              - public_key
+                              - private_key
+                            properties:
+                              public_key:
+                                type: string
+                                minLength: 1
+                              private_key:
+                                type: string
+                                minLength: 1
+                            additionalProperties: false
+                        is_active: true
+                        editable: true
         '400':
           description: Bad Request
           content:
@@ -3959,6 +4165,26 @@ paths:
                         - address: 1LinPJGYAVsraWnyEY4iDPVroD1Fxxxxxx
                           extra_info: {}
                     protocol: Veriscope on Shyft
+              GTR:
+                value:
+                  - customer_id: bfd009e2-9ae7-41b9-ace0-a780671c51ff
+                    currency_id: 'sygna:0x8000003c'
+                    value: '0.0123'
+                    originator:
+                      assets:
+                        - b8e229bd-75a7-4ad1-acd7-37bc028ebb6c
+                    beneficiary:
+                      addrs:
+                        - address: 1.2012670978526122e+47
+                          extra_info: {}
+                      customer_type: 0
+                      vasp_code: gdummy
+                      private_info:
+                        natural_person_name:
+                          name:
+                            first_name: Test
+                            last_name: Customer
+                    protocol: GTR
       responses:
         '200':
           description: OK
@@ -5171,6 +5397,35 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  '/interop-info/{provider}':
+    get:
+      tags:
+        - 'Hub/interop-info/{provider}'
+      summary: get the amount of used transaction
+      parameters:
+        - name: provider
+          in: path
+          description: filter amount by service provider
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: ''
+              examples:
+                GTR:
+                  value:
+                    data:
+                      monthlyUsed: 57
+                      quarterlyUsed: 57
+                      expirationDate: 2025/03/13
   /users:
     get:
       tags:
@@ -5835,6 +6090,20 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /vendors/gtr/random-key-pair:
+    get:
+      tag: Hub/vendors
+      summary: Generate key pair ramdomly
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                example:
+                  data:
+                    private_key: X*****************************************Y=
+                    public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
   /vendors/test:
     post:
       tags:
@@ -5850,6 +6119,14 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PostVendorsTestInput'
+            examples:
+              Example 1:
+                value:
+                  - type: Travel Rule
+                    provider: GTR
+                    credential:
+                      private_key: WNHe25NZrNOR4WRLkzd2Thyrs7COg3L2RDJ0XL5ATS8=
+                      public_key: D04SqkOZULClXkH1wq/1WTA91pQySbutt0s4tcl3n48=
       responses:
         '200':
           description: OK
