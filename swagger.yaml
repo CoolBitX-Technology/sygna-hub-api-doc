@@ -329,22 +329,22 @@ paths:
                                 last_name:
                                   type: string
                         legal_person_name:
-                          type: 'null'
+                          type: string
                         is_active:
                           type: boolean
                         risk_score_provider:
-                          type: 'null'
+                          type: string
                         max_risk_score:
-                          type: 'null'
+                          type: string
                         avg_risk_score:
-                          type: 'null'
+                          type: string
                         labels:
                           type: array
                           items:
                             type: object
                             properties: {}
                         last_screened:
-                          type: 'null'
+                          type: string
                 x-examples:
                   Example 1:
                     data:
@@ -735,21 +735,29 @@ paths:
       parameters:
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: id
           description: filter customer asset by customer identifier
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: name
           description: filter customer asset by customer name
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: asset_id
           description: filter customer asset by customer name
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: is_active
           description: filter customer asset by if status is activated
@@ -765,6 +773,8 @@ paths:
           description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
         - schema:
             type: array
+            items:
+              type: string
           in: query
           name: orderby
           description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
@@ -804,7 +814,7 @@ paths:
         - Hub/customers-assets
       requestBody:
         content:
-          application/x-bittorrent:
+          application/json:
             schema:
               type: object
               properties: {}
@@ -4061,9 +4071,9 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-      requestBody:
-        content: {}
-        description: group origintors' assets
+      # requestBody:
+      #   content: {}
+      #   description: group origintors' assets
     post:
       tags:
         - Hub/transactions
@@ -5622,7 +5632,7 @@ paths:
         only admin could use this method
         all accounts would be logout if admin deleted them
       requestBody:
-        description: patch /users params
+        description: delete /users params
         required: true
         content:
           '*/*':
@@ -6092,7 +6102,8 @@ paths:
           description: ''
   /vendors/gtr/random-key-pair:
     get:
-      tag: Hub/vendors
+      tags:
+        - Hub/vendors
       summary: Generate key pair ramdomly
       responses:
         '200':
