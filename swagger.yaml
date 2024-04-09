@@ -664,7 +664,10 @@ paths:
         description: post /customers-assets params
         required: true
         content:
-          '*/*':
+          application/json:
+            schema:
+              type: object
+              properties: {}
             examples:
               Example 1:
                 value:
@@ -678,7 +681,10 @@ paths:
         '200':
           description: ''
           content:
-            '*/*':
+            application/json:
+              schema:
+                type: object
+                properties: {}
               examples:
                 Example 1:
                   value:
@@ -5425,7 +5431,14 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: ''
+                      type: object
+                      properties:
+                        monthlyUsed:
+                          type: integer
+                        quarterlyUsed:
+                          type: integer
+                        expirationDate:
+                          type: string
               examples:
                 GTR:
                   value:
