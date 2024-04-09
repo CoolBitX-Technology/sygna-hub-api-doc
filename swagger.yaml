@@ -4071,9 +4071,6 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-      # requestBody:
-      #   content: {}
-      #   description: group origintors' assets
     post:
       tags:
         - Hub/transactions
