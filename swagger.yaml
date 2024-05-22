@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.31.1
+  version: 1.32.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -299,6 +299,11 @@ paths:
             type: array
             items:
               type: string
+        - schema:
+            type: boolean
+          in: query
+          name: fuzzy_search
+          description: filter data by fuzzy search
       responses:
         '200':
           description: OK
@@ -2691,6 +2696,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - hint: 'To start service of blockchain analytics or sanction screening, please make sure your key pair is tested via <POST /vendors/test>.'
+                        id: cc60df9a-ee7c-4e2a-b7d0-d74cc7493d08
+                        success: true
         '400':
           description: Bad Request
           content:
@@ -2873,6 +2885,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - hint: 'To start service of blockchain analytics or sanction screening, please make sure your key pair is tested via <POST /vendors/test>.'
+                        id: cc60df9a-ee7c-4e2a-b7d0-d74cc7493d08
+                        success: true
         '400':
           description: Bad Request
           content:
@@ -4198,6 +4217,32 @@ paths:
                             first_name: Test
                             last_name: Customer
                     protocol: GTR
+              Data Retention by Email:
+                value:
+                  - customer_id: 6b538459-8897-4e47-b45a-8199b6dc0182
+                    currency_id: 'sygna:0x80000000'
+                    value: '0.01111111111111111'
+                    originator:
+                      assets:
+                        - 287c3bac-1ac7-472f-ad1a-029b6387f434
+                    beneficiary:
+                      addrs:
+                        - address: 1NFHknMkgh2gp1TyQYPLiwpaBU9wCMUDpc
+                          extra_info: {}
+                      customer_type: 0
+                      vasp_code: GATETW05
+                      private_info:
+                        natural_person_name:
+                          name:
+                            last_name: Beneficiary from Postman
+                    txid: TxIDFromPostman
+                    protocol: Sygna_Data Retention by Email
+                    protocol_extra_info:
+                      contact_emails:
+                        - aaaaaaaaa@aaaaa.com
+                        - bbbbbbbbb@bbbbb.com
+                      notification_receivers:
+                        - ccccccccc@ccccc.com
       responses:
         '200':
           description: OK
@@ -5431,14 +5476,14 @@ paths:
                 type: object
                 properties:
                   data:
-                      type: object
-                      properties:
-                        monthlyUsed:
-                          type: integer
-                        quarterlyUsed:
-                          type: integer
-                        expirationDate:
-                          type: string
+                    type: object
+                    properties:
+                      monthlyUsed:
+                        type: integer
+                      quarterlyUsed:
+                        type: integer
+                      expirationDate:
+                        type: string
               examples:
                 GTR:
                   value:
