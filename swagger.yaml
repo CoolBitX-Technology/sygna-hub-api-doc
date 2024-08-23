@@ -3122,29 +3122,6 @@ paths:
                             additionalProperties: false
                         is_active: true
                         editable: true
-                VASP Profile:
-                  value:
-                    type: vasp_profile
-                    rule:
-                      address:
-                        address_type: GEOG
-                        country: TW
-                        department: ''
-                        sub_department: ''
-                        street_name: ''
-                        building_number: ''
-                        building_name: ''
-                        floor: ''
-                        post_box: ''
-                        room: ''
-                        post_code: ''
-                        town_name: Taipei
-                        town_location_name: ''
-                        district_name: ''
-                        country_sub_division: ''
-                        address_line:
-                          - ooo
-                          - xxx
         '400':
           description: Bad Request
           content:
@@ -3474,6 +3451,28 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+      x-VASP Profile:
+        type: vasp_profile
+        rule:
+          address:
+            address_type: GEOG
+            country: TW
+            department: ''
+            sub_department: ''
+            street_name: ''
+            building_number: ''
+            building_name: ''
+            floor: ''
+            post_box: ''
+            room: ''
+            post_code: ''
+            town_name: Taipei
+            town_location_name: ''
+            district_name: ''
+            country_sub_division: ''
+            address_line:
+              - ooo
+              - xxx
   /settings/default:
     get:
       tags:
