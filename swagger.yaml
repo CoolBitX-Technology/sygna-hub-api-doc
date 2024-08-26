@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.32.0
+  version: 1.33.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -146,14 +146,66 @@ paths:
           content:
             '*/*':
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/model.Currency'
-                  - $ref: '#/components/schemas/schema.RespWithPaging'
+                type: object
+                properties:
+                  currency_id:
+                    type: string
+                  currency_symbol:
+                    type: string
+                  currency_name:
+                    type: string
+                  is_active:
+                    type: boolean
+                  kyt_providers:
+                    type: array
+                    items:
+                      type: string
+                  addr_extra_info:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  blockchain_name:
+                    type: string
+                x-examples:
+                  Example 1:
+                    currency_id: 'sygna:0x80000000'
+                    currency_symbol: BTC
+                    currency_name: Bitcoin
+                    is_active: true
+                    kyt_providers:
+                      - Elliptic
+                      - Chainalysis V1
+                      - Merkle Science
+                      - Chainalysis V2
+                      - Coinfirm
+                      - Coinfirm (Sandbox)
+                    addr_extra_info: []
+                    created_at: '2021-09-30T02:53:24.000Z'
+                    updated_at: '2024-07-16T08:35:31.296Z'
+                    blockchain_name: bitcoin
+              examples:
+                BTC:
+                  value:
+                    currency_id: 'sygna:0x80000000'
+                    currency_symbol: BTC
+                    currency_name: Bitcoin
+                    is_active: true
+                    kyt_providers:
+                      - Elliptic
+                      - Chainalysis V1
+                      - Merkle Science
+                      - Chainalysis V2
+                      - Coinfirm
+                      - Coinfirm (Sandbox)
+                    addr_extra_info: []
+                    created_at: '2021-09-30T02:53:24.000Z'
+                    updated_at: '2024-07-16T08:35:31.296Z'
+                    blockchain_name: bitcoin
         '400':
           description: Bad Request
           content:
@@ -3046,7 +3098,7 @@ paths:
                   type:
                     type: string
               examples:
-                Example 1:
+                GTR:
                   value:
                     data:
                       - id: 0a26f8d8-bc6c-4902-90bd-b3c8c0d6ba25
@@ -3399,6 +3451,28 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+      x-VASP Profile:
+        type: vasp_profile
+        rule:
+          address:
+            address_type: GEOG
+            country: TW
+            department: ''
+            sub_department: ''
+            street_name: ''
+            building_number: ''
+            building_name: ''
+            floor: ''
+            post_box: ''
+            room: ''
+            post_code: ''
+            town_name: Taipei
+            town_location_name: ''
+            district_name: ''
+            country_sub_division: ''
+            address_line:
+              - ooo
+              - xxx
   /settings/default:
     get:
       tags:
