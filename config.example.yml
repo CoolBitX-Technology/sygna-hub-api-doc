@@ -28,6 +28,11 @@ settings:
   # limit maximum concurrent requests processed by backend, more requests will be
   # please use positive value to enable, or disable with 0 or negative value
   concurrency: 100
+  # The parameter "work_type" refers to the function of the container
+  # if the container is used to address API-related service, please define the value of its work_type as "api"
+  # if the container is used to address cronjob-related service, please define the value of its work_type as "cronjob"
+  # if the container is used to address API-related and cronjob-related service at the same time, there is no need to define the value of its work_type. Please note that the default value of work_type is set as ""
+  work_type: ""
 
 db:
   # database configuration 
