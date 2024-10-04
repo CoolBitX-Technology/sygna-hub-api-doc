@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.34.0
+  version: 1.35.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -654,6 +654,34 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+      x-Example:
+        customer_id: ''
+        national:
+          country_of_issue: ''
+          national_identifier: required
+          national_identifier_type: required
+          registration_authority: ''
+        birth:
+          date_of_birth: required
+          place_of_birth: required
+        address:
+          address_line:
+            - ''
+          address_type: required
+          building_name: ''
+          building_number: ''
+          country: required
+          country_sub_division: ''
+          department: ''
+          district_name: ''
+          floor: ''
+          post_box: ''
+          post_code: ''
+          room: ''
+          street_name: ''
+          sub_department: ''
+          town_location_name: ''
+          town_name: ''
     patch:
       tags:
         - Hub/customers
@@ -2563,6 +2591,7 @@ paths:
                 - Elliptic
                 - Chainalysis V1
                 - Chainalysis V2
+                - OKLink
                 - ComplyAdvantage
                 - Merkle Science
                 - TRISA
@@ -2850,6 +2879,13 @@ paths:
                     credential: {}
                     settings:
                       high_risk_score: 3
+              OKLink:
+                value:
+                  - type: Blockchain Analytics
+                    provider: OKLink
+                    is_active: true
+                    credential: null
+                    api_key: aaaaaa
               ComplyAdvantage:
                 value:
                   - type: Sanction Screening
@@ -3304,6 +3340,29 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+      x-Customized Transfer Templates:
+        - id: dbcf2d23-7679-470d-832f-a559b711d48b
+          vasp_code: GATETW05
+          type: customized_transfer_templates
+          rule:
+            templates:
+              - additionalInfo:
+                  country_of_residence: true
+                  customer_identification: true
+                  date_and_place_of_birth: false
+                  geographic_address: false
+                  national_identification: true
+                beneficiaryVASP: ''
+                currency: USD
+                name: ''
+                originatorCountry: SG
+                threshold: 0
+      x-Send Data By Jurisdictions:
+        - id: 76029fb5-ddc3-43da-be61-9714916a601f
+          vasp_code: GATETW05
+          type: sending_data_by_jurisdictions
+          rule:
+            sending_additional_information: false
     post:
       tags:
         - Hub/settings
@@ -3465,6 +3524,25 @@ paths:
             address_line:
               - ooo
               - xxx
+      x-Customized Transfer Templates:
+        - type: customized_transfer_templates
+          rule:
+            templates:
+              - name: '{your_tempalte_name}'
+                additionalInfo:
+                  geographic_address: true
+                  national_identification: true
+                  customer_identification: true
+                  date_and_place_of_birth: true
+                  country_of_residence: true
+                beneficiaryVASP: ''
+                originatorCountry: ''
+                currency: USD
+                threshold: 0
+      x-Send Data By Jurisdictions:
+        - type: sending_data_by_jurisdictions
+          rule:
+            sending_additional_information: false
   /settings/default:
     get:
       tags:
