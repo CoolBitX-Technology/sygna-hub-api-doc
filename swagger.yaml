@@ -2591,7 +2591,6 @@ paths:
                 - Elliptic
                 - Chainalysis V1
                 - Chainalysis V2
-                - OKLink
                 - ComplyAdvantage
                 - Merkle Science
                 - TRISA
@@ -2879,13 +2878,6 @@ paths:
                     credential: {}
                     settings:
                       high_risk_score: 3
-              OKLink:
-                value:
-                  - type: Blockchain Analytics
-                    provider: OKLink
-                    is_active: true
-                    credential: null
-                    api_key: aaaaaa
               ComplyAdvantage:
                 value:
                   - type: Sanction Screening
