@@ -2591,6 +2591,7 @@ paths:
                 - Elliptic
                 - Chainalysis V1
                 - Chainalysis V2
+                - OKLink
                 - ComplyAdvantage
                 - Merkle Science
                 - TRISA
@@ -3344,11 +3345,11 @@ paths:
                   date_and_place_of_birth: false
                   geographic_address: false
                   national_identification: true
-                beneficiaryVASP: ''
+                beneficiaryVASP: SYGNTWTP
                 currency: USD
                 name: ''
-                originatorCountry: SG
-                threshold: 0
+                originatorCountry: TW
+                threshold: 1000
       x-Send Data By Jurisdictions:
         - id: 76029fb5-ddc3-43da-be61-9714916a601f
           vasp_code: GATETW05
@@ -3520,15 +3521,15 @@ paths:
         - type: customized_transfer_templates
           rule:
             templates:
-              - name: '{your_tempalte_name}'
+              - name: tempalte_name
                 additionalInfo:
                   geographic_address: true
                   national_identification: true
                   customer_identification: true
                   date_and_place_of_birth: true
                   country_of_residence: true
-                beneficiaryVASP: ''
-                originatorCountry: ''
+                beneficiaryVASP: SYGNTWTP
+                originatorCountry: TW
                 currency: USD
                 threshold: 0
       x-Send Data By Jurisdictions:
