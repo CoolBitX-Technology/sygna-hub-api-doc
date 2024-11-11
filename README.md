@@ -80,6 +80,7 @@ RECEIVE_HIGH_RISK_TRANSACTION | The data transfer is high risk. Please accept or
 RECEIVE_REJECTED_TRANSACTION | Your data transfer was rejected by beneficiary VASP, please refer to the reject message or contact the beneficiary VASP | Originator VASP | No | no error code is applicable |
 RECEIVE_TRANSACTION_HASH | You've received transaction hash from originator VASP | Beneficiary VASP | No | no error code is applicable |
 SEND_PERMISSION_REQUEST_ERROR | There is an unexpected error(s) when you send permission_request to the beneficiary VASP. Please refer to the error message. | Originator VASP | No | 06000 06002 06003 06004 06005 06006 06007 06008 | 
+SEND_CDD_REQUEST_ERROR | There is an unexpected error(s) when you send cdd_request to the originator VASP. Please refer to the error message. | Beneficiary VASP | No | 99999 | 
 SEND_PERMISSION_ERROR | There is an unexpected error(s) when you send permission to the originator VASP. Please refer to the error message. | Beneficiary VASP | No | 99999 | 
 SEND_TRANSACTION_ID_ERROR | There is an unexpected error(s) when you send transaction hash to the beneficiary VASP Please refer to the error message. | Originator VASP | No | 99999
 HANDLE_COMING_ADDRESS_VALIDATION_ERROR | There is an unexpected error(s) when the originator VASP validated whether the beneficiary wallet address belongs to you. Please refer to the error message. | Beneficiary VASP | Yes, Originator VASP receives: `SEND_PERMISSION_REQUEST_ERROR` | 99999
