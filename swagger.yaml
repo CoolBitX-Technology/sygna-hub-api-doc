@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.35.0
+  version: 1.36.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2948,9 +2948,18 @@ paths:
                 value:
                   - type: Travel Rule
                     provider: GTR
+                    is_active: true
                     credential:
                       public_key: YnS4rRqupa1aSa4mcJqAini0PYeI/QZzp1ndkBODAwU=
-                      private_key: '1123'
+                      private_key: 123
+              CODE:
+                value:
+                  - type: Travel Rule
+                    provider: CODE
+                    is_active: true
+                    credential:
+                      public_key: xxxxx
+                      private_key: yyyyy
       responses:
         '200':
           description: OK
@@ -3660,7 +3669,7 @@ paths:
               schema:
                 type: object
               examples:
-                Example 1:
+                Personal information checking items:
                   value:
                     data:
                       - type: personal_info_checking_items
@@ -3913,6 +3922,22 @@ paths:
                                   country_of_registration:
                                     type: boolean
                                 additionalProperties: false
+                            additionalProperties: false
+                Maintenance mode:
+                  value:
+                    data:
+                      - type: maintaining
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - start_at
+                              - end_at
+                            properties:
+                              start_at:
+                                type: integer
+                              end_at:
+                                type: integer
                             additionalProperties: false
         '400':
           description: Bad Request
@@ -4256,7 +4281,7 @@ paths:
                 value:
                   - customer_id: 6bf8c118-3395-40fa-83d3-be3be1xxxxx
                     currency_id: 'sygna:0x80000000'
-                    value: '111'
+                    value: 111
                     originator:
                       assets:
                         - 190c2b76-6a93-4f58-ae3b-2b21b01xxxxx
@@ -4267,32 +4292,59 @@ paths:
                       customer_type: 0
               Sygna Bridge:
                 value:
-                  - customer_id: 6bf8c118-3395-40fa-83d3-be3be1axxxxx
+                  - customer_id: 054b8016-c7bf-4b8b-b42b-c9e6e5740ae0
                     currency_id: 'sygna:0x80000000'
-                    value: '111'
+                    value: 1
                     originator:
                       assets:
-                        - 190c2b76-6a93-4f58-ae3b-2b21b01xxxxx
+                        - 6a6a98c2-c7e1-4116-811f-73e7d54976b8
                     beneficiary:
                       addrs:
-                        - address: 3MBWbunF8kLFA5u9E8mk4MYkWKJNexxxxx
+                        - address: 12345
                           extra_info: {}
                       customer_type: 0
-                      vasp_code: XXXXXXXX
+                      vasp_code: SYGNTWTP
                       private_info:
                         natural_person_name:
                           name:
-                            first_name: sygna sample 1
-                            last_name: sygna sample 2
-                    expire_date: 1681705803
+                            first_name: vz4uN1PsqZLy52lqRv2y
+                            last_name: vz4uN1PsqZLy52lqRv2y
+                        national:
+                          national_identifier_type: ARNU
+                          national_identifier: 5896720498750870000
+                          country_of_issue: TW
+                          registration_authority: skuthlguishlthga
+                        birth:
+                          place_of_birth: taipei
+                          date_of_birth: '2024-10-25'
+                        address:
+                          address_type: HOME
+                          country: AI
+                          department: 1
+                          sub_department: 2
+                          street_name: 3
+                          building_number: 4
+                          building_name: 5
+                          floor: 6
+                          post_box: 7
+                          room: 8
+                          post_code: 9
+                          town_name: 10
+                          town_location_name: 11
+                          district_name: 12
+                          country_sub_division: 13
+                          address_line:
+                            - 14
+                    other_cdd_info: 1234
+                    expire_date: 1732411745
                     need_validate_address: true
                     txid: null
                     protocol: Sygna_Bridge
-              Sygna Email:
+              Sygna Email Protocol:
                 value:
                   - customer_id: 6bf8c118-3395-40fa-83d3-be3be1axxxxx
                     currency_id: 'sygna:0x80000000'
-                    value: '222'
+                    value: 222
                     originator:
                       assets:
                         - 190c2b76-6a93-4f58-ae3b-2b21b01xxxxx
@@ -4416,6 +4468,7 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+    parameters: []
   /transactions/email-protocol/deposits:
     post:
       tags:
@@ -5077,6 +5130,142 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /transactions/cdd-request:
+    post:
+      tags:
+        - Hub/transactions
+      summary: request further CDD information
+      requestBody:
+        description: post /transactions/cdd-request params
+        required: true
+        content:
+          '*/*':
+            examples:
+              Examples:
+                value:
+                  - id: transaction uuid
+                    request_cdd_data:
+                      geographic_address:
+                        - address_line
+                        - address_type
+                        - building_name
+                        - building_number
+                        - country
+                        - country_sub_division
+                        - department
+                        - district_name
+                        - floor
+                        - post_box
+                        - post_code
+                        - room
+                        - street_name
+                        - sub_department
+                        - town_location_name
+                        - town_name
+                      national_identification:
+                        - country_of_issue
+                        - national_identifier
+                        - national_identifier_type
+                        - registration_authority
+                      date_and_place_of_birth:
+                        - date_of_birth
+                        - place_of_birth
+                      customer_identification: false
+                      country_of_residence: true
+                      other_cdd_info: 5678
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+  /transactions/cdd:
+    patch:
+      tags:
+        - Hub/transactions
+      summary: send enhanced CDD information to the beneficiary VASP
+      requestBody:
+        description: patch /transactions/cdd params
+        required: true
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PatchTxIdInput'
+            examples:
+              Example 1:
+                value:
+                  - id: d360ea4c-d423-4fff-8458-ae84fcdf0793
+                    other_cdd_info: 123
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+      x-stoplight:
+        id: obdtdhldfx1wu
   /transactions/wallet-address-filter:
     post:
       tags:
@@ -6640,6 +6829,59 @@ paths:
           description: Internal Server Error
           content:
             application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+  /vasp-server-status:
+    post:
+      tags:
+        - Hub/transactions
+      summary: request further CDD information
+      requestBody:
+        description: post /transactions/cdd-request params
+        required: true
+        content:
+          '*/*':
+            examples:
+              Examples:
+                value:
+                  data:
+                    - type: maintaining
+                      start_at: 1730169600000
+                      end_at: 1730168700000
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       security:
