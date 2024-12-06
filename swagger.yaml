@@ -6877,8 +6877,8 @@ paths:
   /vasp-server-status:
     post:
       tags:
-        - Hub/transactions
-      summary: request further CDD information
+        - Hub/vasp-server-status
+      summary: revise vasp server status
       requestBody:
         description: post /vasp-server-status params
         required: true
