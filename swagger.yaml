@@ -4432,6 +4432,48 @@ paths:
                         - bbbbbbbbb@bbbbb.com
                       notification_receivers:
                         - ccccccccc@ccccc.com
+              CODE (legal person):
+                value:
+                  - customer_id: 01c24e7e-0f3b-4881-a5b4-b265e9a30a41
+                    currency_id: 'sygna:0x80000000'
+                    value: 0.0123
+                    originator:
+                      assets:
+                        - b400a85d-0a37-4193-bf3b-4e7cfe2d70ac
+                    beneficiary:
+                      addrs:
+                        - address: asdfasdf
+                      customer_type: 1
+                      vasp_code: CODExchange-kor
+                      private_info:
+                        legal_person_name:
+                          name: Code Inc.
+                        natural_person_name:
+                          name:
+                            first_name: Legal
+                            last_name: Kim
+                    need_validate_address: true
+                    protocol: CODE
+              CODE (natural person):
+                value:
+                  - customer_id: 01c24e7e-0f3b-4881-a5b4-b265e9a30a41
+                    currency_id: 'sygna:0x80000000'
+                    value: 0.0123
+                    originator:
+                      assets:
+                        - b400a85d-0a37-4193-bf3b-4e7cfe2d70ac
+                    beneficiary:
+                      addrs:
+                        - address: asdfasdf
+                      customer_type: 0
+                      vasp_code: CODExchange-kor
+                      private_info:
+                        natural_person_name:
+                          name:
+                            first_name: Natural
+                            last_name: Kim
+                    need_validate_address: true
+                    protocol: CODE
       responses:
         '200':
           description: OK
@@ -5219,10 +5261,6 @@ paths:
         required: true
         content:
           '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PatchTxIdInput'
             examples:
               Example 1:
                 value:
@@ -6842,7 +6880,7 @@ paths:
         - Hub/transactions
       summary: request further CDD information
       requestBody:
-        description: post /transactions/cdd-request params
+        description: post /vasp-server-status params
         required: true
         content:
           '*/*':
