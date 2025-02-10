@@ -33,14 +33,30 @@ import RegistrationInfo from './bundle-product-config-form/RegistrationInfo.vue'
 import BackendConfig from './bundle-product-config-form/BackendConfig.vue';
 import FrontendConfig from './bundle-product-config-form/FrontendConfig.vue';
 import DatabaseConfig from './bundle-product-config-form/DatabaseConfig.vue';
+import EmailConfig from './bundle-product-config-form/EmailConfig.vue';
+import SecurityConfig from './bundle-product-config-form/SecurityConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
 
 export default {
-  components: { RegistrationInfo, BackendConfig, FrontendConfig, DatabaseConfig },
+  components: {
+    RegistrationInfo,
+    BackendConfig,
+    FrontendConfig,
+    DatabaseConfig,
+    EmailConfig,
+    SecurityConfig,
+  },
 
   setup() {
     const generator = useGeneratorStore();
-    const steps = [RegistrationInfo, BackendConfig, FrontendConfig, DatabaseConfig];
+    const steps = [
+      RegistrationInfo,
+      BackendConfig,
+      FrontendConfig,
+      DatabaseConfig,
+      EmailConfig,
+      SecurityConfig,
+    ];
     const currentStep = ref(0);
 
     const currentComponent = computed(() => steps[currentStep.value]);
@@ -67,6 +83,7 @@ export default {
         licenseKey: generator.licenseKey,
         backend: generator.backend,
         db: generator.db,
+        emailService: generator.emailService,
       });
     }
 

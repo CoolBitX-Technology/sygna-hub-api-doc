@@ -11,6 +11,8 @@
   <q-select
     v-model="db.driver"
     :options="driverOptions"
+    emit-value
+    map-options
     label="Driver *"
   />
 
@@ -29,7 +31,7 @@
     v-model="db.port"
     label="Port *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the port']"
+    :rules="[(val) => (val > 0) || 'Please input the port']"
   />
 
   <q-input

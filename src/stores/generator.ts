@@ -22,6 +22,29 @@ interface DB {
   password: string;
   name: string;
 }
+
+export enum EmailEncryptionMode {
+  None = 'NONE',
+  SSLTLS = 'SSL/TLS',
+  StartTLS = 'STARTTLS'
+}
+interface EmailService {
+  host: string;
+  port: number;
+  account: string;
+  password: string;
+  displayName: string;
+  subjectPrefix: string;
+  encryptionMode: EmailEncryptionMode;
+  fromEmail: string;
+}
+
+interface Security {
+  jwtSecret: string;
+  accessTokenExpireSec: number;
+  dataEncryptionKey: string;
+}
+
 interface State {
   step: number;
   target: Nullable<string>;
@@ -29,6 +52,8 @@ interface State {
   licenseKey: Nullable<string>;
   backend: Backend;
   db: DB;
+  emailService: EmailService;
+  security: Security;
   webhookURL: Nullable<string>;
 }
 
@@ -47,10 +72,25 @@ export const useGeneratorStore = defineStore('generator', {
     db: {
       driver: 'postgres',
       host: '',
-      port: 3306,
+      port: 5432,
       user: '',
       password: '',
       name: '',
+    },
+    emailService: {
+      host: '',
+      port: 587,
+      account: '',
+      password: '',
+      displayName: '',
+      subjectPrefix: '',
+      encryptionMode: EmailEncryptionMode.None,
+      fromEmail: '',
+    },
+    security: {
+      jwtSecret: '',
+      accessTokenExpireSec: 3600,
+      dataEncryptionKey: '',
     },
     webhookURL: 'https://google.com',
   }),
