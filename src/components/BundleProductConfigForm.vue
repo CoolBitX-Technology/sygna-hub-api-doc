@@ -1,58 +1,25 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md"
-      id="bundle-product-config-form"
-    >
-      <q-input
-        clearable
-        v-model="vaspCode"
-        label="Your Vasp Code *"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
+    <q-form @submit.prevent="handleNext" class="q-gutter-md">
+      <component :is="currentComponent" />
 
-      <q-input
-        clearable
-        type="string"
-        v-model="licenseKey"
-        label="Your License Key *"
-        lazy-rules
-        :rules="[
-          (val) => (val !== null && val !== '') || 'Please type your lincense',
-        ]"
-        hint="license key retrieved when complete hub registration"
-      />
-      <q-separator />
-      <q-input
-        clearable
-        type="string"
-        v-model="webhookURL"
-        label="Your Webhook URL"
-        lazy-rules
-        hint="If this url has been provided, the events notification will be sent to the webhook_url"
-      />
       <div class="q-gutter-xs">
         <q-btn
-          label="Submit"
+          v-if="!isLastStep"
+          label="Next"
+          color="primary"
           type="submit"
-          color="primary"
-          form="bundle-product-config-form"
         />
         <q-btn
-          label="Reset"
-          type="reset"
-          color="secondary"
-          class="q-ml-sm"
-          form="bundle-product-config-form"
+          v-else
+          label="Generate config.yml"
+          color="primary"
+          @click="handleSubmit"
         />
         <q-btn
-          flat
-          @click="goBack()"
-          color="primary"
           label="Back"
+          @click="handleBack"
+          color="secondary"
           class="q-ml-sm"
         />
       </div>
@@ -61,28 +28,55 @@
 </template>
 
 <script>
-// import { useQuasar } from 'quasar';
+import { ref, computed } from 'vue';
+import RegistrationInfo from './bundle-product-config-form/RegistrationInfo.vue';
+import BackendConfig from './bundle-product-config-form/BackendConfig.vue';
+import FrontendConfig from './bundle-product-config-form/FrontendConfig.vue';
+import DatabaseConfig from './bundle-product-config-form/DatabaseConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
-import { storeToRefs } from 'pinia';
-// const $q = useQuasar();
-
-const generator = useGeneratorStore();
-const { vaspCode, licenseKey, webhookURL } = storeToRefs(useGeneratorStore());
 
 export default {
-  setup() {
-    return {
-      vaspCode,
-      licenseKey,
-      webhookURL,
-      onSubmit() {
-        // generator.nextStep();
-      },
+  components: { RegistrationInfo, BackendConfig, FrontendConfig, DatabaseConfig },
 
-      onReset() {
-        generator.vaspCode = null;
-        generator.licenseKey = null;
-      },
+  setup() {
+    const generator = useGeneratorStore();
+    const steps = [RegistrationInfo, BackendConfig, FrontendConfig, DatabaseConfig];
+    const currentStep = ref(0);
+
+    const currentComponent = computed(() => steps[currentStep.value]);
+    const isLastStep = computed(() => currentStep.value === steps.length - 1);
+
+    async function handleNext() {
+      if (currentStep.value < steps.length - 1) {
+        currentStep.value++;
+      }
+    }
+
+    function handleBack() {
+      if (currentStep.value > 0) {
+        currentStep.value--;
+      } else {
+        generator.prevStep();
+      }
+    }
+
+    function handleSubmit() {
+      // generator.nextStep(); // 回到主框架的 Step 3
+      console.log('State values on submit:', {
+        vaspCode: generator.vaspCode,
+        licenseKey: generator.licenseKey,
+        backend: generator.backend,
+        db: generator.db,
+      });
+    }
+
+    return {
+      currentComponent,
+      currentStep,
+      isLastStep,
+      handleNext,
+      handleBack,
+      handleSubmit,
     };
   },
 };
