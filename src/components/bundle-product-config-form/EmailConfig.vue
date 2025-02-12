@@ -103,11 +103,11 @@ export default {
         },
         {
           label: 'SSL/TLS',
-          value: EmailEncryptionMode.SSLTLS
+          value: EmailEncryptionMode.SSLTLS,
         },
         {
           label: 'STARTTLS',
-          value: EmailEncryptionMode.StartTLS
+          value: EmailEncryptionMode.StartTLS,
         }
       ],
       isPwd: ref(true),

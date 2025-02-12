@@ -35,6 +35,9 @@ import FrontendConfig from './bundle-product-config-form/FrontendConfig.vue';
 import DatabaseConfig from './bundle-product-config-form/DatabaseConfig.vue';
 import EmailConfig from './bundle-product-config-form/EmailConfig.vue';
 import SecurityConfig from './bundle-product-config-form/SecurityConfig.vue';
+import AdminConfig from './bundle-product-config-form/AdminConfig.vue';
+import GoogleLoginConfig from './bundle-product-config-form/GoogleLoginConfig.vue';
+import AdvancedConfig from './bundle-product-config-form/AdvancedConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
 
 export default {
@@ -45,6 +48,9 @@ export default {
     DatabaseConfig,
     EmailConfig,
     SecurityConfig,
+    AdminConfig,
+    GoogleLoginConfig,
+    AdvancedConfig,
   },
 
   setup() {
@@ -56,6 +62,9 @@ export default {
       DatabaseConfig,
       EmailConfig,
       SecurityConfig,
+      AdminConfig,
+      GoogleLoginConfig,
+      AdvancedConfig,
     ];
     const currentStep = ref(0);
 

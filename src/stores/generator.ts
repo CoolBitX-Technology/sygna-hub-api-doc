@@ -26,7 +26,7 @@ interface DB {
 export enum EmailEncryptionMode {
   None = 'NONE',
   SSLTLS = 'SSL/TLS',
-  StartTLS = 'STARTTLS'
+  StartTLS = 'STARTTLS',
 }
 interface EmailService {
   host: string;
@@ -45,6 +45,29 @@ interface Security {
   dataEncryptionKey: string;
 }
 
+interface Admin {
+  account: string;
+  password: string;
+}
+
+interface GoogleSSO {
+  id: string;
+  secret: string;
+}
+
+export enum ContainerWorkType {
+  Default = '',
+  API = 'api',
+  Cronjob = 'cronjob',
+}
+
+interface Advanced {
+  concurrency: number;
+  workType: ContainerWorkType;
+  transactionConcurrency: number;
+  webhookUrl: string;
+}
+
 interface State {
   step: number;
   target: Nullable<string>;
@@ -54,7 +77,9 @@ interface State {
   db: DB;
   emailService: EmailService;
   security: Security;
-  webhookURL: Nullable<string>;
+  admin: Admin;
+  googleSSO: GoogleSSO;
+  advanced: Advanced;
 }
 
 export const useGeneratorStore = defineStore('generator', {
@@ -92,7 +117,20 @@ export const useGeneratorStore = defineStore('generator', {
       accessTokenExpireSec: 3600,
       dataEncryptionKey: '',
     },
-    webhookURL: 'https://google.com',
+    admin: {
+      account: '',
+      password: '',
+    },
+    googleSSO: {
+      id: '',
+      secret: '',
+    },
+    advanced: {
+      concurrency: 100,
+      workType: ContainerWorkType.Default,
+      transactionConcurrency: 50,
+      webhookUrl: '',
+    },
   }),
   getters: {},
   actions: {

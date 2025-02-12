@@ -32,7 +32,7 @@
     label="JWT Token Expiry (sec) *"
     lazy-rules
     :rules="[(val) => (val > 0) || 'Please input the exipre duration']"
-    hint="JWT token will expire after {this value} seconds"
+    hint="JWT token will expire after {this value} seconds."
   />
 
   <q-input
