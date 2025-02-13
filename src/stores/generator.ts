@@ -74,6 +74,7 @@ interface State {
   vaspCode: Nullable<string>;
   licenseKey: Nullable<string>;
   backend: Backend;
+  frontendUrl: string;
   db: DB;
   emailService: EmailService;
   security: Security;
@@ -92,8 +93,9 @@ export const useGeneratorStore = defineStore('generator', {
       callbackHost: '',
       enableRotateLog: true,
       enableCors: true,
-      allowOrigins: [],
+      allowOrigins: ['test1', 'test2'],
     },
+    frontendUrl: '',
     db: {
       driver: 'postgres',
       host: '',

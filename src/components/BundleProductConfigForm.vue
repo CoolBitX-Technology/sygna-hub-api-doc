@@ -39,6 +39,8 @@ import AdminConfig from './bundle-product-config-form/AdminConfig.vue';
 import GoogleLoginConfig from './bundle-product-config-form/GoogleLoginConfig.vue';
 import AdvancedConfig from './bundle-product-config-form/AdvancedConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
+import yaml from 'js-yaml';
+import { toSnakeCase } from 'src/utils/index';
 
 export default {
   components: {
@@ -86,14 +88,58 @@ export default {
     }
 
     function handleSubmit() {
-      // generator.nextStep(); // 回到主框架的 Step 3
-      console.log('State values on submit:', {
-        vaspCode: generator.vaspCode,
-        licenseKey: generator.licenseKey,
-        backend: generator.backend,
-        db: generator.db,
-        emailService: generator.emailService,
-      });
+      // generator.nextStep(); // 回到主框架的 Step 3      
+      const downloadYAML = (yamlString) => {
+        const blob = new Blob([yamlString], { type: 'text/yaml' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'config.yml';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+
+      // data 轉成 config 要的模式
+      const data = generator.$state
+      const { host, port, ...restEmailService } = data.emailService;
+      const transformedData = {
+        settings: {
+          vasp_code: data.vaspCode,
+          license_key: data.licenseKey,
+          ...data.security,
+          admin_account: data.admin.account,
+          admin_password: data.admin.password,
+          ...data.advanced,
+        },
+        db: {
+          ...data.db,
+        },
+        server: {
+          host: '0.0.0.0',
+          port: 8088,
+          ...data.backend,
+        },
+        google_login: {
+          ...data.googleSSO,
+        },
+        log_file: {
+          not_yet: '',
+        },
+        email_service: {
+          host: `${host}:${port}`,
+          ...restEmailService,
+        },
+        frontend: {
+          url: data.frontendUrl,
+        }
+      };
+
+      const yamlString = yaml.dump(toSnakeCase(transformedData));
+      console.log(yamlString);
+      downloadYAML(yamlString);
     }
 
     return {
