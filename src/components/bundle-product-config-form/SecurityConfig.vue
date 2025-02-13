@@ -26,7 +26,6 @@
   </q-input>
 
   <q-input
-    clearable
     type="number"
     v-model="security.accessTokenExpireSec"
     label="JWT Token Expiry (sec) *"

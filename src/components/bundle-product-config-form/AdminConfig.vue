@@ -10,7 +10,6 @@
   </q-banner>
 
   <q-input
-    clearable
     type="string"
     v-model="admin.account"
     label="Admin Account *"

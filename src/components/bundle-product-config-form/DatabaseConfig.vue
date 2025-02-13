@@ -17,7 +17,6 @@
   />
 
   <q-input
-    clearable
     type="string"
     v-model="db.host"
     label="Host *"
@@ -26,7 +25,6 @@
   />
 
   <q-input
-    clearable
     type="number"
     v-model="db.port"
     label="Port *"
@@ -35,7 +33,6 @@
   />
 
   <q-input
-    clearable
     type="string"
     v-model="db.user"
     label="User *"
@@ -60,7 +57,6 @@
   </q-input>
 
   <q-input
-    clearable
     type="string"
     v-model="db.name"
     label="DB name *"

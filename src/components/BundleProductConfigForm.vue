@@ -121,6 +121,7 @@ export default {
           host: '0.0.0.0',
           port: 8088,
           ...data.backend,
+          allow_origins: data.backend.allowOrigins.filter(origin => origin !== ''),
         },
         google_login: {
           ...data.googleSSO,

@@ -9,7 +9,6 @@
   </q-banner>
 
   <q-input
-    clearable
     type="string"
     v-model="vaspCode"
     label="Vasp Code *"
@@ -18,7 +17,6 @@
   />
 
   <q-input
-    clearable
     type="string"
     v-model="licenseKey"
     label="License Key (API Key) *"

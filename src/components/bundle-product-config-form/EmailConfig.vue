@@ -10,21 +10,18 @@
   </q-banner>
 
   <q-input
-    clearable
     type="string"
     v-model="emailService.host"
     label="Host"
   />
 
   <q-input
-    clearable
     type="number"
     v-model="emailService.port"
     label="Port"
   />
 
   <q-input
-    clearable
     type="string"
     v-model="emailService.account"
     label="Email address of sender"
@@ -47,7 +44,6 @@
   </q-input>
 
   <q-input
-    clearable
     type="string"
     v-model="emailService.subjectPrefix"
     label="Subject Prefix"
@@ -64,7 +60,6 @@
   <!-- 自動帶入 account? -->
   <q-input
     v-if="enableTLS"
-    clearable
     type="string"
     v-model="emailService.fromEmail"
     label="From email"
@@ -73,7 +68,6 @@
 
   <q-input
     v-else
-    clearable
     type="string"
     v-model="emailService.displayName"
     label="Sender name"

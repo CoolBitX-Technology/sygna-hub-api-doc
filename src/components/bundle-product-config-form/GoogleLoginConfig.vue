@@ -11,7 +11,6 @@
   </q-banner>
 
   <q-input
-    clearable
     type="string"
     v-model="googleSSO.id"
     label="ID"
