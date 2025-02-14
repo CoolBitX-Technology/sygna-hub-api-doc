@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.36.0
+  version: 1.37.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -5081,6 +5081,11 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/schema.PatchTransactionsStatus'
+            examples:
+              oVASP cancels the data transfer:
+                value:
+                  - action: 1
+                    id: 59b445fe-164b-47d9-92cd-d25e7332f374
       responses:
         '200':
           description: OK
@@ -5819,10 +5824,90 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-  '/interop-info/{provider}':
+  /transactions/address-validation:
+    post:
+      tags:
+        - Hub/transactions
+      summary: validate the asset and the wallet address
+      description: Originator VASP can check if the beneficiary VASP owns the wallet address before originator personal information is sent.
+      requestBody:
+        description: post /transactions/wallet-address-filter params
+        required: true
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
+            examples:
+              Without extra_info:
+                value:
+                  vasp_code: GHJKAILL
+                  currency_id: 'sygna:0x80000000'
+                  addrs:
+                    - address: 9sBaesg5wuUVnJVHhs26
+              With extra_info:
+                value:
+                  vasp_code: GHJKAILL
+                  currency_id: 'sygna:0x80000090'
+                  addrs:
+                    - address: 9sBaesg5wuUVnJVHhs27
+                      extra_info:
+                        tag: 23w457567
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Address belongs to bVASP:
+                  value:
+                    data:
+                      vasp_code: GHJKAILL
+                      address:
+                        - 9sBaesg5wuUVnJVHhs26
+                      is_valid: true
+                      signature: b4b1d686cb3b5824469809feca1499ebbfa22ff669d9ddaea70fec68e4f3916840750a6737bfce114f68e86c120f280c627248c79ee67ea98e0437382afb27df
+                Address doesn't belong to bVASP:
+                  value:
+                    data:
+                      vasp_code: GHJKAILL
+                      address:
+                        - 9sBaesg5wuUVnJVHhs26a
+                      is_valid: false
+                      signature: b2f54d1fb2f12c38da62ca38397c8b51d16309099971d96421cd421783eba47b482b0af08cf0df318ad5f6f53b9fa5f4c337c38e0285e4b5dd5760115167ef91
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+              examples:
+                '400':
+                  value:
+                    error:
+                      message: 'Key: ''PostAddressValidationInput.VaspCode'' Error:Field validation for ''VaspCode'' failed on the ''required'' tag'
+                      code: '99999'
+                      help: Please revise payload
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+              examples: {}
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+  '/analysis/interop-info/{provider}':
     get:
       tags:
-        - 'Hub/interop-info/{provider}'
+        - 'Hub/analysis/interop-info/{provider}'
       summary: get the amount of used transaction
       parameters:
         - name: provider
@@ -5855,6 +5940,8 @@ paths:
                       monthlyUsed: 57
                       quarterlyUsed: 57
                       expirationDate: 2025/03/13
+      x-stoplight:
+        id: q3vgj4cgbhdtg
   /users:
     get:
       tags:
@@ -6898,6 +6985,199 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+  /vasp/beneficiary-checking-rule:
+    post:
+      summary: disclose the data checking rules
+      tags:
+        - Hub/beneficiary-checking-rule
+      requestBody:
+        description: |
+          This API allows the beneficiary VASP to add or manage rules for validating data transfers.
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  legal_person:
+                    country_of_registration: true
+                    customer_identification: true
+                    name:
+                      name_identifier:
+                        match_all: true
+                        legal_person_name: true
+                        legal_person_name_identifier_type: true
+                      local_name_identifier:
+                        match_all: true
+                        legal_person_name: true
+                        legal_person_name_identifier_type: true
+                      phonetic_name_identifier:
+                        match_all: true
+                        legal_person_name: true
+                        legal_person_name_identifier_type: true
+                    geographic_address:
+                      match_all: true
+                      address_line: true
+                      address_type: true
+                      building_name: true
+                      building_number: true
+                      country: true
+                      country_sub_division: true
+                      department: true
+                      district_name: true
+                      floor: true
+                      post_box: true
+                      post_code: true
+                      room: true
+                      street_name: true
+                      sub_department: true
+                      town_location_name: true
+                      town_name: true
+                    national_identification:
+                      match_all: true
+                      country_of_issue: true
+                      national_identifier: true
+                      national_identifier_type: true
+                      registration_authority: true
+                  natural_person:
+                    country_of_residence: true
+                    customer_identification: true
+                    name:
+                      name_identifier:
+                        match_all: true
+                        primary_identifier: true
+                        secondary_identifier: true
+                        name_identifier_type: true
+                      local_name_identifier:
+                        match_all: true
+                        primary_identifier: true
+                        secondary_identifier: true
+                        name_identifier_type: true
+                      phonetic_name_identifier:
+                        match_all: true
+                        primary_identifier: true
+                        secondary_identifier: true
+                        name_identifier_type: true
+                    date_and_place_of_birth:
+                      match_all: false
+                      date_of_birth: true
+                      place_of_birth: true
+                    geographic_address:
+                      match_all: true
+                      address_line: true
+                      address_type: true
+                      building_name: true
+                      building_number: true
+                      country: true
+                      country_sub_division: true
+                      department: true
+                      district_name: true
+                      floor: true
+                      post_box: true
+                      post_code: true
+                      room: true
+                      street_name: true
+                      sub_department: true
+                      town_location_name: true
+                      town_name: true
+                    national_identification:
+                      match_all: true
+                      country_of_issue: true
+                      national_identifier: true
+                      national_identifier_type: true
+                      registration_authority: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.RespWithMutation'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+      x-stoplight:
+        id: fpoo2nefq0cfd
+  /analysis/bridge/usage:
+    get:
+      tags:
+        - analysis/bridge/usage
+      summary: get the usage amount of transactions
+      description: |-
+        This API retrieves the total number of data transfer requests initiated within a specified time range. You can filter the results by providing a start_at and end_at timestamp. Please note that the timestamps is in UTC (UTC+0) and in milliseconds.
+        - Month to date Tx: refers to the total number of transactions transmitted from the 1st of the month up to and including the current day.
+        - Quarter to date Tx: refers to the total number of transactions transmitted from the 1st day of the month, calculated by going back three months, up to and including the current day.
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      monthlyUsed: 123
+                      quarterlyUsed: 456
         '400':
           description: Bad Request
           content:
