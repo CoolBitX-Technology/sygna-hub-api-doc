@@ -7,9 +7,6 @@
         icon="settings"
         :done="step > 1"
       >
-        For each ad campaign that you create, you can control how much you're
-        willing to spend on clicks and conversions, which networks and
-        geographical locations you want your ads to show on, and more.
 
         <q-stepper-navigation class="q-gutter-sm">
           <q-btn color="primary" size="md" @click="selectTarget('config.yml')"
@@ -30,27 +27,14 @@
         icon="create_new_folder"
         :done="step > 2"
       >
-        <bundle-product-config-form
-          v-if="target === 'config.yml'"
-        ></bundle-product-config-form>
-      </q-step>
+        <div class="q-mb-md">
+          <q-btn color="negative" outline size="sm" @click="goBack">
+            Change Target Config
+          </q-btn>
+        </div>
 
-      <q-step :name="3" title="Done" icon="assignment_turned_in">
-        Try out different ad text to see what brings in the most customers, and
-        learn how to enhance your ads using features like ad extensions. If you
-        run into any problems with your ads, find out how to tell if they're
-        running and how to resolve approval issues.
-
-        <q-stepper-navigation>
-          <q-btn color="primary" label="Finish" />
-          <q-btn
-            flat
-            @click="step = 2"
-            color="primary"
-            label="Back"
-            class="q-ml-sm"
-          />
-        </q-stepper-navigation>
+        <bundle-product-config-form v-if="target === 'config.yml'" />
+        <docker-compose-config-form v-if="target === 'docker-compose.yml'" />
       </q-step>
     </q-stepper>
   </div>
@@ -61,9 +45,10 @@ import { ref } from 'vue';
 import { useGeneratorStore } from 'src/stores/generator';
 import { storeToRefs } from 'pinia';
 import BundleProductConfigForm from 'src/components/BundleProductConfigForm.vue';
+import DockerComposeConfigForm from 'src/components/DockerComposeConfigForm.vue';
 
 export default {
-  components: { BundleProductConfigForm },
+  components: { BundleProductConfigForm, DockerComposeConfigForm },
 
   setup() {
     const generator = useGeneratorStore();

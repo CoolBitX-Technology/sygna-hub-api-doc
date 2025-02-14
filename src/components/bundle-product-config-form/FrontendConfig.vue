@@ -13,7 +13,7 @@
     v-model="frontendUrl"
     label="Url"
     lazy-rules
-    hint="TBC"
+    hint="TBC used in email protocol, ownership"
   />
 </template>
 

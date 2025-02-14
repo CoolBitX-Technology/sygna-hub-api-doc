@@ -2,14 +2,16 @@ import { defineStore } from 'pinia';
 
 type Nullable<T> = T | null;
 
+interface LogFile {
+  fileName: string;
+  maxSize: number;
+  maxBackups: number;
+  maxAge: number;
+}
 interface Backend {
   callbackHost: string;
   enableRotateLog: boolean;
-    // Log File (if enable_rotate_log is set to true)
-    //     - file_name
-    //     - max_size
-    //     - max_backups
-    //     - max_age
+  logFile: LogFile;
   enableCors: boolean;
   allowOrigins: string[];
 }
@@ -92,8 +94,14 @@ export const useGeneratorStore = defineStore('generator', {
     backend: {
       callbackHost: '',
       enableRotateLog: true,
+      logFile: {
+        fileName: 'temp',
+        maxSize: 100,
+        maxBackups: 30,
+        maxAge: 30,
+      },
       enableCors: true,
-      allowOrigins: ['test1', 'test2'],
+      allowOrigins: [],
     },
     frontendUrl: '',
     db: {
