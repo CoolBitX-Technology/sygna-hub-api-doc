@@ -1,29 +1,32 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit.prevent="handleNext" class="q-gutter-md">
-      <component :is="currentComponent" />
+  <div class="row">
+    <q-list>
+      <q-item-label header>Configuration Steps</q-item-label>
+      <q-item
+        v-for="(step, index) in steps"
+        :key="index"
+        clickable
+        v-ripple
+        @click="goToStep(index)"
+        :active="currentStep === index"
+        active-class="bg-primary text-white"
+      >
+        <q-item-section>{{ step.label }}</q-item-section>
+      </q-item>
+    </q-list>
 
-      <div class="q-gutter-xs">
+    <q-page class="q-pa-md">
+      <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
+        <component :is="currentComponent" />
+
         <q-btn
-          v-if="!isLastStep"
-          label="Next"
-          color="primary"
-          type="submit"
-        />
-        <q-btn
-          v-else
+          v-if="isLastStep"
           label="Generate config.yml"
           color="primary"
           @click="handleSubmit"
         />
-        <q-btn
-          label="Back"
-          @click="handleBack"
-          color="secondary"
-          class="q-ml-sm"
-        />
-      </div>
-    </q-form>
+      </q-form>
+    </q-page>
   </div>
 </template>
 
@@ -58,37 +61,26 @@ export default {
   setup() {
     const generator = useGeneratorStore();
     const steps = [
-      RegistrationInfo,
-      BackendConfig,
-      FrontendConfig,
-      DatabaseConfig,
-      EmailConfig,
-      SecurityConfig,
-      AdminConfig,
-      GoogleLoginConfig,
-      AdvancedConfig,
+      { component: RegistrationInfo, label: 'Registration' },
+      { component: BackendConfig, label: 'Backend' },
+      { component: FrontendConfig, label: 'Frontend' },
+      { component: DatabaseConfig, label: 'Database' },
+      { component: EmailConfig, label: 'Email' },
+      { component: SecurityConfig, label: 'Security' },
+      { component: AdminConfig, label: 'Admin' },
+      { component: GoogleLoginConfig, label: 'Google Login' },
+      { component: AdvancedConfig, label: 'Advanced' },
     ];
     const currentStep = ref(0);
 
-    const currentComponent = computed(() => steps[currentStep.value]);
+    const currentComponent = computed(() => steps[currentStep.value].component);
     const isLastStep = computed(() => currentStep.value === steps.length - 1);
 
-    async function handleNext() {
-      if (currentStep.value < steps.length - 1) {
-        currentStep.value++;
-      }
+    function goToStep(index) {
+      currentStep.value = index;
     }
 
-    function handleBack() {
-      if (currentStep.value > 0) {
-        currentStep.value--;
-      } else {
-        generator.prevStep();
-      }
-    }
-
-    function handleSubmit() {
-      // generator.nextStep(); // 回到主框架的 Step 3      
+    function handleSubmit() {   
       const downloadYAML = (yamlString) => {
         const blob = new Blob([yamlString], { type: 'text/yaml' });
         const url = URL.createObjectURL(blob);
@@ -102,9 +94,9 @@ export default {
         URL.revokeObjectURL(url);
       };
 
-      // data 轉成 config 要的模式
       const data = generator.$state
       const { host, port, ...restEmailService } = data.emailService;
+      const { logFile, ...restBackend } = data.backend;
       const transformedData = {
         settings: {
           vasp_code: data.vaspCode,
@@ -120,14 +112,14 @@ export default {
         server: {
           host: '0.0.0.0',
           port: 8088,
-          ...data.backend,
+          ...restBackend,
           allow_origins: data.backend.allowOrigins.filter(origin => origin !== ''),
         },
         google_login: {
           ...data.googleSSO,
         },
         log_file: {
-          not_yet: '',
+          ...logFile,
         },
         email_service: {
           host: `${host}:${port}`,
@@ -146,9 +138,9 @@ export default {
     return {
       currentComponent,
       currentStep,
+      steps,
+      goToStep,
       isLastStep,
-      handleNext,
-      handleBack,
       handleSubmit,
     };
   },
