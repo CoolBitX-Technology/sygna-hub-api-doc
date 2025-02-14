@@ -1,33 +1,49 @@
 <template>
-  <div class="row">
-    <q-list>
-      <q-item-label header>Configuration Steps</q-item-label>
-      <q-item
-        v-for="(step, index) in steps"
-        :key="index"
-        clickable
-        v-ripple
-        @click="goToStep(index)"
-        :active="currentStep === index"
-        active-class="bg-primary text-white"
-      >
-        <q-item-section>{{ step.label }}</q-item-section>
-      </q-item>
-    </q-list>
+  <q-splitter v-model="splitterModel">
+    <template v-slot:before>
+      <div class="row">
+        <q-list>
+          <q-item-label header>Configuration Steps</q-item-label>
+          <q-item
+            v-for="(step, index) in steps"
+            :key="index"
+            clickable
+            v-ripple
+            @click="goToStep(index)"
+            :active="currentStep === index"
+            active-class="bg-primary text-white"
+          >
+            <q-item-section>{{ step.label }}</q-item-section>
+          </q-item>
+        </q-list>
 
-    <q-page class="q-pa-md">
-      <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
-        <component :is="currentComponent" />
+        <q-page class="q-pa-md">
+          <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
+            <component :is="currentComponent" />
 
-        <q-btn
-          v-if="isLastStep"
-          label="Generate config.yml"
-          color="primary"
-          @click="handleSubmit"
+            <q-btn
+              v-if="isLastStep"
+              label="Generate config.yml"
+              color="primary"
+              @click="handleSubmit"
+            />
+          </q-form>
+        </q-page>
+      </div>
+    </template>
+
+    <template v-slot:after>
+      <div class="q-pa-md">
+        <q-input
+          inputStyle="min-height: 100vh;"
+          class="full-height full-width"
+          v-model="result"
+          type="textarea"
+          readonly
         />
-      </q-form>
-    </q-page>
-  </div>
+      </div>
+    </template>
+  </q-splitter>
 </template>
 
 <script>
@@ -75,26 +91,15 @@ export default {
 
     const currentComponent = computed(() => steps[currentStep.value].component);
     const isLastStep = computed(() => currentStep.value === steps.length - 1);
+    const result = computed(() => {
+      return transformData(generator.$state);
+    });
 
     function goToStep(index) {
       currentStep.value = index;
     }
 
-    function handleSubmit() {   
-      const downloadYAML = (yamlString) => {
-        const blob = new Blob([yamlString], { type: 'text/yaml' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'config.yml';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      };
-
-      const data = generator.$state
+    const transformData = (data) => {
       const { host, port, ...restEmailService } = data.emailService;
       const { logFile, ...restBackend } = data.backend;
       const transformedData = {
@@ -130,18 +135,37 @@ export default {
         }
       };
 
-      const yamlString = yaml.dump(toSnakeCase(transformedData));
-      console.log(yamlString);
+      return yaml.dump(toSnakeCase(transformedData));
+    }
+
+    
+    function handleSubmit() {   
+      const downloadYAML = (yamlString) => {
+        const blob = new Blob([yamlString], { type: 'text/yaml' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'config.yml';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+
+      const yamlString = transformData(generator.$state);
       downloadYAML(yamlString);
     }
 
     return {
+      splitterModel: ref(65),
       currentComponent,
       currentStep,
       steps,
       goToStep,
       isLastStep,
       handleSubmit,
+      result,
     };
   },
 };
