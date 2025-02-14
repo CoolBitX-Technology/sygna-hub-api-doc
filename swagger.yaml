@@ -5835,10 +5835,6 @@ paths:
         required: true
         content:
           '*/*':
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
             examples:
               Without extra_info:
                 value:
