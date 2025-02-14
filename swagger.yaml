@@ -5831,7 +5831,7 @@ paths:
       summary: validate the asset and the wallet address
       description: Originator VASP can check if the beneficiary VASP owns the wallet address before originator personal information is sent.
       requestBody:
-        description: post /transactions/wallet-address-filter params
+        description: post /transactions/address-validation params
         required: true
         content:
           '*/*':
