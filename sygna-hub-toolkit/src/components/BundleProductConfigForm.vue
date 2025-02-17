@@ -58,8 +58,7 @@ import AdminConfig from './bundle-product-config-form/AdminConfig.vue';
 import GoogleLoginConfig from './bundle-product-config-form/GoogleLoginConfig.vue';
 import AdvancedConfig from './bundle-product-config-form/AdvancedConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
-import yaml from 'js-yaml';
-import { toSnakeCase } from 'src/utils/index';
+import { toSnakeCase, genConfigYamlString } from 'src/utils/index';
 
 export default {
   components: {
@@ -92,7 +91,8 @@ export default {
     const currentComponent = computed(() => steps[currentStep.value].component);
     const isLastStep = computed(() => currentStep.value === steps.length - 1);
     const result = computed(() => {
-      return transformData(generator.$state);
+      const transformedConfig = transformData(generator.$state);
+      return genConfigYamlString(transformedConfig);
     });
 
     function goToStep(index) {
@@ -144,8 +144,7 @@ export default {
           rpc_url: 'ws://shyft-realy:8545',
         }
       };
-
-      return yaml.dump(toSnakeCase(transformedData));
+      return toSnakeCase(transformedData);
     }
 
     
@@ -163,7 +162,8 @@ export default {
         URL.revokeObjectURL(url);
       };
 
-      const yamlString = transformData(generator.$state);
+      const transformedConfig = transformData(generator.$state);
+      const yamlString = genConfigYamlString(transformedConfig);
       downloadYAML(yamlString);
     }
 
