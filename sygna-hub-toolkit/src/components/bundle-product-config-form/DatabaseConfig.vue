@@ -66,25 +66,35 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useGeneratorStore } from 'src/stores/generator';
 import { storeToRefs } from 'pinia';
 
 export default {
   setup() {
-    const { db } = storeToRefs(useGeneratorStore());      
+    const { db } = storeToRefs(useGeneratorStore());
+    const driverOptions = [
+      {
+        label: 'postgres',
+        value: 'postgres',
+        defaultPort: 5432,
+      },
+      {
+        label: 'mysql',
+        value: 'mysql',
+        defaultPort: 3306,
+      }
+    ];
+    
+    watch(() => db.value.driver, (newDriver) => {
+      const selectedDriver = driverOptions.find(option => option.value === newDriver);
+      if (selectedDriver) {
+        db.value.port = selectedDriver.defaultPort;
+      }
+    });
     return {
       db,
-      driverOptions: [
-        {
-          label: 'postgres',
-          value: 'postgres'
-        },
-        {
-          label: 'mysql',
-          value: 'mysql'
-        }
-      ],
+      driverOptions,
       isPwd: ref(true),
     };
   },
