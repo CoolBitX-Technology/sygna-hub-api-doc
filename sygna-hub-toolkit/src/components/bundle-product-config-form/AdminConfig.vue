@@ -5,7 +5,7 @@
     </template>
     <div>
       <div class="text-h6">Administrator Configurations</div>
-      <div class="text-body2">TBC This will only be applied in the very first time when initializing Sygna Hub.</div>
+      <div class="text-body2">This will only be applied in the very first time when initializing Sygna Hub.</div>
     </div>
   </q-banner>
 
@@ -24,7 +24,8 @@
     label="Admin Password *"
     lazy-rules
     :rules="[(val) => (val && val.length > 0) || 'Please input the admin password']"
-    hint="Password for the first user to login Sygna Hub."
+    hint='Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character. Special character: ~!@#$%^&*()_+`-={}|[]\:"<>?,./'
+    
   >
     <template v-slot:append>
       <q-icon

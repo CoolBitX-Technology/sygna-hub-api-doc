@@ -5,7 +5,7 @@
     </template>
     <div>
       <div class="text-h6">Google SSO Configurations</div>
-      <div class="text-body2">TBC It's only required if you want to enable Google login.</div>
+      <div class="text-body2">Only required if you want to enable Google login.</div>
       <div class="text-body2">Please refer to: <a href="https://developers.google.com/identity/protocols/oauth2" target="_blank">https://developers.google.com/identity/protocols/oauth2</a></div>
     </div>
   </q-banner>

@@ -5,7 +5,6 @@
     </template>
     <div>
       <div class="text-h6">Advanced Configurations</div>
-      <div class="text-body2">TBC ??</div>
     </div>
   </q-banner>
   
@@ -32,10 +31,8 @@
   <q-input
     type="number"
     v-model="advanced.transactionConcurrency"
-    label="Transaction Concurrency *"
-    lazy-rules
-    :rules="[(val) => (val > 0) || 'Please input the transaction concurrency']"
-    hint="TBC Limit the maximum concurrent transaction requests processed by Sygna Hub backend server."
+    label="Transaction Concurrency"
+    hint='Limit the maximum concurrent "POST /transactions" requests processed by Sygna Hub backend server. This value must be equal to or lower than the overall concurrency limit. Setting it too high may reduce capacity for other API requests.'
   />
 
   <div>

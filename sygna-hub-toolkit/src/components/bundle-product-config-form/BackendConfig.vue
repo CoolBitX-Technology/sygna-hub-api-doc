@@ -74,7 +74,7 @@
       type="number"
       v-model="backend.logFile.maxAge"
       label="Log File Max Age (days)"
-      hint="How many days log files should be kept. If you set to zero, old logs will never be deleted."
+      hint="Max number of days to retain log files. If you set to zero, old logs will never be deleted."
     />
   </div>
 </template>
@@ -90,7 +90,7 @@ export default {
     const callbackHostHint = `
       <li>This URL endpoint is used by the Sygna Bridge server to send the request to you, e.g., "permission request", "permission".</li>
       <li>If updated, the VASP must restart the container to refresh the URL on the Sygna Bridge server.</li>
-      <li>HTTPS (SSL/TLS) is required.</li>
+      <li>https (SSL/TLS) is required.</li>
     `;
     const formattedCallbackHostHint = computed(() => callbackHostHint);
 

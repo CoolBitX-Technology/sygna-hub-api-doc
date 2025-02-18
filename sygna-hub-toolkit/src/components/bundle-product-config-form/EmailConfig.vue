@@ -5,7 +5,7 @@
     </template>
     <div>
       <div class="text-h6">Email Configurations</div>
-      <div class="text-body2">TBC If you want to use email protocol and private wallet ownership, need to configure this part.</div>
+      <div class="text-body2">If you want to use email protocol and private wallet ownership, need to configure this part.</div>
     </div>
   </q-banner>
 
@@ -13,26 +13,28 @@
     type="string"
     v-model="emailService.host"
     label="Host"
+    hint="Hostname of your email service."
   />
 
   <q-input
     type="number"
     v-model="emailService.port"
     label="Port"
+    hint="Port of your email service."
   />
 
   <q-input
     type="string"
     v-model="emailService.account"
-    label="Email address of sender"
-    hint="Please input the AWS IAM user name if you want to use AWS SES to send the email."
+    label="Email Service Account"
+    hint="Please enter your email service account credentials (e.g., AWS IAM user name and password)."
   />
 
   <q-input
     v-model="emailService.password" 
     :type="isPwd ? 'password' : 'text'"
-    label="Email password of sender"
-    hint="Please input the AWS IAM password if you want to use AWS SES to send the email."
+    label="Email Service Password"
+    hint="Please enter your email service account credentials (e.g., AWS IAM user name and password)."
   >
     <template v-slot:append>
       <q-icon
@@ -63,7 +65,7 @@
     type="string"
     v-model="emailService.fromEmail"
     label="From email"
-    hint="TBC need a more detailed description?"
+    hint="The email address of your sender."
   />
 
   <q-input
@@ -71,6 +73,7 @@
     type="string"
     v-model="emailService.displayName"
     label="Sender name"
+    hint="The name of the sender, which would be useless if you enable TLS."
   />
 </template>
 
