@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Document, YAMLMap, YAMLSeq } from 'yaml';
+import { Document, YAMLMap } from 'yaml';
 
 export const toSnakeCase = (obj: object): object => {
   const obj2 = _.cloneDeep(obj);
@@ -36,7 +36,7 @@ export const genConfigYamlString = (config: object) => {
       admin_account: ` email address and password for the first user in Hub server
  You can use this account to login.`,
       admin_password: ` Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character.
- Special character: ~!@#$%^&*()_+\`-={}|[]\\:\"<>?,./`,
+ Special character: ~!@#$%^&*()_+\`-={}|[]\\:"<>?,./`,
       concurrency: ` Limit the maximum concurrent requests processed by Sygna Hub backend server.
  Use a positive value to enable it; set 0 or negative value to disable.`,
       work_type: ` The parameter "work_type" refers to the function of the container

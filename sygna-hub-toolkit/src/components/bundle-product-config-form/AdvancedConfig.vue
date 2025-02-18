@@ -59,23 +59,6 @@ export default {
       <li>Select "Cronjob" if the container is used to address cronjob-related service.</li>
     `
     const formattedWorkTypeHint = computed(() => workTypeHint);
-    // const workTypeHints = {
-    //   default: '<li>Select "Default" if the container is used to address API-related and cronjob-related service at the same time.</li>',
-    //   api: '<li>Select "API" if the container is used to address API-related service.</li>',
-    //   cronjob: '<li>Select "Cronjob" if the container is used to address cronjob-related service.</li>',
-    // }
-    // const formattedWorkTypeHint = computed(() => {
-    //   switch(advanced.workType) {
-    //     case ContainerWorkType.Default:
-    //       return workTypeHints.default;
-    //     case ContainerWorkType.API:
-    //       return workTypeHints.api;
-    //     case ContainerWorkType.Cronjob:
-    //       return workTypeHints.cronjob;
-    //     default:
-    //       return '';
-    //   }
-    // });
     const webhookUrlHint = 'The event notifications will be sent to this URL. Please check <a href="https://github.com/CoolBitX-Technology/sygna-hub-api-doc/tree/master?tab=readme-ov-file#webhook-events" target="_blank">webhook events documentation</a> for all available events.';
     const formattedWebhookUrlHint = computed(() => webhookUrlHint);
 
