@@ -13,6 +13,7 @@
           name="validator"
           icon="construction"
           label="Validator"
+          disable=""
         />
         <q-route-tab
           to="/ai"

@@ -15,13 +15,13 @@ const routes: RouteRecordRaw[] = [
       { path: '', component: () => import('pages/GeneratorPage.vue') },
     ],
   },
-  {
-    path: '/validator',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/ValidatorPage.vue') },
-    ],
-  },
+  // {
+  //   path: '/validator',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [
+  //     { path: '', component: () => import('pages/ValidatorPage.vue') },
+  //   ],
+  // },
 
   // Always leave this as last one,
   // but you can also remove it

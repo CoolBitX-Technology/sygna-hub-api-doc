@@ -12,12 +12,12 @@
           <q-btn color="primary" size="md" @click="selectTarget('config.yml')"
             >Hub Bundle Product Config</q-btn
           >
-          <q-btn
+          <!-- <q-btn
             color="primary"
             size="md"
             @click="selectTarget('docker-compose.yml')"
             >Docker Compose Config</q-btn
-          >
+          > -->
         </q-stepper-navigation>
       </q-step>
 

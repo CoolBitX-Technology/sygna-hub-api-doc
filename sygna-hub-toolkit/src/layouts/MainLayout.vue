@@ -16,7 +16,7 @@
         </q-toolbar-title>
         <tab-menu></tab-menu>
 
-        <div>For Sygna Hub v1.16.0</div>
+        <div>For Sygna Hub v1.37.0</div>
       </q-toolbar>
     </q-header>
     <q-page-container>
