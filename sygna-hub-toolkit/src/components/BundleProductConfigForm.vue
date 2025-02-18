@@ -132,6 +132,16 @@ export default {
         },
         frontend: {
           url: data.frontendUrl,
+        },
+        // Hard code for now. There is another ticket SYGN-3040 related to TRISA.
+        trisa_server: {
+          url: 'http://localhost:8081',
+          host: '0.0.0.0',
+          port: 443,
+          restful_port: 8081,
+        },
+        shyft_server: {
+          rpc_url: 'ws://shyft-realy:8545',
         }
       };
 
