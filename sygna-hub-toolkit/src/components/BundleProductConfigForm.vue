@@ -18,13 +18,17 @@
         </q-list>
 
         <q-page class="q-pa-md">
-          <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
+          <q-form ref="form" @submit.prevent="handleSubmit" class="q-gutter-md">
             <q-btn
               label="Generate config.yml"
               color="primary"
               @click="handleSubmit"
             />
-            <component :is="currentComponent" />
+            <template v-for="(step, index) in steps" :key="index">
+              <div v-show="currentStep === index">
+                <component :is="step.component" />
+              </div>
+          </template>
           </q-form>
         </q-page>
       </div>
@@ -73,6 +77,7 @@ export default {
 
   setup() {
     const generator = useGeneratorStore();
+    const form = ref(null);
     const steps = [
       { component: RegistrationInfo, label: 'Registration' },
       { component: BackendConfig, label: 'Backend' },
@@ -86,7 +91,6 @@ export default {
     ];
     const currentStep = ref(0);
 
-    const currentComponent = computed(() => steps[currentStep.value].component);
     const isLastStep = computed(() => currentStep.value === steps.length - 1);
     const result = computed(() => {
       const transformedConfig = transformData(generator.$state);
@@ -145,20 +149,26 @@ export default {
       return toSnakeCase(transformedData);
     }
 
-    
-    function handleSubmit() {   
-      const downloadYAML = (yamlString) => {
-        const blob = new Blob([yamlString], { type: 'text/yaml' });
-        const url = URL.createObjectURL(blob);
+    const downloadYAML = (yamlString) => {
+      const blob = new Blob([yamlString], { type: 'text/yaml' });
+      const url = URL.createObjectURL(blob);
 
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'config.yml';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      };
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'config.yml';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    async function handleSubmit() {
+      const valid = await form.value.validate();
+      if (!valid) {
+        console.log('invalid');
+        return;
+      }
+      console.log('valid');
 
       const transformedConfig = transformData(generator.$state);
       const yamlString = genConfigYamlString(transformedConfig);
@@ -167,13 +177,13 @@ export default {
 
     return {
       splitterModel: ref(65),
-      currentComponent,
       currentStep,
       steps,
       goToStep,
       isLastStep,
       handleSubmit,
       result,
+      form,
     };
   },
 };
