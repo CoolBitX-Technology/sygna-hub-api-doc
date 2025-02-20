@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title style="width: fit-content">
-          Sygna Hub Toolkit
+          Sygna Hub Configurator
         </q-toolbar-title>
         <tab-menu></tab-menu>
 

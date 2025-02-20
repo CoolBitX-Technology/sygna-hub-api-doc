@@ -1,9 +1,15 @@
 {
-  "name": "sygna-hub-toolkit",
+  "name": "sygna-hub-configurator",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "Sygna Hub Configurator",
   "author": "yuweiwei <yuweiwei.ouo@gmail.com>",
+  "contributors": [
+    {
+      "name": "Sun Tsai",
+      "email": "sun.tsai@coolbitx.com"
+    }
+  ],
   "private": true,
   "scripts": {
     "dev": "npx quasar dev",

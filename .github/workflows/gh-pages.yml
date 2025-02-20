@@ -1,4 +1,4 @@
-name: Deploy to Github Page
+name: Build API doc and Sygna Configurator
 
 on:
   push:
@@ -11,13 +11,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Build API Doc with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v3
 
@@ -37,12 +40,12 @@ jobs:
 
       - name: Install npm dependencies
         run: |
-          cd ./sygna-hub-toolkit
+          cd ./sygna-hub-configurator
           npm ci
 
       - name: Build Sygna Configurator
         run: |
-          cd ./sygna-hub-toolkit
+          cd ./sygna-hub-configurator
           npm run build
 
       - name: Copy Static Files
@@ -51,9 +54,9 @@ jobs:
           cp ./swagger.yaml ./deploy
           cp ./_site/index.html ./deploy
           cp -r ./_site/dist ./deploy
-          cp -r ./sygna-hub-toolkit/dist/spa ./deploy/configurator
+          cp -r ./sygna-hub-configurator/dist/spa ./deploy/configurator
 
-      - name: Deploy to GitHub Pages
+      - name: Push to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           publish_branch: gh-pages
