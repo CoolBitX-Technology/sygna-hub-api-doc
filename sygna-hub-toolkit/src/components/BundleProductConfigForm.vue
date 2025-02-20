@@ -19,14 +19,12 @@
 
         <q-page class="q-pa-md">
           <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
-            <component :is="currentComponent" />
-
             <q-btn
-              v-if="isLastStep"
               label="Generate config.yml"
               color="primary"
               @click="handleSubmit"
             />
+            <component :is="currentComponent" />
           </q-form>
         </q-page>
       </div>
