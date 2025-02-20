@@ -17,6 +17,7 @@
   />
 
   <q-input
+    ref="dbHostRef"
     type="string"
     v-model="db.host"
     label="Host *"
@@ -25,6 +26,7 @@
   />
 
   <q-input
+    ref="dbPortRef"
     type="number"
     v-model="db.port"
     label="Port *"
@@ -33,6 +35,7 @@
   />
 
   <q-input
+    ref="dbUserRef"
     type="string"
     v-model="db.user"
     label="User *"
@@ -41,6 +44,7 @@
   />
 
   <q-input
+    ref="dbPasswordRef"
     v-model="db.password" 
     :type="isPwd ? 'password' : 'text'"
     label="Password *"
@@ -57,6 +61,7 @@
   </q-input>
 
   <q-input
+    ref="dbNameRef"
     type="string"
     v-model="db.name"
     label="DB name *"

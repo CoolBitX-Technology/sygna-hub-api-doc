@@ -9,6 +9,7 @@
   </q-banner>
 
   <q-input
+    ref="jwtSecretRef"
     v-model="security.jwtSecret"
     :type="isSecret ? 'password' : 'text'"
     label="JWT Secret *"
@@ -26,6 +27,7 @@
   </q-input>
 
   <q-input
+    ref="accessTokenExpireSecRef"
     type="number"
     v-model="security.accessTokenExpireSec"
     label="JWT Token Expiry (sec) *"
@@ -35,6 +37,7 @@
   />
 
   <q-input
+    ref="dataEncryptionKeyRef"
     v-model="security.dataEncryptionKey"
     :type="isEncryptionKey ? 'password' : 'text'"
     label="Data Encryption Key *"

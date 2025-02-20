@@ -9,6 +9,7 @@
   </q-banner>
 
   <q-input
+    ref="vaspCodeRef"
     type="string"
     v-model="vaspCode"
     label="Vasp Code *"
@@ -17,6 +18,7 @@
   />
 
   <q-input
+    ref="licenseKeyRef"
     type="string"
     v-model="licenseKey"
     label="License Key (API Key) *"

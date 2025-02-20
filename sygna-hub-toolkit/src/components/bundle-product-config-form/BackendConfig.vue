@@ -10,6 +10,7 @@
 
   <div>
     <q-input
+      ref="callbackHostRef"
       type="string"
       v-model="backend.callbackHost"
       label="Callback Host *"
@@ -29,7 +30,7 @@
 
   <div v-if="backend.enableCors">
     <div class="row items-center q-mb-sm">
-      <div class="text-grey-7">Allow Origins *</div>
+      <div class="text-grey-7">Allow Origins</div>
       <q-btn color="primary"  @click="addOrigin" icon="add" round class="q-ml-md" />
     </div>
   

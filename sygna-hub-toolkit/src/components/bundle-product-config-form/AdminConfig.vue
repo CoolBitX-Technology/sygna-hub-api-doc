@@ -10,6 +10,7 @@
   </q-banner>
 
   <q-input
+    ref="adminAccountRef"
     type="string"
     v-model="admin.account"
     label="Admin Account *"
@@ -19,6 +20,7 @@
   />
 
   <q-input
+    ref="adminPasswordRef"
     v-model="admin.password" 
     :type="isPwd ? 'password' : 'text'"
     label="Admin Password *"

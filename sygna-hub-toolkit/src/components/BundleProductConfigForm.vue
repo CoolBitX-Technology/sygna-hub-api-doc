@@ -18,7 +18,12 @@
         </q-list>
 
         <q-page class="q-pa-md">
-          <q-form ref="form" @submit.prevent="handleSubmit" class="q-gutter-md">
+          <q-form
+            ref="form"
+            @submit.prevent="handleSubmit"
+            @validation-error="handleValidationError"
+            class="q-gutter-md"
+          >
             <q-btn
               label="Generate config.yml"
               color="primary"
@@ -26,9 +31,9 @@
             />
             <template v-for="(step, index) in steps" :key="index">
               <div v-show="currentStep === index">
-                <component :is="step.component" />
+                <component :is="step.component" :ref="(el) => (stepRefs[index] = el)" />
               </div>
-          </template>
+            </template>
           </q-form>
         </q-page>
       </div>
@@ -162,13 +167,36 @@ export default {
       URL.revokeObjectURL(url);
     };
 
+    const stepRefs = ref([]);
+    function findErrorComponentIndex(error) {
+      if (!error.label) return 0;
+
+      for (let i = 0; i < stepRefs.value.length; i++) {
+        const stepComponent = stepRefs.value[i];
+        if (!stepComponent) continue;
+
+        const inputs = stepComponent.$refs || {};
+        for (const key in inputs) {
+          if (inputs[key]?.label === error.label) {
+            return i;
+          }
+        }
+      }
+
+      return 0;
+    }
+
+    function handleValidationError(errors) {
+      const index = findErrorComponentIndex(errors);
+      currentStep.value = index;
+    }
+
+
     async function handleSubmit() {
       const valid = await form.value.validate();
       if (!valid) {
-        console.log('invalid');
         return;
       }
-      console.log('valid');
 
       const transformedConfig = transformData(generator.$state);
       const yamlString = genConfigYamlString(transformedConfig);
@@ -184,6 +212,8 @@ export default {
       handleSubmit,
       result,
       form,
+      handleValidationError,
+      stepRefs,
     };
   },
 };

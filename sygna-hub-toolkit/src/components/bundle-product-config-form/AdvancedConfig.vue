@@ -9,6 +9,7 @@
   </q-banner>
   
   <q-input
+    ref="concurrencyRef"
     type="number"
     v-model="advanced.concurrency"
     label="Concurrency *"
@@ -29,9 +30,12 @@
   </div>
 
   <q-input
+    ref="transactionConcurrencyRef"
     type="number"
     v-model="advanced.transactionConcurrency"
-    label="Transaction Concurrency"
+    label="Transaction Concurrency *"
+    lazy-rules
+    :rules="[(val) => (val <= advanced.concurrency) || 'Please input the valid transaction concurrency']"
     hint='Limit the maximum concurrent "POST /transactions" requests processed by Sygna Hub backend server. This value must be equal to or lower than the overall concurrency limit. Setting it too high may reduce capacity for other API requests.'
   />
 
@@ -61,8 +65,6 @@ export default {
     const formattedWorkTypeHint = computed(() => workTypeHint);
     const webhookUrlHint = 'The event notifications will be sent to this URL. Please check <a href="https://github.com/CoolBitX-Technology/sygna-hub-api-doc/tree/master?tab=readme-ov-file#webhook-events" target="_blank">webhook events documentation</a> for all available events.';
     const formattedWebhookUrlHint = computed(() => webhookUrlHint);
-
-    console.log(advanced.workType);
 
     return {
       advanced,
