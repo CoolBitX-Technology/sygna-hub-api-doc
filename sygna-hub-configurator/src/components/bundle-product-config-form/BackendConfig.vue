@@ -15,7 +15,10 @@
       v-model="backend.callbackHost"
       label="Callback Host *"
       lazy-rules
-      :rules="[(val) => (val && val.length > 0) || 'Please input the callback host']"
+      :rules="[
+        (val) => (!!val) || 'Please input the callback host',
+        (val) => (/^https:\/\/.*/.test(val)) || 'https (SSL/TLS) is required',
+      ]"
     />
     <div v-html="formattedCallbackHostHint" class="hint-text"></div>
   </div>

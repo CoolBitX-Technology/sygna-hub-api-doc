@@ -35,7 +35,8 @@ export const genConfigYamlString = (config: object) => {
       license_key: ' license key = Sygna Hub API key = "Your API Key" (retrieved when Sygna Hub account registration is completed)',
       admin_account: ` email address and password for the first user in Hub server
  You can use this account to login.`,
-      admin_password: ` Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character.
+      admin_password: ` Password must be at least 6 characters long, include 1 number, 1 uppercase letter, and 1 special character.
+ No consecutive identical characters allowed. 
  Special character: ~!@#$%^&*()_+\`-={}|[]\\:"<>?,./`,
       concurrency: ` Limit the maximum concurrent requests processed by Sygna Hub backend server.
  Use a positive value to enable it; set 0 or negative value to disable.`,
@@ -111,7 +112,9 @@ export const genConfigYamlString = (config: object) => {
         sectionNode.commentBefore = comments[sectionKey].comment;
       } else {
         const keyNode = sectionNode.get(key, true);
-        keyNode.commentBefore = comments[sectionKey][key];
+        if (keyNode) {
+          keyNode.commentBefore = comments[sectionKey][key];
+        }
       }      
     }
   }

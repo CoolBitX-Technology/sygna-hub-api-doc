@@ -42,7 +42,10 @@
     :type="isEncryptionKey ? 'password' : 'text'"
     label="Data Encryption Key *"
     lazy-rules
-    :rules="[(val) => (val && val.length == 32) || 'Please input the data encryption key and must be a 32-character hex string']"
+    :rules="[
+      (val) => (!!val) || 'Please input the data encryption key',
+      (val) => (val.length == 32) || 'Data encryption key must be a 32-character hex string',
+    ]"
     hint="Used to encrypt service credentials. Must be a 32-character hex string."
   >
     <template v-slot:append>

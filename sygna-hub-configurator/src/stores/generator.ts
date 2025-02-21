@@ -88,9 +88,9 @@ interface State {
 export const useGeneratorStore = defineStore('generator', {
   state: (): State => ({
     step: 1,
-    target: null,
-    vaspCode: null,
-    licenseKey: null,
+    target: '',
+    vaspCode: '',
+    licenseKey: '',
     backend: {
       callbackHost: '',
       enableRotateLog: true,

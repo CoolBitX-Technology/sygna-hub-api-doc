@@ -23,7 +23,7 @@
 
       <q-step
         :name="2"
-        :title="`Creating ''${target}''`"
+        :title='`Creating "${target}"`'
         icon="create_new_folder"
         :done="step > 2"
       >

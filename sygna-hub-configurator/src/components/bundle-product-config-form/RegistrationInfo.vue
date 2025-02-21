@@ -14,7 +14,10 @@
     v-model="vaspCode"
     label="Vasp Code *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the VASP code']"
+    :rules="[
+      (val) => (!!val) || 'Please input the VASP code',
+      (val) => (/^[A-Z]{8}$/.test(val)) || 'VASP code must be 8 uppercase letters',
+    ]"
   />
 
   <q-input
@@ -23,7 +26,7 @@
     v-model="licenseKey"
     label="License Key (API Key) *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the licence key']"
+    :rules="[(val) => (!!val) || 'Please input the licence key']"
     hint="You can retrieve the license key in the registration success email."
   />
 </template>

@@ -15,7 +15,7 @@
     v-model="admin.account"
     label="Admin Account *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the admin account']"
+    :rules="[(val) => (!!val) || 'Please input the admin account']"
     hint="Email address for the first user to login Sygna Hub."
   />
 
@@ -25,9 +25,21 @@
     :type="isPwd ? 'password' : 'text'"
     label="Admin Password *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the admin password']"
-    hint='Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character. Special character: ~!@#$%^&*()_+`-={}|[]\:"<>?,./'
-    
+    :rules="[
+      (val) => (!!val) || 'Please input the admin password',
+      (val) => (/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(val)) || 'Password must be at least 6 characters long, include 1 number, 1 uppercase letter, and 1 special character.',
+      (val) => {
+        let slowPtr = 0, fastPtr = 1;
+        while (fastPtr < val.length) {
+          if (val[slowPtr] === val[fastPtr]) {
+            return 'Consecutive characters are not allowed.';
+          }
+          slowPtr++;
+          fastPtr++;
+        }
+      },
+    ]"
+    hint='Password must be at least 6 characters long, include 1 number, 1 uppercase letter, and 1 special character. No consecutive identical characters allowed. Special character: ~!@#$%^&*()_+`-={}|[]\:"<>?,./'
   >
     <template v-slot:append>
       <q-icon
