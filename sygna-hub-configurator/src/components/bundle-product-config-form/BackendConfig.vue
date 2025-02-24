@@ -8,6 +8,24 @@
     </div>
   </q-banner>
 
+  <q-input
+    ref="backendHostRef"
+    type="string"
+    v-model="backend.host"
+    label="Backend Host *"
+    lazy-rules
+    :rules="[(val) => (!!val) || 'Please input the host']"
+  />
+
+  <q-input
+    ref="backendPortRef"
+    type="number"
+    v-model="backend.port"
+    label="Backend Port *"
+    lazy-rules
+    :rules="[(val) => (val > 0) || 'Please input the port']"
+  />
+
   <div>
     <q-input
       ref="callbackHostRef"

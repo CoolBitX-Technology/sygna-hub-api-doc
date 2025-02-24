@@ -9,6 +9,8 @@ interface LogFile {
   maxAge: number;
 }
 interface Backend {
+  host: string;
+  port: number;
   callbackHost: string;
   enableRotateLog: boolean;
   logFile: LogFile;
@@ -92,6 +94,8 @@ export const useGeneratorStore = defineStore('generator', {
     vaspCode: '',
     licenseKey: '',
     backend: {
+      host: '0.0.0.0',
+      port: 8080,
       callbackHost: '',
       enableRotateLog: true,
       logFile: {

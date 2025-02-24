@@ -177,6 +177,10 @@ export default {
 
         const inputs = stepComponent.$refs || {};
         for (const key in inputs) {
+          // TODO:
+          // 找出是哪個 stepComponent 有問題，用 label 來當判斷標準的話，可能會有問題。
+          // 現在 workaround 是先讓每個 field 的 label 都不同
+          // 之後如果有較好的方法再來改這邊
           if (inputs[key]?.label === error.label) {
             return i;
           }
@@ -190,7 +194,6 @@ export default {
       const index = findErrorComponentIndex(errors);
       currentStep.value = index;
     }
-
 
     async function handleSubmit() {
       const valid = await form.value.validate();

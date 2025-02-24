@@ -20,16 +20,16 @@
     ref="dbHostRef"
     type="string"
     v-model="db.host"
-    label="Host *"
+    label="DB Host *"
     lazy-rules
-    :rules="[(val) => (val && val.length > 0) || 'Please input the host']"
+    :rules="[(val) => (!!val) || 'Please input the host']"
   />
 
   <q-input
     ref="dbPortRef"
     type="number"
     v-model="db.port"
-    label="Port *"
+    label="DB Port *"
     lazy-rules
     :rules="[(val) => (val > 0) || 'Please input the port']"
   />
