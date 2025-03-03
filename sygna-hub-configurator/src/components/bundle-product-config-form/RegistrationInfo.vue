@@ -26,7 +26,10 @@
     v-model="licenseKey"
     label="License Key (API Key) *"
     lazy-rules
-    :rules="[(val) => (!!val) || 'Please input the licence key']"
+    :rules="[
+      (val) => (!!val) || 'Please input the license key',
+      (val) => (/^[a-fA-F0-9]{64}$/.test(val)) || 'Invalid license key',
+    ]"
     hint="You can retrieve the license key in the registration success email."
   />
 </template>
