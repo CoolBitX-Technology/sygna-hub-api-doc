@@ -23,6 +23,7 @@
             @submit.prevent="handleSubmit"
             @validation-error="handleValidationError"
             @focusin="handleFocus"
+            @focusout="activeField = null"
             class="q-gutter-md"
           >
             <q-btn
@@ -55,7 +56,12 @@
               </div>
             </div>
             <div :id="`${section}-${field}`">
-              {{ field }}: {{ fieldValue }}
+              <span>{{ field }}: </span>
+              <span
+                :style="{ color: activeField === `${section}-${field}` ? 'red' : 'black' }"
+              >
+                {{ fieldValue }}
+              </span>
             </div>
           </div>
 
@@ -239,6 +245,7 @@ export default {
       }
     });
 
+    const activeField = ref(null);
     const handleFocus = ((event) => {
       const target = event.target;
       let sectionId ;
@@ -258,7 +265,9 @@ export default {
       }
       
       if (sectionId && fieldId) {
-        scrollToPreview(`${sectionId}-${fieldId}`);
+        const elementId = `${sectionId}-${fieldId}`;
+        scrollToPreview(elementId);
+        activeField.value = elementId;
       }
     });
 
@@ -275,6 +284,7 @@ export default {
       comments,
       transformedConfig,
       handleFocus,
+      activeField,
     };
   },
 };
