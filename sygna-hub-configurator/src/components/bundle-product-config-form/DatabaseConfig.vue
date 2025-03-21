@@ -14,6 +14,8 @@
     emit-value
     map-options
     label="Driver *"
+    :data-section="'db'"
+    :data-field="'driver'"
   />
 
   <q-input
@@ -23,6 +25,8 @@
     label="DB Host *"
     lazy-rules
     :rules="[(val) => (!!val) || 'Please input the host']"
+    :data-section="'db'"
+    :data-field="'host'"
   />
 
   <q-input
@@ -32,6 +36,8 @@
     label="DB Port *"
     lazy-rules
     :rules="[(val) => (val > 0) || 'Please input the port']"
+    :data-section="'db'"
+    :data-field="'port'"
   />
 
   <q-input
@@ -41,6 +47,8 @@
     label="User *"
     lazy-rules
     :rules="[(val) => (val && val.length > 0) || 'Please input the user']"
+    :data-section="'db'"
+    :data-field="'user'"
   />
 
   <q-input
@@ -50,6 +58,8 @@
     label="Password *"
     lazy-rules
     :rules="[(val) => (val && val.length > 0) || 'Please input the password']"
+    :data-section="'db'"
+    :data-field="'password'"
   >
     <template v-slot:append>
       <q-icon
@@ -67,6 +77,8 @@
     label="DB name *"
     lazy-rules
     :rules="[(val) => (val && val.length > 0) || 'Please input the DB name']"
+    :data-section="'db'"
+    :data-field="'name'"
   />
 </template>
 

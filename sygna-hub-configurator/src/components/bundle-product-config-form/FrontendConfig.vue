@@ -14,6 +14,8 @@
     label="URL"
     lazy-rules
     hint="Used in email protocol and private wallet ownership. Allows the counterparty to access transaction details through the URL."
+    :data-section="'frontend'"
+    :data-field="'url'"
   />
 </template>
 

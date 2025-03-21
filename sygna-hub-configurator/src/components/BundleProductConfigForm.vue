@@ -22,6 +22,7 @@
             ref="form"
             @submit.prevent="handleSubmit"
             @validation-error="handleValidationError"
+            @focusin="handleFocus"
             class="q-gutter-md"
           >
             <q-btn
@@ -218,13 +219,46 @@ export default {
     const scrollToPreview = ((elementId) => {
       const element = document.getElementById(elementId);
       if (element) {
+        const header = document.querySelector('.q-header');
         const scrollContainer = document.querySelector('.scroll-container');
-        if (scrollContainer) {
-          scrollContainer.scrollTo({
-            top: element.offsetTop,
-            behavior: 'smooth',
-          });
+
+        let toOffsetTop = element.offsetTop;
+
+        const offset = header.getBoundingClientRect().bottom -
+          scrollContainer.getBoundingClientRect().top;
+        // The header blocks part of the scroll container content.
+        // Need to adjust the scroll position.
+        if (offset > 0) {
+          toOffsetTop -= offset;
         }
+
+        scrollContainer.scrollTo({
+          top: toOffsetTop,
+          behavior: 'smooth',
+        });
+      }
+    });
+
+    const handleFocus = ((event) => {
+      const target = event.target;
+      let sectionId ;
+      let fieldId;
+      
+      if (target.tagName === 'input') {
+        sectionId = target.dataset.section;
+        fieldId = target.dataset.field;
+      } else {
+        // target of q-select is not <input> element.
+        // need to query its child elements
+        const qFieldControlElement = target.closest('.q-field__control');
+        if (qFieldControlElement) {
+          sectionId = qFieldControlElement.querySelector('[data-section]').dataset.section;;
+          fieldId = qFieldControlElement.querySelector('[data-field]').dataset.field;;
+        }
+      }
+      
+      if (sectionId && fieldId) {
+        scrollToPreview(`${sectionId}-${fieldId}`);
       }
     });
 
@@ -240,6 +274,7 @@ export default {
       stepRefs,
       comments,
       transformedConfig,
+      handleFocus,
     };
   },
 };
