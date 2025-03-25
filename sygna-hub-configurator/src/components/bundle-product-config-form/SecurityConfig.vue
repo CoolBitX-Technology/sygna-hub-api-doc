@@ -16,6 +16,8 @@
     lazy-rules
     :rules="[(val) => (val && val.length > 0) || 'Please input the JWT secret']"
     hint="Signing key for JWT token, you should keep this value in a secret place."
+    :data-section="'settings'"
+    :data-field="'jwt_secret'"
   >
     <template v-slot:append>
       <q-icon
@@ -34,6 +36,8 @@
     lazy-rules
     :rules="[(val) => (val > 0) || 'Please input the exipre duration']"
     hint="JWT token will expire after {this value} seconds."
+    :data-section="'settings'"
+    :data-field="'access_token_expire_sec'"
   />
 
   <q-input
@@ -47,6 +51,8 @@
       (val) => (val.length == 32) || 'Data encryption key must be a 32-character hex string',
     ]"
     hint="Used to encrypt service credentials. Must be a 32-character hex string."
+    :data-section="'settings'"
+    :data-field="'data_encryption_key'"
   >
     <template v-slot:append>
       <q-icon

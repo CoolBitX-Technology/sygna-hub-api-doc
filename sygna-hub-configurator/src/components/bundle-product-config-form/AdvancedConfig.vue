@@ -16,6 +16,8 @@
     lazy-rules
     :rules="[(val) => (val !== '') || 'Please input the concurrency']"
     hint="Limit the maximum concurrent requests processed by Sygna Hub backend server. Use a positive value to enable it; set 0 or negative value to disable."
+    :data-section="'settings'"
+    :data-field="'concurrency'"
   />
 
   <div>
@@ -25,6 +27,8 @@
       emit-value
       map-options
       label="Container Work Type *"
+      :data-section="'settings'"
+      :data-field="'work_type'"
     />
     <div v-html="formattedWorkTypeHint" class="hint-text"></div>
   </div>
@@ -37,6 +41,8 @@
     lazy-rules
     :rules="[(val) => (val <= advanced.concurrency) || 'Please input the valid transaction concurrency']"
     hint='Limit the maximum concurrent "POST /transactions" requests processed by Sygna Hub backend server. This value must be equal to or lower than the overall concurrency limit. Setting it too high may reduce capacity for other API requests.'
+    :data-section="'settings'"
+      :data-field="'transaction_concurrency'"
   />
 
   <div>
@@ -44,6 +50,8 @@
       type="string"
       v-model="advanced.webhookUrl"
       label="Webhook URL"
+      :data-section="'settings'"
+      :data-field="'webhook_url'"
     />
     <div v-html="formattedWebhookUrlHint" class="hint-text"></div>
   </div>

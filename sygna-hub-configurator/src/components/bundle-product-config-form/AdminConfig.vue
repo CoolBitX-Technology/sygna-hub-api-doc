@@ -17,6 +17,8 @@
     lazy-rules
     :rules="[(val) => (!!val) || 'Please input the admin account']"
     hint="Email address for the first user to login Sygna Hub."
+    :data-section="'settings'"
+    :data-field="'admin_account'"
   />
 
   <q-input
@@ -40,6 +42,8 @@
       },
     ]"
     hint='Password must be at least 6 characters long, include 1 number, 1 uppercase letter, and 1 special character. No consecutive identical characters allowed. Special character: ~!@#$%^&*()_+`-={}|[]\:"<>?,./'
+    :data-section="'settings'"
+    :data-field="'admin_password'"
   >
     <template v-slot:append>
       <q-icon

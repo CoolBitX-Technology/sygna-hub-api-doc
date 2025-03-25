@@ -22,6 +22,8 @@
             ref="form"
             @submit.prevent="handleSubmit"
             @validation-error="handleValidationError"
+            @focusin="handleFocus"
+            @focusout="activeField = null"
             class="q-gutter-md"
           >
             <q-btn
@@ -40,14 +42,31 @@
     </template>
 
     <template v-slot:after>
-      <div class="q-pa-md">
-        <q-input
-          inputStyle="min-height: 100vh;"
-          class="full-height full-width"
-          v-model="result"
-          type="textarea"
-          readonly
-        />
+      <div class="q-pa-md scroll-container">
+        <div v-for="(value, section) in transformedConfig" :key="section">
+          <div v-if="comments[section].comment">
+            # {{ comments[section].comment }}
+          </div>
+          <div>{{ section }}:</div>
+
+          <div v-for="(fieldValue, field) in value" :key="field" style="margin-left: 2ch;">
+            <div v-if="comments[section][field]">
+              <div v-for="(line, index) in comments[section][field].split('\n')" :key="index">
+                # {{ line }}
+              </div>
+            </div>
+            <div :id="`${section}-${field}`">
+              <span>{{ field }}: </span>
+              <span
+                :style="{ color: activeField === `${section}-${field}` ? 'red' : 'black' }"
+              >
+                {{ fieldValue }}
+              </span>
+            </div>
+          </div>
+
+          <br/>
+        </div>
       </div>
     </template>
   </q-splitter>
@@ -65,7 +84,7 @@ import AdminConfig from './bundle-product-config-form/AdminConfig.vue';
 import GoogleLoginConfig from './bundle-product-config-form/GoogleLoginConfig.vue';
 import AdvancedConfig from './bundle-product-config-form/AdvancedConfig.vue';
 import { useGeneratorStore } from 'src/stores/generator';
-import { toSnakeCase, genConfigYamlString } from 'src/utils/index';
+import { toSnakeCase, comments, genConfigYamlString } from 'src/utils/index';
 
 export default {
   components: {
@@ -97,10 +116,7 @@ export default {
     const currentStep = ref(0);
 
     const isLastStep = computed(() => currentStep.value === steps.length - 1);
-    const result = computed(() => {
-      const transformedConfig = transformData(generator.$state);
-      return genConfigYamlString(transformedConfig);
-    });
+    const transformedConfig = computed(() => transformData(generator.$state));
 
     function goToStep(index) {
       currentStep.value = index;
@@ -206,6 +222,55 @@ export default {
       downloadYAML(yamlString);
     }
 
+    const scrollToPreview = ((elementId) => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        const header = document.querySelector('.q-header');
+        const scrollContainer = document.querySelector('.scroll-container');
+
+        let toOffsetTop = element.offsetTop;
+
+        const offset = header.getBoundingClientRect().bottom -
+          scrollContainer.getBoundingClientRect().top;
+        // The header blocks part of the scroll container content.
+        // Need to adjust the scroll position.
+        if (offset > 0) {
+          toOffsetTop -= offset;
+        }
+
+        scrollContainer.scrollTo({
+          top: toOffsetTop,
+          behavior: 'smooth',
+        });
+      }
+    });
+
+    const activeField = ref(null);
+    const handleFocus = ((event) => {
+      const target = event.target;
+      let sectionId ;
+      let fieldId;
+      
+      if (target.tagName === 'input') {
+        sectionId = target.dataset.section;
+        fieldId = target.dataset.field;
+      } else {
+        // target of q-select is not <input> element.
+        // need to query its child elements
+        const qFieldControlElement = target.closest('.q-field__control');
+        if (qFieldControlElement) {
+          sectionId = qFieldControlElement.querySelector('[data-section]').dataset.section;;
+          fieldId = qFieldControlElement.querySelector('[data-field]').dataset.field;;
+        }
+      }
+      
+      if (sectionId && fieldId) {
+        const elementId = `${sectionId}-${fieldId}`;
+        scrollToPreview(elementId);
+        activeField.value = elementId;
+      }
+    });
+
     return {
       splitterModel: ref(65),
       currentStep,
@@ -213,11 +278,22 @@ export default {
       goToStep,
       isLastStep,
       handleSubmit,
-      result,
       form,
       handleValidationError,
       stepRefs,
+      comments,
+      transformedConfig,
+      handleFocus,
+      activeField,
     };
   },
 };
 </script>
+
+<style>
+.scroll-container {
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+</style>

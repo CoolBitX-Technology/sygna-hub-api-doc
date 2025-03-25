@@ -14,12 +14,16 @@
     type="string"
     v-model="googleSSO.id"
     label="ID"
+    :data-section="'google_login'"
+    :data-field="'id'"
   />
 
   <q-input
     v-model="googleSSO.secret" 
     :type="isPwd ? 'password' : 'text'"
     label="Secret"
+    :data-section="'google_login'"
+    :data-field="'secret'"
   >
     <template v-slot:append>
       <q-icon

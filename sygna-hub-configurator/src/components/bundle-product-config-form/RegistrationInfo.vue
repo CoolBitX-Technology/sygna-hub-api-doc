@@ -18,6 +18,8 @@
       (val) => (!!val) || 'Please input the VASP code',
       (val) => (/^[A-Z]{8}$/.test(val)) || 'VASP code must be 8 uppercase letters',
     ]"
+    :data-section="'settings'"
+    :data-field="'vasp_code'"
   />
 
   <q-input
@@ -31,6 +33,8 @@
       (val) => (/^[a-fA-F0-9]{64}$/.test(val)) || 'Invalid license key',
     ]"
     hint="You can retrieve the license key in the registration success email."
+    :data-section="'settings'"
+    :data-field="'license_key'"
   />
 </template>
 

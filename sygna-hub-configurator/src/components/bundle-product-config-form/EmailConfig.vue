@@ -14,6 +14,8 @@
     v-model="emailService.host"
     label="Host"
     hint="Hostname of your email service."
+    :data-section="'email_service'"
+    :data-field="'host'"
   />
 
   <q-input
@@ -21,6 +23,8 @@
     v-model="emailService.port"
     label="Port"
     hint="Port of your email service."
+    :data-section="'email_service'"
+    :data-field="'host'"
   />
 
   <q-input
@@ -28,6 +32,8 @@
     v-model="emailService.account"
     label="Email Service Account"
     hint="Please enter your email service account credentials (e.g., AWS IAM user name and password)."
+    :data-section="'email_service'"
+    :data-field="'account'"
   />
 
   <q-input
@@ -35,6 +41,8 @@
     :type="isPwd ? 'password' : 'text'"
     label="Email Service Password"
     hint="Please enter your email service account credentials (e.g., AWS IAM user name and password)."
+    :data-section="'email_service'"
+    :data-field="'password'"
   >
     <template v-slot:append>
       <q-icon
@@ -49,6 +57,8 @@
     type="string"
     v-model="emailService.subjectPrefix"
     label="Subject Prefix"
+    :data-section="'email_service'"
+    :data-field="'subject_prefix'"
   />
 
   <q-select
@@ -57,6 +67,8 @@
     emit-value
     map-options
     label="Encryption Mode"
+    :data-section="'email_service'"
+    :data-field="'encryption_mode'"
   />
 
   <!-- 自動帶入 account? -->
@@ -66,6 +78,8 @@
     v-model="emailService.fromEmail"
     label="From email"
     hint="The email address of your sender."
+    :data-section="'email_service'"
+    :data-field="'from_email'"
   />
 
   <q-input
@@ -74,6 +88,8 @@
     v-model="emailService.displayName"
     label="Sender name"
     hint="The name of the sender, which would be useless if you enable TLS."
+    :data-section="'email_service'"
+    :data-field="'display_name'"
   />
 </template>
 
