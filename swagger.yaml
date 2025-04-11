@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.37.0
+  version: 1.38.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2591,13 +2591,13 @@ paths:
                 - Elliptic
                 - Chainalysis V1
                 - Chainalysis V2
-                - OKLink
                 - ComplyAdvantage
                 - Merkle Science
                 - TRISA
                 - Dow Jones
                 - Coinfirm
                 - Coinfirm (Sandbox)
+                - Beosin
         - name: type
           in: query
           description: filter services by type
@@ -2783,6 +2783,22 @@ paths:
                       - hint: 'To start service of blockchain analytics or sanction screening, please make sure your key pair is tested via <POST /vendors/test>.'
                         id: cc60df9a-ee7c-4e2a-b7d0-d74cc7493d08
                         success: true
+                Beosin:
+                  value:
+                    - id: 89627ee7-bd64-4443-8f43-e31d1375b14e
+                      created_at: '2025-03-26T03:01:17.033Z'
+                      updated_at: '2025-03-26T03:01:17.033Z'
+                      vasp_code: REGTTWAA
+                      provider: Beosin
+                      type: Blockchain Analytics
+                      is_active: true
+                      credential:
+                        app_id: 7*******b
+                        app_secret: 07e25f75*******31c8
+                      settings:
+                        high_risk_score: SEVERE
+                      status: activated
+                      start_time: '2025-03-26T03:01:17.021Z'
         '400':
           description: Bad Request
           content:
@@ -2960,6 +2976,17 @@ paths:
                     credential:
                       public_key: xxxxx
                       private_key: yyyyy
+              Beosin:
+                value:
+                  - type: Blockchain Analytics
+                    provider: Beosin
+                    is_active: true
+                    start_time: '2020-01-01T09:00:00Z'
+                    credential:
+                      app_id: 7*******b
+                      app_secret: 07***************c8
+                    settings:
+                      high_risk_score: HIGH
       responses:
         '200':
           description: OK
@@ -3040,6 +3067,8 @@ paths:
                 - Coinfirm (Sandbox)
                 - World-Check
                 - GTR
+                - CODE
+                - Beosin
         - name: type
           in: query
           description: filter services by type
@@ -3150,6 +3179,46 @@ paths:
                                 type: string
                                 minLength: 1
                             additionalProperties: false
+                        is_active: true
+                        editable: true
+                Beosin:
+                  value:
+                    data:
+                      - id: 29f06979-a28b-4fab-a63e-6973ab08a4b2
+                        created_at: '2025-03-25T10:01:20.000Z'
+                        updated_at: '2025-03-25T10:01:20.000Z'
+                        provider: Beosin
+                        type: Blockchain Analytics
+                        credential:
+                          schema:
+                            type: object
+                            required:
+                              - app_id
+                              - app_secret
+                            properties:
+                              app_id:
+                                type: string
+                                minLength: 1
+                              app_secret:
+                                type: string
+                                minLength: 1
+                            additionalProperties: false
+                        settings:
+                          schema:
+                            type: object
+                            required:
+                              - high_risk_score
+                            properties:
+                              high_risk_score:
+                                enum:
+                                  - LOW
+                                  - MEDIUM
+                                  - HIGH
+                                  - SEVERE
+                                type: string
+                            additionalProperties: false
+                          example:
+                            high_risk_score: HIGH
                         is_active: true
                         editable: true
         '400':
@@ -5835,6 +5904,10 @@ paths:
         required: true
         content:
           '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
             examples:
               Without extra_info:
                 value:
@@ -6640,6 +6713,13 @@ paths:
                     credential:
                       private_key: WNHe25NZrNOR4WRLkzd2Thyrs7COg3L2RDJ0XL5ATS8=
                       public_key: D04SqkOZULClXkH1wq/1WTA91pQySbutt0s4tcl3n48=
+              Beosin:
+                value:
+                  - provider: Beosin
+                    type: Blockchain Analytics
+                    credential:
+                      app_id: 7*******b
+                      app_secret: 07e2******1c8
       responses:
         '200':
           description: OK
