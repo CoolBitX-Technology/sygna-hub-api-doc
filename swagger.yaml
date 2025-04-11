@@ -3067,6 +3067,8 @@ paths:
                 - Coinfirm (Sandbox)
                 - World-Check
                 - GTR
+                - CODE
+                - Beosin
         - name: type
           in: query
           description: filter services by type
