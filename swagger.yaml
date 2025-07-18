@@ -7153,6 +7153,129 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result':
+    parameters:
+      - schema:
+          type: string
+        name: vaspCode
+        in: path
+        required: true
+    get:
+      summary: 'Hub/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb'
+      tags:
+        - Hub/beneficiary-checking-rule
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                bVASP doesn't maintain the data checking rule:
+                  value:
+                    data:
+                      - customer_id: aa
+                        results: null
+                      - customer_id: bb
+                        results: null
+                Customers aa & bb compares with bVASP's data checking rule:
+                  value:
+                    data:
+                      - customer_id: aa
+                        results:
+                          natural_person:
+                            customer_identification:
+                              match_all: true
+                              expected_fields:
+                                - customer_identification
+                              missing_fields: []
+                            geographic_address:
+                              match_all: true
+                              expected_fields:
+                                - address_type
+                                - country
+                                - town_name
+                              missing_fields:
+                                - town_name
+                            national_identification:
+                              match_all: true
+                              expected_fields:
+                                - national_identifier
+                                - national_identifier_type
+                              missing_fields:
+                                - national_identifier
+                                - national_identifier_type
+                            name:
+                              match_all: false
+                              name_identifier:
+                                match_all: true
+                                expected_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                                missing_fields:
+                                  - secondary_identifier
+                              local_name_identifier:
+                                match_all: true
+                                expected_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                                missing_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                            date_and_place_of_birth:
+                              match_all: true
+                              expected_fields:
+                                - date_of_birth
+                                - place_of_birth
+                              missing_fields:
+                                - date_of_birth
+                                - place_of_birth
+                      - customer_id: 68e3f598-ad52-46e0-a05c-7e3d5e5eba56
+                        results:
+                          legal_person:
+                            customer_identification:
+                              match_all: true
+                              expected_fields:
+                                - customer_identification
+                              missing_fields:
+                                - customer_identification
+                            geographic_address:
+                              match_all: false
+                              expected_fields:
+                                - address_type
+                                - country
+                                - town_name
+                              missing_fields: []
+                            national_identification:
+                              match_all: false
+                              expected_fields:
+                                - national_identifier
+                                - national_identifier_type
+                              missing_fields: []
+                            name:
+                              match_all: false
+                              name_identifier:
+                                match_all: false
+                                expected_fields:
+                                  - legal_person_name
+                                  - legal_person_name_identifier_type
+                                missing_fields: []
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-beneficiary-checking-rule-vaspCode-rule-comparison-result
+      x-stoplight:
+        id: owrpzfk1a0v3o
   /vasp/beneficiary-checking-rule:
     post:
       summary: disclose the data checking rules
@@ -7498,131 +7621,6 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result':
-    parameters:
-      - schema:
-          type: string
-        name: vaspCode
-        in: path
-        required: true
-    get:
-      summary: 'Hub/beneficiary-checking-rule/{vaspCode}/rule-comparison-result'
-      tags:
-        - Hub/beneficiary-checking-rule
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties: {}
-              examples:
-                bVASP doesn't maintain the data checking rule:
-                  value:
-                    data:
-                      - customer_id: aa
-                        results: null
-                      - customer_id: bb
-                        results: null
-                Customers aa & bb compares with bVASP's data checking rule:
-                  value:
-                    data:
-                      - customer_id: aa
-                        results:
-                          natural_person:
-                            customer_identification:
-                              match_all: true
-                              expected_fields:
-                                - customer_identification
-                              missing_fields: []
-                            geographic_address:
-                              match_all: true
-                              expected_fields:
-                                - address_type
-                                - country
-                                - town_name
-                              missing_fields:
-                                - town_name
-                            national_identification:
-                              match_all: true
-                              expected_fields:
-                                - national_identifier
-                                - national_identifier_type
-                              missing_fields:
-                                - national_identifier
-                                - national_identifier_type
-                            name:
-                              match_all: false
-                              name_identifier:
-                                match_all: true
-                                expected_fields:
-                                  - primary_identifier
-                                  - secondary_identifier
-                                  - name_identifier_type
-                                missing_fields:
-                                  - secondary_identifier
-                              local_name_identifier:
-                                match_all: true
-                                expected_fields:
-                                  - primary_identifier
-                                  - secondary_identifier
-                                  - name_identifier_type
-                                missing_fields:
-                                  - primary_identifier
-                                  - secondary_identifier
-                                  - name_identifier_type
-                            date_and_place_of_birth:
-                              match_all: true
-                              expected_fields:
-                                - date_of_birth
-                                - place_of_birth
-                              missing_fields:
-                                - date_of_birth
-                                - place_of_birth
-                      - customer_id: 68e3f598-ad52-46e0-a05c-7e3d5e5eba56
-                        results:
-                          legal_person:
-                            customer_identification:
-                              match_all: true
-                              expected_fields:
-                                - customer_identification
-                              missing_fields:
-                                - customer_identification
-                            geographic_address:
-                              match_all: false
-                              expected_fields:
-                                - address_type
-                                - country
-                                - town_name
-                              missing_fields: []
-                            national_identification:
-                              match_all: false
-                              expected_fields:
-                                - national_identifier
-                                - national_identifier_type
-                              missing_fields: []
-                            name:
-                              match_all: false
-                              name_identifier:
-                                match_all: false
-                                expected_fields:
-                                  - legal_person_name
-                                  - legal_person_name_identifier_type
-                                missing_fields: []
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '500':
-          description: Internal Server Error
-      operationId: get-beneficiary-checking-rule-vaspCode-rule-comparison-result
-      x-stoplight:
-        id: owrpzfk1a0v3o
-      requestBody:
-        description: 'GET /v1/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb'
   /analysis/bridge/usage:
     get:
       tags:
