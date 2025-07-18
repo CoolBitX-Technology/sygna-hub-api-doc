@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.39.0
+  version: 1.39.1
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -6524,7 +6524,7 @@ paths:
     post:
       summary: reset password
       tags:
-        - Hub/users/reset-passwrod
+        - Hub/users
       responses:
         '200':
           description: OK
@@ -6542,7 +6542,7 @@ paths:
       operationId: get-users-reset-password
       x-stoplight:
         id: 1ohgqk0xwmwlz
-      description: Only admin.
+      description: Only admin can reset the password with this API.
       requestBody:
         content:
           '*/*':
@@ -6557,7 +6557,7 @@ paths:
     post:
       summary: forget password
       tags:
-        - Hub/forget-password
+        - Hub/users
       responses:
         '200':
           description: OK
@@ -7296,7 +7296,7 @@ paths:
         id: fpoo2nefq0cfd
     get:
       tags:
-        - 'Hub/beneficiary-checking-rule/{vaspCode}'
+        - Hub/beneficiary-checking-rule
       summary: get bVASP's data checking rule
       responses:
         '200':
@@ -7508,7 +7508,7 @@ paths:
     get:
       summary: 'Hub/beneficiary-checking-rule/{vaspCode}/rule-comparison-result'
       tags:
-        - 'Hub/beneficiary-checking-rule/{vaspCode}/rule-comparison-result'
+        - Hub/beneficiary-checking-rule
       responses:
         '200':
           description: OK
