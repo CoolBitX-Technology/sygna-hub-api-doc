@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.38.0
+  version: 1.39.1
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -6520,6 +6520,69 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /users/reset-password:
+    post:
+      summary: reset password
+      tags:
+        - Hub/users
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      success: true
+                      generated_password: Ab_Cd1234
+      operationId: get-users-reset-password
+      x-stoplight:
+        id: 1ohgqk0xwmwlz
+      description: Only admin can reset the password with this API.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  user_account_email: services@sygna.io
+  /users/forget-passwrod:
+    post:
+      summary: forget password
+      tags:
+        - Hub/users
+      responses:
+        '200':
+          description: OK
+          content: {}
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-users-forget-passwrod
+      x-stoplight:
+        id: 5aipcyj51hraw
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  account: services@sygna.io
   /users/history:
     get:
       tags:
@@ -7090,6 +7153,130 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb':
+    parameters:
+      - schema:
+          type: string
+        name: vaspCode
+        in: path
+        required: true
+    get:
+      summary: "compare originator's data with bVASP's data checking rule"
+      description: "By filling in originator's customer_id and bVASP's vasp_code, oVASP is able to check if the data is ready to for transfer"
+      tags:
+        - Hub/beneficiary-checking-rule
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                bVASP doesn't maintain the data checking rule:
+                  value:
+                    data:
+                      - customer_id: aa
+                        results: null
+                      - customer_id: bb
+                        results: null
+                Customers aa & bb compares with bVASP's data checking rule:
+                  value:
+                    data:
+                      - customer_id: aa
+                        results:
+                          natural_person:
+                            customer_identification:
+                              match_all: true
+                              expected_fields:
+                                - customer_identification
+                              missing_fields: []
+                            geographic_address:
+                              match_all: true
+                              expected_fields:
+                                - address_type
+                                - country
+                                - town_name
+                              missing_fields:
+                                - town_name
+                            national_identification:
+                              match_all: true
+                              expected_fields:
+                                - national_identifier
+                                - national_identifier_type
+                              missing_fields:
+                                - national_identifier
+                                - national_identifier_type
+                            name:
+                              match_all: false
+                              name_identifier:
+                                match_all: true
+                                expected_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                                missing_fields:
+                                  - secondary_identifier
+                              local_name_identifier:
+                                match_all: true
+                                expected_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                                missing_fields:
+                                  - primary_identifier
+                                  - secondary_identifier
+                                  - name_identifier_type
+                            date_and_place_of_birth:
+                              match_all: true
+                              expected_fields:
+                                - date_of_birth
+                                - place_of_birth
+                              missing_fields:
+                                - date_of_birth
+                                - place_of_birth
+                      - customer_id: 68e3f598-ad52-46e0-a05c-7e3d5e5eba56
+                        results:
+                          legal_person:
+                            customer_identification:
+                              match_all: true
+                              expected_fields:
+                                - customer_identification
+                              missing_fields:
+                                - customer_identification
+                            geographic_address:
+                              match_all: false
+                              expected_fields:
+                                - address_type
+                                - country
+                                - town_name
+                              missing_fields: []
+                            national_identification:
+                              match_all: false
+                              expected_fields:
+                                - national_identifier
+                                - national_identifier_type
+                              missing_fields: []
+                            name:
+                              match_all: false
+                              name_identifier:
+                                match_all: false
+                                expected_fields:
+                                  - legal_person_name
+                                  - legal_person_name_identifier_type
+                                missing_fields: []
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-beneficiary-checking-rule-vaspCode-rule-comparison-result
+      x-stoplight:
+        id: owrpzfk1a0v3o
   /vasp/beneficiary-checking-rule:
     post:
       summary: disclose the data checking rules
@@ -7231,6 +7418,210 @@ paths:
           description: ''
       x-stoplight:
         id: fpoo2nefq0cfd
+    get:
+      tags:
+        - Hub/beneficiary-checking-rule
+      summary: get bVASP's data checking rule
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties: {}
+              examples:
+                bVASP discloses its data checking rule:
+                  value:
+                    data:
+                      natural_person:
+                        customer_identification: true
+                        geographic_address:
+                          match_all: true
+                          address_line: true
+                          address_type: true
+                          building_name: true
+                          building_number: true
+                          country: true
+                          country_sub_division: true
+                          department: true
+                          district_name: true
+                          floor: true
+                          post_box: true
+                          post_code: true
+                          room: true
+                          street_name: true
+                          sub_department: true
+                          town_location_name: true
+                          town_name: true
+                        national_identification:
+                          match_all: true
+                          country_of_issue: true
+                          national_identifier: true
+                          national_identifier_type: true
+                          registration_authority: true
+                        name:
+                          match_all: true
+                          name_identifier:
+                            match_all: true
+                            primary_identifier: true
+                            secondary_identifier: true
+                            name_identifier_type: true
+                          local_name_identifier:
+                            match_all: true
+                            primary_identifier: true
+                            secondary_identifier: true
+                            name_identifier_type: true
+                          phonetic_name_identifier:
+                            match_all: true
+                            primary_identifier: true
+                            secondary_identifier: true
+                            name_identifier_type: true
+                        date_and_place_of_birth:
+                          match_all: true
+                          date_of_birth: true
+                          place_of_birth: true
+                        country_of_residence: true
+                      legal_person:
+                        customer_identification: true
+                        geographic_address:
+                          match_all: true
+                          address_line: true
+                          address_type: true
+                          building_name: true
+                          building_number: true
+                          country: true
+                          country_sub_division: true
+                          department: true
+                          district_name: true
+                          floor: true
+                          post_box: true
+                          post_code: true
+                          room: true
+                          street_name: true
+                          sub_department: true
+                          town_location_name: true
+                          town_name: true
+                        national_identification:
+                          match_all: true
+                          country_of_issue: true
+                          national_identifier: true
+                          national_identifier_type: true
+                          registration_authority: true
+                        name:
+                          match_all: true
+                          name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                            match_all: true
+                          local_name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                            match_all: true
+                          phonetic_name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                            match_all: true
+                        country_of_registration: true
+                bVASP doesn't maintain data checking rule:
+                  value:
+                    data: {}
+                bVASP sets auto-accept to be OFF:
+                  value:
+                    data:
+                      natural_person:
+                        customer_identification: null
+                        geographic_address:
+                          match_all: null
+                          address_line: null
+                          address_type: null
+                          building_name: null
+                          building_number: null
+                          country: null
+                          country_sub_division: null
+                          department: null
+                          district_name: null
+                          floor: null
+                          post_box: null
+                          post_code: null
+                          room: null
+                          street_name: null
+                          sub_department: null
+                          town_location_name: null
+                          town_name: null
+                        national_identification:
+                          match_all: null
+                          country_of_issue: null
+                          national_identifier: null
+                          national_identifier_type: null
+                          registration_authority: null
+                        name:
+                          match_all: null
+                          name_identifier: null
+                        date_and_place_of_birth:
+                          match_all: null
+                          date_of_birth: null
+                          place_of_birth: null
+                        country_of_residence: null
+                      legal_person:
+                        customer_identification: null
+                        geographic_address:
+                          match_all: null
+                          address_line: null
+                          address_type: null
+                          building_name: null
+                          building_number: null
+                          country: null
+                          country_sub_division: null
+                          department: null
+                          district_name: null
+                          floor: null
+                          post_box: null
+                          post_code: null
+                          room: null
+                          street_name: null
+                          sub_department: null
+                          town_location_name: null
+                          town_name: null
+                        national_identification:
+                          match_all: null
+                          country_of_issue: null
+                          national_identifier: null
+                          national_identifier_type: null
+                          registration_authority: null
+                        name:
+                          match_all: null
+                          name_identifier: null
+                        country_of_registration: null
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '401':
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '403':
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errors.SystemError'
+      security:
+        - BearerToken: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /analysis/bridge/usage:
     get:
       tags:
