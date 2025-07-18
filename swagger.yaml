@@ -7153,7 +7153,7 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result':
+  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb':
     parameters:
       - schema:
           type: string
@@ -7161,7 +7161,8 @@ paths:
         in: path
         required: true
     get:
-      summary: 'Hub/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb'
+      summary: 'compare originator's data with bVASP's data checking rule'
+      description: By filling in originator's customer_id and bVASP's vasp_code, oVASP is able to check if the data is ready to for transfer.
       tags:
         - Hub/beneficiary-checking-rule
       responses:
