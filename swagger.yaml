@@ -7161,8 +7161,8 @@ paths:
         in: path
         required: true
     get:
-      summary: 'compare originator's data with bVASP's data checking rule'
-      description: By filling in originator's customer_id and bVASP's vasp_code, oVASP is able to check if the data is ready to for transfer.
+      summary: "compare originator's data with bVASP's data checking rule"
+      description: "By filling in originator's customer_id and bVASP's vasp_code, oVASP is able to check if the data is ready to for transfer"
       tags:
         - Hub/beneficiary-checking-rule
       responses:
