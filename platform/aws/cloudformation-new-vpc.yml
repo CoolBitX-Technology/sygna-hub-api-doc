@@ -132,7 +132,7 @@ Parameters:
     Description: "(Backend Environment Configuration) VASP Code for the backend container"
   JWTSecret:
     Type: String
-    Default: "wowsuperjwtsecret"
+    Default: ""
     Description: "(Backend Environment Configuration) JWT signing key for the backend container (e.g.,wowsuperjwtsecret )"
     NoEcho: true
   GoogleSSOClientId:
@@ -642,16 +642,6 @@ Resources:
       UnhealthyThresholdCount: 2
       TargetType: ip
 
-  ALBListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref TargetGroup1
-      LoadBalancerArn: !Ref ApplicationLoadBalancer
-      Port: !Ref ALBListenerPort
-      Protocol: HTTP
-
   ALBListenerHTTPS:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Condition: HasCertificate
@@ -668,7 +658,7 @@ Resources:
   BackendListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
-      ListenerArn: !If [HasCertificate, !Ref ALBListenerHTTPS, !Ref ALBListener]
+      ListenerArn: !Ref ALBListenerHTTPS
       Priority: 1
       Conditions:
         - Field: path-pattern
@@ -682,7 +672,6 @@ Resources:
     Type: AWS::ECS::Service
     DependsOn:
       - ApplicationLoadBalancer
-      - ALBListener
       - ALBListenerHTTPS
     Properties:
       ServiceName: FrontendService
@@ -706,7 +695,6 @@ Resources:
     Type: AWS::ECS::Service
     DependsOn:
       - ApplicationLoadBalancer
-      - ALBListener
       - ALBListenerHTTPS
       - BackendListenerRule
     Properties:
