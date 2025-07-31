@@ -1,0 +1,757 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Deploys frontend and backend Docker containers using separate ECS services (FrontendECSService and BackendECSService), receives external requests through ALB (creates new VPC and RDS with DB name sygnadb, RDS master username sygnaadmin, supports existing or new ECS task role and ACM certificate, two public subnets in different AZs with consecutive CIDRs, two private subnets with consecutive CIDRs, fixed frontend image sygna/sygna-hub-console:latest-beta, fixed backend image sygna/sygna-hub:latest-beta, refer to docker-compose, using latest-beta tag, Cluster Name: sygna-hub)"
+
+Metadata:
+  ParameterGroups:
+    - Label:
+        default: VPC Configuration
+      Parameters:
+        - NewVpcCidr
+        - NewPublicSubnetCidr
+        - NewPublicSubnet2Cidr
+        - NewPrivateSubnet1Cidr
+        - NewPrivateSubnet2Cidr
+    - Label:
+        default: RDS Configuration
+      Parameters:
+        - NewRDSInstanceClass
+        - NewRDSAllocatedStorage
+        - NewRDSMasterUsername
+        - NewRDSMasterPassword
+    - Label:
+        default: Backend Environment Configuration
+      Parameters:
+        - BackendApiUrl
+        - BackendContainerPort
+        - BackendAdminAccount
+        - BackendAdminPassword
+        - FrontendURL
+        - BackendCallbackHost
+        - CookieDomain
+        - DataEncryptionKey
+        - LicenseKey
+        - VaspCode
+        - JWTSecret
+        - GoogleSSOClientId
+        - EmailConfig
+    - Label:
+        default: ECS Task Configuration
+      Parameters:
+        - CreateNewECSTaskRole
+        - ECSTaskExecutionRoleArn
+        - ECSTaskCPU
+        - ECSTaskMemory
+        - FrontendDesiredTaskCount
+        - BackendDesiredTaskCount
+    - Label:
+        default: Application Load Balancer Configuration
+      Parameters:
+        - CreateNewCertificate
+        - ACMCertificateArn
+        - CertificateDomainName
+        - ALBListenerPort
+
+Parameters:
+  NewVpcCidr:
+    Type: String
+    Default: "10.2.0.0/16"
+    Description: "(VPC Configuration) CIDR range for the new VPC"
+  NewPublicSubnetCidr:
+    Type: String
+    Default: "10.2.1.0/24"
+    Description: "(VPC Configuration) CIDR range for the first public subnet (in first AZ)"
+  NewPublicSubnet2Cidr:
+    Type: String
+    Default: "10.2.2.0/24"
+    Description: "(VPC Configuration) CIDR range for the second public subnet (in second AZ)"
+  NewPrivateSubnet1Cidr:
+    Type: String
+    Default: "10.2.3.0/24"
+    Description: "(VPC Configuration) CIDR range for the first private subnet (in first AZ)"
+  NewPrivateSubnet2Cidr:
+    Type: String
+    Default: "10.2.4.0/24"
+    Description: "(VPC Configuration) CIDR range for the second private subnet (in second AZ)"
+  NewRDSInstanceClass:
+    Type: String
+    Default: "db.t3.micro"
+    Description: "(RDS Configuration) Instance type for the new RDS instance"
+  NewRDSAllocatedStorage:
+    Type: String
+    Default: "20"
+    Description: "(RDS Configuration) Storage space (GB) for the new RDS instance"
+  NewRDSMasterUsername:
+    Type: String
+    Default: "sygnaadmin"
+    Description: "(RDS Configuration) Master username for the new RDS"
+  NewRDSMasterPassword:
+    Type: String
+    Description: "(RDS Configuration) Master password for the new RDS"
+    NoEcho: true
+    MinLength: "8"
+  BackendApiUrl:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) URL for the backend API used by the frontend container (e.g., https://backend.test.net:8080/v1)"
+  BackendContainerPort:
+    Type: String
+    Default: "8080"
+    Description: "(Backend Environment Configuration) Port the backend container listens on (corresponds to 80:8080 in docker-compose)"
+  BackendAdminAccount:
+    Type: String
+    Default: "{mail-account@your-mail-server}"
+    Description: "(Backend Environment Configuration) Admin account for the backend container"
+  BackendAdminPassword:
+    Type: String
+    Description: "(Backend Environment Configuration) Admin password for the backend container,Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character .special character: ~!@#$%^&*()_+`-={}|[]\\:\"<>?,./"
+    NoEcho: true
+  FrontendURL:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) URL for the frontend container (e.g., https://frontend.test.net)"
+  BackendCallbackHost:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) Callback Host for the backend container (e.g., https://backend.test.net:8080)"
+  CookieDomain:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) Cookie Domain for the backend container (e.g., https://test.net)"
+  DataEncryptionKey:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) Data encryption key for the backend container (e.g.,00000000000000000000000000000000 )"
+    NoEcho: true
+  LicenseKey:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) License Key for the backend container"
+  VaspCode:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration) VASP Code for the backend container"
+  JWTSecret:
+    Type: String
+    Default: "wowsuperjwtsecret"
+    Description: "(Backend Environment Configuration) JWT signing key for the backend container (e.g.,wowsuperjwtsecret )"
+    NoEcho: true
+  GoogleSSOClientId:
+    Type: String
+    Default: ""
+    Description: "(Backend Environment Configuration, Optional) Google SSO Client ID for the frontend container"
+  EmailConfig:
+    Type: String
+    Default: "{}"
+    Description: "(Backend Environment Configuration, Optional) JSON string containing email configuration (e.g., {\"host\": \"smtp.example.com\", \"account\": \"user@example.com\", \"password\": \"pass\", \"displayName\": \"Sender\", \"subjectPrefix\": \"[Sygna]\", \"tlsSupport\": \"true\", \"fromEmail\": \"user@example.com\"})"
+  CreateNewECSTaskRole:
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+    Description: "(ECS Task Configuration) Whether to create a new ECS task execution role? Choose No to provide an existing role ARN"
+  ECSTaskExecutionRoleArn:
+    Type: String
+    Default: ""
+    Description: "(ECS Task Configuration, REQUIRED if CreateNewECSTaskRole is No) ARN of the existing ECS task execution role"
+  ECSTaskCPU:
+    Type: String
+    Default: "256"
+    Description: "(ECS Task Configuration) The number of cpu units to allocate to each ECS Task (frontend and backend)"
+  ECSTaskMemory:
+    Type: String
+    Default: "512"
+    Description: "(ECS Task Configuration) The amount of memory (in MiB) to allocate to each ECS Task (frontend and backend)"
+  FrontendDesiredTaskCount:
+    Type: Number
+    Default: 1
+    Description: "(ECS Service Configuration) The number of ECS tasks to run for the frontend service"
+  BackendDesiredTaskCount:
+    Type: Number
+    Default: 1
+    Description: "(ECS Service Configuration) The number of ECS tasks to run for the backend service"
+  CreateNewCertificate:
+    Type: String
+    Default: "No"
+    AllowedValues:
+      - "Yes"
+      - "No"
+    Description: "(Application Load Balancer) Whether to create a new ACM certificate for HTTPS? Choose No to provide an existing certificate ARN"
+  ACMCertificateArn:
+    Type: String
+    Default: ""
+    Description: "(Application Load Balancer, REQUIRED if CreateNewCertificate is No) ARN of the existing ACM certificate for HTTPS"
+  CertificateDomainName:
+    Type: String
+    Default: ""
+    Description: "(Application Load Balancer, REQUIRED if CreateNewCertificate is Yes) Domain name for the new ACM certificate (e.g., *.example.com)"
+  ALBListenerPort:
+    Type: String
+    Default: "80"
+    Description: "(Application Load Balancer) Port the Application Load Balancer and frontend container listen on"
+
+Conditions:
+  CreateNewECSTaskRoleEnabled: !Equals [!Ref CreateNewECSTaskRole, "Yes"]
+  CreateNewECSTaskRoleDisabled: !Equals [!Ref CreateNewECSTaskRole, "No"]
+  CreateNewCertificateEnabled: !Equals [!Ref CreateNewCertificate, "Yes"]
+  CreateNewCertificateDisabled: !Equals [!Ref CreateNewCertificate, "No"]
+  HasGoogleSSOClientId: !Not [!Equals [!Ref GoogleSSOClientId, ""]]
+  HasCertificate: !Or [!Condition CreateNewCertificateEnabled, !Condition CreateNewCertificateDisabled]
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref NewVpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-VPC"
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref NewPublicSubnetCidr
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PublicSubnet-1"
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref NewPublicSubnet2Cidr
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PublicSubnet-2"
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref NewPrivateSubnet1Cidr
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PrivateSubnet-1"
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Ref NewPrivateSubnet2Cidr
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PrivateSubnet-2"
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-IGW"
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  NatGatewayEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP.AllocationId
+      SubnetId: !Ref PublicSubnet
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-NatGateway"
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PublicRouteTable"
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PrivateRouteTable-1"
+
+  PrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable1
+
+  PrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-PrivateRouteTable-2"
+
+  PrivateRoute2:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for ALB
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref ALBListenerPort
+          ToPort: !Ref ALBListenerPort
+          CidrIp: 0.0.0.0/0
+        - !If
+          - HasCertificate
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+          - !Ref AWS::NoValue
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ALBSecurityGroup"
+
+  ECSTaskSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for ECS tasks
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref ALBListenerPort
+          ToPort: !Ref ALBListenerPort
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: !Ref BackendContainerPort
+          ToPort: !Ref BackendContainerPort
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ECSTaskSecurityGroup"
+
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for RDS
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref ECSTaskSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSSecurityGroup"
+
+  RDSDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for RDS
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSDBSubnetGroup"
+
+  RDSParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Family: postgres16
+      Description: Parameter group to configure PostgreSQL settings
+      Parameters:
+        rds.force_ssl: "0"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSParameterGroup"
+
+  RDSDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: !Ref NewRDSInstanceClass
+      AllocatedStorage: !Ref NewRDSAllocatedStorage
+      Engine: postgres
+      EngineVersion: "16.4"
+      MasterUsername: !Ref NewRDSMasterUsername
+      MasterUserPassword: !Ref NewRDSMasterPassword
+      DBName: sygnadb
+      Port: 5432
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      DBSubnetGroupName: !Ref RDSDBSubnetGroup
+      DBParameterGroupName: !Ref RDSParameterGroup
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSDatabase"
+
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Condition: CreateNewECSTaskRoleEnabled
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ECSTaskExecutionRole"
+
+  ECSTaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ECSTaskCloudWatchLogsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/ecs/sygna-hub-logs:*"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ECSTaskRole"
+
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Condition: CreateNewCertificateEnabled
+    Properties:
+      DomainName: !Ref CertificateDomainName
+      ValidationMethod: DNS
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-Certificate"
+
+  ECSLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /ecs/sygna-hub-logs
+      RetentionInDays: 7
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: sygna-hub
+
+  FrontendTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: FrontendTask
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: !Ref ECSTaskCPU
+      Memory: !Ref ECSTaskMemory
+      TaskRoleArn: !Ref ECSTaskRole
+      ExecutionRoleArn: !If [CreateNewECSTaskRoleEnabled, !Ref ECSTaskExecutionRole, !Ref ECSTaskExecutionRoleArn]
+      ContainerDefinitions:
+        - Name: frontend
+          Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub-console:latest-beta
+          PortMappings:
+            - ContainerPort: !Ref ALBListenerPort
+          Environment:
+            - Name: BACKEND_API_URL
+              Value: !Ref BackendApiUrl
+            - !If
+              - HasGoogleSSOClientId
+              - Name: GOOGLE_SSO_CLIENT_ID
+                Value: !Ref GoogleSSOClientId
+              - !Ref AWS::NoValue
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/sygna-hub-logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: frontend
+
+  BackendTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: BackendTask
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: !Ref ECSTaskCPU
+      Memory: !Ref ECSTaskMemory
+      TaskRoleArn: !Ref ECSTaskRole
+      ExecutionRoleArn: !If [CreateNewECSTaskRoleEnabled, !Ref ECSTaskExecutionRole, !Ref ECSTaskExecutionRoleArn]
+      ContainerDefinitions:
+        - Name: backend
+          Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub:latest-beta
+          PortMappings:
+            - ContainerPort: !Ref BackendContainerPort
+          Environment:
+            - Name: CONTAINER_PORT
+              Value: !Ref BackendContainerPort
+            - Name: DB_HOST
+              Value: !GetAtt RDSDatabase.Endpoint.Address
+            - Name: DB_NAME
+              Value: sygnadb
+            - Name: DB_PASSWORD
+              Value: !Ref NewRDSMasterPassword
+            - Name: DB_PORT
+              Value: "5432"
+            - Name: DB_USER
+              Value: !Ref NewRDSMasterUsername
+            - Name: DB_DRIVER
+              Value: postgres
+            - Name: ADMIN_ACCOUNT
+              Value: !Ref BackendAdminAccount
+            - Name: ADMIN_PASSWORD
+              Value: !Ref BackendAdminPassword
+            - Name: ALLOW_ORIGINS
+              Value: !Sub "[${FrontendURL}]"
+            - Name: PORT
+              Value: !Ref BackendContainerPort
+            - Name: TRISA_SERVER_URL
+              Value: http://trisa.platform.local
+            - Name: CALLBACK_HOST
+              Value: !Ref BackendCallbackHost
+            - Name: COOKIE_DOMAIN
+              Value: !Ref CookieDomain
+            - Name: ACCESS_TOKEN_EXPIRES_IN_SECONDS
+              Value: "14400"
+            - Name: DATA_ENCRYPTION_KEY
+              Value: !Ref DataEncryptionKey
+            - Name: JWT_SECRET
+              Value: !Ref JWTSecret
+            - Name: LICENSE_KEY
+              Value: !Ref LicenseKey
+            - Name: VASP_CODE
+              Value: !Ref VaspCode
+            - Name: EMAIL_CONFIG
+              Value: !Ref EmailConfig
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/sygna-hub-logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: backend
+
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets:
+        - !Ref PublicSubnet
+        - !Ref PublicSubnet2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: "MultiContainerALB"
+
+  TargetGroup1:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: !Ref ALBListenerPort
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: "/"
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      TargetType: ip
+
+  TargetGroup2:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: !Ref BackendContainerPort
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: "/v1/vasp-server-status"
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      TargetType: ip
+
+  ALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup1
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: !Ref ALBListenerPort
+      Protocol: HTTP
+
+  ALBListenerHTTPS:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: HasCertificate
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup1
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !If [CreateNewCertificateEnabled, !Ref Certificate, !Ref ACMCertificateArn]
+
+  BackendListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !If [HasCertificate, !Ref ALBListenerHTTPS, !Ref ALBListener]
+      Priority: 1
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - "/v1/*"
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup2
+
+  FrontendECSService:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - ApplicationLoadBalancer
+      - ALBListener
+      - ALBListenerHTTPS
+    Properties:
+      ServiceName: FrontendService
+      Cluster: !Ref ECSCluster
+      DesiredCount: !Ref FrontendDesiredTaskCount
+      LaunchType: FARGATE
+      TaskDefinition: !Ref FrontendTaskDefinition
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref PrivateSubnet1
+            - !Ref PrivateSubnet2
+          SecurityGroups:
+            - !Ref ECSTaskSecurityGroup
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroup1
+          ContainerName: frontend
+          ContainerPort: !Ref ALBListenerPort
+
+  BackendECSService:
+    Type: AWS::ECS::Service
+    DependsOn:
+      - ApplicationLoadBalancer
+      - ALBListener
+      - ALBListenerHTTPS
+      - BackendListenerRule
+    Properties:
+      ServiceName: BackendService
+      Cluster: !Ref ECSCluster
+      DesiredCount: !Ref BackendDesiredTaskCount
+      LaunchType: FARGATE
+      TaskDefinition: !Ref BackendTaskDefinition
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref PrivateSubnet1
+            - !Ref PrivateSubnet2
+          SecurityGroups:
+            - !Ref ECSTaskSecurityGroup
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroup2
+          ContainerName: backend
+          ContainerPort: !Ref BackendContainerPort
+
+Outputs:
+  ALBEndpoint:
+    Description: "DNS name of the Application Load Balancer"
+    Value: !GetAtt ApplicationLoadBalancer.DNSName
+  FrontendURLOutput:
+    Description: "URL for the frontend container"
+    Value: !If
+      - HasCertificate
+      - !Sub "https://${ApplicationLoadBalancer.DNSName}"
+      - !Sub "http://${ApplicationLoadBalancer.DNSName}:${ALBListenerPort}"
+  BackendURLOutput:
+    Description: "URL for the backend container"
+    Value: !If
+      - HasCertificate
+      - !Sub "https://${ApplicationLoadBalancer.DNSName}/v1"
+      - !Sub "http://${ApplicationLoadBalancer.DNSName}:${BackendContainerPort}/v1"
+  RDSEndpointAddress:
+    Description: "RDS Endpoint address"
+    Value: !GetAtt RDSDatabase.Endpoint.Address
+  RDSEndpointPort:
+    Description: "RDS Endpoint port"
+    Value: !GetAtt RDSDatabase.Endpoint.Port
+  ECSTaskExecutionRoleArnOutput:
+    Description: "ARN of the ECS task execution role"
+    Value: !If [CreateNewECSTaskRoleEnabled, !Ref ECSTaskExecutionRole, !Ref ECSTaskExecutionRoleArn]
+  CertificateArnOutput:
+    Description: "ARN of the ACM certificate"
+    Value: !If [CreateNewCertificateEnabled, !Ref Certificate, !Ref ACMCertificateArn]

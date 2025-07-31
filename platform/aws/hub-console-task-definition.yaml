@@ -1,0 +1,27 @@
+FrontendTaskDefinition:
+  Type: AWS::ECS::TaskDefinition
+  Properties:
+    Family: FrontendTask
+    NetworkMode: awsvpc
+    RequiresCompatibilities:
+      - FARGATE
+    Cpu: "256" # 預設值，若無明確指定則使用範本中的預設值
+    Memory: "512" # 預設值，若無明確指定則使用範本中的預設值
+    TaskRoleArn: # 實際值將在部署時確定
+    ExecutionRoleArn: # 實際值將在部署時確定
+    ContainerDefinitions:
+      - Name: frontend
+        Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub-console:latest-beta
+        PortMappings:
+          - ContainerPort: 80 # 預設值，若無明確指定則使用範本中的預設值
+        Environment:
+          - Name: BACKEND_API_URL
+            Value: "https://{backend-url}/v1" #  required
+          # - Name: GOOGLE_SSO_CLIENT_ID # 如果 HasGoogleSSOClientId 為 True 才會存在
+          #   Value: "" # 預設值，若無明確指定則使用範本中的預設值
+        LogConfiguration:
+          LogDriver: awslogs
+          Options:
+            awslogs-group: /ecs/sygna-hub-logs
+            awslogs-region: # 實際值將在部署時確定 (例如：ap-northeast-1)
+            awslogs-stream-prefix: frontend
