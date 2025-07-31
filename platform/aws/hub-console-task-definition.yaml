@@ -5,23 +5,23 @@ FrontendTaskDefinition:
     NetworkMode: awsvpc
     RequiresCompatibilities:
       - FARGATE
-    Cpu: "256" # 預設值，若無明確指定則使用範本中的預設值
-    Memory: "512" # 預設值，若無明確指定則使用範本中的預設值
-    TaskRoleArn: # 實際值將在部署時確定
-    ExecutionRoleArn: # 實際值將在部署時確定
+    Cpu: "256" # Please change this via your settings
+    Memory: "512" # Please change this via your settings
+    TaskRoleArn: # Please change this via your settings
+    ExecutionRoleArn: # Please change this via your settings
     ContainerDefinitions:
       - Name: frontend
         Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub-console:latest-beta
         PortMappings:
-          - ContainerPort: 80 # 預設值，若無明確指定則使用範本中的預設值
+          - ContainerPort: 80 
         Environment:
           - Name: BACKEND_API_URL
-            Value: "https://{backend-url}/v1" #  required
-          # - Name: GOOGLE_SSO_CLIENT_ID # 如果 HasGoogleSSOClientId 為 True 才會存在
-          #   Value: "" # 預設值，若無明確指定則使用範本中的預設值
+            Value: "https://{backend-url}/v1" #  required,Please change this via your settings
+          # - Name: GOOGLE_SSO_CLIENT_ID # if you want to use google login 
+          #   Value: # Please change this via your settings
         LogConfiguration:
           LogDriver: awslogs
           Options:
             awslogs-group: /ecs/sygna-hub-logs
-            awslogs-region: # 實際值將在部署時確定 (例如：ap-northeast-1)
+            awslogs-region:  #  (EX：ap-northeast-1)
             awslogs-stream-prefix: frontend

@@ -8,8 +8,8 @@ BackendTaskDefinition:
       - FARGATE
     Cpu: "256" # default value
     Memory: "512" # default value
-    TaskRoleArn: # 實際值將在部署時確定
-    ExecutionRoleArn: # 實際值將在部署時確定
+    TaskRoleArn: # Please change this via your settings
+    ExecutionRoleArn: # Please change this via your settings
     ContainerDefinitions:
       - Name: backend
         Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub:latest-beta
@@ -33,7 +33,7 @@ BackendTaskDefinition:
           - Name: ADMIN_ACCOUNT
             Value: "{mail-account@your-mail-server}" # default value, please change this via your settings
           - Name: ADMIN_PASSWORD
-            Value: # 實際值將在部署時確定 Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
+            Value: #  Password should contain at least 6 letters, at least 1 number, at least 1 upper case and at least 1 special character
           - Name: ALLOW_ORIGINS
             Value: "[{your-frontend-domain}]" # default value, please change this via your settings
           - Name: PORT
