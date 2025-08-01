@@ -7,3 +7,4 @@ docker-data/
 config.yml
 docker-compose.local.yml
 tmp/
+k6/

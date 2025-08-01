@@ -1,0 +1,27 @@
+FrontendTaskDefinition:
+  Type: AWS::ECS::TaskDefinition
+  Properties:
+    Family: FrontendTask
+    NetworkMode: awsvpc
+    RequiresCompatibilities:
+      - FARGATE
+    Cpu: "256" # Please change this via your settings
+    Memory: "512" # Please change this via your settings
+    TaskRoleArn: # Please change this via your settings
+    ExecutionRoleArn: # Please change this via your settings
+    ContainerDefinitions:
+      - Name: frontend
+        Image: 709825985650.dkr.ecr.us-east-1.amazonaws.com/sygna/sygna-hub-console:latest-beta
+        PortMappings:
+          - ContainerPort: 80 
+        Environment:
+          - Name: BACKEND_API_URL
+            Value: "https://{backend-url}/v1" #  required,Please change this via your settings
+          # - Name: GOOGLE_SSO_CLIENT_ID # if you want to use google login 
+          #   Value: # Please change this via your settings
+        LogConfiguration:
+          LogDriver: awslogs
+          Options:
+            awslogs-group: /ecs/sygna-hub-logs
+            awslogs-region:  #  (EX：ap-northeast-1)
+            awslogs-stream-prefix: frontend
