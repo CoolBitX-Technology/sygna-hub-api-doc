@@ -437,6 +437,8 @@ Resources:
         - !Ref RDSSecurityGroup
       DBSubnetGroupName: !Ref RDSDBSubnetGroup
       DBParameterGroupName: !Ref RDSParameterGroup
+      BackupRetentionPeriod: 7
+      StorageEncrypted: true
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-RDSDatabase"
