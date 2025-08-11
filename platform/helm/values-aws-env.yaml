@@ -1,0 +1,41 @@
+# Settings for AWS EKS production environment.
+
+frontend:
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:....
+    hosts:
+      - host: your-frontend.your-domain.com # Change to your domain
+        paths:
+          - path: /
+            pathType: Prefix
+  
+  env:
+    BACKEND_API_URL: "https://your-backend.your-domain.com/v1"
+
+backend:
+  # Ensure log persistence is disabled for cloud environment.
+  persistence:
+    logs:
+      enabled: false
+
+  config:
+    # Use environment variable injection mode.
+    source: environment
+    environment:
+      kubernetesSecretName: "sygna-hub-backend-env-secret"
+      # IMPORTANT: Set your AWS Parameter Store base path.
+      parameterStoreBasePath: "/sygna/test"
+      # Note: The list of parameters is defined in the main values.yaml.
+      # The actual values MUST be created in AWS Parameter Store.
+
+serviceAccount:
+  create: true
+  # IMPORTANT: This annotation enables IRSA.
+  # The ARN should be for a role with permissions to read from Parameter Store.
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/Your-EKS-ParamStore-Reader-Role"

@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-{{ .Values.frontend.name }}
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ .Values.frontend.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "sygna-hub.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ .Values.frontend.name }}
+  template:
+    metadata:
+      labels:
+        {{- include "sygna-hub.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: {{ .Values.frontend.name }}
+    spec:
+      containers:
+        - name: {{ .Values.frontend.name }}
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: BACKEND_API_URL
+              value: {{ .Values.frontend.env.BACKEND_API_URL | quote }}
+          {{- if .Values.frontend.probes.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.frontend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.frontend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.probes.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.frontend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.frontend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.probes.periodSeconds }}
+          {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-{{ .Values.backend.name }}
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ .Values.backend.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "sygna-hub.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ .Values.backend.name }}
+  template:
+    metadata:
+      labels:
+        {{- include "sygna-hub.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: {{ .Values.backend.name }}
+    spec:
+      serviceAccountName: {{ include "sygna-hub.serviceAccountName" . }}
+      containers:
+        - name: {{ .Values.backend.name }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          {{- if .Values.backend.probes.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.backend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.backend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.periodSeconds }}
+          {{- end }}
+          {{- if eq .Values.backend.config.source "environment" }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.backend.config.environment.kubernetesSecretName }}
+          {{- end }}
+          volumeMounts:
+            {{- if eq .Values.backend.config.source "file" }}
+            - name: config-volume
+              mountPath: /app/config.yml
+              subPath: config.yml
+              readOnly: true
+            {{- end }}
+            {{- if .Values.backend.persistence.logs.enabled }}
+            - name: logs
+              mountPath: /var/log
+            {{- end }}
+      volumes:
+        {{- if eq .Values.backend.config.source "file" }}
+        - name: config-volume
+          hostPath:
+            path: {{ .Values.backend.config.file.path }}
+            type: File
+        {{- end }}
+        {{- if .Values.backend.persistence.logs.enabled }}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: {{ include "sygna-hub.fullname" . }}-backend-logs
+        {{- end }}
+        {{- if eq .Values.backend.config.source "environment" }}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "sygna-hub.fullname" . }}-backend-spc
+        {{- end }}

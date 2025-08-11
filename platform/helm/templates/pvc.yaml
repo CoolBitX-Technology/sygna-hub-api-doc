@@ -1,0 +1,17 @@
+{{- if .Values.backend.persistence.logs.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-backend-logs
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if .Values.backend.persistence.logs.storageClassName }}
+  storageClassName: {{ .Values.backend.persistence.logs.storageClassName }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.backend.persistence.logs.size }}
+{{- end }}

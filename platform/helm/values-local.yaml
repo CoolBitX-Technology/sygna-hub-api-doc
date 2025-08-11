@@ -1,0 +1,20 @@
+# Settings for local development environment.
+# This file overrides values from the main values.yaml.
+
+backend:
+  config:
+    # Use local file mount mode.
+    source: file
+    file:
+      # !!! IMPORTANT !!!
+      # Change this to the absolute path of your local config.yml
+      path: config.yml
+
+# No AWS IAM roles needed for local development.
+serviceAccount:
+  create: false
+
+frontend:
+  # Expose frontend via NodePort for easy access on localhost.
+  service:
+    type: NodePort

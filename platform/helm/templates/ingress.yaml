@@ -1,0 +1,34 @@
+{{- if .Values.frontend.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-frontend
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.frontend.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.frontend.ingress.className }}
+  ingressClassName: {{ .Values.frontend.ingress.className }}
+  {{- end }}
+  rules:
+    {{- range .Values.frontend.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                # --- START: 這裡是修正的關鍵部分 ---
+                # 使用錢字號 ($) 來引用頂層上下文
+                name: {{ include "sygna-hub.fullname" $ }}-{{ $.Values.frontend.name }}
+                port:
+                  number: {{ $.Values.frontend.service.port }}
+                # --- END: 修正結束 ---
+          {{- end }}
+    {{- end }}
+{{- end }}
