@@ -125,7 +125,7 @@ This is the **recommended standard practice** for local development as it avoids
 4.  **Deploy the Sygna Hub Application**:
     Run the deployment command from your **project root directory**:
     ```bash
-    helm upgrade --install sygna-local ./helm -f ../values-local.yaml
+    helm upgrade --install sygna-local ./helm -f  ./helm/values-local.yaml
     ```
 
 ### Step 3: Access the Application
@@ -206,7 +206,7 @@ serviceAccount:
 
 2.  **Run the deployment command** from your project root:
     ```bash
-    helm upgrade --install sygna-prod ./helm -f values-aws-env.yaml --namespace sygna-hub
+    helm upgrade --install sygna-prod ./helm -f ./helm/values-aws-env.yaml --namespace sygna-hub
     ```
 
 ### Step 4: Access the Application
