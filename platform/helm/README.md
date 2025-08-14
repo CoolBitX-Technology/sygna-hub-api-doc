@@ -22,10 +22,11 @@ The recommended project structure is as follows. This `README.md` file is locate
 ├── helm/
    ├── templates/
    ├── Chart.yaml
-   ├── README.md   <-- (This file)
-   └── values.yaml
+   ├── README.md 
+   ├── values-local.yaml
    ├── values-aws-env.yaml
-   └── values-local.yaml
+   └── values.yaml
+
 ```
 
 * `helm/`: The core templates of the chart, which generally do not need modification.
@@ -33,17 +34,44 @@ The recommended project structure is as follows. This `README.md` file is locate
 * `values-local.yaml`: The override file used for **local** deployments.
 * `values-aws-env.yaml`: The override file used for **AWS EKS** deployments.
 
+## Main Configuration Parameters
+
+You can adjust the following important parameters in `values.yaml` or your environment-specific override files.
+
+### Resource Configuration
+
+Set CPU and Memory requests and limits for `frontend` and `backend` via the `resources` block. It is a good practice to set `requests` and `limits` to the same value for predictable performance.
+
+**Example** (`values.yaml`):
+```yaml
+backend:
+  resources:
+    requests:
+      cpu: 256m    # 256 millicores (0.256 CPU Core)
+      memory: 512Mi  # 512 Mebibytes
+    limits:
+      cpu: 256m
+      memory: 512Mi
+```
+
+### Backend Configuration Source
+
+The `backend.config.source` key in `values.yaml` controls how the backend application is configured.
+* `configmap` (Recommended for Local): Reads configuration from a manually created Kubernetes ConfigMap.
+* `file` (Alternative for Local): Reads configuration by mounting a file from the host machine (`hostPath`). This is prone to file-sharing issues.
+* `environment` (Recommended for AWS): Injects configuration as environment variables from AWS Parameter Store via the Secrets Store CSI Driver.
+
 ---
 
 ## Scenario 1: Local Development Deployment
 
-This mode uses a standalone local `config.yml` file and deploys a separate PostgreSQL database as a dependency within the local Kubernetes cluster.
+This mode uses a Kubernetes `ConfigMap` for configuration and deploys a separate PostgreSQL database as a dependency.
 
-### Step 1: Deploy the PostgreSQL Database
+### Step 1: Deploy PostgreSQL Database
 
-We will use the independent Bitnami Helm chart to deploy the database.
+We use the independent Bitnami Helm chart to deploy the database.
 
-1.  **Add the Bitnami Repository (if you haven't already)**:
+1.  **Add Bitnami Repository (if you haven't already)**:
     ```bash
     helm repo add bitnami [https://charts.bitnami.com/bitnami](https://charts.bitnami.com/bitnami)
     helm repo update
@@ -54,14 +82,10 @@ We will use the independent Bitnami Helm chart to deploy the database.
     ```yaml
     # postgres-values.yaml
     auth:
-      # Set your username, password, and database name
-      # These values should match the DB_* settings in your application's config.yml
       username: "admin"
       password: "p@ssWord0"
       database: "db"
     primary:
-      # For local testing, we disable persistence for a clean slate on each deployment.
-      # If you wish to retain data, set enabled to true.
       persistence:
         enabled: false
     ```
@@ -70,43 +94,43 @@ We will use the independent Bitnami Helm chart to deploy the database.
     ```bash
     helm install postgres-db bitnami/postgresql -f postgres-values.yaml --namespace default
     ```
-    This will create a Kubernetes Service named `postgres-db-postgresql` in your cluster.
+    This creates a Kubernetes Service named `postgres-db-postgresql`.
 
-### Step 2: Configure the Application
+### Step 2: Configure & Deploy the Application (ConfigMap Method)
 
-1.  **Modify `config.yml`**:
-    Ensure the database host in your local `config.yml` file points to the Kubernetes service created in the previous step.
-    ```yaml
-    # In your config.yml file
-    database:
-      host: postgres-db-postgresql  # This is the database service name
-      # ... other settings like user, password, dbname must match postgres-values.yaml
-    ```
+This is the **recommended standard practice** for local development as it avoids host file-sharing issues.
 
-2.  **Modify `values-local.yaml`**:
-    Open the `values-local.yaml` file located in your project root and **update the `path`** to the **absolute path** of your local `config.yml`.
+1.  **Update your local `config.yml`**:
+    Ensure the `database.host` in your local `config.yml` points to the Kubernetes service: `postgres-db-postgresql`.
+
+2.  **Update `values-local.yaml`**:
+    Make sure your `values-local.yaml` is set to use the `configmap` mode.
     ```yaml
     # ../values-local.yaml
     backend:
       config:
-        source: file
-        file:
-          # !!! Change this to the correct absolute path on your machine !!!
-          path: /Users/yourname/projects/sygna-project/config.yml
+        source: configmap
+        configmap:
+          name: "sygna-hub-backend-config"
+    # ... other settings
     ```
 
-### Step 3: Deploy the Sygna Hub Application
+3.  **Create the ConfigMap in Kubernetes**:
+    This command reads your local file and creates a `ConfigMap` object in the cluster. Run this from the directory containing your `config.yml`:
+    ```bash
+    # If it already exists, you can delete it first: kubectl delete configmap sygna-hub-backend-config
+    kubectl create configmap sygna-hub-backend-config --from-file=config.yml
+    ```
 
-Run the following command from your **project root directory** (the parent directory of `helm/`).
+4.  **Deploy the Sygna Hub Application**:
+    Run the deployment command from your **project root directory**:
+    ```bash
+    helm upgrade --install sygna-local ./helm -f ../values-local.yaml
+    ```
 
-```bash
-# Note the path to the values file is ../values-local.yaml
-helm upgrade --install sygna-local ./helm -f values-local.yaml
-```
+### Step 3: Access the Application
 
-### Step 4: Access the Application
-
-After a successful deployment, the recommended way to access the frontend is via `port-forward`.
+After a successful deployment, use `port-forward` to access the frontend.
 
 1.  Open a new terminal window and run:
     ```bash
@@ -119,22 +143,23 @@ After a successful deployment, the recommended way to access the frontend is via
 
 ## Scenario 2: AWS EKS Production Deployment
 
-This mode sources its configuration from **AWS Parameter Store**, which are injected as environment variables at runtime. Logs are streamed directly to CloudWatch, and no PVC is used for logging.
+This mode follows cloud-native best practices. Configuration is sourced from **AWS Parameter Store**, and logs are streamed to **CloudWatch**.
+
+**Logging Strategy**: This configuration assumes application logs are written to standard output (`stdout`/`stderr`) and collected by a cluster-wide agent like **Fluent Bit** for forwarding to AWS CloudWatch. Therefore, the persistent volume for logs (`backend.persistence.logs`) is disabled by default for this environment.
 
 ### Step 1: Prepare AWS Cloud Resources
 
-Before deploying, ensure you have the following resources ready in your AWS account:
+Before deploying, ensure you have the following ready:
 
 * An active EKS cluster with the OIDC provider enabled.
 * The **Secrets Store CSI Driver** and its **AWS Provider** installed in your cluster.
-* A running **Amazon RDS for PostgreSQL** instance or another managed database.
-* An **IAM Role** for the Service Account (IRSA) with permissions to read from AWS Parameter Store.
-* All necessary parameters populated in **AWS Parameter Store** (as required by `values-aws-env.yaml`).
-    * For example, create parameters like `/sygna/prod/DB_HOST`, `/sygna/prod/DB_PASSWORD` (as `SecureString`), etc.
+* A running **Amazon RDS for PostgreSQL** instance.
+* An **IAM Role for Service Account (IRSA)** with permissions to read from AWS Parameter Store.
+* All necessary parameters populated in **AWS Parameter Store** (e.g., `/sygna/prod/DB_HOST`, `/sygna/prod/DB_PASSWORD`, etc.).
 
 ### Step 2: Configure the Application
 
-Edit the `values-aws-env.yaml` file in your project root with your production environment details.
+Edit the `values-aws-env.yaml` file in your project root with your production environment details. The most important fields to update are marked below.
 
 ```yaml
 # ../values-aws-env.yaml
@@ -143,16 +168,11 @@ frontend:
     enabled: true
     className: alb
     annotations:
-      alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip
-      # You may need to add your ACM ARN here depending on your setup
-      # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:....
+      # ...
     hosts:
       # !!! Change to your frontend's public domain name !!!
       - host: your-frontend.your-domain.com
-        paths:
-          - path: /
-            pathType: Prefix
+        # ...
   
   env:
     # !!! Change to your backend's public API URL !!!
@@ -161,20 +181,19 @@ frontend:
 backend:
   persistence:
     logs:
-      enabled: false # Ensure log persistence is disabled for the cloud environment
+      enabled: false
   config:
     source: environment
     environment:
-      kubernetesSecretName: "sygna-hub-backend-env-secret"
-      # !!! Set the base path used in your AWS Parameter Store !!!
+      # !!! Set your AWS Parameter Store base path !!!
       parameterStoreBasePath: "/sygna/prod"
-      # Note: The list of parameters is defined in the main values.yaml.
-      # The actual values MUST be created in AWS Parameter Store.
+      # Add a version string to trigger updates
+      configVersion: "v1.0.0"
 
 serviceAccount:
   create: true
-  # !!! Change to the ARN of the IAM Role you created for IRSA !!!
   annotations:
+    # !!! Change to the ARN of the IAM Role you created for IRSA !!!
     [eks.amazonaws.com/role-arn](https://eks.amazonaws.com/role-arn): "arn:aws:iam::123456789012:role/Your-EKS-ParamStore-Reader-Role"
 ```
 
@@ -185,26 +204,45 @@ serviceAccount:
     kubectl create namespace sygna-hub
     ```
 
-2.  **Run the deployment command**:
-    Execute this command from your **project root directory**.
+2.  **Run the deployment command** from your project root:
     ```bash
     helm upgrade --install sygna-prod ./helm -f values-aws-env.yaml --namespace sygna-hub
     ```
 
 ### Step 4: Access the Application
 
-After deployment, find the public URL of the application by inspecting the Ingress resource.
+Find the public URL by inspecting the Ingress resource:
 
 ```bash
 kubectl get ingress --namespace sygna-hub
 ```
-The `ADDRESS` column will show the DNS name of the AWS Application Load Balancer. You will need to point your domain's CNAME record to this address.
+The `ADDRESS` column will show the DNS name of the AWS Application Load Balancer. Point your domain's CNAME record to this address.
 
 ---
 
-## Common Management Commands
+## Operations & Management
 
-Here are some frequently used commands for daily operations.
+### Updating the Application
+
+* **If you changed a Helm template file (`templates/*.yaml`)**:
+    * Simply re-run the `helm upgrade` command for your environment.
+
+* **If you changed the local `config.yml` file**:
+    1.  Re-create the ConfigMap to sync the changes into the cluster:
+        ```bash
+        kubectl delete configmap sygna-hub-backend-config --ignore-not-found=true
+        kubectl create configmap sygna-hub-backend-config --from-file=config.yml
+        ```
+    2.  Restart the deployment to make the pod load the new ConfigMap:
+        ```bash
+        kubectl rollout restart deployment sygna-local-sygna-hub-hub-backend
+        ```
+
+* **If you changed a value in AWS Parameter Store**:
+    1.  Update the `configVersion` in your `values-aws-env.yaml` file (e.g., to a new timestamp or version number).
+    2.  Re-run the `helm upgrade` command for the AWS environment. Helm will detect the change in the annotation and trigger a safe rolling restart.
+
+### Other Common Commands
 
 * **Check Pod Status**:
     ```bash
@@ -212,17 +250,10 @@ Here are some frequently used commands for daily operations.
     kubectl get pods --namespace <namespace>
     ```
 
-* **View Real-time Logs**:
+* **View Real-time Logs (for live debugging)**:
     ```bash
     # Replace <pod-name> and <namespace> with your actual values
     kubectl logs -f <pod-name> --namespace <namespace>
-    ```
-
-* **Restart an Application After a Config Change**:
-    Run this command to safely restart an application after updating its configuration (e.g., in `config.yml` or AWS Parameter Store).
-    ```bash
-    # Replace <deployment-name> and <namespace> with your actual values
-    kubectl rollout restart deployment <deployment-name> --namespace <namespace>
     ```
 
 * **Uninstall / Clean Up a Deployment**:

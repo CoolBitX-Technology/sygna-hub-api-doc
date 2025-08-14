@@ -1,3 +1,4 @@
+# === Frontend Deployment ===
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,9 +26,14 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          # Define resource requests and limits
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+          # Define environment variables
           env:
             - name: BACKEND_API_URL
               value: {{ .Values.frontend.env.BACKEND_API_URL | quote }}
+          # Define health checks
           {{- if .Values.frontend.probes.enabled }}
           livenessProbe:
             httpGet:
@@ -43,6 +49,7 @@ spec:
             periodSeconds: {{ .Values.frontend.probes.periodSeconds }}
           {{- end }}
 ---
+# === Backend Deployment ===
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -61,7 +68,14 @@ spec:
       labels:
         {{- include "sygna-hub.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: {{ .Values.backend.name }}
+      # Add an annotation to trigger a rolling update when configVersion changes.
+      # This is primarily for the 'environment' source mode.
+      {{- if and (eq .Values.backend.config.source "environment") .Values.backend.config.environment.configVersion }}
+      annotations:
+        config-version: {{ .Values.backend.config.environment.configVersion | quote }}
+      {{- end }}
     spec:
+      # Associate the Pod with a Service Account, mainly for IRSA on EKS.
       serviceAccountName: {{ include "sygna-hub.serviceAccountName" . }}
       containers:
         - name: {{ .Values.backend.name }}
@@ -71,6 +85,36 @@ spec:
             - name: http
               containerPort: {{ .Values.backend.service.port }}
               protocol: TCP
+          # Define resource requests and limits
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          
+          # Conditionally inject environment variables from a Secret.
+          # This is used for the 'environment' source mode.
+          {{- if eq .Values.backend.config.source "environment" }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.backend.config.environment.kubernetesSecretName }}
+          {{- end }}
+          
+          volumeMounts:
+            # Conditionally mount the config file from a volume.
+            # This is used for 'file' (hostPath) or 'configmap' source modes.
+            {{- if or (eq .Values.backend.config.source "file") (eq .Values.backend.config.source "configmap") }}
+            - name: config-volume
+              mountPath: /app/config.yml
+              subPath: config.yml
+              readOnly: true
+            {{- end }}
+
+            # Conditionally mount the log volume.
+            # This is used if persistent logs are enabled.
+            {{- if .Values.backend.persistence.logs.enabled }}
+            - name: logs
+              mountPath: /var/log
+            {{- end }}
+
+          # Define health checks
           {{- if .Values.backend.probes.enabled }}
           livenessProbe:
             httpGet:
@@ -85,34 +129,33 @@ spec:
             initialDelaySeconds: {{ .Values.backend.probes.initialDelaySeconds }}
             periodSeconds: {{ .Values.backend.probes.periodSeconds }}
           {{- end }}
-          {{- if eq .Values.backend.config.source "environment" }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.backend.config.environment.kubernetesSecretName }}
-          {{- end }}
-          volumeMounts:
-            {{- if eq .Values.backend.config.source "file" }}
-            - name: config-volume
-              mountPath: /app/config.yml
-              subPath: config.yml
-              readOnly: true
-            {{- end }}
-            {{- if .Values.backend.persistence.logs.enabled }}
-            - name: logs
-              mountPath: /var/log
-            {{- end }}
+
+      # Define all possible volumes conditionally.
       volumes:
+        # Define 'config-volume' using hostPath if source is 'file'.
         {{- if eq .Values.backend.config.source "file" }}
         - name: config-volume
           hostPath:
             path: {{ .Values.backend.config.file.path }}
             type: File
         {{- end }}
+
+        # Define 'config-volume' using ConfigMap if source is 'configmap'.
+        {{- if eq .Values.backend.config.source "configmap" }}
+        - name: config-volume
+          configMap:
+            name: {{ .Values.backend.config.configmap.name }}
+        {{- end }}
+
+        # Define 'logs' volume using a PVC if log persistence is enabled.
         {{- if .Values.backend.persistence.logs.enabled }}
         - name: logs
           persistentVolumeClaim:
             claimName: {{ include "sygna-hub.fullname" . }}-backend-logs
         {{- end }}
+
+        # Define the CSI volume to trigger the Secrets Store CSI Driver.
+        # This is used for the 'environment' source mode.
         {{- if eq .Values.backend.config.source "environment" }}
         - name: secrets-store-inline
           csi:

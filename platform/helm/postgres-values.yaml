@@ -1,0 +1,13 @@
+# Settings for the Bitnami PostgreSQL chart
+auth:
+  # Please set your database name , username and password 
+  # the values should be the same with "DB_*"  in values-local.yaml
+  username: "admin"
+  password: "p@ssWord0"
+  database: "db"
+
+# 為了本機測試，我們關閉持久化，這樣每次刪除後都是乾淨的資料庫
+# 如果您希望保留資料，可以將 enabled 設為 true
+primary:
+  persistence:
+    enabled: false

@@ -3,12 +3,9 @@
 
 backend:
   config:
-    # Use local file mount mode.
-    source: file
-    file:
-      # !!! IMPORTANT !!!
-      # Change this to the absolute path of your local config.yml
-      path: config.yml
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
 
 # No AWS IAM roles needed for local development.
 serviceAccount:

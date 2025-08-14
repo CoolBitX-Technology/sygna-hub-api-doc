@@ -9,7 +9,14 @@ frontend:
     repository: sygna/sygna-hub-console
     tag: latest-beta
     pullPolicy: IfNotPresent
-
+  resources:
+    # requests and limits are set to the same values for predictable performance.
+    requests:
+      cpu: 256m
+      memory: 512Mi
+    limits:
+      cpu: 256m
+      memory: 512Mi
   service:
     type: ClusterIP
     port: 80
@@ -39,7 +46,14 @@ backend:
     repository: sygna/sygna-hub
     tag: latest-beta
     pullPolicy: IfNotPresent
-
+  resources:
+    # requests and limits are set to the same values for predictable performance.
+    requests:
+      cpu: 256m
+      memory: 512Mi
+    limits:
+      cpu: 256m
+      memory: 512Mi
   service:
     type: ClusterIP
     port: 8080
@@ -59,9 +73,9 @@ backend:
       size: 1Gi
 
   config:
-    source: file
-    file:
-      path: /path/to/your/config.yml
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
     environment:
       kubernetesSecretName: "sygna-hub-backend-env-secret"
       parameterStoreBasePath: "/sygna/test"
