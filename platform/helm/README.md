@@ -1,6 +1,6 @@
 # Sygna Hub Helm Chart
 
-This Helm Chart is used to deploy the Sygna Hub frontend (hub-console) and backend (hub-backend) applications. It is designed to be highly flexible, supporting both local development and production deployments on AWS EKS.
+This Helm Chart is used to deploy the Sygna Hub frontend (`hub-console`) and backend (`hub-backend`) applications. It is designed to be highly flexible, supporting both local development and production deployments on AWS EKS.
 
 ## Prerequisites
 
@@ -26,7 +26,6 @@ The recommended project structure is as follows. This `README.md` file is locate
    ├── values-local.yaml
    ├── values-aws-env.yaml
    └── values.yaml
-
 ```
 
 * `helm/`: The core templates of the chart, which generally do not need modification.
@@ -73,7 +72,7 @@ We use the independent Bitnami Helm chart to deploy the database.
 
 1.  **Add Bitnami Repository (if you haven't already)**:
     ```bash
-    helm repo add bitnami [https://charts.bitnami.com/bitnami](https://charts.bitnami.com/bitnami)
+    helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo update
     ```
 
@@ -134,6 +133,11 @@ After a successful deployment, use `port-forward` to access the frontend.
 
 1.  Open a new terminal window and run:
     ```bash
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    helm repo update
+    helm install ingress-nginx ingress-nginx/ingress-nginx
+    kubectl apply -f ./helm/local-ingress.yaml  
+
     kubectl port-forward svc/sygna-local-sygna-hub-hub-frontend 8000:80
     ```
 
@@ -157,6 +161,63 @@ Before deploying, ensure you have the following ready:
 * An **IAM Role for Service Account (IRSA)** with permissions to read from AWS Parameter Store.
 * All necessary parameters populated in **AWS Parameter Store** (e.g., `/sygna/prod/DB_HOST`, `/sygna/prod/DB_PASSWORD`, etc.).
 
+#### Install AWS Load Balancer Controller
+
+The AWS Load Balancer Controller is required for creating and managing ALBs via Kubernetes Ingress. Follow these steps to install it using Helm (recommended for EKS).
+
+1. **Create IAM OIDC Provider (if not already done)**:
+   If your cluster doesn't have an IAM OIDC provider, create one:
+   ```bash
+   eksctl utils associate-iam-oidc-provider --region <region-code> --cluster <your-cluster-name> --approve
+   ```
+
+2. **Download and Create IAM Policy**:
+   Download the IAM policy JSON for the controller:
+   ```bash
+   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.8.2/docs/install/iam_policy.json
+   ```
+   Create the policy:
+   ```bash
+   aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam-policy.json
+   ```
+   Note the returned policy ARN (e.g., `arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy`).
+
+3. **Create IAM Role and Service Account using IRSA**:
+   Use `eksctl` to create a Kubernetes ServiceAccount and attach the IAM policy:
+   ```bash
+   eksctl create iamserviceaccount --cluster=<your-cluster-name> --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --region <region-code> --approve
+   ```
+
+4. **Add Helm Repository**:
+   ```bash
+   helm repo add eks https://aws.github.io/eks-charts
+   helm repo update
+   ```
+
+5. **Install the Controller via Helm**:
+   ```bash
+   helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=<your-cluster-name> --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+   ```
+
+6. **Verify Installation**:
+   Check the pods in the `kube-system` namespace:
+   ```bash
+   kubectl get pods -n kube-system | grep aws-load-balancer-controller
+   ```
+   View logs for any issues:
+   ```bash
+   kubectl logs -n kube-system deployment/aws-load-balancer-controller
+   ```
+
+**Notes**:
+- This uses the latest stable version (v2.8.2 as of August 2025); check the [official GitHub repo](https://github.com/kubernetes-sigs/aws-load-balancer-controller) for updates.
+- If using Fargate, additional subnet tagging may be required for load balancer discovery.
+- For webhook support, install cert-manager if not already present:
+  ```bash
+  kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+  ```
+- If you encounter permission issues, ensure the IAM role has the necessary trust relationship with the OIDC provider.
+
 ### Step 2: Configure the Application
 
 Edit the `values-aws-env.yaml` file in your project root with your production environment details. The most important fields to update are marked below.
@@ -169,14 +230,29 @@ frontend:
     className: alb
     annotations:
       # ...
+      # !!! Change to your frontend public domain arn !!!
+      alb.ingress.kubernetes.io/certificate-arn: 
     hosts:
       # !!! Change to your frontend's public domain name !!!
       - host: your-frontend.your-domain.com
         # ...
+backend:
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      # ...
+      # !!! Change to your backend public domain arn !!!
+      alb.ingress.kubernetes.io/certificate-arn: 
+    hosts:
+      - host: your-backend.your-domain.com # Change to your domain
+        paths:
+          - path: /v1
+            pathType: Prefix
   
   env:
     # !!! Change to your backend's public API URL !!!
-    BACKEND_API_URL: "[https://your-backend.your-domain.com/v1](https://your-backend.your-domain.com/v1)"
+    BACKEND_API_URL: "https://your-backend.your-domain.com/v1"
 
 backend:
   persistence:
@@ -194,7 +270,7 @@ serviceAccount:
   create: true
   annotations:
     # !!! Change to the ARN of the IAM Role you created for IRSA !!!
-    [eks.amazonaws.com/role-arn](https://eks.amazonaws.com/role-arn): "arn:aws:iam::123456789012:role/Your-EKS-ParamStore-Reader-Role"
+    eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/Your-EKS-ParamStore-Reader-Role"
 ```
 
 ### Step 3: Deploy the Sygna Hub Application
