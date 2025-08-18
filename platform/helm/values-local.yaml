@@ -15,3 +15,7 @@ frontend:
   # Expose frontend via NodePort for easy access on localhost.
   service:
     type: NodePort
+  
+  # Add these lines to set the backend API URL for the local environment
+  env:
+    BACKEND_API_URL: "http://localhost:8000/v1"

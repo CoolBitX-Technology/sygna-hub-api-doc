@@ -8,30 +8,40 @@ frontend:
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: ip
       # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:....
+      alb.ingress.kubernetes.io/group.name: sygna-hub-group
     hosts:
       - host: your-frontend.your-domain.com # Change to your domain
         paths:
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: sygna-prod-sygna-hub-hub-backend
+                port:
+                  number: 8080
           - path: /
             pathType: Prefix
-  
+            backend:
+              service:
+                name: sygna-prod-sygna-hub-hub-frontend
+                port:
+                  number: 80
   env:
     BACKEND_API_URL: "https://your-backend.your-domain.com/v1"
 
 backend:
   # Ensure log persistence is disabled for cloud environment.
+  ingress:
+    enabled: false
+  
   persistence:
     logs:
       enabled: false
 
   config:
-    # Use environment variable injection mode.
-    source: environment
-    environment:
-      kubernetesSecretName: "sygna-hub-backend-env-secret"
-      # IMPORTANT: Set your AWS Parameter Store base path.
-      parameterStoreBasePath: "/sygna/test"
-      # Note: The list of parameters is defined in the main values.yaml.
-      # The actual values MUST be created in AWS Parameter Store.
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
 
 serviceAccount:
   create: true

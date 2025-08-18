@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sygna-local-ingress
+  annotations:
+    # This annotation is key for the NGINX Ingress Controller to recognize this rule
+    kubernetes.io/ingress.class: "nginx"
+    # Allows the use of regular expressions in the path, for matching /v1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      # Rule 1: All requests sent to /v1 or anything thereafter (e.g., /v1/...) are routed to the backend service
+      - path: /v1(/|$)(.*)
+        pathType: ImplementationSpecific # Using regex for more precise matching
+        backend:
+          service:
+            # The service name is derived from the Helm release name (sygna-local) and the chart's definitions.
+            # Please verify that your service name is correct.
+            name: sygna-local-sygna-hub-hub-backend
+            port:
+              number: 8080 # The backend service's port
+
+      # Rule 2: All requests sent to the root path (/) are routed to the frontend service
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            # The service name is derived from the Helm release name (sygna-local) and the chart's definitions.
+            name: sygna-local-sygna-hub-hub-frontend
+            port:
+              number: 80 # The frontend service's port

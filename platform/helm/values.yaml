@@ -38,7 +38,7 @@ frontend:
             pathType: ImplementationSpecific
 
   env:
-    BACKEND_API_URL: "http://my-release-sygna-hub-backend:8080/v1"
+    BACKEND_API_URL: "http://my-release-sygna-hub-backend:8000/v1"
 
 backend:
   name: hub-backend
