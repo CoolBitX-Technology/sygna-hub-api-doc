@@ -6,8 +6,8 @@ auth:
   password: "p@ssWord0"
   database: "db"
 
-# 為了本機測試，我們關閉持久化，這樣每次刪除後都是乾淨的資料庫
-# 如果您希望保留資料，可以將 enabled 設為 true
+# We disable presistance to make sure we test with clean database.
+# You can change enabled to true if you want to presistance the datas.
 primary:
   persistence:
     enabled: false
