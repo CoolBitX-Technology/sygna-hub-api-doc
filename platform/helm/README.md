@@ -124,6 +124,8 @@ This is the **recommended standard practice** for local development as it avoids
 4.  **Deploy the Sygna Hub Application**:
     Run the deployment command from your **project root directory**:
     ```bash
+    minikube image load sygna/sygna-hub-console:latest-beta
+    minikube image load sygna/sygna-hub:latest
     helm upgrade --install sygna-local ./helm -f  ./helm/values-local.yaml
     ```
 
@@ -138,7 +140,7 @@ After a successful deployment, use `port-forward` to access the frontend.
     helm install ingress-nginx ingress-nginx/ingress-nginx
     kubectl apply -f ./helm/local-ingress.yaml  
 
-    kubectl port-forward svc/sygna-local-sygna-hub-hub-frontend 8000:80
+    kubectl port-forward svc/ingress-nginx-controller 8000:80
     ```
 
 2.  Open your web browser and navigate to `http://localhost:8000`.
