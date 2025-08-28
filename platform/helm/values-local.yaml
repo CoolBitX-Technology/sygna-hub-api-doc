@@ -1,0 +1,21 @@
+# Settings for local development environment.
+# This file overrides values from the main values.yaml.
+
+backend:
+  config:
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
+
+# No AWS IAM roles needed for local development.
+serviceAccount:
+  create: false
+
+frontend:
+  # Expose frontend via NodePort for easy access on localhost.
+  service:
+    type: NodePort
+  
+  # Add these lines to set the backend API URL for the local environment
+  env:
+    BACKEND_API_URL: "http://localhost:8000/v1"

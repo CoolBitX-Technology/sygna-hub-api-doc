@@ -1,0 +1,13 @@
+# Settings for the Bitnami PostgreSQL chart
+auth:
+  # Please set your database name , username and password 
+  # the values should be the same with "DB_*"  in values-local.yaml
+  username: "admin"
+  password: "p@ssWord0"
+  database: "db"
+
+# We disable presistance to make sure we test with clean database.
+# You can change enabled to true if you want to presistance the datas.
+primary:
+  persistence:
+    enabled: false

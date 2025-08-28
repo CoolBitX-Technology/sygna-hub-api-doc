@@ -1,0 +1,166 @@
+# === Frontend Deployment ===
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-{{ .Values.frontend.name }}
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ .Values.frontend.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "sygna-hub.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ .Values.frontend.name }}
+  template:
+    metadata:
+      labels:
+        {{- include "sygna-hub.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: {{ .Values.frontend.name }}
+    spec:
+      containers:
+        - name: {{ .Values.frontend.name }}
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # Define resource requests and limits
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+          # Define environment variables
+          env:
+            - name: BACKEND_API_URL
+              value: {{ .Values.frontend.env.BACKEND_API_URL | quote }}
+          # Define health checks
+          {{- if .Values.frontend.probes.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.frontend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.frontend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.probes.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.frontend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.frontend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.probes.periodSeconds }}
+          {{- end }}
+---
+# === Backend Deployment ===
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-{{ .Values.backend.name }}
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ .Values.backend.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "sygna-hub.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: {{ .Values.backend.name }}
+  template:
+    metadata:
+      labels:
+        {{- include "sygna-hub.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: {{ .Values.backend.name }}
+      # Add an annotation to trigger a rolling update when configVersion changes.
+      # This is primarily for the 'environment' source mode.
+      {{- if and (eq .Values.backend.config.source "environment") .Values.backend.config.environment.configVersion }}
+      annotations:
+        config-version: {{ .Values.backend.config.environment.configVersion | quote }}
+      {{- end }}
+    spec:
+      # Associate the Pod with a Service Account, mainly for IRSA on EKS.
+      serviceAccountName: {{ include "sygna-hub.serviceAccountName" . }}
+      containers:
+        - name: {{ .Values.backend.name }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          # Define resource requests and limits
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          
+          # Conditionally inject environment variables from a Secret.
+          # This is used for the 'environment' source mode.
+          {{- if eq .Values.backend.config.source "environment" }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.backend.config.environment.kubernetesSecretName }}
+          {{- end }}
+          
+          volumeMounts:
+            # Conditionally mount the config file from a volume.
+            # This is used for 'file' (hostPath) or 'configmap' source modes.
+            {{- if or (eq .Values.backend.config.source "file") (eq .Values.backend.config.source "configmap") }}
+            - name: config-volume
+              mountPath: /app/config.yml
+              subPath: config.yml
+              readOnly: true
+            {{- end }}
+
+            # Conditionally mount the log volume.
+            # This is used if persistent logs are enabled.
+            {{- if .Values.backend.persistence.logs.enabled }}
+            - name: logs
+              mountPath: /var/log
+            {{- end }}
+
+          # Define health checks
+          {{- if .Values.backend.probes.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.backend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.backend.probes.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.probes.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.probes.periodSeconds }}
+          {{- end }}
+
+      # Define all possible volumes conditionally.
+      volumes:
+        # Define 'config-volume' using hostPath if source is 'file'.
+        {{- if eq .Values.backend.config.source "file" }}
+        - name: config-volume
+          hostPath:
+            path: {{ .Values.backend.config.file.path }}
+            type: File
+        {{- end }}
+
+        # Define 'config-volume' using ConfigMap if source is 'configmap'.
+        {{- if eq .Values.backend.config.source "configmap" }}
+        - name: config-volume
+          configMap:
+            name: {{ .Values.backend.config.configmap.name }}
+        {{- end }}
+
+        # Define 'logs' volume using a PVC if log persistence is enabled.
+        {{- if .Values.backend.persistence.logs.enabled }}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: {{ include "sygna-hub.fullname" . }}-backend-logs
+        {{- end }}
+
+        # Define the CSI volume to trigger the Secrets Store CSI Driver.
+        # This is used for the 'environment' source mode.
+        {{- if eq .Values.backend.config.source "environment" }}
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ include "sygna-hub.fullname" . }}-backend-spc
+        {{- end }}

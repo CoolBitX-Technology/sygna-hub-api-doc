@@ -1,0 +1,112 @@
+# Default values for sygna-hub.
+# This version defaults to stdout logging (no PVC for logs).
+
+replicaCount: 1
+
+frontend:
+  name: hub-frontend
+  image:
+    repository: sygna/sygna-hub-console
+    tag: latest-beta
+    pullPolicy: IfNotPresent
+  resources:
+    # requests and limits are set to the same values for predictable performance.
+    requests:
+      cpu: 256m
+      memory: 512Mi
+    limits:
+      cpu: 256m
+      memory: 512Mi
+  service:
+    type: ClusterIP
+    port: 80
+
+  probes:
+    enabled: true
+    path: /
+    initialDelaySeconds: 15
+    periodSeconds: 20
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: sygna-hub.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+  env:
+    BACKEND_API_URL: "http://my-release-sygna-hub-backend:8000/v1"
+
+backend:
+  name: hub-backend
+  image:
+    repository: sygna/sygna-hub
+    tag: latest-beta
+    pullPolicy: IfNotPresent
+  resources:
+    # requests and limits are set to the same values for predictable performance.
+    requests:
+      cpu: 256m
+      memory: 512Mi
+    limits:
+      cpu: 256m
+      memory: 512Mi
+  service:
+    type: ClusterIP
+    port: 8080
+
+  probes:
+    enabled: true
+    path: /v1/vasp-server-status
+    initialDelaySeconds: 30
+    periodSeconds: 20
+  
+  persistence:
+    logs:
+      # By default, log persistence is disabled in favor of stdout logging.
+      # Set to true only if you explicitly need to write logs to a PVC.
+      enabled: false
+      storageClassName: ""
+      size: 1Gi
+
+  config:
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
+    environment:
+      kubernetesSecretName: "sygna-hub-backend-env-secret"
+      parameterStoreBasePath: "/sygna/test"
+      parameters:
+        DB_HOST: ""
+        DB_NAME: "db"
+        DB_PASSWORD: ""
+        DB_PORT: "5432"
+        DB_USER: ""
+        DB_DRIVER: "postgres"
+        ADMIN_ACCOUNT: ""
+        ADMIN_PASSWORD: ""
+        ALLOW_ORIGINS: "[]"
+        PORT: "80"
+        TRISA_SERVER_URL: "http://trisa.platform.local"
+        CALLBACK_HOST: ""
+        COOKIE_DOMAIN: ""
+        ACCESS_TOKEN_EXPIRES_IN_SECONDS: "14400"
+        DATA_ENCRYPTION_KEY: ""
+        JWT_SECRET: ""
+        LICENSE_KEY: ""
+        VASP_CODE: ""
+        EMAIL_HOST: ""
+        EMAIL_ACCOUNT: ""
+        EMAIL_PASSWORD: ""
+        EMAIL_DISPLAY_NAME: ""
+        EMAIL_SUBJECT_PREFIX: ""
+        EMAIL_TLS_SUPPORT: "FALSE"
+        EMAIL_FROM_EMAIL: ""
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}

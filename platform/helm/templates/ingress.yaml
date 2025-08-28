@@ -1,0 +1,31 @@
+{{- if .Values.frontend.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "sygna-hub.fullname" . }}-frontend
+  labels:
+    {{- include "sygna-hub.labels" . | nindent 4 }}
+  annotations:
+    {{- with .Values.frontend.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.frontend.ingress.className }}
+  ingressClassName: {{ .Values.frontend.ingress.className }}
+  {{- end }}
+  rules:
+    {{- range .Values.frontend.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ .backend.service.name }}
+                port:
+                  number: {{ .backend.service.port.number }}
+          {{- end }}
+    {{- end }}
+{{- end }}
