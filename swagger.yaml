@@ -164,7 +164,6 @@ paths:
                     type: array
                     items:
                       type: object
-                      properties: {}
                   created_at:
                     type: string
                   updated_at:
@@ -262,58 +261,6 @@ paths:
             type: array
             items:
               type: boolean
-        - name: risk_score_provider
-          in: query
-          description: filter customers by risk score provider
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              enum:
-                - Elliptic
-                - Chainalysis V1
-                - Chainalysis V2
-                - Merkle Science
-                - Dow Jones
-                - Coinfirm
-                - Coinfirm (Sandbox)
-        - name: max_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: avg_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: label
-          in: query
-          description: filter customers by labels from KYT service searched
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: last_screened
-          in: query
-          description: 'filter customers by a range of last screened date(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
         - name: created_at
           in: query
           description: 'filter data by a range of created data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
@@ -351,11 +298,11 @@ paths:
             type: array
             items:
               type: string
-        - schema:
-            type: boolean
+        - name: fuzzy_search
           in: query
-          name: fuzzy_search
           description: filter data by fuzzy search
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -389,19 +336,6 @@ paths:
                           type: string
                         is_active:
                           type: boolean
-                        risk_score_provider:
-                          type: string
-                        max_risk_score:
-                          type: string
-                        avg_risk_score:
-                          type: string
-                        labels:
-                          type: array
-                          items:
-                            type: object
-                            properties: {}
-                        last_screened:
-                          type: string
                 x-examples:
                   Example 1:
                     data:
@@ -752,7 +686,6 @@ paths:
           application/json:
             schema:
               type: object
-              properties: {}
             examples:
               Example 1:
                 value:
@@ -769,26 +702,72 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
                     data:
                       - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
                         success: true
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     get:
       tags:
         - Hub/customers-assets
       summary: get asset information of specific customers
+      parameters:
+        - name: id
+          in: query
+          description: filter customer asset by customer identifier
+          schema:
+            type: array
+            items:
+              type: string
+        - name: name
+          in: query
+          description: filter customer asset by customer name
+          schema:
+            type: array
+            items:
+              type: string
+        - name: asset_id
+          in: query
+          description: filter customer asset by customer name
+          schema:
+            type: array
+            items:
+              type: string
+        - name: is_active
+          in: query
+          description: filter customer asset by if status is activated
+          schema:
+            type: array
+            items:
+              type: string
+        - name: offset
+          in: query
+          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
+          schema:
+            type: integer
+        - name: orderby
+          in: query
+          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         default:
           description: ''
-          headers: {}
           content:
             application/zip:
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
@@ -823,53 +802,9 @@ paths:
                       limit: 1
                       next_offset: 1
                       offset: 0
-      parameters:
-        - schema:
-            type: array
-            items:
-              type: string
-          in: query
-          name: id
-          description: filter customer asset by customer identifier
-        - schema:
-            type: array
-            items:
-              type: string
-          in: query
-          name: name
-          description: filter customer asset by customer name
-        - schema:
-            type: array
-            items:
-              type: string
-          in: query
-          name: asset_id
-          description: filter customer asset by customer name
-        - schema:
-            type: array
-            items:
-              type: string
-          in: query
-          name: is_active
-          description: filter customer asset by if status is activated
-        - schema:
-            type: integer
-          in: query
-          name: offset
-          description: 'Specifies an offset that allows you to retrieve the next batch of records.Any positive integer.If not specified, the default is 0.'
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: 'A URL parameter that specifies the maximum number of records to return. This can be any positive integer between 1 and 1000 inclusive. If not specified, the default is 20.'
-        - schema:
-            type: array
-            items:
-              type: string
-          in: query
-          name: orderby
-          description: 'Specifies sequences to sort data (ie.orderby=id:desc)'
-    parameters: []
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     patch:
       tags:
         - Hub/customers-assets
@@ -879,7 +814,6 @@ paths:
           application/json:
             schema:
               type: object
-              properties: {}
             examples:
               Example 1:
                 value:
@@ -893,13 +827,15 @@ paths:
             application/zip:
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
                     data:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
     delete:
       tags:
         - Hub/customers-assets
@@ -908,7 +844,6 @@ paths:
           application/json:
             schema:
               type: object
-              properties: {}
             examples:
               Example 1:
                 value:
@@ -920,19 +855,19 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
                     data:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /customers-export:
     get:
       tags:
         - Hub/customers-export
-      x-stoplight:
-        id: 76c6e928de34f
       summary: generate customers report
       parameters:
         - name: id
@@ -962,58 +897,6 @@ paths:
             type: array
             items:
               type: boolean
-        - name: risk_score_provider
-          in: query
-          description: filter customers by risk score provider
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              enum:
-                - Elliptic
-                - Chainalysis V1
-                - Chainalysis V2
-                - Merkle Science
-                - Dow Jones
-                - Coinfirm
-                - Coinfirm (Sandbox)
-        - name: max_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of max risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: avg_risk_score
-          in: query
-          description: 'A URL parameter that specifies the range of average risk score. This format should be {provider:from,to} (ie.Elliptic:0,10 or Chainalysis V1:low,high).'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: label
-          in: query
-          description: filter customers by labels from KYT service searched
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: last_screened
-          in: query
-          description: 'filter customers by a range of last screened date(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
         - name: created_at
           in: query
           description: 'filter data by a range of created data(ie. ''2021-01-01T00:00:00.000Z,2021-01-02T23:59:59.999Z'' means an range between 2021-01-01T00:00:00.000Z and 2021-01-02T23:59:59.999Z inclusive)'
@@ -1188,15 +1071,6 @@ paths:
             type: array
             items:
               type: string
-        - name: asset_risk_score
-          in: query
-          description: filter asset by risk score in current customer
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
         - name: asset_address
           in: query
           description: filter asset by address in current customer
@@ -1206,27 +1080,9 @@ paths:
             type: array
             items:
               type: string
-        - name: asset_label
-          in: query
-          description: filter asset by label in current customer
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
         - name: asset_value
           in: query
           description: filter asset by value in current customer
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - name: asset_last_screened
-          in: query
-          description: filter asset by last screen time in current customer
           style: form
           explode: false
           schema:
@@ -1514,6 +1370,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Processing
                 - Blocked
@@ -1550,6 +1407,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -1737,6 +1595,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -2586,6 +2445,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Sygna_Bridge
                 - Elliptic
@@ -2606,6 +2466,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Travel Rule
                 - Blockchain Analytics
@@ -2627,6 +2488,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - activated
                 - deactivated
@@ -3054,6 +2916,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Sygna_Bridge
                 - Elliptic
@@ -3077,6 +2940,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Travel Rule
                 - Blockchain Analytics
@@ -4132,6 +3996,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Processing
                 - Blocked
@@ -4168,6 +4033,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - Sygna_Bridge
                 - Sygna_EmailProtocol
@@ -4210,11 +4076,11 @@ paths:
             type: array
             items:
               type: string
-        - schema:
-            type: string
+        - name: group_originator_assets
           in: query
-          name: group_originator_assets
           description: 'Rearrange the API payload with grouping originators'' assets '
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -4579,7 +4445,6 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-    parameters: []
   /transactions/email-protocol/deposits:
     post:
       tags:
@@ -5376,8 +5241,6 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-      x-stoplight:
-        id: obdtdhldfx1wu
   /transactions/wallet-address-filter:
     post:
       tags:
@@ -5930,7 +5793,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                properties: {}
               examples:
                 Address belongs to bVASP:
                   value:
@@ -5967,7 +5829,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
-              examples: {}
       security:
         - BearerToken: []
       servers:
@@ -6009,8 +5870,9 @@ paths:
                       monthlyUsed: 57
                       quarterlyUsed: 57
                       expirationDate: 2025/03/13
-      x-stoplight:
-        id: q3vgj4cgbhdtg
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users:
     get:
       tags:
@@ -6053,6 +5915,7 @@ paths:
           schema:
             type: array
             items:
+              type: string
               enum:
                 - password
                 - google
@@ -6522,9 +6385,20 @@ paths:
           description: ''
   /users/reset-password:
     post:
-      summary: reset password
       tags:
         - Hub/users
+      summary: reset password
+      description: Only admin can reset the password with this API.
+      operationId: get-users-reset-password
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+            examples:
+              Example 1:
+                value:
+                  user_account_email: services@sygna.io
       responses:
         '200':
           description: OK
@@ -6532,36 +6406,33 @@ paths:
             '*/*':
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
                     data:
                       success: true
                       generated_password: Ab_Cd1234
-      operationId: get-users-reset-password
-      x-stoplight:
-        id: 1ohgqk0xwmwlz
-      description: Only admin can reset the password with this API.
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
+  /users/forget-passwrod:
+    post:
+      tags:
+        - Hub/users
+      summary: forget password
+      operationId: get-users-forget-passwrod
       requestBody:
         content:
           '*/*':
             schema:
               type: object
-              properties: {}
             examples:
               Example 1:
                 value:
-                  user_account_email: services@sygna.io
-  /users/forget-passwrod:
-    post:
-      summary: forget password
-      tags:
-        - Hub/users
+                  account: services@sygna.io
       responses:
         '200':
           description: OK
-          content: {}
         '400':
           description: Bad Request
         '401':
@@ -6570,19 +6441,9 @@ paths:
           description: Forbidden
         '500':
           description: Internal Server Error
-      operationId: get-users-forget-passwrod
-      x-stoplight:
-        id: 5aipcyj51hraw
-      requestBody:
-        content:
-          '*/*':
-            schema:
-              type: object
-              properties: {}
-            examples:
-              Example 1:
-                value:
-                  account: services@sygna.io
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /users/history:
     get:
       tags:
@@ -6753,6 +6614,15 @@ paths:
                   data:
                     private_key: X*****************************************Y=
                     public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
+              examples:
+                default:
+                  value:
+                    data:
+                      private_key: X*****************************************Y=
+                      public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /vendors/test:
     post:
       tags:
@@ -7154,17 +7024,18 @@ paths:
         - url: 'httsp://example.com/v1'
           description: ''
   '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb':
-    parameters:
-      - schema:
-          type: string
-        name: vaspCode
-        in: path
-        required: true
     get:
-      summary: "compare originator's data with bVASP's data checking rule"
-      description: "By filling in originator's customer_id and bVASP's vasp_code, oVASP is able to check if the data is ready to for transfer"
       tags:
         - Hub/beneficiary-checking-rule
+      summary: compare originator's data with bVASP's data checking rule
+      description: 'By filling in originator''s customer_id and bVASP''s vasp_code, oVASP is able to check if the data is ready to for transfer'
+      operationId: get-beneficiary-checking-rule-vaspCode-rule-comparison-result
+      parameters:
+        - name: vaspCode
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -7172,7 +7043,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                properties: {}
               examples:
                 bVASP doesn't maintain the data checking rule:
                   value:
@@ -7274,14 +7144,14 @@ paths:
           description: Forbidden
         '500':
           description: Internal Server Error
-      operationId: get-beneficiary-checking-rule-vaspCode-rule-comparison-result
-      x-stoplight:
-        id: owrpzfk1a0v3o
+      servers:
+        - url: 'httsp://example.com/v1'
+          description: ''
   /vasp/beneficiary-checking-rule:
     post:
-      summary: disclose the data checking rules
       tags:
         - Hub/beneficiary-checking-rule
+      summary: disclose the data checking rules
       requestBody:
         description: |
           This API allows the beneficiary VASP to add or manage rules for validating data transfers.
@@ -7289,7 +7159,6 @@ paths:
           '*/*':
             schema:
               type: object
-              properties: {}
             examples:
               Example 1:
                 value:
@@ -7416,8 +7285,6 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-      x-stoplight:
-        id: fpoo2nefq0cfd
     get:
       tags:
         - Hub/beneficiary-checking-rule
@@ -7429,7 +7296,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                properties: {}
               examples:
                 bVASP discloses its data checking rule:
                   value:
@@ -7638,7 +7504,6 @@ paths:
             '*/*':
               schema:
                 type: object
-                properties: {}
               examples:
                 Example 1:
                   value:
@@ -7707,39 +7572,6 @@ components:
           type: object
         type:
           type: string
-    model.Currency:
-      type: object
-      properties:
-        addr_extra_info:
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-        currency_id:
-          type: string
-        currency_name:
-          type: string
-        currency_symbol:
-          type: string
-        token_address:
-          type: string
-    schema.RespWithPaging:
-      type: object
-      properties:
-        paging:
-          $ref: '#/components/schemas/schema.PagingResult'
-    schema.PagingResult:
-      type: object
-    schema.GetCustomersOutput:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Target asset identifier which you want to accept
-          format: uuid
-      required:
-        - id
     schema.PutCustomersInput:
       type: object
       properties:
@@ -7836,6 +7668,8 @@ components:
         originator:
           $ref: '#/components/schemas/OriginatorAsset'
         protocol:
+          type: string
+          nullable: true
           enum:
             - Sygna_Bridge
             - null
@@ -8375,6 +8209,7 @@ components:
         countryOfRegistration:
           type: string
         customerIdentification:
+          type: string
           enum:
             - password
             - google
@@ -8460,6 +8295,13 @@ components:
       type: object
       additionalProperties:
         type: string
+    schema.RespWithPaging:
+      type: object
+      properties:
+        paging:
+          $ref: '#/components/schemas/schema.PagingResult'
+    schema.PagingResult:
+      type: object
     schema.PostOwnershipInput:
       type: object
     schema.PatchOwnershipIdInput:
@@ -8546,6 +8388,7 @@ components:
         legalPersonName:
           type: string
         legalPersonNameIdentifierType:
+          type: string
           enum:
             - Blockchain Analytics
             - Sanction Screening
@@ -8572,6 +8415,7 @@ components:
       type: object
       properties:
         legalPersonName:
+          type: string
           enum:
             - personal_info_checking_items
             - automation_settings
@@ -9121,6 +8965,7 @@ components:
         credential:
           type: object
         provider:
+          type: string
           enum:
             - Sygna_Bridge
             - Elliptic
@@ -9132,6 +8977,7 @@ components:
             - Coinfirm
             - Coinfirm (Sandbox)
         type:
+          type: string
           enum:
             - Travel Rule
             - Blockchain Analytics
