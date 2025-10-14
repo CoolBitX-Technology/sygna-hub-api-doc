@@ -1,0 +1,53 @@
+# Settings for AWS EKS production environment.
+
+frontend:
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/certificate-arn: XXXXX # change to your acm arn
+      alb.ingress.kubernetes.io/group.name: sygna-hub-group
+    hosts:
+      - host: XXXXX.XXXXX.XXXXX # Change to your domain
+        paths:
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: sygna-hub-sygna-hub-helm-hub-backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sygna-hub-sygna-hub-helm-hub-frontend
+                port:
+                  number: 80
+  env:
+    BACKEND_API_URL: "https://XXXXX.XXXXX.XXXXX/v1" # change to your domain
+
+backend:
+
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /v1/vasp-server-status
+  ingress:
+    enabled: false
+  
+  persistence:
+    logs:
+      enabled: false
+
+  config:
+    source: configmap
+    configmap:
+      name: "sygna-hub-backend-config"
+
+serviceAccount:
+  create: true
+  # IMPORTANT: This annotation enables IRSA.
+  # The ARN should be for a role with permissions to read from Parameter Store.
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::654655157226:role/EKS_pod_rold_ssm_reader"
