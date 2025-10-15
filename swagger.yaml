@@ -3143,7 +3143,6 @@ paths:
                               high_risk_score:
                                 type: string
                                 enum:
-                                  - UNKNOWN
                                   - LOW
                                   - MEDIUM
                                   - HIGH
@@ -5918,8 +5917,21 @@ paths:
   /transactions/note:
     patch:
       summary: take notes to the data transfer or transaction
-      tags: []
-      responses: {}
+      tags:
+        - Hub/transactions
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/schema.GetRootOutput'
+              examples:
+                Example:
+                  value:
+                    data:
+                      - id: 77b56198-c3a8-48b7-8c42-a500802b184d
+                        success: true
       operationId: get-transactions-note
       x-stoplight:
         id: k5gnnmqeqnfrq
@@ -5932,8 +5944,8 @@ paths:
             examples:
               Example 1:
                 value:
-                  id: 123
-                  note: returned
+                  id: 77b56198-c3a8-48b7-8c42-a500802b184d
+                  note: suspicious transaciton
   '/analysis/interop-info/{provider}':
     get:
       tags:
