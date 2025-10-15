@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.39.1
+  version: 1.40.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -2578,6 +2578,26 @@ paths:
                           expire_days: 30
                         status: activated
                         start_time: '2023-04-13T10:11:09.650Z'
+                TRM Labs:
+                  value:
+                    data:
+                      - id: d5e84743-a8dd-4cde-aa49-2762af7d3e00
+                        created_at: '2025-08-29T09:48:07.710Z'
+                        updated_at: '2025-08-29T09:48:07.710Z'
+                        vasp_code: REGTTWAA
+                        provider: TRM Labs
+                        type: Blockchain Analytics
+                        is_active: true
+                        credential:
+                          api_key: ce1e0f99-2d4b-4f34-a035-e5501bb573f7
+                        settings:
+                          high_risk_score: HIGH
+                        status: activated
+                        start_time: '2025-08-29T09:48:07.702Z'
+                    paging:
+                      has_next: false
+                      limit: 20
+                      offset: 0
         '400':
           description: Bad Request
           content:
@@ -2849,6 +2869,17 @@ paths:
                       app_secret: 07***************c8
                     settings:
                       high_risk_score: HIGH
+              TRM Labs:
+                value:
+                  - provider: TRM Labs
+                    type: Blockchain Analytics
+                    is_active: true
+                    credential:
+                      api_key: '{api_key}'
+                    settings:
+                      high_risk_score: HIGH
+                    start_time: '2025-10-09T01:25:36.000Z'
+                    end_time: '2026-10-09T01:25:36.000Z'
       responses:
         '200':
           description: OK
@@ -3080,6 +3111,43 @@ paths:
                                   - HIGH
                                   - SEVERE
                                 type: string
+                            additionalProperties: false
+                          example:
+                            high_risk_score: HIGH
+                        is_active: true
+                        editable: true
+                TRM Labs:
+                  value:
+                    data:
+                      - id: cdb12474-d529-4b35-8fec-dee9e5d30bbf
+                        created_at: '2025-08-29T09:47:32.613Z'
+                        updated_at: '2025-08-29T09:47:32.613Z'
+                        provider: TRM Labs
+                        type: Blockchain Analytics
+                        credential:
+                          schema:
+                            type: object
+                            required:
+                              - api_key
+                            properties:
+                              api_key:
+                                type: string
+                                minLength: 1
+                            additionalProperties: false
+                        settings:
+                          schema:
+                            type: object
+                            required:
+                              - high_risk_score
+                            properties:
+                              high_risk_score:
+                                type: string
+                                enum:
+                                  - UNKNOWN
+                                  - LOW
+                                  - MEDIUM
+                                  - HIGH
+                                  - SEVERE
                             additionalProperties: false
                           example:
                             high_risk_score: HIGH
@@ -5309,6 +5377,19 @@ paths:
                               type: string
                         success:
                           type: boolean
+              examples:
+                Identifying the address belongs to third-party protocol with 'alliance' even if the type is SYGNA_VASP:
+                  value:
+                    type: SYGNA_VASP
+                    is_vasp: true
+                    address: 0x052C9b8f41f3855225495E785***************
+                    currency_id: 'sygna:0x80000000'
+                    extra_data:
+                      blockchain_analytics_vendor: null
+                      notification_receivers: null
+                      vasp_code: SYGNTWHL
+                      alliance: GTR
+                    success: true
         '400':
           description: Bad Request
           content:
@@ -5834,6 +5915,25 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
+  /transactions/note:
+    patch:
+      summary: take notes to the data transfer or transaction
+      tags: []
+      responses: {}
+      operationId: get-transactions-note
+      x-stoplight:
+        id: k5gnnmqeqnfrq
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Example 1:
+                value:
+                  id: 123
+                  note: returned
   '/analysis/interop-info/{provider}':
     get:
       tags:
@@ -6639,7 +6739,7 @@ paths:
               items:
                 $ref: '#/components/schemas/schema.PostVendorsTestInput'
             examples:
-              Example 1:
+              GTR:
                 value:
                   - type: Travel Rule
                     provider: GTR
@@ -6653,6 +6753,12 @@ paths:
                     credential:
                       app_id: 7*******b
                       app_secret: 07e2******1c8
+              TRM Labs:
+                value:
+                  data:
+                    - provider: TRM Labs
+                      type: Blockchain Analytics
+                      status_code: 200
       responses:
         '200':
           description: OK
