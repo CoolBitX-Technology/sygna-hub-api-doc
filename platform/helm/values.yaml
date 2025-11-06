@@ -1,5 +1,6 @@
 # Default values for sygna-hub.
-# This version defaults to stdout logging (no PVC for logs).
+# This version is optimized for AWS Marketplace deployment.
+# It enables Ingress for AWS ALB and assumes an IRSA-configured EKS environment.
 
 replicaCount: 1
 
@@ -7,10 +8,9 @@ frontend:
   name: hub-frontend
   image:
     repository: sygna/sygna-hub-console
-    tag: latest-beta
+    tag: latest
     pullPolicy: IfNotPresent
   resources:
-    # requests and limits are set to the same values for predictable performance.
     requests:
       cpu: 256m
       memory: 512Mi
@@ -20,34 +20,55 @@ frontend:
   service:
     type: ClusterIP
     port: 80
-
+    annotations: {}
   probes:
     enabled: true
     path: /
     initialDelaySeconds: 15
     periodSeconds: 20
 
+  # MODIFIED FOR AWS: Ingress is enabled by default for ALB.
   ingress:
-    enabled: false
-    className: ""
-    annotations: {}
+    enabled: true
+    className: "alb"
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/group.name: sygna-hub-group
+      # IMPORTANT: This value MUST be provided by the user via --set during helm upgrade.
+      alb.ingress.kubernetes.io/certificate-arn: ""
     hosts:
-      - host: sygna-hub.local
+      - host: "sygna.yourcompany.com" # IMPORTANT: This value MUST be provided by the user via --set.
         paths:
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                # This service name is templated in the helm chart.
+                # Example for release "sygna-prod": sygna-prod-sygna-hub-helm-hub-backend
+                name: sygna-hub-sygna-hub-helm-hub-backend
+                port:
+                  number: 8080
           - path: /
-            pathType: ImplementationSpecific
-
+            pathType: Prefix
+            backend:
+              service:
+                # Example for release "sygna-prod": sygna-prod-sygna-hub-helm-hub-frontend
+                name: sygna-hub-sygna-hub-helm-hub-frontend
+                port:
+                  number: 80
+  
+  # IMPORTANT: This value MUST be provided by the user via --set.
   env:
-    BACKEND_API_URL: "http://my-release-sygna-hub-backend:8000/v1"
+    BACKEND_API_URL: ""
 
 backend:
   name: hub-backend
   image:
     repository: sygna/sygna-hub
-    tag: latest-beta
+    tag: latest
     pullPolicy: IfNotPresent
   resources:
-    # requests and limits are set to the same values for predictable performance.
     requests:
       cpu: 256m
       memory: 512Mi
@@ -57,6 +78,7 @@ backend:
   service:
     type: ClusterIP
     port: 8080
+    annotations: {}
 
   probes:
     enabled: true
@@ -64,10 +86,9 @@ backend:
     initialDelaySeconds: 30
     periodSeconds: 20
   
+  # MODIFIED FOR AWS: Log persistence to PVC is disabled in favor of stdout logging (e.g., CloudWatch).
   persistence:
     logs:
-      # By default, log persistence is disabled in favor of stdout logging.
-      # Set to true only if you explicitly need to write logs to a PVC.
       enabled: false
       storageClassName: ""
       size: 1Gi
@@ -76,6 +97,8 @@ backend:
     source: configmap
     configmap:
       name: "sygna-hub-backend-config"
+    # This section defines all possible environment variables that can be sourced
+    # from Parameter Store or a Kubernetes Secret if needed. They are empty by default.
     environment:
       kubernetesSecretName: "sygna-hub-backend-env-secret"
       parameterStoreBasePath: "/sygna/test"
@@ -106,7 +129,10 @@ backend:
         EMAIL_TLS_SUPPORT: "FALSE"
         EMAIL_FROM_EMAIL: ""
 
+# MODIFIED FOR AWS: Service Account is created by default to support IRSA.
 serviceAccount:
   create: true
   name: ""
-  annotations: {}
+  annotations:
+    # IMPORTANT: This value MUST be provided by the user via --set to enable IRSA.
+    eks.amazonaws.com/role-arn: ""

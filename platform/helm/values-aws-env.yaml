@@ -1,39 +1,57 @@
 # Settings for AWS EKS production environment.
 
 frontend:
+  service:
+    annotations:
+      # --- Frontend Target Group Settings ---
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-port: '80'
+      alb.ingress.kubernetes.io/healthcheck-path: '/'
+      alb.ingress.kubernetes.io/success-codes: "200-399"
+
   ingress:
     enabled: true
     className: alb
     annotations:
+      # --- Load Balancer (Ingress) Settings ---
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip
-      # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:....
+      alb.ingress.kubernetes.io/certificate-arn: <Your ACM ARN>
       alb.ingress.kubernetes.io/group.name: sygna-hub-group
+      
     hosts:
-      - host: your-frontend.your-domain.com # Change to your domain
+      - host: <Your host name>
         paths:
           - path: /v1
             pathType: Prefix
             backend:
               service:
-                name: sygna-prod-sygna-hub-hub-backend
+                name: sygna-hub-sygna-hub-helm-hub-backend # fix this if name is different from your env
                 port:
                   number: 8080
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: sygna-prod-sygna-hub-hub-frontend
+                name: sygna-hub-sygna-hub-helm-hub-frontend # fix this if name is different from your env
                 port:
                   number: 80
   env:
-    BACKEND_API_URL: "https://your-backend.your-domain.com/v1"
+    BACKEND_API_URL: "https://<Your host name>/v1"
 
 backend:
-  # Ensure log persistence is disabled for cloud environment.
   ingress:
     enabled: false
-  
+    
+  service:
+    annotations:
+      # --- Backend Target Group Settings ---
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-port: '8080' # 補上 port
+      alb.ingress.kubernetes.io/healthcheck-path: "/v1/vasp-server-status"
+      alb.ingress.kubernetes.io/success-codes: "200-399"
+
   persistence:
     logs:
       enabled: false
@@ -45,7 +63,5 @@ backend:
 
 serviceAccount:
   create: true
-  # IMPORTANT: This annotation enables IRSA.
-  # The ARN should be for a role with permissions to read from Parameter Store.
   annotations:
-    eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/Your-EKS-ParamStore-Reader-Role"
+    eks.amazonaws.com/role-arn: "<Your eks role arn>"
