@@ -5,6 +5,9 @@ metadata:
   labels:
     {{- include "sygna-hub.labels" . | nindent 4 }}
     app.kubernetes.io/component: {{ .Values.frontend.name }}
+  annotations:
+    {{- toYaml .Values.frontend.service.annotations | nindent 4 }}
+
 spec:
   type: {{ .Values.frontend.service.type }}
   ports:
@@ -23,6 +26,8 @@ metadata:
   labels:
     {{- include "sygna-hub.labels" . | nindent 4 }}
     app.kubernetes.io/component: {{ .Values.backend.name }}
+  annotations:
+      {{- toYaml .Values.backend.service.annotations | nindent 4 }}
 spec:
   type: {{ .Values.backend.service.type }}
   ports:
