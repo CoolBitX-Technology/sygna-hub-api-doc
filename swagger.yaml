@@ -363,14 +363,14 @@ paths:
                         customer_id: CUST-20251001-0001
                         natural_person_name:
                           name:
-                            first_name: Wei An
-                            last_name: Chen
+                            first_name: Toge
+                            last_name: Inumaki
                           local_name:
-                            first_name: 偉安
-                            last_name: 陳
+                            first_name: 棘
+                            last_name: 狗巻
                           phonetic_name:
-                            first_name: ㄨㄟˇ ㄢ
-                            last_name: ㄔㄣˊ
+                            first_name: とげ
+                            last_name: いぬまき
                         legal_person_name: null
                         is_active: true
                     paging:
@@ -781,14 +781,14 @@ paths:
                       - id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
                         natural_person_name:
                           name:
-                            first_name: Wei An
-                            last_name: Chen
+                            first_name: Toge
+                            last_name: Inumaki
                           local_name:
-                            first_name: 偉安
-                            last_name: 陳
+                            first_name: 棘
+                            last_name: 狗巻
                           phonetic_name:
-                            first_name: ㄨㄟˇ ㄢ
-                            last_name: ㄔㄣˊ
+                            first_name: とげ
+                            last_name: いぬまき
                         legal_person_name: null
                         is_active: true
                         assets:
@@ -4343,9 +4343,9 @@ paths:
                       private_info:
                         natural_person_name:
                           name:
-                            first_name: Wei An
-                            last_name: Chen
-                        country_of_residence: AO
+                            first_name: Toge
+                            last_name: Inumaki
+                        country_of_residence: JP
                     expire_date: 1760695995
                     need_validate_address: false
                     txid: null
@@ -4500,8 +4500,8 @@ paths:
                       vasp_code: GHJKAILL
                       private_info:
                         legal_person_name:
-                          name: leutrhlguheltihglweith
-                        country_of_registration: AD
+                          name: Tokyo Prefectural Jujutsu High School
+                        country_of_registration: JP
                     expire_date: 1760696733
                     need_validate_address: false
                     txid: null
