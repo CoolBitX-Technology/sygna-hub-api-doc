@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.40.0
+  version: 1.41.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -357,20 +357,26 @@ paths:
                 Example 1:
                   value:
                     data:
-                      - id: 5bc240d6-5f8a-4591-xxxx-4984371ecbd6
-                        created_at: '2023-06-06T08:37:01.318Z'
-                        updated_at: '2023-06-06T08:37:01.318Z'
-                        customer_id: testid_230606
+                      - id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
+                        created_at: '2025-10-01T06:53:33.000Z'
+                        updated_at: '2025-10-02T10:01:52.000Z'
+                        customer_id: CUST-20251001-0001
                         natural_person_name:
                           name:
-                            last_name: Yang test
+                            first_name: Toge
+                            last_name: Inumaki
+                          local_name:
+                            first_name: 棘
+                            last_name: 狗巻
+                          phonetic_name:
+                            first_name: とげ
+                            last_name: いぬまき
                         legal_person_name: null
                         is_active: true
-                        risk_score_provider: null
-                        max_risk_score: null
-                        avg_risk_score: null
-                        labels: []
-                        last_screened: null
+                    paging:
+                      has_next: false
+                      limit: 20
+                      offset: 0
         '400':
           description: Bad Request
           content:
@@ -772,35 +778,47 @@ paths:
                 Example 1:
                   value:
                     data:
-                      - id: 2bbbf60e-768d-45ae-b5bb-e2b10ef3908a
+                      - id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
                         natural_person_name:
                           name:
-                            first_name: ShengWun
-                            last_name: Kevin
+                            first_name: Toge
+                            last_name: Inumaki
                           local_name:
-                            first_name: ShengWun
-                            last_name: Lee
+                            first_name: 棘
+                            last_name: 狗巻
                           phonetic_name:
-                            first_name: リュウタ
-                            last_name: シュトウ
+                            first_name: とげ
+                            last_name: いぬまき
                         legal_person_name: null
                         is_active: true
                         assets:
-                          - id: 66574f07-a5ab-4b1d-a984-d24eab30f401
-                            updated_at: '2024-03-28T06:56:48.000Z'
+                          - id: 71fcf4cd-e3da-496c-9253-a8c7388047fe
+                            updated_at: '2025-10-02T03:59:35.000Z'
                             currency_id: 'sygna:0x80000000'
                             currency_symbol: BTC
                             currency_name: Bitcoin
-                            address: aaaaaaaaaaaaa123123123
-                            labels: []
-                            created_at: '2024-03-28T06:56:48.000Z'
-                            last_screened: null
+                            address: bc1qyewg75v6ppdd4ek8f45y4n64y90pg6py230gwj
+                            created_at: '2025-10-01T09:51:40.000Z'
                             is_sygna_supported: true
-                            is_kyt_supported: true
+                          - id: 357399e0-ab62-406b-97b9-2d03be261d03
+                            updated_at: '2025-10-02T03:59:35.000Z'
+                            currency_id: 'sygna:0x80000000'
+                            currency_symbol: BTC
+                            currency_name: Bitcoin
+                            address: bc1qa93pnjazkyhqa9l73qng48zptw7wt02rkpv3qq
+                            created_at: '2025-10-01T06:53:33.000Z'
+                            is_sygna_supported: true
+                          - id: 441550af-de28-4c54-804c-63a264d4121b
+                            updated_at: '2025-10-02T03:59:35.000Z'
+                            currency_id: 'sygna:0x8000003c'
+                            currency_symbol: ETH
+                            currency_name: Ethereum
+                            address: '0x93DBF616676D22EBd0DB51C5Ebb6f69Ea1F9bC8b'
+                            created_at: '2025-10-01T07:12:07.000Z'
+                            is_sygna_supported: true
                     paging:
-                      has_next: true
-                      limit: 1
-                      next_offset: 1
+                      has_next: false
+                      limit: 20
                       offset: 0
       servers:
         - url: 'httsp://example.com/v1'
@@ -3624,6 +3642,10 @@ paths:
                       - type: english_name_case_sensitivity
                         rule:
                           english_name_case_sensitivity: true
+                      - type: api_log_config
+                        rule:
+                          enabled: false
+          headers: {}
         '400':
           description: Bad Request
           content:
@@ -3939,6 +3961,18 @@ paths:
                               end_at:
                                 type: integer
                             additionalProperties: false
+                API log:
+                  value:
+                    type: api_log_config
+                    rule:
+                      schema:
+                        type: object
+                        required:
+                          - enabled
+                        properties:
+                          enabled:
+                            type: boolean
+                        additionalProperties: false
         '400':
           description: Bad Request
           content:
@@ -4292,54 +4326,28 @@ paths:
                         - address: 3MBWbunF8kLFA5u9E8mk4MYkWKJNexxxxx
                           extra_info: {}
                       customer_type: 0
-              Sygna Bridge:
+              Sygna Bridge (natural person):
                 value:
-                  - customer_id: 054b8016-c7bf-4b8b-b42b-c9e6e5740ae0
+                  - customer_id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
                     currency_id: 'sygna:0x80000000'
-                    value: 1
+                    value: '1'
                     originator:
                       assets:
-                        - 6a6a98c2-c7e1-4116-811f-73e7d54976b8
+                        - 71fcf4cd-e3da-496c-9253-a8c7388047fe
                     beneficiary:
                       addrs:
-                        - address: 12345
+                        - address: bc1qyewg75v6ppdd4ek8f45y4n64y90pg6py230gwj
                           extra_info: {}
                       customer_type: 0
-                      vasp_code: SYGNTWTP
+                      vasp_code: GHJKAILL
                       private_info:
                         natural_person_name:
                           name:
-                            first_name: vz4uN1PsqZLy52lqRv2y
-                            last_name: vz4uN1PsqZLy52lqRv2y
-                        national:
-                          national_identifier_type: ARNU
-                          national_identifier: 5896720498750870000
-                          country_of_issue: TW
-                          registration_authority: skuthlguishlthga
-                        birth:
-                          place_of_birth: taipei
-                          date_of_birth: '2024-10-25'
-                        address:
-                          address_type: HOME
-                          country: AI
-                          department: 1
-                          sub_department: 2
-                          street_name: 3
-                          building_number: 4
-                          building_name: 5
-                          floor: 6
-                          post_box: 7
-                          room: 8
-                          post_code: 9
-                          town_name: 10
-                          town_location_name: 11
-                          district_name: 12
-                          country_sub_division: 13
-                          address_line:
-                            - 14
-                    other_cdd_info: 1234
-                    expire_date: 1732411745
-                    need_validate_address: true
+                            first_name: Toge
+                            last_name: Inumaki
+                        country_of_residence: JP
+                    expire_date: 1760695995
+                    need_validate_address: false
                     txid: null
                     protocol: Sygna_Bridge
               Sygna Email Protocol:
@@ -4476,6 +4484,28 @@ paths:
                             last_name: Kim
                     need_validate_address: true
                     protocol: CODE
+              Sygna Bridge (legal person):
+                value:
+                  - customer_id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
+                    currency_id: 'sygna:0x80000000'
+                    value: '1'
+                    originator:
+                      assets:
+                        - 71fcf4cd-e3da-496c-9253-a8c7388047fe
+                    beneficiary:
+                      addrs:
+                        - address: leutrhlguheltihglweith
+                          extra_info: {}
+                      customer_type: 1
+                      vasp_code: GHJKAILL
+                      private_info:
+                        legal_person_name:
+                          name: Tokyo Prefectural Jujutsu High School
+                        country_of_registration: JP
+                    expire_date: 1760696733
+                    need_validate_address: false
+                    txid: null
+                    protocol: Sygna_Bridge
       responses:
         '200':
           description: OK
