@@ -525,7 +525,6 @@ paths:
                       - address: '0x1b7844ed817ebF8B559D25A4f6D9F45931227970'
                         extra_info: {}
                         currency_id: 'sygna:0x8000003c'
-                    assets_ignore_kyt: true
               Legal Person:
                 value:
                   - is_active: true
@@ -557,7 +556,6 @@ paths:
                         extra_info:
                           flag: '1'
                         currency_id: 'sygna:0x800002ca'
-                    assets_ignore_kyt: true
       responses:
         '200':
           description: OK
@@ -7732,21 +7730,6 @@ components:
           type: object
         type:
           type: string
-    schema.PutCustomersInput:
-      type: object
-      properties:
-        localNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier'
-        nameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.NaturalPersonNameIdentifier'
-        phoneticNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier'
     ivms101.LocalNaturalPersonNameIdentifier:
       type: object
       properties:
@@ -7756,22 +7739,11 @@ components:
         is_active:
           type: boolean
         legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
+          $ref: '#/components/schemas/LegalPersonName'
         national:
           $ref: '#/components/schemas/schema.NationalIdentification'
         natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-    model.LegalPersonName:
-      type: object
-      title: LegalPersonName
-      description: required if customer type equals 1
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          type: string
+          $ref: '#/components/schemas/NaturalPersonName'
     schema.NationalIdentification:
       type: object
       title: PostTransactionSygnaBridge
@@ -7846,28 +7818,8 @@ components:
         - address
     model.BeneficiaryPrivateInfo:
       oneOf:
-        - $ref: '#/components/schemas/model.NaturalPersonName'
-        - $ref: '#/components/schemas/model.LegalPersonName'
-    model.NaturalPersonName:
-      type: object
-      title: NaturalPersonName
-      description: required if customer type equals 0
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      required:
-        - name
-    model.NameObject:
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
+        - $ref: '#/components/schemas/NaturalPersonName'
+        - $ref: '#/components/schemas/LegalPersonName'
     OriginatorAsset:
       type: object
       anyOf:
@@ -7901,117 +7853,53 @@ components:
         is_active:
           type: boolean
         legal_person_name:
-          $ref: '#/components/schemas/schema.LegalPersonName'
+          $ref: '#/components/schemas/LegalPersonName'
         national:
-          $ref: '#/components/schemas/model.National'
+          $ref: '#/components/schemas/ivms101.National'
         natural_person_name:
-          $ref: '#/components/schemas/schema.NaturalPersonName'
+          $ref: '#/components/schemas/NaturalPersonName'
         update_status:
           type: boolean
       required:
-        - id
-    schema.LegalPersonName:
+        - id 
+    ivms101.National:
       type: object
-      title: PostTransactionUnknown
-      description: required if customer_type equals 1
       properties:
-        beneficiary:
-          type: object
+        national_identifier:
+          type: string
+        national_identifier_type:
+          type: string
+        country_of_issue:
+          type: string
+        registration_authority:
+          type: string
+    schema.PostAssetInput:
+      allOf:
+        - $ref: '#/components/schemas/Asset'
+        - type: object
+          required:
+            - currency_id
+            - address
+    schema.PutAssetInput:
+      allOf:
+        - type: object
           properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
+            id:
               type: string
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol_extra_info:
-          type: object
-        txid:
-          type: string
-    model.National:
+              format: uuid
+          required:
+            - currency_id
+            - address
+        - $ref: '#/components/schemas/Asset'
+    Asset:
       type: object
       properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchAssetInput'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-          description: |-
-            Customer Type
-            * 0 - NaturalPerson
-            * 1 - LegalPerson
-        id:
-          type: string
-    schema.Address:
-      type: object
-      properties:
-        address:
-          type: string
-        created_at:
-          type: string
         currency_id:
           type: string
-        currency_name:
+        address:
           type: string
-        currency_symbol:
-          type: string
-        id:
-          type: string
-        last_screened:
-          type: string
-        reject_code:
-          type: string
-        reject_message:
-          type: string
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-        txid:
-          type: string
-        updated_at:
-          type: string
-        validation_status:
-          type: integer
-        validation_status_text:
-          type: string
-        value:
-          type: string
-    schema.PatchAssetInput:
-      type: object
+        extra_info:
+          $ref: '#/components/schemas/model.StringObject'      
     schema.DateAndPlaceOfBirth:
       type: object
       properties:
@@ -8019,21 +7907,38 @@ components:
           type: string
         vasp_beneficiary_wallet_address:
           type: string
-    schema.NaturalPersonName:
+    NaturalPersonName:
       type: object
       description: required if customer_type equals 0
       properties:
-        local_name:
-          $ref: '#/components/schemas/schema.NameObject'
         name:
-          $ref: '#/components/schemas/schema.NameObject'
+          $ref: '#/components/schemas/NameObject'
+        local_name:
+          $ref: '#/components/schemas/NameObject'
         phonetic_name:
-          $ref: '#/components/schemas/schema.NameObject'
-    schema.NameObject:
+          $ref: '#/components/schemas/NameObject'
+      required:
+        - name
+    NameObject:
       type: object
       properties:
-        address:
+        first_name:
           type: string
+        last_name:
+          type: string
+    LegalPersonName:
+      type: object
+      title: LegalPersonName
+      description: required if customer type equals 1
+      properties:
+        name:
+          type: string
+        local_name:
+          type: string
+        phonetic_name:
+          type: string
+      required:
+        - name
     ivms101.PhoneticNaturalPersonNameIdentifier:
       type: object
       properties:
@@ -8060,10 +7965,81 @@ components:
                 type: boolean
             required:
               - success
+    schema.PutCustomersInput:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            is_active:
+              type: boolean
+            assets:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PutAssetInput'
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+      required:
+        - id
+        - is_active
+        - assets
+        - customer_type
     schema.PostCustomersInput:
-      type: object
+      allOf:
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+        - type: object
+          properties:
+            assets:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostAssetInput'
+          required:
+            - assets
+            - customer_type
     schema.PatchCustomersInput:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            is_active:
+              type: boolean
+            assets:
+              type: array
+              items:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                  - $ref: '#/components/schemas/Asset'
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+      required:
+        - id
+    UpdateCustomersCommonInput:
       type: object
+      properties:
+        customer_type:
+          type: integer
+          enum:
+            - 0
+            - 1
+        customer_id:
+          type: string
+        country:
+          type: string
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
     model.Report:
       type: object
       properties:
@@ -8479,19 +8455,6 @@ components:
           type: integer
     model.Rollback:
       type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.Asset'
-        avg_risk_score:
-          type: string
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
     schema.Asset:
       type: object
       properties:
@@ -8876,19 +8839,6 @@ components:
           type: string
       required:
         - id
-    model.Login:
-      type: object
-      title: NaturalPersonName
-      description: required if customer type equals 0
-      properties:
-        local_name:
-          $ref: '#/components/schemas/model.NameObject'
-        name:
-          $ref: '#/components/schemas/model.NameObject'
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      required:
-        - name
     model.BeneficiaryInfo:
       type: object
       properties:
@@ -8908,17 +8858,17 @@ components:
       type: object
       properties:
         address:
-          $ref: '#/components/schemas/model.Address'
+          $ref: '#/components/schemas/ivms101.Address'
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/model.Asset'
+            $ref: '#/components/schemas/Asset'
         assets_ignore_kyt:
           type: boolean
         avg_risk_score:
           type: string
         birth:
-          $ref: '#/components/schemas/model.Birth'
+          $ref: '#/components/schemas/ivms101.Birth'
         country:
           type: string
         created_at:
@@ -8938,20 +8888,53 @@ components:
         last_screened:
           type: string
         legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
+          $ref: '#/components/schemas/LegalPersonName'
         max_risk_score:
           type: string
         name:
           type: string
         national:
-          $ref: '#/components/schemas/model.National'
+          $ref: '#/components/schemas/ivms101.National'
         natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-    model.Address:
+          $ref: '#/components/schemas/NaturalPersonName'
+    ivms101.Address:
       type: object
-    model.Asset:
-      type: object
-    model.Birth:
+      properties:
+        address_type:
+          type: string
+        department:
+          type: string
+        sub_department:
+          type: string
+        street_name:
+          type: string
+        building_number:
+          type: string
+        building_name:
+          type: string
+        floor:
+          type: string
+        post_box:
+          type: string
+        room:
+          type: string
+        post_code:
+          type: string
+        town_name:
+          type: string
+        town_location_name:
+          type: string
+        district_name:
+          type: string
+        country_sub_division:
+          type: string
+        address_line:
+          type: array
+          items:
+            type: string
+        country:
+          type: string
+    ivms101.Birth:
       type: object
       properties:
         date_of_birth:
