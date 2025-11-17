@@ -6533,10 +6533,17 @@ paths:
       description: Only admin can reset the password with this API.
       operationId: get-users-reset-password
       requestBody:
+        required: true
         content:
           '*/*':
             schema:
               type: object
+              properties:
+                user_account_email:
+                  type: string
+                  description: The email address of the user to reset the password for.
+              required:
+                - user_account_email
             examples:
               Example 1:
                 value:
@@ -6557,7 +6564,7 @@ paths:
       servers:
         - url: 'httsp://example.com/v1'
           description: ''
-  /users/forget-passwrod:
+  /users/forget-password:
     post:
       tags:
         - Hub/users
@@ -6568,6 +6575,11 @@ paths:
           '*/*':
             schema:
               type: object
+              properties:
+                account:
+                  type: string
+              required:
+                - account
             examples:
               Example 1:
                 value:
@@ -9020,17 +9032,17 @@ components:
     schema.PostUsersInput:
       type: object
       properties:
-        legalPersonName:
+        account:
           type: string
-        legalPersonNameIdentifierType:
+        password:
           type: string
           description: |-
-            password is optional and it is generated if password is empty.
-            password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
+            password is optional and it will be generated automatically if it is empty.
+            password must match the following rules:
+            - at least 6 letters
+            - at least 1 number
+            - at least 1 upper case
+            - at least 1 special character
         role_id:
           type: integer
           description: |-
@@ -9038,7 +9050,12 @@ components:
             * 0 - admin
             * 1 - member
             role_id is optional and its default value is 1(member).
-            notice: admin could not be created if there is admin in VASP.
+            notice: admin could not be created if there is an admin in VASP.
+        email_pw_to_user:
+          type: boolean
+          description: it is optional and its default value is true.
+      required:
+        - account
     schema.DeleteUsersInput:
       type: object
       properties:
@@ -9064,6 +9081,8 @@ components:
     schema.ChangePasswordInput:
       type: object
       properties:
+        user_account_email:
+          type: string
         new_password:
           type: string
           description: |-
@@ -9074,6 +9093,9 @@ components:
             at least 1 special character
         old_password:
           type: string
+      required:
+        - user_account_email
+        - new_password
     schema.RespWithStatusAndMessage:
       type: object
       properties:
