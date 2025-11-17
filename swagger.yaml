@@ -689,7 +689,9 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostCustomersAssetsInput'
             examples:
               Example 1:
                 value:
@@ -829,7 +831,9 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PatchCustomersAssetsInput'
             examples:
               Example 1:
                 value:
@@ -859,7 +863,12 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                properties:
+                  asset_id:
+                    type: string
+                    format: uuid
             examples:
               Example 1:
                 value:
@@ -8018,6 +8027,29 @@ components:
         - $ref: '#/components/schemas/UpdateCustomersCommonInput'
       required:
         - id
+    schema.PostCustomersAssetsInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+        - id
+        - assets
+    schema.PatchCustomersAssetsInput:
+      allOf:
+        - type: object
+          properties:
+            asset_id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/Asset'
+      required:
+        - asset_id
     UpdateCustomersCommonInput:
       type: object
       properties:
