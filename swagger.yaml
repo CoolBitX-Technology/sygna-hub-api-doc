@@ -4313,12 +4313,7 @@ paths:
             schema:
               type: array
               items:
-                oneOf:
-                  - $ref: '#/components/schemas/PostTransactionUnknown'
-                  - $ref: '#/components/schemas/PostTransactionSygnaBridge'
-                  - $ref: '#/components/schemas/PostTransactionSygnaEmail'
-                  - $ref: '#/components/schemas/PostTransactionTRISA'
-                  - $ref: '#/components/schemas/PostTransactionShyft'
+                $ref: '#/components/schemas/schema.PostTransactionInput'
             examples:
               Unknown:
                 value:
@@ -4563,7 +4558,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/model.PostEmailProtocolDepositInput'
+                $ref: '#/components/schemas/schema.PostEmailProtocolDepositInput'
             examples:
               Example 1:
                 value:
@@ -5225,6 +5220,10 @@ paths:
         required: true
         content:
           '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostCDDRequestInput'
             examples:
               Examples:
                 value:
@@ -5304,6 +5303,18 @@ paths:
         required: true
         content:
           '*/*':
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  other_cdd_info:
+                    type: string
+                required:
+                  - id
             examples:
               Example 1:
                 value:
@@ -5885,9 +5896,7 @@ paths:
         content:
           '*/*':
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
+              $ref: '#/components/schemas/schema.PostAddressValidationInput'
             examples:
               Without extra_info:
                 value:
@@ -5976,8 +5985,18 @@ paths:
         content:
           '*/*':
             schema:
-              type: object
-              properties: {}
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  note:
+                    type: string
+                required:
+                  - id
+                  - note
             examples:
               Example 1:
                 value:
@@ -7766,15 +7785,9 @@ components:
               items:
                 $ref: '#/components/schemas/model.Addr'
             customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                Required if 
-                - protocol equals Sygna_Bridge 
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
+              $ref: '#/components/schemas/CustomerType'
             private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
+              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
             vasp_code:
               type: string
           required:
@@ -7822,13 +7835,26 @@ components:
         address:
           type: string
         extra_info:
-          type: object
+          $ref: '#/components/schemas/model.StringObject'
       required:
         - address
-    model.BeneficiaryPrivateInfo:
-      oneOf:
-        - $ref: '#/components/schemas/NaturalPersonName'
-        - $ref: '#/components/schemas/LegalPersonName'
+    BeneficiaryPrivateInfo:
+      type: object
+      properties:
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        country_of_residence:
+          type: string
+        country_of_registration:
+          type: string
     OriginatorAsset:
       type: object
       anyOf:
@@ -7856,7 +7882,7 @@ components:
         customer_id:
           type: string
         customer_type:
-          type: integer
+          $ref: '#/components/schemas/CustomerType'
         id:
           type: string
         is_active:
@@ -8054,10 +8080,7 @@ components:
       type: object
       properties:
         customer_type:
-          type: integer
-          enum:
-            - 0
-            - 1
+          $ref: '#/components/schemas/CustomerType'
         customer_id:
           type: string
         country:
@@ -8072,6 +8095,15 @@ components:
           $ref: '#/components/schemas/ivms101.Birth'
         address:
           $ref: '#/components/schemas/ivms101.Address'
+    CustomerType:
+      type: integer
+      description: |-
+        Customer Type
+        * 0 - NaturalPerson
+        * 1 - LegalPerson
+      enum:
+        - 0
+        - 1
     model.Report:
       type: object
       properties:
@@ -8094,7 +8126,7 @@ components:
             vasp_code:
               type: string
             customer_type:
-              type: integer
+              $ref: '#/components/schemas/CustomerType'
             customer_id:
               type: string
             natural_person_name:
@@ -8230,7 +8262,7 @@ components:
             vasp_code:
               type: string
             customer_type:
-              type: integer
+              $ref: '#/components/schemas/CustomerType'
             customer_id:
               type: string
             natural_person_name:
@@ -8590,13 +8622,9 @@ components:
               items:
                 $ref: '#/components/schemas/model.Addr'
             customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
+              $ref: '#/components/schemas/CustomerType'
             private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
+              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
             vasp_code:
               type: string
         currency_id:
@@ -8622,6 +8650,78 @@ components:
         value_usd:
           type: string
           description: only used in response
+    schema.PostTransactionInput:
+      type: object
+      properties:
+        protocol:
+          type: string
+          enum:
+            - UNKNOWN
+            - Sygna_Bridge
+            - Sygna_EmailProtocol
+            - Sygna_Data Retention by Email
+            - TRISA
+            - Veriscope on Shyft
+            - GTR
+            - CODE
+        protocol_extra_info:
+          type: object
+        customer_id:
+          type: string
+          description: Customer's uuid or customer_id from GET /customers
+        value:
+          type: string
+          description: The value of the currency requested to transfer.
+        currency_id:
+          type: string
+          description: Target currency identifier from GET /currencies
+        originator:
+          type: object
+          properties:
+            assets:
+              type: array
+              items:
+                type: string
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+        beneficiary:
+          type: object
+          properties:
+            customer_type:
+              $ref: '#/components/schemas/CustomerType'
+            private_info:
+              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
+            vasp_code:
+              type: string
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+        expire_date:
+          type: integer
+          description: Unix Timestamp format, excluding milliseconds.
+        need_validate_address:
+          type: boolean
+        txid:
+          type: string
+          description: Transaction hash on blockchain
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        fiat_currency:
+          type: string
+        fiat_price:
+          type: string
+          description: The fiat price of the currency requested to transfer.
+        other_cdd_info:
+          type: string
+      required:
+        - customer_id
+        - value
+        - currency_id
+        - originator
+        - beneficiary
     PostTransactionUnknown:
       type: object
       title: PostTransactionUnknown
@@ -8651,7 +8751,7 @@ components:
             notice: admin could not be created if there is admin in VASP.
     PostTransactionSygnaBridge:
       type: object
-      title: LegalPersonName
+      title: PostTransactionSygnaBridge
       properties:
         account:
           type: string
@@ -8707,11 +8807,27 @@ components:
           type: object
         transaction_uuid:
           type: string
-    model.PostEmailProtocolDepositInput:
+    schema.PostEmailProtocolDepositInput:
       type: object
       title: PostTransactionSygnaEmail
       description: This schema is for 'Sygna_EmailProtocol' protocol
       properties:
+        customer_id:
+          type: string
+          description: Customer's uuid or customer_id from GET /customers
+        value:
+          type: string
+          description: The value of the currency requested to transfer.
+        currency_id:
+          type: string
+          description: Target currency identifier from GET /currencies
+        originator:
+          type: object
+          properties:
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
         beneficiary:
           type: object
           properties:
@@ -8723,27 +8839,36 @@ components:
               type: array
               items:
                 type: string
-        currency_id:
-          type: string
-        customer_id:
-          type: string
-          description: Transaction identifier on blockchain
+        expire_date:
+          type: integer
+          description: Unix Timestamp format, excluding milliseconds.
+      required:
+        - customer_id
+        - value
+        - currency_id
+        - originator
+        - beneficiary
     schema.PatchPermissionInput:
       type: object
     schema.PostEmailProtocolPermissionInput:
       type: object
       properties:
-        action:
-          type: integer
         id:
           type: string
-        updated_at:
+          format: uuid
+        permission_status:
+          type: integer
+          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
+        reject_code:
           type: string
-        vasp_code:
+        reject_message:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
       required:
         - id
+        - permission_status
     schema.PatchTxIdInput:
       type: object
       properties:
@@ -8752,14 +8877,77 @@ components:
         txid:
           type: string
           description: Transaction identifier on blockchain
+      required:
+        - id
+    schema.PostCDDRequestInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: transaction uuid
+        request_cdd_data:
+          type: object
+          properties:
+            geographic_address:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - address_line
+                  - address_type
+                  - building_name
+                  - building_number
+                  - country
+                  - country_sub_division
+                  - department
+                  - district_name
+                  - floor
+                  - post_box
+                  - post_code
+                  - room
+                  - street_name
+                  - sub_department
+                  - town_location_name
+                  - town_name
+            national_identification:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - country_of_issue
+                  - national_identifier
+                  - national_identifier_type
+                  - registration_authority
+            date_and_place_of_birth:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - date_of_birth
+                  - place_of_birth
+            customer_identification:
+              type: boolean
+            country_of_residence:
+              type: boolean
+            other_cdd_info:
+              type: string
+              minLength: 1
+      required:
+        - id
+        - request_cdd_data
     schema.PostSanctionMatchInput:
       type: object
       properties:
-        customer_type:
-          type: integer
-        updated_at:
+        name:
           type: string
+        customer_type:
+          $ref: '#/components/schemas/CustomerType'
       required:
+        - name
         - customer_type
     sanctionscreening.GetSanctionScoreOutput:
       type: object
@@ -8773,27 +8961,52 @@ components:
     schema.PatchTransactionsStatus:
       type: object
       properties:
-        action:
-          type: integer
-        status_text:
+        id:
           type: string
           format: uuid
+        action:
+          type: integer
+      required:
+        - id
+        - action
     schema.PostWalletAddressFilterInput:
       type: object
       properties:
-        address_line:
-          type: array
-          items:
-            type: string
-        address_type:
+        currency_id:
           type: string
           description: choose target currency identifier from GET /currencies
+        addrs:
+          type: array
+          description: addresses to be searched
+          items:
+            $ref: '#/components/schemas/model.Addr'
         elliptic_holistic_wallet_analysis:
           type: boolean
           description: |-
             Support Elliptic Holistic Screening.
             VASPs must opt-in for Elliptic Holistic searching to avoid errors.
           default: false
+      required:
+        - currency_id
+        - addrs
+    schema.PostAddressValidationInput:
+      type: object
+      properties:
+        vasp_code:
+          type: string
+          description: target vasp code whose addresses are to be validated
+        currency_id:
+          type: string
+          description: choose target currency identifier from GET /currencies
+        addrs:
+          type: array
+          description: addresses to be validated
+          items:
+            $ref: '#/components/schemas/model.Addr'
+      required:
+        - vasp_code
+        - currency_id
+        - addrs
     schema.GetTransactionOutput:
       type: object
       properties:
@@ -8908,7 +9121,7 @@ components:
         customer_id:
           type: string
         customer_type:
-          type: integer
+          $ref: '#/components/schemas/CustomerType'
         id:
           type: string
         is_active:
