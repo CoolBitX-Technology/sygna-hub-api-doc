@@ -8568,18 +8568,51 @@ components:
           type: string
     schema.PutServicesInput:
       type: object
-    schema.PostServicesInput:
-      type: object
-      title: LegalPersonName
       properties:
-        legalPersonName:
+        provider:
           type: string
-        legalPersonNameIdentifierType:
+          description: please check GET /services/supported to see which providers are supported
+        type:
           type: string
           enum:
             - Blockchain Analytics
             - Sanction Screening
             - Travel Rule
+        credential:
+          type: object
+          description: please check GET /services/supported to see what credential is required by provider
+        settings:
+          type: object
+          description: please check GET /services/supported to see which settings are supported by provider
+        is_active:
+          type: boolean
+      required:
+        - provider
+        - type
+        - credential
+        - is_active
+    schema.PostServicesInput:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: please check GET /services/supported to see which providers are supported
+        type:
+          type: string
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+        credential:
+          type: object
+          description: please check GET /services/supported to see what credential is required by provider
+        settings:
+          type: object
+          description: please check GET /services/supported to see which settings are supported by provider
+      required:
+        - provider
+        - type
+        - credential
     model.Setting:
       type: object
       properties:
