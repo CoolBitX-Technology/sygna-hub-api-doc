@@ -865,6 +865,7 @@ paths:
             schema:
               type: array
               items:
+                type: object
                 properties:
                   asset_id:
                     type: string
@@ -2366,7 +2367,6 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.Rollback'
-                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -2409,7 +2409,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/schema.PutRollbackInout'
+                $ref: '#/components/schemas/schema.PutRollbackInput'
       responses:
         '200':
           description: OK
@@ -5971,8 +5971,8 @@ paths:
             examples:
               Example 1:
                 value:
-                  id: 77b56198-c3a8-48b7-8c42-a500802b184d
-                  note: suspicious transaciton
+                  - id: 77b56198-c3a8-48b7-8c42-a500802b184d
+                    note: suspicious transaciton
   '/analysis/interop-info/{provider}':
     get:
       tags:
@@ -7729,77 +7729,6 @@ components:
           type: object
         type:
           type: string
-    ivms101.LocalNaturalPersonNameIdentifier:
-      type: object
-      properties:
-        nameIdentifierType:
-          type: string
-          format: uuid
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/LegalPersonName'
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        natural_person_name:
-          $ref: '#/components/schemas/NaturalPersonName'
-    schema.NationalIdentification:
-      type: object
-      title: PostTransactionSygnaBridge
-      description: This schema is for 'Sygna_Bridge' protocol
-      properties:
-        beneficiary:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              $ref: '#/components/schemas/CustomerType'
-            private_info:
-              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-          required:
-            - addrs
-            - customer_type
-            - private_info
-            - vasp_code
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-          description: 'The value must be in Epoch & Unix Timestamp format, excluding milliseconds.'
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-          description: |-
-            1. 
-            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
-            The data transfer will still be successfully sent out by oVASP to the Sygna server.
-
-            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
-            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
-              
-            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
-
-            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol:
-          type: string
-          nullable: true
-          enum:
-            - Sygna_Bridge
-            - null
-        value:
-          type: string
     model.Addr:
       type: object
       properties:
@@ -7845,29 +7774,6 @@ components:
                 type: string
           required:
             - assets
-    ivms101.NaturalPersonNameIdentifier:
-      type: object
-      properties:
-        nameIdentifierType:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          $ref: '#/components/schemas/CustomerType'
-        id:
-          type: string
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/LegalPersonName'
-        national:
-          $ref: '#/components/schemas/ivms101.National'
-        natural_person_name:
-          $ref: '#/components/schemas/NaturalPersonName'
-        update_status:
-          type: boolean
-      required:
-        - id 
     ivms101.National:
       type: object
       properties:
@@ -7906,13 +7812,6 @@ components:
           type: string
         extra_info:
           $ref: '#/components/schemas/model.StringObject'      
-    schema.DateAndPlaceOfBirth:
-      type: object
-      properties:
-        date_of_birth:
-          type: string
-        vasp_beneficiary_wallet_address:
-          type: string
     NaturalPersonName:
       type: object
       description: required if customer_type equals 0
@@ -7945,15 +7844,6 @@ components:
           type: string
       required:
         - name
-    ivms101.PhoneticNaturalPersonNameIdentifier:
-      type: object
-      properties:
-        nameIdentifierType:
-          type: string
-        country:
-          type: string
-        country_sub_division:
-          type: string
     schema.RespWithMutation:
       type: object
       properties:
@@ -8080,10 +7970,27 @@ components:
       properties:
         id:
           type: string
-          description: Target asset identifier which you want to accept
           format: uuid
-        txid:
+        created_at:
           type: string
+        updated_at:
+          type: string
+        vasp_code:
+          type: string
+        file_path:
+          type: string
+        report_status:
+          type: integer
+        report_status_text:
+          type: string
+          enum:
+            - None
+            - Processing
+            - Done
+            - Blocked
+            - Expired
+        error:
+          type: object
     GET-customers_id_natural-person:
       type: object
       properties:
@@ -8359,41 +8266,19 @@ components:
     schema.PostOauthInput:
       type: object
       properties:
-        account_numbers:
-          type: array
-          items:
-            type: string
-        beneficiary_persons:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.Person'
-    ivms101.Person:
-      type: object
-      properties:
-        legalPerson:
-          $ref: '#/components/schemas/ivms101.LegalPerson'
-        naturalPerson:
-          $ref: '#/components/schemas/ivms101.NaturalPerson'
-    ivms101.LegalPerson:
-      type: object
-      properties:
-        countryOfRegistration:
+        account:
           type: string
-        customerIdentification:
+        credential:
           type: string
+        login_type:
+          type: string
+          default: password
           enum:
             - password
             - google
-          default: password
-    ivms101.NaturalPerson:
-      type: object
-      properties:
-        country_of_residence:
-          type: string
-        extra_info:
-          type: object
-        value:
-          type: string
+      required:
+        - account
+        - credential
     schema.RespWithStatus:
       type: object
       properties:
@@ -8411,57 +8296,95 @@ components:
     model.Ownership:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        owner_email:
+          type: string
+        owner_info:
+          $ref: '#/components/schemas/OwnerInfo'
         assets:
           type: array
           items:
             $ref: '#/components/schemas/model.OwnershipAsset'
-        created_at:
+        error:
+          type: object
+        status:
+          type: integer
+        status_text:
           type: string
-        post_box:
+          enum:
+            - Processing
+            - Blocked
+            - Pending On Receiver
+            - Transfer To Receiver Failed
+            - Pending On Sender
+            - Transfer To Sender Failed
+            - Confirmed
+            - Confirm Failed
+            - Rejected By Receiver
+            - Rejected By Sender
+            - Expired
+            - Canceled By Sender
+        sender_email:
           type: string
-        post_code:
-          type: string
-        room:
-          type: string
-        street_name:
-          type: string
-        sub_department:
-          type: string
+        transaction_information:
+          type: object
+          properties:
+            vasp_beneficiary_wallet_address:
+              type: string
+            currency_id:
+              type: string
+            value:
+              type: string
+            extra_info:
+              $ref: '#/components/schemas/model.StringObject'
     model.OwnershipAsset:
       type: object
       properties:
-        address:
+        id:
           type: string
         created_at:
           type: string
-        currency_id:
+        updated_at:
           type: string
-        currency_name:
+        txid:
+          type: string
+        address:
+          type: string
+        currency_id:
           type: string
         currency_symbol:
           type: string
-        extra_info:
-          $ref: '#/components/schemas/model.StringObject'
-        id:
+        currency_name:
           type: string
-        is_kyt_supported:
-          type: boolean
-        is_sygna_supported:
-          type: boolean
-        labels:
-          type: array
-          items:
-            type: string
+        value:
+          type: string
+        reject_code:
+          type: string
+        reject_message:
+          type: string
         last_screened:
           type: string
         risk_score:
           type: string
         risk_score_provider:
           type: string
-        updated_at:
+        validation_status:
+          type: integer
+        validation_status_text:
           type: string
-        value:
-          type: string
+          enum:
+            - Processing
+            - Accepted By Receiver
+            - Rejected By Receiver
+            - Accepted By Sender
+            - Rejected By Sender
+            - Canceled By Sender
     model.StringObject:
       type: object
       additionalProperties:
@@ -8473,6 +8396,13 @@ components:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.PagingResult:
       type: object
+      properties:
+        has_next:
+          type: boolean
+        limit:
+          type: integer
+        offset:
+          type: integer
     schema.PostOwnershipInput:
       type: object
       properties:
@@ -8581,41 +8511,38 @@ components:
               - reject_code
               - reject_message
         owner_info:
-          type: object
-          properties:
-            customer_type:
-              $ref: '#/components/schemas/CustomerType'
-            name:
-              type: string
-            country:
-              type: string
-            national:
-              $ref: '#/components/schemas/ivms101.National'
-            birth:
-              $ref: '#/components/schemas/ivms101.Birth'
-            address:
-              $ref: '#/components/schemas/ivms101.Address'
+          $ref: '#/components/schemas/OwnerInfo'
+    OwnerInfo:
+      type: object
+      properties:
+        customer_type:
+          $ref: '#/components/schemas/CustomerType'
+        name:
+          type: string
+        country:
+          type: string
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
     model.Rollback:
       type: object
-    schema.Asset:
+      properties:
+        version:
+          type: string
+        gorm_version:
+          type: string
+        sql_version:
+          type: string
+    schema.PutRollbackInput:
       type: object
       properties:
-        assets_ignore_kyt:
-          type: boolean
-        owner_email:
+        version:
           type: string
-          format: email
-        private_wallet_address:
-          type: array
-          items:
-            type: string
-        sender_email:
-          type: string
-    schema.PutRollbackInout:
-      type: object
-      properties:
-        nameIdentifierType:
-          type: string
+      required:
+        - version
     model.Service:
       type: object
       properties:
@@ -8756,45 +8683,77 @@ components:
               default: true
     schema.GetTransactionsOutput:
       type: object
-      title: PostTransactionUnknown
-      description: This schema is for 'Unknown' protocol
+      title: GetTransactionsOutput
       properties:
-        beneficiary:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              $ref: '#/components/schemas/CustomerType'
-            private_info:
-              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-        currency_id:
+        id:
           type: string
-          description: Choose target currency identifier from GET /currencies
+          format: uuid
         customer_id:
           type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        currency_id:
+          type: string
+        currency_symbol:
+          type: string
+        currency_name:
+          type: string
+        address:
+          type: string
+        addresses:
+          type: array
+          items:
+            type: string
+        risk_score_provider:
+          type: string
+        risk_score:
+          type: string
+        direction:
           type: integer
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol_extra_info:
-          type: object
+          description: 0 for withdrawal, 1 for deposit
+          enum:
+            - 0
+            - 1
+        value:
+          type: string
+        expire_date:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
         txid:
           type: string
-        value:
+          description: Transaction hash on blockchain
+        transfer_id:
+          type: string
+        status:
+          type: integer
+        status_text:
+          type: string
+        created_at:
+          type: string
+        last_screened:
           type: string
         value_usd:
           type: string
-          description: only used in response
+        sanction_score:
+          type: integer
+        protocol:
+          type: string
+        protocol_extra_info:
+          type: object
+        sanction_score_provider:
+          type: string
+        counter_party_vasp_identifier:
+          type: string
+        fiat_price:
+          type: string
+          description: The fiat price of the currency requested to transfer.
+        fiat_currency:
+          type: string
     schema.PostTransactionInput:
       type: object
       properties:
@@ -8867,94 +8826,9 @@ components:
         - currency_id
         - originator
         - beneficiary
-    PostTransactionUnknown:
-      type: object
-      title: PostTransactionUnknown
-      properties:
-        account:
-          type: string
-          description: account should be valid email address
-        email_pw_to_user:
-          type: boolean
-          description: email_pw_to_user is optional and its default value is true.
-        password:
-          type: string
-          description: |-
-            password is optional and it is generated if password is empty.
-            password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
-        role_id:
-          type: integer
-          description: |-
-            role_id
-            * 0 - admin
-            * 1 - member
-            role_id is optional and its default value is 1(member).
-            notice: admin could not be created if there is admin in VASP.
-    PostTransactionSygnaBridge:
-      type: object
-      title: PostTransactionSygnaBridge
-      properties:
-        account:
-          type: string
-        created_at:
-          type: string
-        id:
-          type: string
-        is_active:
-          type: boolean
-        last_login:
-          type: string
-        last_password_change:
-          type: string
-    PostTransactionSygnaEmail:
-      type: object
-      title: PostTransactionSygnaEmail
-      properties:
-        id:
-          type: string
-          description: specific user identifier
-      required:
-        - id
-    PostTransactionTRISA:
-      type: object
-      title: PostTransactionTRISA
-      properties:
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              example: something
-            success:
-              type: boolean
-          required:
-            - message
-            - success
-      required:
-        - data
-    PostTransactionShyft:
-      type: object
-      title: PostTransactionShyft
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        request_id:
-          type: string
-        event:
-          type: string
-        payload:
-          type: object
-        transaction_uuid:
-          type: string
     schema.PostEmailProtocolDepositInput:
       type: object
-      title: PostTransactionSygnaEmail
+      title: PostEmailProtocolDepositInput
       description: This schema is for 'Sygna_EmailProtocol' protocol
       properties:
         customer_id:
@@ -9158,7 +9032,7 @@ components:
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/schema.TransactionAsset'
+            $ref: '#/components/schemas/TransactionAsset'
         beneficiary_info:
           $ref: '#/components/schemas/model.BeneficiaryInfo'
         counter_party_vasp_info:
@@ -9210,25 +9084,37 @@ components:
         reject_message:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-    schema.TransactionAsset:
+    TransactionAsset:
       type: object
       properties:
-        created_at:
-          type: string
         id:
           type: string
-        is_active:
-          type: boolean
-        logins:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Login'
-        role_id:
-          type: integer
+        created_at:
+          type: string
         updated_at:
           type: string
-      required:
-        - id
+        vasp_code:
+          type: string
+        address:
+          type: string
+        extra_info:
+          $ref: '#/components/schemas/model.StringObject'
+        risk_score:
+          type: string
+        risk_score_provider:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        last_screened:
+          type: string
+        direction:
+          type: integer
+          description: 0 for withdrawal, 1 for deposit
+          enum:
+            - 0
+            - 1
     model.BeneficiaryInfo:
       type: object
       properties:
@@ -9432,13 +9318,11 @@ components:
     schema.DeleteUsersInput:
       type: object
       properties:
-        countryOfIssue:
+        id:
           type: string
-        nationalIdentifier:
-          type: string
-          description: |-
-            third party service name
-            only google is supported now
+          format: uuid
+      required:
+        - id
     schema.PatchUsersInput:
       type: object
       properties:
@@ -9547,33 +9431,33 @@ components:
     model.WebhookEvent:
       type: object
       properties:
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.OwnershipAsset'
-        created_at:
-          type: string
-        error:
-          $ref: '#/components/schemas/model.Object'
         id:
           type: string
-        owner_email:
+        created_at:
           type: string
-        owner_info:
+        updated_at:
+          type: string
+        request_id:
+          type: string
+        event:
+          type: string
+        payload:
           type: object
-        sender_email:
+        transaction_uuid:
+          type: string
+        protocol:
+          type: string
+        counterparty_vasp_code:
           type: string
         status:
-          type: integer
-        status_text:
           type: string
         retry_count:
-          type: string
+          type: integer
         webhook_logs:
           type: array
           items:
-            $ref: '#/components/schemas/model.Webhook_logs'
-    model.Webhook_logs:
+            $ref: '#/components/schemas/model.WebhookLog'
+    model.WebhookLog:
       type: object
       properties:
         created_at:
