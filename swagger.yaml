@@ -8475,19 +8475,126 @@ components:
       type: object
     schema.PostOwnershipInput:
       type: object
-    schema.PatchOwnershipIdInput:
-      type: object
-    schema.PatchOwnershipConfirmInput:
-      type: object
-    schema.PatchOwnershipValidationInput:
-      type: object
       properties:
-        profile_ids:
+        owner_email:
+          type: string
+          format: email
+        transaction_information:
+          type: object
+          properties:
+            currency_id:
+              type: string
+            vasp_beneficiary_wallet_address:
+              type: string
+            value:
+              type: string
+            extra_info:
+              $ref: '#/components/schemas/model.StringObject'
+          required:
+            - currency_id
+            - vasp_beneficiary_wallet_address
+            - value
+        sender_email:
+          type: string
+        private_wallet_address:
           type: array
           items:
             type: string
-        score:
-          type: integer
+        assets_ignore_kyt:
+          type: boolean
+      required:
+        - owner_email
+        - transaction_information
+        - private_wallet_address
+    schema.PatchOwnershipIdInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      required:
+        - id
+    schema.PatchOwnershipConfirmInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accept:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+            required:
+              - id
+        reject:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              reject_code:
+                type: string
+              reject_message:
+                type: string
+            required:
+              - id
+              - reject_code
+              - reject_message
+      required:
+        - id
+    schema.PatchOwnershipValidationInput:
+      type: object
+      properties:
+        accept:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              txid:
+                type: string
+            required:
+              - id
+              - txid
+        reject:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              reject_code:
+                type: string
+              reject_message:
+                type: string
+            required:
+              - id
+              - reject_code
+              - reject_message
+        owner_info:
+          type: object
+          properties:
+            customer_type:
+              $ref: '#/components/schemas/CustomerType'
+            name:
+              type: string
+            country:
+              type: string
+            national:
+              $ref: '#/components/schemas/ivms101.National'
+            birth:
+              $ref: '#/components/schemas/ivms101.Birth'
+            address:
+              $ref: '#/components/schemas/ivms101.Address'
     model.Rollback:
       type: object
     schema.Asset:
