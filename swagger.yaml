@@ -5,7 +5,7 @@ info:
   description: Sygna Hub API Document
   contact: {}
 servers:
-  - url: 'httsp://example.com/v1'
+  - url: 'https://example.com/v1'
     description: ''
 paths:
   /:
@@ -48,7 +48,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /currencies:
     get:
@@ -226,7 +226,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers:
     get:
@@ -404,7 +404,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -484,7 +484,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -590,7 +590,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-Example:
         customer_id: ''
@@ -676,7 +676,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-assets:
     post:
@@ -715,7 +715,7 @@ paths:
                       - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     get:
       tags:
@@ -821,7 +821,7 @@ paths:
                       limit: 20
                       offset: 0
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     patch:
       tags:
@@ -854,7 +854,7 @@ paths:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -888,7 +888,7 @@ paths:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export:
     get:
@@ -990,7 +990,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export/download:
     get:
@@ -1027,7 +1027,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export/status:
     get:
@@ -1071,7 +1071,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/customers/{id}':
     get:
@@ -1299,7 +1299,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export:
     get:
@@ -1505,7 +1505,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export/download:
     get:
@@ -1542,7 +1542,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export/status:
     get:
@@ -1586,7 +1586,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp:
     get:
@@ -1757,7 +1757,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /oauth2:
     post:
@@ -1810,7 +1810,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -1844,7 +1844,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships:
     get:
@@ -1892,7 +1892,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -1958,7 +1958,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/cancel:
     patch:
@@ -2012,7 +2012,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/confirm:
     patch:
@@ -2072,7 +2072,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/resend:
     patch:
@@ -2126,7 +2126,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/unblock:
     patch:
@@ -2180,7 +2180,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/validate:
     patch:
@@ -2241,7 +2241,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/ownerships/verify-token/{token}':
     get:
@@ -2292,7 +2292,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/ownerships/{id}':
     get:
@@ -2346,7 +2346,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /rollback:
     get:
@@ -2394,7 +2394,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -2444,7 +2444,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /services:
     get:
@@ -2650,7 +2650,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -2733,7 +2733,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -2946,7 +2946,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /services/supported:
     get:
@@ -3204,7 +3204,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /settings:
     get:
@@ -3253,7 +3253,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -3364,7 +3364,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-Customized Transfer Templates:
         - id: dbcf2d23-7679-470d-832f-a559b711d48b
@@ -3498,7 +3498,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-VASP Profile:
         type: vasp_profile
@@ -3651,7 +3651,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /settings/supported:
     get:
@@ -3978,7 +3978,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions:
     get:
@@ -4270,7 +4270,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -4513,7 +4513,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits:
     post:
@@ -4577,7 +4577,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/permission:
     patch:
@@ -4628,7 +4628,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/permission-request:
     patch:
@@ -4679,7 +4679,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/txid:
     patch:
@@ -4730,7 +4730,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/permission:
     post:
@@ -4839,7 +4839,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/email-protocol/verify-token/{token}':
     get:
@@ -4889,7 +4889,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/permission:
     patch:
@@ -4968,7 +4968,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/sanction-match:
     post:
@@ -5021,7 +5021,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/sanction-report/{searchId}':
     get:
@@ -5069,7 +5069,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/status:
     patch:
@@ -5124,7 +5124,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/txid:
     patch:
@@ -5179,7 +5179,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/cdd-request:
     post:
@@ -5262,7 +5262,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/cdd:
     patch:
@@ -5325,7 +5325,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/wallet-address-filter:
     post:
@@ -5435,7 +5435,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/{id}':
     get:
@@ -5853,7 +5853,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/address-validation:
     post:
@@ -5929,7 +5929,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/note:
     patch:
@@ -6010,7 +6010,7 @@ paths:
                       quarterlyUsed: 57
                       expirationDate: 2025/03/13
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users:
     get:
@@ -6145,7 +6145,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -6199,7 +6199,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -6251,7 +6251,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     patch:
       tags:
@@ -6308,7 +6308,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/change-password:
     patch:
@@ -6360,7 +6360,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/link:
     post:
@@ -6415,7 +6415,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/users/link/{login_type}':
     delete:
@@ -6466,7 +6466,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/users/{id}':
     get:
@@ -6520,7 +6520,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/reset-password:
     post:
@@ -6559,7 +6559,7 @@ paths:
                       success: true
                       generated_password: Ab_Cd1234
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/forget-password:
     post:
@@ -6593,7 +6593,7 @@ paths:
         '500':
           description: Internal Server Error
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/history:
     get:
@@ -6674,7 +6674,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/bridge/sync:
     get:
@@ -6711,7 +6711,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/shyft/attestations/sync:
     get:
@@ -6748,7 +6748,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/gtr/random-key-pair:
     get:
@@ -6772,7 +6772,7 @@ paths:
                       private_key: X*****************************************Y=
                       public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/test:
     post:
@@ -6849,7 +6849,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /webhook-log:
     get:
@@ -6960,7 +6960,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /webhook-log/sync:
     get:
@@ -7007,7 +7007,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export:
     get:
@@ -7044,7 +7044,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export/status:
     get:
@@ -7088,7 +7088,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export/download:
     get:
@@ -7125,7 +7125,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vasp-server-status:
     post:
@@ -7178,9 +7178,9 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
-  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb':
+  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result':
     get:
       tags:
         - Hub/beneficiary-checking-rule
@@ -7193,6 +7193,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: customer_id
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: OK
@@ -7302,7 +7309,7 @@ paths:
         '500':
           description: Internal Server Error
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vasp/beneficiary-checking-rule:
     post:
@@ -7440,7 +7447,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     get:
       tags:
@@ -7643,7 +7650,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /analysis/bridge/usage:
     get:
@@ -7694,7 +7701,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
 components:
   securitySchemes:
