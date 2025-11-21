@@ -5,7 +5,7 @@ info:
   description: Sygna Hub API Document
   contact: {}
 servers:
-  - url: 'httsp://example.com/v1'
+  - url: 'https://example.com/v1'
     description: ''
 paths:
   /:
@@ -48,7 +48,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /currencies:
     get:
@@ -226,7 +226,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers:
     get:
@@ -404,7 +404,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -484,7 +484,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -525,7 +525,6 @@ paths:
                       - address: '0x1b7844ed817ebF8B559D25A4f6D9F45931227970'
                         extra_info: {}
                         currency_id: 'sygna:0x8000003c'
-                    assets_ignore_kyt: true
               Legal Person:
                 value:
                   - is_active: true
@@ -557,7 +556,6 @@ paths:
                         extra_info:
                           flag: '1'
                         currency_id: 'sygna:0x800002ca'
-                    assets_ignore_kyt: true
       responses:
         '200':
           description: OK
@@ -592,7 +590,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-Example:
         customer_id: ''
@@ -678,7 +676,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-assets:
     post:
@@ -691,7 +689,9 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostCustomersAssetsInput'
             examples:
               Example 1:
                 value:
@@ -715,7 +715,7 @@ paths:
                       - id: 650856c1-2c67-4f9c-8eaf-77c924d9a7b3
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     get:
       tags:
@@ -821,7 +821,7 @@ paths:
                       limit: 20
                       offset: 0
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     patch:
       tags:
@@ -831,7 +831,9 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PatchCustomersAssetsInput'
             examples:
               Example 1:
                 value:
@@ -852,7 +854,7 @@ paths:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -861,7 +863,13 @@ paths:
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    format: uuid
             examples:
               Example 1:
                 value:
@@ -880,7 +888,7 @@ paths:
                       - asset_id: 66574f07-a5ab-4b1d-a984-d24eab30f401
                         success: true
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export:
     get:
@@ -982,7 +990,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export/download:
     get:
@@ -1019,7 +1027,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /customers-export/status:
     get:
@@ -1063,7 +1071,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/customers/{id}':
     get:
@@ -1291,7 +1299,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export:
     get:
@@ -1497,7 +1505,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export/download:
     get:
@@ -1534,7 +1542,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /data-transfer-export/status:
     get:
@@ -1578,7 +1586,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp:
     get:
@@ -1749,7 +1757,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /oauth2:
     post:
@@ -1802,7 +1810,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -1836,7 +1844,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships:
     get:
@@ -1884,7 +1892,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -1950,7 +1958,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/cancel:
     patch:
@@ -2004,7 +2012,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/confirm:
     patch:
@@ -2064,7 +2072,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/resend:
     patch:
@@ -2118,7 +2126,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/unblock:
     patch:
@@ -2172,7 +2180,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /ownerships/validate:
     patch:
@@ -2233,7 +2241,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/ownerships/verify-token/{token}':
     get:
@@ -2284,7 +2292,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/ownerships/{id}':
     get:
@@ -2338,7 +2346,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /rollback:
     get:
@@ -2359,7 +2367,6 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/model.Rollback'
-                  - $ref: '#/components/schemas/schema.RespWithPaging'
         '400':
           description: Bad Request
           content:
@@ -2387,7 +2394,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -2402,7 +2409,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/schema.PutRollbackInout'
+                $ref: '#/components/schemas/schema.PutRollbackInput'
       responses:
         '200':
           description: OK
@@ -2437,7 +2444,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /services:
     get:
@@ -2643,7 +2650,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -2726,7 +2733,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -2939,7 +2946,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /services/supported:
     get:
@@ -3197,7 +3204,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /settings:
     get:
@@ -3246,7 +3253,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     put:
       tags:
@@ -3263,67 +3270,66 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/schema.PostSettingInput'
+                $ref: '#/components/schemas/schema.PostAndPutSettingInput'
             examples:
               Overview:
                 value:
-                  data:
-                    - type: blockchain_analytics_timing
-                      rule:
-                        beneficiary: receiving
-                        originator: receiving
-                    - type: sanction_screening_timing
-                      rule:
-                        beneficiary: receiving
-                        originator: receiving
-                    - type: automation_settings
-                      rule:
-                        auto_accept: true
-                        auto_reject: false
-                    - type: forced_sending_when_VASP_is_not_healthy
-                      rule:
-                        forced_sending: true
-                    - type: full_width_space_equals_half_width_space
-                      rule:
-                        full_width_space_equals_half_width_space: false
-                    - type: english_name_case_sensitivity
-                      rule:
-                        english_name_case_sensitivity: true
-                    - type: personal_info_checking_items
-                      rule:
-                        follow_ivms101: false
-                        legal_person:
-                          customer_identification: true
-                          geographic_address:
-                            address_type: true
-                            country: true
-                            town_name: true
-                          name:
-                            name_identifier:
-                              legal_person_name: true
-                              legal_person_name_identifier_type: true
-                          national_identification:
-                            national_identifier: true
-                            national_identifier_type: true
-                        name_checking_rule: one_name_matched
-                        natural_person:
-                          customer_identification: true
-                          date_and_place_of_birth:
-                            date_of_birth: true
-                            place_of_birth: true
-                          geographic_address:
-                            address_type: true
-                            country: true
-                            town_name: true
-                          name:
-                            name_identifier:
-                              checking_rule: one_name_matched
-                              name_identifier_type: true
-                              primary_identifier: true
-                              secondary_identifier: true
-                          national_identification:
-                            national_identifier: true
-                            national_identifier_type: true
+                  - type: blockchain_analytics_timing
+                    rule:
+                      beneficiary: receiving
+                      originator: receiving
+                  - type: sanction_screening_timing
+                    rule:
+                      beneficiary: receiving
+                      originator: receiving
+                  - type: automation_settings
+                    rule:
+                      auto_accept: true
+                      auto_reject: false
+                  - type: forced_sending_when_VASP_is_not_healthy
+                    rule:
+                      forced_sending: true
+                  - type: full_width_space_equals_half_width_space
+                    rule:
+                      full_width_space_equals_half_width_space: false
+                  - type: english_name_case_sensitivity
+                    rule:
+                      english_name_case_sensitivity: true
+                  - type: personal_info_checking_items
+                    rule:
+                      follow_ivms101: false
+                      legal_person:
+                        customer_identification: true
+                        geographic_address:
+                          address_type: true
+                          country: true
+                          town_name: true
+                        name:
+                          name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                        national_identification:
+                          national_identifier: true
+                          national_identifier_type: true
+                      name_checking_rule: one_name_matched
+                      natural_person:
+                        customer_identification: true
+                        date_and_place_of_birth:
+                          date_of_birth: true
+                          place_of_birth: true
+                        geographic_address:
+                          address_type: true
+                          country: true
+                          town_name: true
+                        name:
+                          name_identifier:
+                            checking_rule: one_name_matched
+                            name_identifier_type: true
+                            primary_identifier: true
+                            secondary_identifier: true
+                        national_identification:
+                          national_identifier: true
+                          national_identifier_type: true
       responses:
         '200':
           description: OK
@@ -3358,7 +3364,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-Customized Transfer Templates:
         - id: dbcf2d23-7679-470d-832f-a559b711d48b
@@ -3398,94 +3404,66 @@ paths:
             schema:
               type: array
               items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  rule:
-                    type: object
-                    properties:
-                      beneficiary:
-                        type: string
-                        default: receiving
-                      originator:
-                        type: string
-                        default: receiving
-                      follow_ivms101:
-                        type: boolean
-                        default: true
-                      name_checking_rule:
-                        type: string
-                        default: one_name_matched
-                      english_name_case_sensitivity:
-                        type: boolean
-                        default: true
-                      full_width_space_equals_half_width_space:
-                        type: boolean
-                        default: false
-                      auto_accept:
-                        type: boolean
-                        default: true
+                $ref: '#/components/schemas/schema.PostAndPutSettingInput'
             examples:
               Overview:
                 value:
-                  data:
-                    - type: blockchain_analytics_timing
-                      rule:
-                        beneficiary: receiving
-                        originator: receiving
-                    - type: sanction_screening_timing
-                      rule:
-                        beneficiary: receiving
-                        originator: receiving
-                    - type: automation_settings
-                      rule:
-                        auto_accept: true
-                        auto_reject: false
-                    - type: forced_sending_when_VASP_is_not_healthy
-                      rule:
-                        forced_sending: true
-                    - type: full_width_space_equals_half_width_space
-                      rule:
-                        full_width_space_equals_half_width_space: false
-                    - type: english_name_case_sensitivity
-                      rule:
-                        english_name_case_sensitivity: true
-                    - type: personal_info_checking_items
-                      rule:
-                        follow_ivms101: false
-                        legal_person:
-                          customer_identification: true
-                          geographic_address:
-                            address_type: true
-                            country: true
-                            town_name: true
-                          name:
-                            name_identifier:
-                              legal_person_name: true
-                              legal_person_name_identifier_type: true
-                          national_identification:
-                            national_identifier: true
-                            national_identifier_type: true
-                        name_checking_rule: one_name_matched
-                        natural_person:
-                          customer_identification: true
-                          date_and_place_of_birth:
-                            date_of_birth: true
-                            place_of_birth: true
-                          geographic_address:
-                            address_type: true
-                            country: true
-                            town_name: true
-                          name:
-                            name_identifier:
-                              checking_rule: one_name_matched
-                              name_identifier_type: true
-                              primary_identifier: true
-                              secondary_identifier: true
-                          national_identification:
-                            national_identifier: true
-                            national_identifier_type: true
+                  - type: blockchain_analytics_timing
+                    rule:
+                      beneficiary: receiving
+                      originator: receiving
+                  - type: sanction_screening_timing
+                    rule:
+                      beneficiary: receiving
+                      originator: receiving
+                  - type: automation_settings
+                    rule:
+                      auto_accept: true
+                      auto_reject: false
+                  - type: forced_sending_when_VASP_is_not_healthy
+                    rule:
+                      forced_sending: true
+                  - type: full_width_space_equals_half_width_space
+                    rule:
+                      full_width_space_equals_half_width_space: false
+                  - type: english_name_case_sensitivity
+                    rule:
+                      english_name_case_sensitivity: true
+                  - type: personal_info_checking_items
+                    rule:
+                      follow_ivms101: false
+                      legal_person:
+                        customer_identification: true
+                        geographic_address:
+                          address_type: true
+                          country: true
+                          town_name: true
+                        name:
+                          name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                        national_identification:
+                          national_identifier: true
+                          national_identifier_type: true
+                      name_checking_rule: one_name_matched
+                      natural_person:
+                        customer_identification: true
+                        date_and_place_of_birth:
+                          date_of_birth: true
+                          place_of_birth: true
+                        geographic_address:
+                          address_type: true
+                          country: true
+                          town_name: true
+                        name:
+                          name_identifier:
+                            checking_rule: one_name_matched
+                            name_identifier_type: true
+                            primary_identifier: true
+                            secondary_identifier: true
+                        national_identification:
+                          national_identifier: true
+                          national_identifier_type: true
       responses:
         '200':
           description: OK
@@ -3520,7 +3498,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
       x-VASP Profile:
         type: vasp_profile
@@ -3673,7 +3651,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /settings/supported:
     get:
@@ -4000,7 +3978,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions:
     get:
@@ -4292,7 +4270,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -4306,12 +4284,7 @@ paths:
             schema:
               type: array
               items:
-                oneOf:
-                  - $ref: '#/components/schemas/PostTransactionUnknown'
-                  - $ref: '#/components/schemas/PostTransactionSygnaBridge'
-                  - $ref: '#/components/schemas/PostTransactionSygnaEmail'
-                  - $ref: '#/components/schemas/PostTransactionTRISA'
-                  - $ref: '#/components/schemas/PostTransactionShyft'
+                $ref: '#/components/schemas/schema.PostTransactionInput'
             examples:
               Unknown:
                 value:
@@ -4540,7 +4513,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits:
     post:
@@ -4556,7 +4529,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/model.PostEmailProtocolDepositInput'
+                $ref: '#/components/schemas/schema.PostEmailProtocolDepositInput'
             examples:
               Example 1:
                 value:
@@ -4604,7 +4577,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/permission:
     patch:
@@ -4655,7 +4628,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/permission-request:
     patch:
@@ -4706,7 +4679,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/deposits/txid:
     patch:
@@ -4757,7 +4730,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/email-protocol/permission:
     post:
@@ -4866,7 +4839,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/email-protocol/verify-token/{token}':
     get:
@@ -4916,7 +4889,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/errors.SystemError'
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/permission:
     patch:
@@ -4995,7 +4968,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/sanction-match:
     post:
@@ -5048,7 +5021,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/sanction-report/{searchId}':
     get:
@@ -5096,7 +5069,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/status:
     patch:
@@ -5151,7 +5124,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/txid:
     patch:
@@ -5206,7 +5179,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/cdd-request:
     post:
@@ -5218,6 +5191,10 @@ paths:
         required: true
         content:
           '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostCDDRequestInput'
             examples:
               Examples:
                 value:
@@ -5285,7 +5262,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/cdd:
     patch:
@@ -5297,6 +5274,18 @@ paths:
         required: true
         content:
           '*/*':
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  other_cdd_info:
+                    type: string
+                required:
+                  - id
             examples:
               Example 1:
                 value:
@@ -5336,7 +5325,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/wallet-address-filter:
     post:
@@ -5446,7 +5435,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/transactions/{id}':
     get:
@@ -5864,7 +5853,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/address-validation:
     post:
@@ -5878,9 +5867,7 @@ paths:
         content:
           '*/*':
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
+              $ref: '#/components/schemas/schema.PostAddressValidationInput'
             examples:
               Without extra_info:
                 value:
@@ -5942,7 +5929,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /transactions/note:
     patch:
@@ -5969,13 +5956,23 @@ paths:
         content:
           '*/*':
             schema:
-              type: object
-              properties: {}
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  note:
+                    type: string
+                required:
+                  - id
+                  - note
             examples:
               Example 1:
                 value:
-                  id: 77b56198-c3a8-48b7-8c42-a500802b184d
-                  note: suspicious transaciton
+                  - id: 77b56198-c3a8-48b7-8c42-a500802b184d
+                    note: suspicious transaciton
   '/analysis/interop-info/{provider}':
     get:
       tags:
@@ -6013,7 +6010,7 @@ paths:
                       quarterlyUsed: 57
                       expirationDate: 2025/03/13
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users:
     get:
@@ -6148,7 +6145,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     post:
       tags:
@@ -6202,7 +6199,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     delete:
       tags:
@@ -6254,7 +6251,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     patch:
       tags:
@@ -6311,7 +6308,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/change-password:
     patch:
@@ -6363,7 +6360,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/link:
     post:
@@ -6418,7 +6415,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/users/link/{login_type}':
     delete:
@@ -6469,7 +6466,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   '/users/{id}':
     get:
@@ -6523,7 +6520,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/reset-password:
     post:
@@ -6533,10 +6530,17 @@ paths:
       description: Only admin can reset the password with this API.
       operationId: get-users-reset-password
       requestBody:
+        required: true
         content:
           '*/*':
             schema:
               type: object
+              properties:
+                user_account_email:
+                  type: string
+                  description: The email address of the user to reset the password for.
+              required:
+                - user_account_email
             examples:
               Example 1:
                 value:
@@ -6555,9 +6559,9 @@ paths:
                       success: true
                       generated_password: Ab_Cd1234
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
-  /users/forget-passwrod:
+  /users/forget-password:
     post:
       tags:
         - Hub/users
@@ -6568,6 +6572,11 @@ paths:
           '*/*':
             schema:
               type: object
+              properties:
+                account:
+                  type: string
+              required:
+                - account
             examples:
               Example 1:
                 value:
@@ -6584,7 +6593,7 @@ paths:
         '500':
           description: Internal Server Error
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /users/history:
     get:
@@ -6665,7 +6674,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/bridge/sync:
     get:
@@ -6702,7 +6711,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/shyft/attestations/sync:
     get:
@@ -6739,7 +6748,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/gtr/random-key-pair:
     get:
@@ -6763,7 +6772,7 @@ paths:
                       private_key: X*****************************************Y=
                       public_key: p4H4b6RxlZ7ZJ7L9tCaYojPQJ0oGx81k6OAZdYdd7lg=
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vendors/test:
     post:
@@ -6840,7 +6849,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /webhook-log:
     get:
@@ -6951,7 +6960,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /webhook-log/sync:
     get:
@@ -6998,7 +7007,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export:
     get:
@@ -7035,7 +7044,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export/status:
     get:
@@ -7079,7 +7088,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /global-vasp-export/download:
     get:
@@ -7116,7 +7125,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vasp-server-status:
     post:
@@ -7169,9 +7178,9 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
-  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result?customer_id=aa&customer_id=bb':
+  '/beneficiary-checking-rule/{vaspCode}/rule-comparison-result':
     get:
       tags:
         - Hub/beneficiary-checking-rule
@@ -7184,6 +7193,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: customer_id
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: OK
@@ -7293,7 +7309,7 @@ paths:
         '500':
           description: Internal Server Error
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /vasp/beneficiary-checking-rule:
     post:
@@ -7431,7 +7447,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
     get:
       tags:
@@ -7634,7 +7650,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
   /analysis/bridge/usage:
     get:
@@ -7685,7 +7701,7 @@ paths:
       security:
         - BearerToken: []
       servers:
-        - url: 'httsp://example.com/v1'
+        - url: 'https://example.com/v1'
           description: ''
 components:
   securitySchemes:
@@ -7720,141 +7736,31 @@ components:
           type: object
         type:
           type: string
-    schema.PutCustomersInput:
-      type: object
-      properties:
-        localNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.LocalNaturalPersonNameIdentifier'
-        nameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.NaturalPersonNameIdentifier'
-        phoneticNameIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.PhoneticNaturalPersonNameIdentifier'
-    ivms101.LocalNaturalPersonNameIdentifier:
-      type: object
-      properties:
-        nameIdentifierType:
-          type: string
-          format: uuid
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/schema.NationalIdentification'
-        natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-    model.LegalPersonName:
-      type: object
-      title: LegalPersonName
-      description: required if customer type equals 1
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          type: string
-    schema.NationalIdentification:
-      type: object
-      title: PostTransactionSygnaBridge
-      description: This schema is for 'Sygna_Bridge' protocol
-      properties:
-        beneficiary:
-          type: object
-          properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                Required if 
-                - protocol equals Sygna_Bridge 
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-          required:
-            - addrs
-            - customer_type
-            - private_info
-            - vasp_code
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-          description: 'The value must be in Epoch & Unix Timestamp format, excluding milliseconds.'
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-          description: |-
-            1. 
-            True: Forced sending data transfers even counterparty VASP server status is NOT healthy.
-            The data transfer will still be successfully sent out by oVASP to the Sygna server.
-
-            False: Do not force sending data transfers when the counterparty VASP server status is NOT healthy.
-            The data transfer will not be sent out. The oVASP needs to resend the data transfer manually.
-              
-            2. Please hit Sygna Hub API <POST /settings>, to set the “forced_sending_when_VASP_is_not_healthy” parameter to be True or False by default in every data transfer.
-
-            3. When there’s an error related to VASP server error, a new webhook event “SEND_COUNTERPARTY_SERVER_NOT_HEALTHY_ERROR” will be triggered if you’ve input the webhook URL in your Sygna Hub config file.
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol:
-          type: string
-          nullable: true
-          enum:
-            - Sygna_Bridge
-            - null
-        value:
-          type: string
     model.Addr:
       type: object
       properties:
         address:
           type: string
         extra_info:
-          type: object
+          $ref: '#/components/schemas/model.StringObject'
       required:
         - address
-    model.BeneficiaryPrivateInfo:
-      oneOf:
-        - $ref: '#/components/schemas/model.NaturalPersonName'
-        - $ref: '#/components/schemas/model.LegalPersonName'
-    model.NaturalPersonName:
-      type: object
-      title: NaturalPersonName
-      description: required if customer type equals 0
-      properties:
-        local_name:
-          type: string
-        name:
-          type: string
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      required:
-        - name
-    model.NameObject:
+    BeneficiaryPrivateInfo:
       type: object
       properties:
-        first_name:
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        country_of_residence:
           type: string
-        last_name:
+        country_of_registration:
           type: string
     OriginatorAsset:
       type: object
@@ -7875,162 +7781,76 @@ components:
                 type: string
           required:
             - assets
-    ivms101.NaturalPersonNameIdentifier:
+    ivms101.National:
       type: object
       properties:
-        nameIdentifierType:
+        national_identifier:
           type: string
-        customer_id:
+        national_identifier_type:
           type: string
-        customer_type:
-          type: integer
-        id:
+        country_of_issue:
           type: string
-        is_active:
-          type: boolean
-        legal_person_name:
-          $ref: '#/components/schemas/schema.LegalPersonName'
-        national:
-          $ref: '#/components/schemas/model.National'
-        natural_person_name:
-          $ref: '#/components/schemas/schema.NaturalPersonName'
-        update_status:
-          type: boolean
-      required:
-        - id
-    schema.LegalPersonName:
-      type: object
-      title: PostTransactionUnknown
-      description: required if customer_type equals 1
-      properties:
-        beneficiary:
-          type: object
+        registration_authority:
+          type: string
+    schema.PostAssetInput:
+      allOf:
+        - $ref: '#/components/schemas/Asset'
+        - type: object
+          required:
+            - currency_id
+            - address
+    schema.PutAssetInput:
+      allOf:
+        - type: object
           properties:
-            addrs:
-              type: array
-              items:
-                $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
+            id:
               type: string
+              format: uuid
+          required:
+            - currency_id
+            - address
+        - $ref: '#/components/schemas/Asset'
+    Asset:
+      type: object
+      properties:
         currency_id:
           type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol_extra_info:
-          type: object
-        txid:
-          type: string
-    model.National:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.PatchAssetInput'
-        assets_ignore_kyt:
-          type: boolean
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-        customer_id:
-          type: string
-        customer_type:
-          type: integer
-          description: |-
-            Customer Type
-            * 0 - NaturalPerson
-            * 1 - LegalPerson
-        id:
-          type: string
-    schema.Address:
-      type: object
-      properties:
         address:
           type: string
-        created_at:
-          type: string
-        currency_id:
-          type: string
-        currency_name:
-          type: string
-        currency_symbol:
-          type: string
-        id:
-          type: string
-        last_screened:
-          type: string
-        reject_code:
-          type: string
-        reject_message:
-          type: string
-        risk_score:
-          type: string
-        risk_score_provider:
-          type: string
-        txid:
-          type: string
-        updated_at:
-          type: string
-        validation_status:
-          type: integer
-        validation_status_text:
-          type: string
-        value:
-          type: string
-    schema.PatchAssetInput:
-      type: object
-    schema.DateAndPlaceOfBirth:
-      type: object
-      properties:
-        date_of_birth:
-          type: string
-        vasp_beneficiary_wallet_address:
-          type: string
-    schema.NaturalPersonName:
+        extra_info:
+          $ref: '#/components/schemas/model.StringObject'      
+    NaturalPersonName:
       type: object
       description: required if customer_type equals 0
       properties:
-        local_name:
-          $ref: '#/components/schemas/schema.NameObject'
         name:
-          $ref: '#/components/schemas/schema.NameObject'
+          $ref: '#/components/schemas/NameObject'
+        local_name:
+          $ref: '#/components/schemas/NameObject'
         phonetic_name:
-          $ref: '#/components/schemas/schema.NameObject'
-    schema.NameObject:
+          $ref: '#/components/schemas/NameObject'
+      required:
+        - name
+    NameObject:
       type: object
       properties:
-        address:
+        first_name:
           type: string
-    ivms101.PhoneticNaturalPersonNameIdentifier:
+        last_name:
+          type: string
+    LegalPersonName:
       type: object
+      title: LegalPersonName
+      description: required if customer type equals 1
       properties:
-        nameIdentifierType:
+        name:
           type: string
-        country:
+        local_name:
           type: string
-        country_sub_division:
+        phonetic_name:
           type: string
+      required:
+        - name
     schema.RespWithMutation:
       type: object
       properties:
@@ -8048,19 +7868,136 @@ components:
                 type: boolean
             required:
               - success
+    schema.PutCustomersInput:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            is_active:
+              type: boolean
+            assets:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PutAssetInput'
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+      required:
+        - id
+        - is_active
+        - assets
+        - customer_type
     schema.PostCustomersInput:
-      type: object
+      allOf:
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+        - type: object
+          properties:
+            assets:
+              type: array
+              items:
+                $ref: '#/components/schemas/schema.PostAssetInput'
+          required:
+            - assets
+            - customer_type
     schema.PatchCustomersInput:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            is_active:
+              type: boolean
+            assets:
+              type: array
+              items:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                  - $ref: '#/components/schemas/Asset'
+        - $ref: '#/components/schemas/UpdateCustomersCommonInput'
+      required:
+        - id
+    schema.PostCustomersAssetsInput:
       type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+        - id
+        - assets
+    schema.PatchCustomersAssetsInput:
+      allOf:
+        - type: object
+          properties:
+            asset_id:
+              type: string
+              format: uuid
+        - $ref: '#/components/schemas/Asset'
+      required:
+        - asset_id
+    UpdateCustomersCommonInput:
+      type: object
+      properties:
+        customer_type:
+          $ref: '#/components/schemas/CustomerType'
+        customer_id:
+          type: string
+        country:
+          type: string
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
+    CustomerType:
+      type: integer
+      description: |-
+        Customer Type
+        * 0 - NaturalPerson
+        * 1 - LegalPerson
+      enum:
+        - 0
+        - 1
     model.Report:
       type: object
       properties:
         id:
           type: string
-          description: Target asset identifier which you want to accept
           format: uuid
-        txid:
+        created_at:
           type: string
+        updated_at:
+          type: string
+        vasp_code:
+          type: string
+        file_path:
+          type: string
+        report_status:
+          type: integer
+        report_status_text:
+          type: string
+          enum:
+            - None
+            - Processing
+            - Done
+            - Blocked
+            - Expired
+        error:
+          type: object
     GET-customers_id_natural-person:
       type: object
       properties:
@@ -8074,7 +8011,7 @@ components:
             vasp_code:
               type: string
             customer_type:
-              type: integer
+              $ref: '#/components/schemas/CustomerType'
             customer_id:
               type: string
             natural_person_name:
@@ -8210,7 +8147,7 @@ components:
             vasp_code:
               type: string
             customer_type:
-              type: integer
+              $ref: '#/components/schemas/CustomerType'
             customer_id:
               type: string
             natural_person_name:
@@ -8336,41 +8273,19 @@ components:
     schema.PostOauthInput:
       type: object
       properties:
-        account_numbers:
-          type: array
-          items:
-            type: string
-        beneficiary_persons:
-          type: array
-          items:
-            $ref: '#/components/schemas/ivms101.Person'
-    ivms101.Person:
-      type: object
-      properties:
-        legalPerson:
-          $ref: '#/components/schemas/ivms101.LegalPerson'
-        naturalPerson:
-          $ref: '#/components/schemas/ivms101.NaturalPerson'
-    ivms101.LegalPerson:
-      type: object
-      properties:
-        countryOfRegistration:
+        account:
           type: string
-        customerIdentification:
+        credential:
           type: string
+        login_type:
+          type: string
+          default: password
           enum:
             - password
             - google
-          default: password
-    ivms101.NaturalPerson:
-      type: object
-      properties:
-        country_of_residence:
-          type: string
-        extra_info:
-          type: object
-        value:
-          type: string
+      required:
+        - account
+        - credential
     schema.RespWithStatus:
       type: object
       properties:
@@ -8388,57 +8303,95 @@ components:
     model.Ownership:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        owner_email:
+          type: string
+        owner_info:
+          $ref: '#/components/schemas/OwnerInfo'
         assets:
           type: array
           items:
             $ref: '#/components/schemas/model.OwnershipAsset'
-        created_at:
+        error:
+          type: object
+        status:
+          type: integer
+        status_text:
           type: string
-        post_box:
+          enum:
+            - Processing
+            - Blocked
+            - Pending On Receiver
+            - Transfer To Receiver Failed
+            - Pending On Sender
+            - Transfer To Sender Failed
+            - Confirmed
+            - Confirm Failed
+            - Rejected By Receiver
+            - Rejected By Sender
+            - Expired
+            - Canceled By Sender
+        sender_email:
           type: string
-        post_code:
-          type: string
-        room:
-          type: string
-        street_name:
-          type: string
-        sub_department:
-          type: string
+        transaction_information:
+          type: object
+          properties:
+            vasp_beneficiary_wallet_address:
+              type: string
+            currency_id:
+              type: string
+            value:
+              type: string
+            extra_info:
+              $ref: '#/components/schemas/model.StringObject'
     model.OwnershipAsset:
       type: object
       properties:
-        address:
+        id:
           type: string
         created_at:
           type: string
-        currency_id:
+        updated_at:
           type: string
-        currency_name:
+        txid:
+          type: string
+        address:
+          type: string
+        currency_id:
           type: string
         currency_symbol:
           type: string
-        extra_info:
-          $ref: '#/components/schemas/model.StringObject'
-        id:
+        currency_name:
           type: string
-        is_kyt_supported:
-          type: boolean
-        is_sygna_supported:
-          type: boolean
-        labels:
-          type: array
-          items:
-            type: string
+        value:
+          type: string
+        reject_code:
+          type: string
+        reject_message:
+          type: string
         last_screened:
           type: string
         risk_score:
           type: string
         risk_score_provider:
           type: string
-        updated_at:
+        validation_status:
+          type: integer
+        validation_status_text:
           type: string
-        value:
-          type: string
+          enum:
+            - Processing
+            - Accepted By Receiver
+            - Rejected By Receiver
+            - Accepted By Sender
+            - Rejected By Sender
+            - Canceled By Sender
     model.StringObject:
       type: object
       additionalProperties:
@@ -8450,55 +8403,153 @@ components:
           $ref: '#/components/schemas/schema.PagingResult'
     schema.PagingResult:
       type: object
+      properties:
+        has_next:
+          type: boolean
+        limit:
+          type: integer
+        offset:
+          type: integer
     schema.PostOwnershipInput:
       type: object
-    schema.PatchOwnershipIdInput:
-      type: object
-    schema.PatchOwnershipConfirmInput:
-      type: object
-    schema.PatchOwnershipValidationInput:
-      type: object
       properties:
-        profile_ids:
-          type: array
-          items:
-            type: string
-        score:
-          type: integer
-    model.Rollback:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/schema.Address'
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/schema.Asset'
-        avg_risk_score:
-          type: string
-        birth:
-          $ref: '#/components/schemas/schema.DateAndPlaceOfBirth'
-        country:
-          type: string
-    schema.Asset:
-      type: object
-      properties:
-        assets_ignore_kyt:
-          type: boolean
         owner_email:
           type: string
           format: email
+        transaction_information:
+          type: object
+          properties:
+            currency_id:
+              type: string
+            vasp_beneficiary_wallet_address:
+              type: string
+            value:
+              type: string
+            extra_info:
+              $ref: '#/components/schemas/model.StringObject'
+          required:
+            - currency_id
+            - vasp_beneficiary_wallet_address
+            - value
+        sender_email:
+          type: string
         private_wallet_address:
           type: array
           items:
             type: string
-        sender_email:
-          type: string
-    schema.PutRollbackInout:
+        assets_ignore_kyt:
+          type: boolean
+      required:
+        - owner_email
+        - transaction_information
+        - private_wallet_address
+    schema.PatchOwnershipIdInput:
       type: object
       properties:
-        nameIdentifierType:
+        id:
           type: string
+          format: uuid
+      required:
+        - id
+    schema.PatchOwnershipConfirmInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        accept:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+            required:
+              - id
+        reject:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              reject_code:
+                type: string
+              reject_message:
+                type: string
+            required:
+              - id
+              - reject_code
+              - reject_message
+      required:
+        - id
+    schema.PatchOwnershipValidationInput:
+      type: object
+      properties:
+        accept:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              txid:
+                type: string
+            required:
+              - id
+              - txid
+        reject:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              reject_code:
+                type: string
+              reject_message:
+                type: string
+            required:
+              - id
+              - reject_code
+              - reject_message
+        owner_info:
+          $ref: '#/components/schemas/OwnerInfo'
+    OwnerInfo:
+      type: object
+      properties:
+        customer_type:
+          $ref: '#/components/schemas/CustomerType'
+        name:
+          type: string
+        country:
+          type: string
+        national:
+          $ref: '#/components/schemas/ivms101.National'
+        birth:
+          $ref: '#/components/schemas/ivms101.Birth'
+        address:
+          $ref: '#/components/schemas/ivms101.Address'
+    model.Rollback:
+      type: object
+      properties:
+        version:
+          type: string
+        gorm_version:
+          type: string
+        sql_version:
+          type: string
+    schema.PutRollbackInput:
+      type: object
+      properties:
+        version:
+          type: string
+      required:
+        - version
     model.Service:
       type: object
       properties:
@@ -8529,18 +8580,51 @@ components:
           type: string
     schema.PutServicesInput:
       type: object
-    schema.PostServicesInput:
-      type: object
-      title: LegalPersonName
       properties:
-        legalPersonName:
+        provider:
           type: string
-        legalPersonNameIdentifierType:
+          description: please check GET /services/supported to see which providers are supported
+        type:
           type: string
           enum:
             - Blockchain Analytics
             - Sanction Screening
             - Travel Rule
+        credential:
+          type: object
+          description: please check GET /services/supported to see what credential is required by provider
+        settings:
+          type: object
+          description: please check GET /services/supported to see which settings are supported by provider
+        is_active:
+          type: boolean
+      required:
+        - provider
+        - type
+        - credential
+        - is_active
+    schema.PostServicesInput:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: please check GET /services/supported to see which providers are supported
+        type:
+          type: string
+          enum:
+            - Blockchain Analytics
+            - Sanction Screening
+            - Travel Rule
+        credential:
+          type: object
+          description: please check GET /services/supported to see what credential is required by provider
+        settings:
+          type: object
+          description: please check GET /services/supported to see which settings are supported by provider
+      required:
+        - provider
+        - type
+        - credential
     model.Setting:
       type: object
       properties:
@@ -8559,152 +8643,217 @@ components:
         value_usd:
           type: string
           example: (Auto-accept setting off) There is a new data transfer that hasn’t been checked by the validation rules. ; Beneficiary Identity Check is not applicable.
-    schema.PostSettingInput:
+    schema.PostAndPutSettingInput:
       type: object
       properties:
-        legalPersonName:
+        type:
           type: string
+          description: please check GET /settings/supported to see which setting types are supported
           enum:
             - personal_info_checking_items
             - automation_settings
             - sanction_screening_timing
             - forced_sending_when_VASP_is_not_healthy
             - blockchain_analytics_timing
+            - full_width_space_equals_half_width_space
+            - english_name_case_sensitivity
+            - lock_member_rule
+            - vasp_profile
+            - customized_transfer_templates
+            - sending_data_by_jurisdictions
+            - maintaining
+            - api_log_config
+        rule:
+          type: object
+          description: please check GET /settings/supported to see which rules are supported by the specific setting type
+          properties:
+            beneficiary:
+              type: string
+              default: receiving
+            originator:
+              type: string
+              default: receiving
+            follow_ivms101:
+              type: boolean
+              default: true
+            name_checking_rule:
+              type: string
+              default: one_name_matched
+            english_name_case_sensitivity:
+              type: boolean
+              default: true
+            full_width_space_equals_half_width_space:
+              type: boolean
+              default: false
+            auto_accept:
+              type: boolean
+              default: true
     schema.GetTransactionsOutput:
       type: object
-      title: PostTransactionUnknown
-      description: This schema is for 'Unknown' protocol
+      title: GetTransactionsOutput
       properties:
+        id:
+          type: string
+          format: uuid
+        customer_id:
+          type: string
+        natural_person_name:
+          $ref: '#/components/schemas/NaturalPersonName'
+        legal_person_name:
+          $ref: '#/components/schemas/LegalPersonName'
+        currency_id:
+          type: string
+        currency_symbol:
+          type: string
+        currency_name:
+          type: string
+        address:
+          type: string
+        addresses:
+          type: array
+          items:
+            type: string
+        risk_score_provider:
+          type: string
+        risk_score:
+          type: string
+        direction:
+          type: integer
+          description: 0 for withdrawal, 1 for deposit
+          enum:
+            - 0
+            - 1
+        value:
+          type: string
+        expire_date:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        txid:
+          type: string
+          description: Transaction hash on blockchain
+        transfer_id:
+          type: string
+        status:
+          type: integer
+        status_text:
+          type: string
+        created_at:
+          type: string
+        last_screened:
+          type: string
+        value_usd:
+          type: string
+        sanction_score:
+          type: integer
+        protocol:
+          type: string
+        protocol_extra_info:
+          type: object
+        sanction_score_provider:
+          type: string
+        counter_party_vasp_identifier:
+          type: string
+        fiat_price:
+          type: string
+          description: The fiat price of the currency requested to transfer.
+        fiat_currency:
+          type: string
+    schema.PostTransactionInput:
+      type: object
+      properties:
+        protocol:
+          type: string
+          enum:
+            - UNKNOWN
+            - Sygna_Bridge
+            - Sygna_EmailProtocol
+            - Sygna_Data Retention by Email
+            - TRISA
+            - Veriscope on Shyft
+            - GTR
+            - CODE
+        protocol_extra_info:
+          type: object
+        customer_id:
+          type: string
+          description: Customer's uuid or customer_id from GET /customers
+        value:
+          type: string
+          description: The value of the currency requested to transfer.
+        currency_id:
+          type: string
+          description: Target currency identifier from GET /currencies
+        originator:
+          type: object
+          properties:
+            assets:
+              type: array
+              items:
+                type: string
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
         beneficiary:
+          type: object
+          properties:
+            customer_type:
+              $ref: '#/components/schemas/CustomerType'
+            private_info:
+              $ref: '#/components/schemas/BeneficiaryPrivateInfo'
+            vasp_code:
+              type: string
+            addrs:
+              type: array
+              items:
+                $ref: '#/components/schemas/model.Addr'
+        expire_date:
+          type: integer
+          description: Unix Timestamp format, excluding milliseconds.
+        need_validate_address:
+          type: boolean
+        txid:
+          type: string
+          description: Transaction hash on blockchain
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
+        fiat_currency:
+          type: string
+        fiat_price:
+          type: string
+          description: The fiat price of the currency requested to transfer.
+        other_cdd_info:
+          type: string
+      required:
+        - customer_id
+        - value
+        - currency_id
+        - originator
+        - beneficiary
+    schema.PostEmailProtocolDepositInput:
+      type: object
+      title: PostEmailProtocolDepositInput
+      description: This schema is for 'Sygna_EmailProtocol' protocol
+      properties:
+        customer_id:
+          type: string
+          description: Customer's uuid or customer_id from GET /customers
+        value:
+          type: string
+          description: The value of the currency requested to transfer.
+        currency_id:
+          type: string
+          description: Target currency identifier from GET /currencies
+        originator:
           type: object
           properties:
             addrs:
               type: array
               items:
                 $ref: '#/components/schemas/model.Addr'
-            customer_type:
-              type: integer
-              description: |-
-                Customer Type
-                * 0 - NaturalPerson
-                * 1 - LegalPerson
-            private_info:
-              $ref: '#/components/schemas/model.BeneficiaryPrivateInfo'
-            vasp_code:
-              type: string
-        currency_id:
-          type: string
-          description: Choose target currency identifier from GET /currencies
-        customer_id:
-          type: string
-          description: Choose target identifier from GET /customers
-        expire_date:
-          type: integer
-        forced_sending_when_VASP_is_not_healthy:
-          type: boolean
-        need_validate_address:
-          type: boolean
-        originator:
-          $ref: '#/components/schemas/OriginatorAsset'
-        protocol_extra_info:
-          type: object
-        txid:
-          type: string
-        value:
-          type: string
-        value_usd:
-          type: string
-          description: only used in response
-    PostTransactionUnknown:
-      type: object
-      title: PostTransactionUnknown
-      properties:
-        account:
-          type: string
-          description: account should be valid email address
-        email_pw_to_user:
-          type: boolean
-          description: email_pw_to_user is optional and its default value is true.
-        password:
-          type: string
-          description: |-
-            password is optional and it is generated if password is empty.
-            password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
-        role_id:
-          type: integer
-          description: |-
-            role_id
-            * 0 - admin
-            * 1 - member
-            role_id is optional and its default value is 1(member).
-            notice: admin could not be created if there is admin in VASP.
-    PostTransactionSygnaBridge:
-      type: object
-      title: LegalPersonName
-      properties:
-        account:
-          type: string
-        created_at:
-          type: string
-        id:
-          type: string
-        is_active:
-          type: boolean
-        last_login:
-          type: string
-        last_password_change:
-          type: string
-    PostTransactionSygnaEmail:
-      type: object
-      title: PostTransactionSygnaEmail
-      properties:
-        id:
-          type: string
-          description: specific user identifier
-      required:
-        - id
-    PostTransactionTRISA:
-      type: object
-      title: PostTransactionTRISA
-      properties:
-        data:
-          type: object
-          properties:
-            message:
-              type: string
-              example: something
-            success:
-              type: boolean
-          required:
-            - message
-            - success
-      required:
-        - data
-    PostTransactionShyft:
-      type: object
-      title: PostTransactionShyft
-      properties:
-        created_at:
-          type: string
-        id:
-          type: string
-        request_id:
-          type: string
-        event:
-          type: string
-        payload:
-          type: object
-        transaction_uuid:
-          type: string
-    model.PostEmailProtocolDepositInput:
-      type: object
-      title: PostTransactionSygnaEmail
-      description: This schema is for 'Sygna_EmailProtocol' protocol
-      properties:
         beneficiary:
           type: object
           properties:
@@ -8716,27 +8865,36 @@ components:
               type: array
               items:
                 type: string
-        currency_id:
-          type: string
-        customer_id:
-          type: string
-          description: Transaction identifier on blockchain
+        expire_date:
+          type: integer
+          description: Unix Timestamp format, excluding milliseconds.
+      required:
+        - customer_id
+        - value
+        - currency_id
+        - originator
+        - beneficiary
     schema.PatchPermissionInput:
       type: object
     schema.PostEmailProtocolPermissionInput:
       type: object
       properties:
-        action:
-          type: integer
         id:
           type: string
-        updated_at:
+          format: uuid
+        permission_status:
+          type: integer
+          description: 'Status of the transfer permission, 0 for accept, 1 for reject'
+        reject_code:
           type: string
-        vasp_code:
+        reject_message:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
+        forced_sending_when_VASP_is_not_healthy:
+          type: boolean
       required:
         - id
+        - permission_status
     schema.PatchTxIdInput:
       type: object
       properties:
@@ -8745,14 +8903,77 @@ components:
         txid:
           type: string
           description: Transaction identifier on blockchain
+      required:
+        - id
+    schema.PostCDDRequestInput:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: transaction uuid
+        request_cdd_data:
+          type: object
+          properties:
+            geographic_address:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - address_line
+                  - address_type
+                  - building_name
+                  - building_number
+                  - country
+                  - country_sub_division
+                  - department
+                  - district_name
+                  - floor
+                  - post_box
+                  - post_code
+                  - room
+                  - street_name
+                  - sub_department
+                  - town_location_name
+                  - town_name
+            national_identification:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - country_of_issue
+                  - national_identifier
+                  - national_identifier_type
+                  - registration_authority
+            date_and_place_of_birth:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - date_of_birth
+                  - place_of_birth
+            customer_identification:
+              type: boolean
+            country_of_residence:
+              type: boolean
+            other_cdd_info:
+              type: string
+              minLength: 1
+      required:
+        - id
+        - request_cdd_data
     schema.PostSanctionMatchInput:
       type: object
       properties:
-        customer_type:
-          type: integer
-        updated_at:
+        name:
           type: string
+        customer_type:
+          $ref: '#/components/schemas/CustomerType'
       required:
+        - name
         - customer_type
     sanctionscreening.GetSanctionScoreOutput:
       type: object
@@ -8766,34 +8987,59 @@ components:
     schema.PatchTransactionsStatus:
       type: object
       properties:
-        action:
-          type: integer
-        status_text:
+        id:
           type: string
           format: uuid
+        action:
+          type: integer
+      required:
+        - id
+        - action
     schema.PostWalletAddressFilterInput:
       type: object
       properties:
-        address_line:
-          type: array
-          items:
-            type: string
-        address_type:
+        currency_id:
           type: string
           description: choose target currency identifier from GET /currencies
+        addrs:
+          type: array
+          description: addresses to be searched
+          items:
+            $ref: '#/components/schemas/model.Addr'
         elliptic_holistic_wallet_analysis:
           type: boolean
           description: |-
             Support Elliptic Holistic Screening.
             VASPs must opt-in for Elliptic Holistic searching to avoid errors.
           default: false
+      required:
+        - currency_id
+        - addrs
+    schema.PostAddressValidationInput:
+      type: object
+      properties:
+        vasp_code:
+          type: string
+          description: target vasp code whose addresses are to be validated
+        currency_id:
+          type: string
+          description: choose target currency identifier from GET /currencies
+        addrs:
+          type: array
+          description: addresses to be validated
+          items:
+            $ref: '#/components/schemas/model.Addr'
+      required:
+        - vasp_code
+        - currency_id
+        - addrs
     schema.GetTransactionOutput:
       type: object
       properties:
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/schema.TransactionAsset'
+            $ref: '#/components/schemas/TransactionAsset'
         beneficiary_info:
           $ref: '#/components/schemas/model.BeneficiaryInfo'
         counter_party_vasp_info:
@@ -8845,38 +9091,37 @@ components:
         reject_message:
           type: string
           description: 'Only required when the permission_status is REJECTED and reject_code is ''BVRC999'', reply with [BVRC](ref:beneficiary-vasp-rejected-code).'
-    schema.TransactionAsset:
+    TransactionAsset:
       type: object
       properties:
-        created_at:
-          type: string
         id:
           type: string
-        is_active:
-          type: boolean
-        logins:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.Login'
-        role_id:
-          type: integer
+        created_at:
+          type: string
         updated_at:
           type: string
-      required:
-        - id
-    model.Login:
-      type: object
-      title: NaturalPersonName
-      description: required if customer type equals 0
-      properties:
-        local_name:
-          $ref: '#/components/schemas/model.NameObject'
-        name:
-          $ref: '#/components/schemas/model.NameObject'
-        phonetic_name:
-          $ref: '#/components/schemas/model.NameObject'
-      required:
-        - name
+        vasp_code:
+          type: string
+        address:
+          type: string
+        extra_info:
+          $ref: '#/components/schemas/model.StringObject'
+        risk_score:
+          type: string
+        risk_score_provider:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        last_screened:
+          type: string
+        direction:
+          type: integer
+          description: 0 for withdrawal, 1 for deposit
+          enum:
+            - 0
+            - 1
     model.BeneficiaryInfo:
       type: object
       properties:
@@ -8896,17 +9141,17 @@ components:
       type: object
       properties:
         address:
-          $ref: '#/components/schemas/model.Address'
+          $ref: '#/components/schemas/ivms101.Address'
         assets:
           type: array
           items:
-            $ref: '#/components/schemas/model.Asset'
+            $ref: '#/components/schemas/Asset'
         assets_ignore_kyt:
           type: boolean
         avg_risk_score:
           type: string
         birth:
-          $ref: '#/components/schemas/model.Birth'
+          $ref: '#/components/schemas/ivms101.Birth'
         country:
           type: string
         created_at:
@@ -8914,7 +9159,7 @@ components:
         customer_id:
           type: string
         customer_type:
-          type: integer
+          $ref: '#/components/schemas/CustomerType'
         id:
           type: string
         is_active:
@@ -8926,20 +9171,53 @@ components:
         last_screened:
           type: string
         legal_person_name:
-          $ref: '#/components/schemas/model.LegalPersonName'
+          $ref: '#/components/schemas/LegalPersonName'
         max_risk_score:
           type: string
         name:
           type: string
         national:
-          $ref: '#/components/schemas/model.National'
+          $ref: '#/components/schemas/ivms101.National'
         natural_person_name:
-          $ref: '#/components/schemas/model.NaturalPersonName'
-    model.Address:
+          $ref: '#/components/schemas/NaturalPersonName'
+    ivms101.Address:
       type: object
-    model.Asset:
-      type: object
-    model.Birth:
+      properties:
+        address_type:
+          type: string
+        department:
+          type: string
+        sub_department:
+          type: string
+        street_name:
+          type: string
+        building_number:
+          type: string
+        building_name:
+          type: string
+        floor:
+          type: string
+        post_box:
+          type: string
+        room:
+          type: string
+        post_code:
+          type: string
+        town_name:
+          type: string
+        town_location_name:
+          type: string
+        district_name:
+          type: string
+        country_sub_division:
+          type: string
+        address_line:
+          type: array
+          items:
+            type: string
+        country:
+          type: string
+    ivms101.Birth:
       type: object
       properties:
         date_of_birth:
@@ -9020,17 +9298,17 @@ components:
     schema.PostUsersInput:
       type: object
       properties:
-        legalPersonName:
+        account:
           type: string
-        legalPersonNameIdentifierType:
+        password:
           type: string
           description: |-
-            password is optional and it is generated if password is empty.
-            password must be follow below rules:
-            at least 6 letters
-            at least 1 number
-            at least 1 upper case
-            at least 1 special character
+            password is optional and it will be generated automatically if it is empty.
+            password must match the following rules:
+            - at least 6 letters
+            - at least 1 number
+            - at least 1 upper case
+            - at least 1 special character
         role_id:
           type: integer
           description: |-
@@ -9038,17 +9316,20 @@ components:
             * 0 - admin
             * 1 - member
             role_id is optional and its default value is 1(member).
-            notice: admin could not be created if there is admin in VASP.
+            notice: admin could not be created if there is an admin in VASP.
+        email_pw_to_user:
+          type: boolean
+          description: it is optional and its default value is true.
+      required:
+        - account
     schema.DeleteUsersInput:
       type: object
       properties:
-        countryOfIssue:
+        id:
           type: string
-        nationalIdentifier:
-          type: string
-          description: |-
-            third party service name
-            only google is supported now
+          format: uuid
+      required:
+        - id
     schema.PatchUsersInput:
       type: object
       properties:
@@ -9064,6 +9345,8 @@ components:
     schema.ChangePasswordInput:
       type: object
       properties:
+        user_account_email:
+          type: string
         new_password:
           type: string
           description: |-
@@ -9074,6 +9357,9 @@ components:
             at least 1 special character
         old_password:
           type: string
+      required:
+        - user_account_email
+        - new_password
     schema.RespWithStatusAndMessage:
       type: object
       properties:
@@ -9152,33 +9438,33 @@ components:
     model.WebhookEvent:
       type: object
       properties:
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/model.OwnershipAsset'
-        created_at:
-          type: string
-        error:
-          $ref: '#/components/schemas/model.Object'
         id:
           type: string
-        owner_email:
+        created_at:
           type: string
-        owner_info:
+        updated_at:
+          type: string
+        request_id:
+          type: string
+        event:
+          type: string
+        payload:
           type: object
-        sender_email:
+        transaction_uuid:
+          type: string
+        protocol:
+          type: string
+        counterparty_vasp_code:
           type: string
         status:
-          type: integer
-        status_text:
           type: string
         retry_count:
-          type: string
+          type: integer
         webhook_logs:
           type: array
           items:
-            $ref: '#/components/schemas/model.Webhook_logs'
-    model.Webhook_logs:
+            $ref: '#/components/schemas/model.WebhookLog'
+    model.WebhookLog:
       type: object
       properties:
         created_at:
