@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.41.0
+  version: 1.42.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -3226,6 +3226,54 @@ paths:
                         items:
                           $ref: '#/components/schemas/model.Setting'
                   - $ref: '#/components/schemas/schema.RespWithPaging'
+              examples:
+                Self transfer checking rule is ON:
+                  value:
+                    data:
+                      - id: 6ff48a07-8d51-4902-a709-b1cff12665ab
+                        vasp_code: GATETW05
+                        type: personal_info_checking_items
+                        rule:
+                          follow_ivms101: true
+                          name_checking_rule: one_name_matched
+                          self_transfer:
+                            follow_ivms101: false
+                            legal_person:
+                              customer_identification: true
+                              geographic_address:
+                                address_type: true
+                                all_data_check: true
+                                country: true
+                                town_name: true
+                              name:
+                                name_identifier:
+                                  legal_person_name: true
+                                  legal_person_name_identifier_type: true
+                              national_identification:
+                                all_data_check: true
+                                national_identifier: true
+                                national_identifier_type: true
+                            name_checking_rule: one_name_matched
+                            natural_person:
+                              customer_identification: true
+                              date_and_place_of_birth:
+                                all_data_check: true
+                                date_of_birth: true
+                                place_of_birth: true
+                              geographic_address:
+                                address_type: true
+                                all_data_check: true
+                                country: true
+                                town_name: true
+                              name:
+                                name_identifier:
+                                  checking_rule: all_names_matched
+                                  name_identifier_type: true
+                                  primary_identifier: true
+                              national_identification:
+                                all_data_check: true
+                                national_identifier: true
+                                national_identifier_type: true
         '400':
           description: Bad Request
           content:
@@ -3389,6 +3437,10 @@ paths:
           type: sending_data_by_jurisdictions
           rule:
             sending_additional_information: false
+      x-Self transfer checking rule:
+        type: self_transfer_special_rule
+        rule:
+          enabled: true
     post:
       tags:
         - Hub/settings
@@ -3541,6 +3593,10 @@ paths:
         - type: sending_data_by_jurisdictions
           rule:
             sending_additional_information: false
+      x-Self transfer checking rule:
+        type: self_transfer_special_rule
+        rule:
+          enabled: true
   /settings/default:
     get:
       tags:
@@ -3621,6 +3677,12 @@ paths:
                         rule:
                           english_name_case_sensitivity: true
                       - type: api_log_config
+                        rule:
+                          enabled: false
+                Self transfer checking rule:
+                  value:
+                    data:
+                      - type: self_transfer_special_rule
                         rule:
                           enabled: false
           headers: {}
@@ -3922,7 +3984,255 @@ paths:
                                   country_of_registration:
                                     type: boolean
                                 additionalProperties: false
-                            additionalProperties: false
+                              self_transfer:
+                                type: object
+                                properties:
+                                  follow_ivms101:
+                                    type: boolean
+                                  name_checking_rule:
+                                    enum:
+                                      - all_names_matched
+                                      - one_name_matched
+                                    type: string
+                                  natural_person:
+                                    type: object
+                                    required:
+                                      - name
+                                    properties:
+                                      name:
+                                        type: object
+                                        required:
+                                          - name_identifier
+                                        properties:
+                                          name_identifier:
+                                            type: object
+                                            required:
+                                              - primary_identifier
+                                              - name_identifier_type
+                                            properties:
+                                              primary_identifier:
+                                                const: true
+                                              secondary_identifier:
+                                                type: boolean
+                                              name_identifier_type:
+                                                const: true
+                                              checking_rule:
+                                                enum:
+                                                  - all_names_matched
+                                                  - one_name_matched
+                                                type: string
+                                            additionalProperties: false
+                                          local_name_identifier:
+                                            type: object
+                                            required:
+                                              - primary_identifier
+                                              - name_identifier_type
+                                            properties:
+                                              primary_identifier:
+                                                const: true
+                                              secondary_identifier:
+                                                type: boolean
+                                              name_identifier_type:
+                                                const: true
+                                              checking_rule:
+                                                enum:
+                                                  - all_names_matched
+                                                  - one_name_matched
+                                                type: string
+                                            additionalProperties: false
+                                          phonetic_name_identifier:
+                                            type: object
+                                            required:
+                                              - primary_identifier
+                                              - name_identifier_type
+                                            properties:
+                                              primary_identifier:
+                                                const: true
+                                              secondary_identifier:
+                                                type: boolean
+                                              name_identifier_type:
+                                                const: true
+                                              checking_rule:
+                                                enum:
+                                                  - all_names_matched
+                                                  - one_name_matched
+                                                type: string
+                                            additionalProperties: false
+                                        additionalProperties: false
+                                      customer_identification:
+                                        type: boolean
+                                      geographic_address:
+                                        type: object
+                                        properties:
+                                          address_type:
+                                            type: boolean
+                                          department:
+                                            type: boolean
+                                          sub_department:
+                                            type: boolean
+                                          street_name:
+                                            type: boolean
+                                          building_number:
+                                            type: boolean
+                                          building_name:
+                                            type: boolean
+                                          floor:
+                                            type: boolean
+                                          post_box:
+                                            type: boolean
+                                          room:
+                                            type: boolean
+                                          post_code:
+                                            type: boolean
+                                          town_name:
+                                            type: boolean
+                                          town_location_name:
+                                            type: boolean
+                                          district_name:
+                                            type: boolean
+                                          country_sub_division:
+                                            type: boolean
+                                          address_line:
+                                            type: boolean
+                                          country:
+                                            type: boolean
+                                          all_data_check:
+                                            type: boolean
+                                        minProperties: 1
+                                        additionalProperties: false
+                                      national_identification:
+                                        type: object
+                                        properties:
+                                          national_identifier:
+                                            type: boolean
+                                          national_identifier_type:
+                                            type: boolean
+                                          country_of_issue:
+                                            type: boolean
+                                          registration_authority:
+                                            type: boolean
+                                          all_data_check:
+                                            type: boolean
+                                        minProperties: 1
+                                        additionalProperties: false
+                                      date_and_place_of_birth:
+                                        type: object
+                                        properties:
+                                          date_of_birth:
+                                            type: boolean
+                                          place_of_birth:
+                                            type: boolean
+                                          all_data_check:
+                                            type: boolean
+                                        minProperties: 1
+                                        additionalProperties: false
+                                      country_of_residence:
+                                        type: boolean
+                                    additionalProperties: false
+                                  legal_person:
+                                    type: object
+                                    required:
+                                      - name
+                                    properties:
+                                      name:
+                                        type: object
+                                        required:
+                                          - name_identifier
+                                        properties:
+                                          name_identifier:
+                                            type: object
+                                            required:
+                                              - legal_person_name
+                                              - legal_person_name_identifier_type
+                                            properties:
+                                              legal_person_name:
+                                                const: true
+                                              legal_person_name_identifier_type:
+                                                const: true
+                                            additionalProperties: false
+                                          local_name_identifier:
+                                            type: object
+                                            required:
+                                              - legal_person_name
+                                              - legal_person_name_identifier_type
+                                            properties:
+                                              legal_person_name:
+                                                const: true
+                                              legal_person_name_identifier_type:
+                                                const: true
+                                            additionalProperties: false
+                                          phonetic_name_identifier:
+                                            type: object
+                                            required:
+                                              - legal_person_name
+                                              - legal_person_name_identifier_type
+                                            properties:
+                                              legal_person_name:
+                                                const: true
+                                              legal_person_name_identifier_type:
+                                                const: true
+                                            additionalProperties: false
+                                        additionalProperties: false
+                                      customer_identification:
+                                        type: boolean
+                                      geographic_address:
+                                        type: object
+                                        properties:
+                                          address_type:
+                                            type: boolean
+                                          department:
+                                            type: boolean
+                                          sub_department:
+                                            type: boolean
+                                          street_name:
+                                            type: boolean
+                                          building_number:
+                                            type: boolean
+                                          building_name:
+                                            type: boolean
+                                          floor:
+                                            type: boolean
+                                          post_box:
+                                            type: boolean
+                                          room:
+                                            type: boolean
+                                          post_code:
+                                            type: boolean
+                                          town_name:
+                                            type: boolean
+                                          town_location_name:
+                                            type: boolean
+                                          district_name:
+                                            type: boolean
+                                          country_sub_division:
+                                            type: boolean
+                                          address_line:
+                                            type: boolean
+                                          country:
+                                            type: boolean
+                                          all_data_check:
+                                            type: boolean
+                                        minProperties: 1
+                                        additionalProperties: false
+                                      national_identification:
+                                        type: object
+                                        properties:
+                                          national_identifier:
+                                            type: boolean
+                                          national_identifier_type:
+                                            type: boolean
+                                          country_of_issue:
+                                            type: boolean
+                                          registration_authority:
+                                            type: boolean
+                                          all_data_check:
+                                            type: boolean
+                                        minProperties: 1
+                                        additionalProperties: false
+                                      country_of_registration:
+                                        type: boolean
+                                    additionalProperties: false
+                                additionalProperties: false
                 Maintenance mode:
                   value:
                     data:
@@ -3951,6 +4261,19 @@ paths:
                           enabled:
                             type: boolean
                         additionalProperties: false
+                Self transfer checking rule:
+                  value:
+                    data:
+                      - type: self_transfer_special_rule
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - enabled
+                            properties:
+                              enabled:
+                                type: boolean
+                            additionalProperties: false
         '400':
           description: Bad Request
           content:
@@ -7312,143 +7635,6 @@ paths:
         - url: 'https://example.com/v1'
           description: ''
   /vasp/beneficiary-checking-rule:
-    post:
-      tags:
-        - Hub/beneficiary-checking-rule
-      summary: disclose the data checking rules
-      requestBody:
-        description: |
-          This API allows the beneficiary VASP to add or manage rules for validating data transfers.
-        content:
-          '*/*':
-            schema:
-              type: object
-            examples:
-              Example 1:
-                value:
-                  legal_person:
-                    country_of_registration: true
-                    customer_identification: true
-                    name:
-                      name_identifier:
-                        match_all: true
-                        legal_person_name: true
-                        legal_person_name_identifier_type: true
-                      local_name_identifier:
-                        match_all: true
-                        legal_person_name: true
-                        legal_person_name_identifier_type: true
-                      phonetic_name_identifier:
-                        match_all: true
-                        legal_person_name: true
-                        legal_person_name_identifier_type: true
-                    geographic_address:
-                      match_all: true
-                      address_line: true
-                      address_type: true
-                      building_name: true
-                      building_number: true
-                      country: true
-                      country_sub_division: true
-                      department: true
-                      district_name: true
-                      floor: true
-                      post_box: true
-                      post_code: true
-                      room: true
-                      street_name: true
-                      sub_department: true
-                      town_location_name: true
-                      town_name: true
-                    national_identification:
-                      match_all: true
-                      country_of_issue: true
-                      national_identifier: true
-                      national_identifier_type: true
-                      registration_authority: true
-                  natural_person:
-                    country_of_residence: true
-                    customer_identification: true
-                    name:
-                      name_identifier:
-                        match_all: true
-                        primary_identifier: true
-                        secondary_identifier: true
-                        name_identifier_type: true
-                      local_name_identifier:
-                        match_all: true
-                        primary_identifier: true
-                        secondary_identifier: true
-                        name_identifier_type: true
-                      phonetic_name_identifier:
-                        match_all: true
-                        primary_identifier: true
-                        secondary_identifier: true
-                        name_identifier_type: true
-                    date_and_place_of_birth:
-                      match_all: false
-                      date_of_birth: true
-                      place_of_birth: true
-                    geographic_address:
-                      match_all: true
-                      address_line: true
-                      address_type: true
-                      building_name: true
-                      building_number: true
-                      country: true
-                      country_sub_division: true
-                      department: true
-                      district_name: true
-                      floor: true
-                      post_box: true
-                      post_code: true
-                      room: true
-                      street_name: true
-                      sub_department: true
-                      town_location_name: true
-                      town_name: true
-                    national_identification:
-                      match_all: true
-                      country_of_issue: true
-                      national_identifier: true
-                      national_identifier_type: true
-                      registration_authority: true
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/schema.RespWithMutation'
-        '400':
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '401':
-          description: Unauthorized
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '403':
-          description: Forbidden
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-        '500':
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/errors.SystemError'
-      security:
-        - BearerToken: []
-      servers:
-        - url: 'https://example.com/v1'
-          description: ''
     get:
       tags:
         - Hub/beneficiary-checking-rule
@@ -7623,6 +7809,80 @@ paths:
                           match_all: null
                           name_identifier: null
                         country_of_registration: null
+                Self transfer & third-party transfer:
+                  value:
+                    data:
+                      natural_person:
+                        customer_identification: true
+                        geographic_address:
+                          match_all: true
+                          address_type: true
+                          country: true
+                          town_name: true
+                        national_identification:
+                          match_all: true
+                          national_identifier: true
+                          national_identifier_type: true
+                        name:
+                          name_identifier:
+                            match_all: true
+                            primary_identifier: true
+                            name_identifier_type: true
+                        date_and_place_of_birth:
+                          match_all: true
+                          date_of_birth: true
+                          place_of_birth: true
+                      legal_person:
+                        customer_identification: true
+                        geographic_address:
+                          match_all: true
+                          address_type: true
+                          country: true
+                          town_name: true
+                        national_identification:
+                          match_all: true
+                          national_identifier: true
+                          national_identifier_type: true
+                        name:
+                          name_identifier:
+                            legal_person_name: true
+                            legal_person_name_identifier_type: true
+                      self_transfer:
+                        natural_person:
+                          customer_identification: true
+                          geographic_address:
+                            match_all: true
+                            address_type: true
+                            country: true
+                            town_name: true
+                          national_identification:
+                            match_all: true
+                            national_identifier: true
+                            national_identifier_type: true
+                          name:
+                            name_identifier:
+                              match_all: true
+                              primary_identifier: true
+                              name_identifier_type: true
+                          date_and_place_of_birth:
+                            match_all: true
+                            date_of_birth: true
+                            place_of_birth: true
+                        legal_person:
+                          customer_identification: true
+                          geographic_address:
+                            match_all: true
+                            address_type: true
+                            country: true
+                            town_name: true
+                          national_identification:
+                            match_all: true
+                            national_identifier: true
+                            national_identifier_type: true
+                          name:
+                            name_identifier:
+                              legal_person_name: true
+                              legal_person_name_identifier_type: true
         '400':
           description: Bad Request
           content:
@@ -7818,7 +8078,7 @@ components:
         address:
           type: string
         extra_info:
-          $ref: '#/components/schemas/model.StringObject'      
+          $ref: '#/components/schemas/model.StringObject'
     NaturalPersonName:
       type: object
       description: required if customer_type equals 0
@@ -8719,7 +8979,7 @@ components:
           type: string
         direction:
           type: integer
-          description: 0 for withdrawal, 1 for deposit
+          description: '0 for withdrawal, 1 for deposit'
           enum:
             - 0
             - 1
@@ -8812,7 +9072,7 @@ components:
                 $ref: '#/components/schemas/model.Addr'
         expire_date:
           type: integer
-          description: Unix Timestamp format, excluding milliseconds.
+          description: 'Unix Timestamp format, excluding milliseconds.'
         need_validate_address:
           type: boolean
         txid:
@@ -8867,7 +9127,7 @@ components:
                 type: string
         expire_date:
           type: integer
-          description: Unix Timestamp format, excluding milliseconds.
+          description: 'Unix Timestamp format, excluding milliseconds.'
       required:
         - customer_id
         - value
@@ -9118,7 +9378,7 @@ components:
           type: string
         direction:
           type: integer
-          description: 0 for withdrawal, 1 for deposit
+          description: '0 for withdrawal, 1 for deposit'
           enum:
             - 0
             - 1
