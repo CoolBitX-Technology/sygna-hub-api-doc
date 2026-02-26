@@ -93,10 +93,21 @@ email_service:
   # hostname and port of your email service
   # https (SSL/TLS) is required
   host: <your smtp url>:<port>
+
+  # default value is login
+  auth_type: login # or "xoauth2"
   
   # Please enter your email service account credentials (e.g., AWS IAM user name and password)
   account: noreply@<your domain>.com # or <IAM user name>
   password: p@ssWord0
+
+  # If you want to use xoauth2, please enable the following attributes.
+  # Only google is supported currently.
+  # If auth_type is xoauth2, provide oauth2 credentials (recommended to inject via env/secrets).
+  # provider: google
+  # oauth2_client_id: ""
+  # oauth2_client_secret: ""
+  # oauth2_refresh_token: ""
   
   # The name of the sender, which would be useless once you enable TLS.
   display_name: Hub Sender
