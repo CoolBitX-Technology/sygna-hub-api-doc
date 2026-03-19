@@ -3,7 +3,11 @@ name: Build API doc and Sygna Configurator
 on:
   push:
     branches:
-      - master
+      # - master
+      - SYGN-18104
+
+permissions:
+  contents: write
 
 jobs:
   build:
