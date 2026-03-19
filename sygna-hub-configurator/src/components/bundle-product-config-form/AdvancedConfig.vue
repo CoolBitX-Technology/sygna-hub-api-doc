@@ -71,7 +71,7 @@ export default {
       <li>Select "Cronjob" if the container is used to address cronjob-related service.</li>
     `
     const formattedWorkTypeHint = computed(() => workTypeHint);
-    const webhookUrlHint = 'The event notifications will be sent to this URL. Please check <a href="https://github.com/CoolBitX-Technology/sygna-hub-api-doc/tree/master?tab=readme-ov-file#webhook-events" target="_blank">webhook events documentation</a> for all available events.';
+    const webhookUrlHint = 'The event notifications will be sent to this URL. Please check <a href="https://github.com/sygnaio/sygna-hub-api-doc/tree/master?tab=readme-ov-file#webhook-events" target="_blank">webhook events documentation</a> for all available events.';
     const formattedWebhookUrlHint = computed(() => webhookUrlHint);
 
     return {
