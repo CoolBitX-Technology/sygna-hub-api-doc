@@ -40,7 +40,7 @@
 
 ### API document
 * [file](swagger.yaml)
-* [website](https://coolbitx-technology.github.io/sygna-hub-api-doc/)
+* [website](https://sygnaio.github.io/sygna-hub-api-doc/)
 
 ### Shyft relay node setup
 If you wish to enable travel rule protocol `Veriscope on Shyft`, follow instructions below to setup your relay node.
