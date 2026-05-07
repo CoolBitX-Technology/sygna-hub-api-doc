@@ -9322,6 +9322,22 @@ components:
               type: string
             extra_info:
               $ref: '#/components/schemas/model.StringObject'
+        network:
+          type: string
+          description: 'WalletConnect network name (e.g. mainnet, arbitrum, polygon, bsc, avalanche, optimism, solana, bitcoin, ton, tron)'
+        verification_method:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+            - both
+          default: satoshi_test
+        signature:
+          type: string
+          description: WalletConnect signature result
+        wallet_name:
+          type: string
+          description: WalletConnect wallet name
     model.OwnershipAsset:
       type: object
       properties:
@@ -9331,12 +9347,21 @@ components:
           type: string
         updated_at:
           type: string
+        asset_type:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+          default: satoshi_test
         txid:
           type: string
         address:
           type: string
         currency_id:
           type: string
+        platform:
+          type: string
+          description: 'Currency platform name (e.g. ethereum, solana)'
         currency_symbol:
           type: string
         currency_name:
@@ -9393,6 +9418,9 @@ components:
           properties:
             currency_id:
               type: string
+            platform:
+              type: string
+              description: 'Currency platform name (e.g. ethereum, solana)'
             vasp_beneficiary_wallet_address:
               type: string
             value:
@@ -9409,6 +9437,22 @@ components:
           type: array
           items:
             type: string
+        wc_wallet_address:
+          type: array
+          items:
+            type: string
+          description: WalletConnect wallet addresses
+        verification_method:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+            - both
+          default: satoshi_test
+          description: Ownership verification method
+        network:
+          type: string
+          description: 'WalletConnect network name (e.g. mainnet, arbitrum, polygon, bsc, avalanche, optimism, solana, bitcoin, ton, tron)'
         assets_ignore_kyt:
           type: boolean
       required:
@@ -9470,9 +9514,9 @@ components:
                 format: uuid
               txid:
                 type: string
+                description: 'Transaction identifier on blockchain (required for satoshi_test and both; optional for wallet_connect)'
             required:
               - id
-              - txid
         reject:
           type: array
           items:
@@ -9491,6 +9535,15 @@ components:
               - reject_message
         owner_info:
           $ref: '#/components/schemas/OwnerInfo'
+        signature:
+          type: string
+          description: WalletConnect signature result
+        signed_message:
+          type: string
+          description: The message that was signed
+        wallet_name:
+          type: string
+          description: WalletConnect wallet name
     OwnerInfo:
       type: object
       properties:
