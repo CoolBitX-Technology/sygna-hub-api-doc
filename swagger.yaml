@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.42.0
+  version: 1.43.0
   title: Sygna Hub
   description: Sygna Hub API Document
   contact: {}
@@ -205,6 +205,151 @@ paths:
                     created_at: '2021-09-30T02:53:24.000Z'
                     updated_at: '2024-07-16T08:35:31.296Z'
                     blockchain_name: bitcoin
+                Currency v2:
+                  value:
+                    data:
+                      legacy:
+                        - currency_id: 'sygna:0x8000003c.0xdac17f958d2ee523a2206206994597c13d831ec7'
+                          currency_symbol: USDT
+                          currency_name: Tether
+                          is_active: true
+                          kyt_providers:
+                            - Elliptic
+                            - Chainalysis V1
+                            - Chainalysis V2
+                            - Merkle Science
+                            - Coinfirm
+                            - Coinfirm (Sandbox)
+                            - Beosin
+                            - TRM Labs
+                          kyt_providers_info:
+                            Elliptic:
+                              assetName: Tether
+                              assetTicker: USDT
+                              blockchainName: Ethereum
+                              blockchainVariable: ethereum
+                          addr_extra_info: []
+                          platform:
+                            id: 'sygna:0x8000003c'
+                            name: Ethereum
+                            symbol: ETH
+                            token_address: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+                          created_at: '2023-02-06T08:02:10.986Z'
+                          updated_at: '2025-08-29T09:45:30.464Z'
+                          blockchain_name: ethereum
+                        - currency_id: 'sygna:0x80000000'
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          is_active: true
+                          kyt_providers:
+                            - Elliptic
+                            - Chainalysis V1
+                            - Chainalysis V2
+                            - Merkle Science
+                            - Coinfirm
+                            - Coinfirm (Sandbox)
+                            - Beosin
+                            - TRM Labs
+                          kyt_providers_info:
+                            Elliptic:
+                              assetName: Bitcoin
+                              assetTicker: BTC
+                              blockchainName: Bitcoin
+                              blockchainVariable: bitcoin
+                          addr_extra_info: []
+                          created_at: '2023-02-06T08:02:09.712Z'
+                          updated_at: '2025-08-29T09:45:30.464Z'
+                          blockchain_name: bitcoin
+                        - currency_id: 'sygna:0x8000003c'
+                          currency_symbol: ETH
+                          currency_name: Ethereum
+                          is_active: true
+                          kyt_providers:
+                            - Elliptic
+                            - Chainalysis V1
+                            - Chainalysis V2
+                            - Merkle Science
+                            - Coinfirm
+                            - Coinfirm (Sandbox)
+                            - Beosin
+                            - TRM Labs
+                          kyt_providers_info:
+                            Elliptic:
+                              assetName: Ethereum
+                              assetTicker: ETH
+                              blockchainName: Ethereum
+                              blockchainVariable: ethereum
+                          addr_extra_info: []
+                          created_at: '2023-02-06T08:02:11.208Z'
+                          updated_at: '2025-08-29T09:45:30.464Z'
+                          blockchain_name: ethereum
+                      currencies:
+                        - id: 09b20d24-6990-480a-9058-7edb717c7327
+                          symbol: USDT
+                          name: Tether
+                          platforms:
+                            - id: 09b20d24-6990-480a-9058-7edb717c7327
+                              platform: ethereum
+                              token_address: '0xdac17f958d2ee523a2206206994597c13d831ec7'
+                              kyt_providers:
+                                - Elliptic
+                            - id: 09b20d24-6990-480a-9058-7edb717c7327
+                              platform: omni
+                              token_address: '31'
+                              kyt_providers:
+                                - Elliptic
+                            - id: 09b20d24-6990-480a-9058-7edb717c7327
+                              platform: polygon
+                              token_address: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f'
+                              kyt_providers:
+                                - Elliptic
+                            - id: 09b20d24-6990-480a-9058-7edb717c7327
+                              platform: tron
+                              token_address: tr7nhqjekqxgtci8q8zy4pl8otszgjlj6t
+                              kyt_providers:
+                                - Elliptic
+                        - id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          symbol: BTC
+                          name: Bitcoin
+                          platforms:
+                            - id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                              platform: bitcoin
+                              token_address: native
+                              kyt_providers:
+                                - Coinfirm
+                                - Coinfirm (Sandbox)
+                                - Beosin
+                                - TRM Labs
+                                - Elliptic
+                                - Chainalysis V1
+                                - Chainalysis V2
+                                - Merkle Science
+                        - id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                          symbol: ETH
+                          name: Ethereum
+                          platforms:
+                            - id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                              platform: arbitrum
+                              token_address: native
+                              kyt_providers:
+                                - Elliptic
+                            - id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                              platform: ethereum
+                              token_address: native
+                              kyt_providers:
+                                - TRM Labs
+                                - Elliptic
+                                - Chainalysis V1
+                                - Chainalysis V2
+                                - Merkle Science
+                                - Coinfirm
+                                - Coinfirm (Sandbox)
+                                - Beosin
+                            - id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                              platform: optimism
+                              token_address: native
+                              kyt_providers:
+                                - Elliptic
         '400':
           description: Bad Request
           content:
@@ -1682,54 +1827,113 @@ paths:
                           type: string
                         vasp_identifier:
                           type: string
-                          description: 'Sygna: VASP code; TRISA: Member ID'
                         protocol:
                           type: string
                         vasp_name:
                           type: string
-                          description: complete VASP name
                         extra_info:
                           type: object
-                          description: extra_info content will be different depend on the protocol that VASP belongs to
                           properties:
-                            country_code:
-                              type: string
-                            regulatory_status:
-                              type: string
-                              description: 'information from Sygna parter: VASPnet'
-                            supervisory_authority:
-                              type: string
-                              description: 'information from Sygna parter: VASPnet'
-                            vasp_pubkey:
-                              type: string
-                            business_category:
-                              type: integer
-                              description: 'information from Sygna partner: TRISA'
-                            common_name:
-                              type: string
-                              description: TRISA VASP's common ID
-                            country:
-                              type: string
-                            endpoint:
-                              type: string
-                              description: TRISA Service Endpoint
-                            registered_directory:
-                              type: string
-                              description: 'information from Sygna partner: TRISA'
-                            vasp_categories:
+                            assets:
                               type: array
-                              description: 'information from Sygna partner: TRISA'
+                              items:
+                                type: object
+                                properties:
+                                  addr_extra_info:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        tag:
+                                          type: string
+                                  address:
+                                    type: string
+                                  currency_id:
+                                    type: string
+                                  currency_id_v3:
+                                    type: string
+                                  platform:
+                                    type: string
+                            notification_receivers:
+                              type: array
                               items:
                                 type: string
-                            verified_on:
+                            vasp_email:
                               type: string
-                              description: 'information from Sygna partner: TRISA'
-                            website:
-                              type: string
-                              description: 'information from Sygna partner: TRISA'
-                        vasp_server_status:
-                          type: string
-                          description: 'Sygna VASP server health check status: healthy, unhealthy or unknown'
+                x-examples:
+                  Example 1:
+                    data:
+                      - id: 2b115b48-211d-4139-924d-ed089bcfa73a
+                        created_at: '2024-10-01T03:00:03.000Z'
+                        updated_at: '2026-04-14T06:36:47.000Z'
+                        vasp_identifier: SYEMTWTP
+                        protocol: Sygna_EmailProtocol
+                        vasp_name: SyTestEmailProtocol
+                        extra_info:
+                          assets:
+                            - addr_extra_info: []
+                              address: bc1qrjur5hyx93g6uw3rrqg7wy6pe52zemkmc8ttp3
+                              currency_id: 'sygna:0x80000000'
+                              currency_id_v3: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                              platform: bitcoin
+                            - addr_extra_info: []
+                              address: '0xeBec795c9c8bBD61FFc14A6662944748F299cAcf'
+                              currency_id: 'sygna:0x8000003c'
+                              currency_id_v3: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                              platform: ethereum
+                            - addr_extra_info:
+                                - tag: '14009'
+                              address: rnATJKpFCsFGfEvMC3uVWHvCEJrh5QMuYE
+                              currency_id: 'sygna:0x80000090'
+                              currency_id_v3: 3412b2de-a00a-4509-bcaa-5ccc03ab5363
+                              platform: ripple
+                            - addr_extra_info: []
+                              address: 32pTjxTNi7snk8sodrgfmdKao3DEn1nVJM
+                              currency_id: 'sygna:0x80000000'
+                              currency_id_v3: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                              platform: bitcoin
+                          notification_receivers:
+                            - sytest@sygna.io
+                            - sygna.tech@coolbitx.com
+                          vasp_email: sytest+testemailprotocol@sygna.io
+              examples:
+                Sygna Email Protocol VASP:
+                  value:
+                    data:
+                      - id: 2b115b48-211d-4139-924d-ed089bcfa73a
+                        created_at: '2024-10-01T03:00:03.000Z'
+                        updated_at: '2026-04-14T06:36:47.000Z'
+                        vasp_identifier: SYEMTWTP
+                        protocol: Sygna_EmailProtocol
+                        vasp_name: SyTestEmailProtocol
+                        extra_info:
+                          assets:
+                            - addr_extra_info: []
+                              address: bc1qrjur5hyx93g6uw3rrqg7wy6pe52zemkmc8ttp3
+                              currency_id: 'sygna:0x80000000'
+                              currency_id_v3: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                              platform: bitcoin
+                            - addr_extra_info: []
+                              address: '0xeBec795c9c8bBD61FFc14A6662944748F299cAcf'
+                              currency_id: 'sygna:0x8000003c'
+                              currency_id_v3: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                              platform: ethereum
+                            - addr_extra_info:
+                                - tag: '14009'
+                              address: rnATJKpFCsFGfEvMC3uVWHvCEJrh5QMuYE
+                              currency_id: 'sygna:0x80000090'
+                              currency_id_v3: 3412b2de-a00a-4509-bcaa-5ccc03ab5363
+                              platform: ripple
+                            - addr_extra_info: []
+                              address: 32pTjxTNi7snk8sodrgfmdKao3DEn1nVJM
+                              currency_id: 'sygna:0x80000000'
+                              currency_id_v3: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                              platform: bitcoin
+                          notification_receivers:
+                            - sytest@sygna.io
+                            - services@sygna.io
+                          vasp_email: sytest+testemailprotocol@sygna.io
+          headers: {}
         '400':
           description: Bad Request
           content:
@@ -1865,6 +2069,49 @@ paths:
                         items:
                           $ref: '#/components/schemas/model.Ownership'
                   - $ref: '#/components/schemas/schema.RespWithPaging'
+              examples:
+                Currency v3:
+                  value:
+                    data:
+                      - id: 5a7276a0-1c00-4e77-af80-849f81953f72
+                        created_at: '2025-10-01T03:31:00.000Z'
+                        updated_at: '2025-10-01T03:31:03.000Z'
+                        owner_email: services@sygna.io
+                        owner_info:
+                          customer_type: null
+                          name: ''
+                          country: null
+                          national: null
+                          birth: null
+                          address: null
+                        assets:
+                          - id: 1bc17bb0-b001-4cd5-af35-ea67db5bd5f6
+                            created_at: '2025-10-01T03:31:00.000Z'
+                            updated_at: '2025-10-01T03:31:00.000Z'
+                            txid: null
+                            address: bc1qyewg75v6ppdd4ek8f45y4n64y90pg6py230gwj
+                            currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                            platform: bitcoin
+                            currency_symbol: BTC
+                            currency_name: Bitcoin
+                            value: '1'
+                            last_screened: '2025-10-01T03:31:00.000Z'
+                            risk_score: null
+                            risk_score_provider: null
+                            validation_status: 0
+                            validation_status_text: Processing
+                        error: null
+                        status: 2
+                        status_text: Pending On Receiver
+                        sender_email: sygna@coolbitx.com
+                        transaction_information:
+                          vasp_beneficiary_wallet_address: bc1qyewg75v6ppdd4ek8f45y4n64y90pg6py230gwj
+                          currency_id: 'sygna:0x80000000'
+                          value: '1'
+                    paging:
+                      has_next: false
+                      limit: 20
+                      offset: 0
         '400':
           description: Bad Request
           content:
@@ -1924,6 +2171,20 @@ paths:
                     private_wallet_address:
                       - 1N7BCTX2uEjsRUoDtfeZTjaTEXuDZSsR3R
                     sender_email: my@example.com
+              Currency v3:
+                value:
+                  - owner_email: kevin.lee+gg@coolbitx.com
+                    transaction_information:
+                      vasp_beneficiary_wallet_address: '0xcf0475d9B0a29975bc5132A3066010eC898d8CaB'
+                      currency_id: 09b20d24-6990-480a-9058-7edb717c7327
+                      platform: ethereum
+                      value: '1'
+                      extra_info:
+                        tag: '11337'
+                    private_wallet_address:
+                      - '0xcf0475d9B0a29975bc5132A3066010eC898d8CaB'
+                    sender_email: kevin.lee@coolbitx.com
+                    assets_ignore_kyt: false
       responses:
         '200':
           description: OK
@@ -1931,6 +2192,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/schema.RespWithMutation'
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 892a483b-79b6-448b-8360-d013321bf5f4
+                        success: true
         '400':
           description: Bad Request
           content:
@@ -2319,6 +2586,72 @@ paths:
                       data:
                         $ref: '#/components/schemas/model.Ownership'
                   - $ref: '#/components/schemas/schema.RespWithPaging'
+              examples:
+                Currency v3:
+                  value:
+                    data:
+                      id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
+                      updated_at: '2026-03-26T01:28:35.000Z'
+                      vasp_code: GHJKAILL
+                      customer_type: 0
+                      customer_id: '123'
+                      natural_person_name:
+                        name:
+                          first_name: Wei An
+                          last_name: Chen
+                        local_name:
+                          first_name: 偉安
+                          last_name: 陳
+                        phonetic_name:
+                          first_name: ㄨㄟˇ ㄢ
+                          last_name: ㄔㄣˊ
+                      country: AF
+                      is_active: true
+                      created_at: '2025-10-01T06:53:33.000Z'
+                      national:
+                        national_identifier: 0798689-5895-
+                        national_identifier_type: ARNU
+                      assets:
+                        - id: 71fcf4cd-e3da-496c-9253-a8c7388047fe
+                          updated_at: '2026-03-26T01:28:35.000Z'
+                          currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          platform: bitcoin
+                          currency_symbol: BTC
+                          currency_name: Bitcoin
+                          address: bc1qyewg75v6ppdd4ek8f45y4n64y90pg6py230gwj
+                          created_at: '2025-10-01T09:51:40.000Z'
+                          is_sygna_supported: true
+                        - id: 7a4d1b75-0ab9-46fc-b0a0-cd4b216c0dc0
+                          updated_at: '2026-03-26T01:28:35.000Z'
+                          currency_id: 09b20d24-6990-480a-9058-7edb717c7327
+                          platform: ethereum
+                          currency_symbol: USDT
+                          currency_name: Tether
+                          address: aaadthluhwrtihwoirtjhoiwrjthoiwjrtoihjwroitjh
+                          created_at: '2026-01-28T03:10:18.000Z'
+                          is_sygna_supported: true
+                        - id: 635fc7a2-cf41-4d59-a877-9dad4b13e28f
+                          updated_at: '2026-03-26T01:28:35.000Z'
+                          currency_id: 3412b2de-a00a-4509-bcaa-5ccc03ab5363
+                          platform: ripple
+                          currency_symbol: XRP
+                          currency_name: XRP
+                          address: leihylqiehltioqeiothqoierhtoiwrtli
+                          extra_info:
+                            tag: '456'
+                          created_at: '2026-03-12T08:19:44.000Z'
+                          is_sygna_supported: true
+                        - id: 441550af-de28-4c54-804c-63a264d4121b
+                          updated_at: '2026-03-26T01:28:35.000Z'
+                          currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                          platform: ethereum
+                          currency_symbol: ETH
+                          currency_name: Ethereum
+                          address: '0x93DBF616676D22EBd0DB51C5Ebb6f69Ea1F9bC8b'
+                          extra_info:
+                            aaa: '123'
+                          created_at: '2025-10-01T07:12:07.000Z'
+                          is_sygna_supported: true
         '400':
           description: Bad Request
           content:
@@ -3685,6 +4018,40 @@ paths:
                       - type: self_transfer_special_rule
                         rule:
                           enabled: false
+                Customized transfer templates:
+                  value:
+                    data:
+                      - type: customized_transfer_templates
+                        rule:
+                          templates:
+                            - additionalInfo:
+                                above_or_equal_threshold:
+                                  legal_person:
+                                    country_of_registration: true
+                                    customer_identification: true
+                                    geographic_address: true
+                                    national_identification: true
+                                  natural_person:
+                                    country_of_residence: true
+                                    customer_identification: true
+                                    date_and_place_of_birth: true
+                                    geographic_address: true
+                                    national_identification: true
+                                below_threshold:
+                                  legal_person:
+                                    country_of_registration: true
+                                    customer_identification: true
+                                    geographic_address: true
+                                    national_identification: true
+                                  natural_person:
+                                    country_of_residence: true
+                                    customer_identification: true
+                                    date_and_place_of_birth: true
+                                    geographic_address: true
+                                    national_identification: true
+                              currency: USD
+                              name: default
+                              threshold: 0
           headers: {}
         '400':
           description: Bad Request
@@ -4274,6 +4641,104 @@ paths:
                               enabled:
                                 type: boolean
                             additionalProperties: false
+                Customized transfer templates:
+                  value:
+                    data:
+                      - type: customized_transfer_templates
+                        rule:
+                          schema:
+                            type: object
+                            required:
+                              - templates
+                            properties:
+                              templates:
+                                type: array
+                                items:
+                                  type: object
+                                  required:
+                                    - name
+                                    - currency
+                                    - threshold
+                                  properties:
+                                    name:
+                                      type: string
+                                    originatorCountry:
+                                      type: string
+                                    beneficiaryVASP:
+                                      type: string
+                                    threshold:
+                                      type: number
+                                    currency:
+                                      type: string
+                                    additionalInfo:
+                                      type: object
+                                      required:
+                                        - below_threshold
+                                        - above_or_equal_threshold
+                                      properties:
+                                        below_threshold:
+                                          type: object
+                                          properties:
+                                            natural_person:
+                                              type: object
+                                              properties:
+                                                geographic_address:
+                                                  type: boolean
+                                                national_identification:
+                                                  type: boolean
+                                                customer_identification:
+                                                  type: boolean
+                                                date_and_place_of_birth:
+                                                  type: boolean
+                                                country_of_residence:
+                                                  type: boolean
+                                              additionalProperties: false
+                                            legal_person:
+                                              type: object
+                                              properties:
+                                                geographic_address:
+                                                  type: boolean
+                                                national_identification:
+                                                  type: boolean
+                                                customer_identification:
+                                                  type: boolean
+                                                country_of_registration:
+                                                  type: boolean
+                                              additionalProperties: false
+                                          additionalProperties: false
+                                        above_or_equal_threshold:
+                                          type: object
+                                          properties:
+                                            natural_person:
+                                              type: object
+                                              properties:
+                                                geographic_address:
+                                                  type: boolean
+                                                national_identification:
+                                                  type: boolean
+                                                customer_identification:
+                                                  type: boolean
+                                                date_and_place_of_birth:
+                                                  type: boolean
+                                                country_of_residence:
+                                                  type: boolean
+                                              additionalProperties: false
+                                            legal_person:
+                                              type: object
+                                              properties:
+                                                geographic_address:
+                                                  type: boolean
+                                                national_identification:
+                                                  type: boolean
+                                                customer_identification:
+                                                  type: boolean
+                                                country_of_registration:
+                                                  type: boolean
+                                              additionalProperties: false
+                                          additionalProperties: false
+                                      additionalProperties: false
+                                  additionalProperties: false
+                            additionalProperties: false
         '400':
           description: Bad Request
           content:
@@ -4607,7 +5072,95 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/schema.PostTransactionInput'
+                type: object
+                properties:
+                  customer_id:
+                    type: string
+                  currency_id:
+                    type: string
+                  platform:
+                    type: string
+                  value:
+                    type: string
+                  originator:
+                    type: object
+                    properties:
+                      assets:
+                        type: array
+                        items:
+                          type: string
+                  beneficiary:
+                    type: object
+                    properties:
+                      addrs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                      customer_type:
+                        type: integer
+                      vasp_code:
+                        type: string
+                      private_info:
+                        type: object
+                        properties:
+                          natural_person_name:
+                            type: object
+                            properties:
+                              name:
+                                type: object
+                                properties:
+                                  first_name:
+                                    type: string
+                                  last_name:
+                                    type: string
+                              local_name:
+                                type: object
+                                properties:
+                                  first_name:
+                                    type: string
+                                  last_name:
+                                    type: string
+                              phonetic_name:
+                                type: object
+                                properties:
+                                  first_name:
+                                    type: string
+                                  last_name:
+                                    type: string
+                  need_validate_address:
+                    type: boolean
+                  protocol:
+                    type: string
+              x-examples:
+                Example 1:
+                  - customer_id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
+                    currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                    platform: bitcoin
+                    value: '0.001'
+                    originator:
+                      assets:
+                        - 71fcf4cd-e3da-496c-9253-a8c7388047fe
+                    beneficiary:
+                      addrs:
+                        - address: aehtlkghlethgwlrhtlhrlthggldkfjghkjlwsfdgh
+                      customer_type: 0
+                      vasp_code: GHJKAILL
+                      private_info:
+                        natural_person_name:
+                          name:
+                            first_name: None
+                            last_name: None
+                          local_name:
+                            first_name: Yevgeniy
+                            last_name: Igorevich
+                          phonetic_name:
+                            first_name: ＡＡＡＡ
+                            last_name: ＢＢＢＢ
+                    need_validate_address: true
+                    protocol: Sygna_Bridge
             examples:
               Unknown:
                 value:
@@ -4801,6 +5354,33 @@ paths:
                     expire_date: 1760696733
                     need_validate_address: false
                     txid: null
+                    protocol: Sygna_Bridge
+              Sygna Bridge currency v3 (natural person):
+                value:
+                  - customer_id: 87fbec16-8c8e-4b6b-9bc1-992bf52f6548
+                    currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                    platform: bitcoin
+                    value: '0.001'
+                    originator:
+                      assets:
+                        - 71fcf4cd-e3da-496c-9253-a8c7388047fe
+                    beneficiary:
+                      addrs:
+                        - address: aehtlkghlethgwlrhtlhrlthggldkfjghkjlwsfdgh
+                      customer_type: 0
+                      vasp_code: GHJKAILL
+                      private_info:
+                        natural_person_name:
+                          name:
+                            first_name: None
+                            last_name: None
+                          local_name:
+                            first_name: Yevgeniy
+                            last_name: Igorevich
+                          phonetic_name:
+                            first_name: AAAA
+                            last_name: BBBB
+                    need_validate_address: true
                     protocol: Sygna_Bridge
       responses:
         '200':
@@ -5666,11 +6246,35 @@ paths:
               items:
                 $ref: '#/components/schemas/schema.PostWalletAddressFilterInput'
             examples:
-              Example 1:
+              Currency v2:
                 value:
                   - addrs:
                       - 3MBWbunF8kLFA5u9E8mk4MYkWKJNedpx55
                     currency_id: 'sygna:0x80000000'
+              Currency v3 (example 1_network):
+                value:
+                  - elliptic_holistic_wallet_analysis: true
+                    addrs:
+                      - '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                    currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                    network: ethereum
+              Currency v3 (example 2_Platform):
+                value:
+                  - elliptic_holistic_wallet_analysis: true
+                    addrs:
+                      - '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                    currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                    Platform: ethereum
+              Currency v3 (example 3):
+                value:
+                  - elliptic_holistic_wallet_analysis: true
+                    addrs:
+                      - 1HQ3Go3ggs8pFnXuHVHRytPCq5fGG8Hbhx
+                      - 1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY
+                      - 35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP
+                      - 1Fju85RL5veT6Pe5Q1mLLRzTmYwnpeihZr
+                    currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                    network: bitcoin
       responses:
         '200':
           description: OK
@@ -5686,38 +6290,53 @@ paths:
                       properties:
                         type:
                           type: string
-                          description: |-
-                            - SYGNA_VASP: This category is determined based on the data in the Sygna server's wallet address directory. If the sending and receiving addresses are listed in the API Bridge (/permission-request) or API Hub (/transactions>), they will be classified under this category. 
-                            - EMAIL_PROTOCOL: This category is determined based on the data in the Sygna server's wallet address directory. If the wallet address has been onboarded during the Sygna Email Protocol VASP account registration, it will be classified under this category. 
-                            - OTHER_VASP: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider. 
-                            - PRIVATE_WALLET: This category is determined based on the data returned by the selected Blockchain Analytics (KYT) service provider.
-                            - FAILED: This category is displayed when the selected Blockchain Analytics (KYT) service is currently unavailable.
                         is_vasp:
                           type: boolean
                         address:
                           type: string
                         currency_id:
                           type: string
+                        platform:
+                          type: string
                         extra_data:
                           type: object
-                          description: will be returend based on the response from your Blockchain Analytics service provider if \"type\" is not SYGNA_VASP.
                           properties:
-                            address:
-                              type: string
                             asset:
                               type: string
                             blockchain_analytics_vendor:
                               type: string
-                            chainalysisIdentification:
-                              nullable: true
-                            cluster:
-                              nullable: true
-                            customAddress:
-                              nullable: true
-                            rating:
+                            hash:
                               type: string
+                            is_vasp:
+                              type: boolean
+                            name:
+                              type: string
+                            risk_score:
+                              type: integer
+                            triggered_rules:
+                              type: string
+                            usd_worth:
+                              type: number
                         success:
                           type: boolean
+                x-examples:
+                  Example 1:
+                    data:
+                      - - type: PRIVATE_WALLET
+                          is_vasp: false
+                          address: '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                          currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                          platform: ethereum
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                            is_vasp: false
+                            name: A7A5 Issuer - OLD VECTOR LLC (a.k.a. OBSHCHESTVO S OGRANICHENNOI OTVETSTVENNOSTYU OLD VEKTOR) - OFAC SDN - 14 Aug 2025
+                            risk_score: 10
+                            triggered_rules: OFAC Sanctioned Entity
+                            usd_worth: 14381877255.956415
+                          success: true
               examples:
                 Identifying the address belongs to third-party protocol with 'alliance' even if the type is SYGNA_VASP:
                   value:
@@ -5731,6 +6350,99 @@ paths:
                       vasp_code: SYGNTWHL
                       alliance: GTR
                     success: true
+                Currency v3 (example 1):
+                  value:
+                    - elliptic_holistic_wallet_analysis: true
+                      addrs:
+                        - '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                      currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                      network: ethereum
+                Currency v3 (example 2):
+                  value:
+                    data:
+                      - - type: PRIVATE_WALLET
+                          is_vasp: false
+                          address: '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                          currency_id: 4c6ff21c-d772-4ca6-9036-6b5fe32c12f2
+                          platform: ethereum
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: '0x12de548F79a50D2bd05481C8515C1eF5183666a9'
+                            is_vasp: false
+                            name: A7A5 Issuer - OLD VECTOR LLC (a.k.a. OBSHCHESTVO S OGRANICHENNOI OTVETSTVENNOSTYU OLD VEKTOR) - OFAC SDN - 14 Aug 2025
+                            risk_score: 10
+                            triggered_rules: OFAC Sanctioned Entity
+                            usd_worth: 14381878855.032969
+                          success: true
+                Currency v3 (example 3):
+                  value:
+                    data:
+                      - - type: PRIVATE_WALLET
+                          is_vasp: false
+                          address: 1HQ3Go3ggs8pFnXuHVHRytPCq5fGG8Hbhx
+                          currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          network: bitcoin
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: 1HQ3Go3ggs8pFnXuHVHRytPCq5fGG8Hbhx
+                            is_vasp: false
+                            name: Silk Road Hacker (Individual X)
+                            risk_score: null
+                            triggered_rules: Thief
+                            usd_worth: 14503305.293311743
+                          success: true
+                        - type: SYGNA_VASP
+                          is_vasp: true
+                          address: 1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY
+                          currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          network: bitcoin
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: 1KFHE7w8BhaENAswwryaoccDb6qcT6DbYY
+                            is_vasp: false
+                            name: 'F2Pool #2'
+                            notification_receivers: null
+                            risk_score: null
+                            triggered_rules: Miner
+                            usd_worth: 9400530624.968304
+                            vasp_code: ROBOTSIT
+                          success: true
+                        - type: OTHER_VASP
+                          is_vasp: true
+                          address: 35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP
+                          currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          network: bitcoin
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: 35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP
+                            is_vasp: true
+                            name: HTX (formerly Huobi)
+                            risk_score: null
+                            triggered_rules: Exchange
+                            usd_worth: 1057453682660.563
+                          success: true
+                        - type: EMAIL_PROTOCOL
+                          is_vasp: true
+                          address: 1Fju85RL5veT6Pe5Q1mLLRzTmYwnpeihZr
+                          currency_id: 089dd571-dbcc-4c1b-9d0c-fd6c3bbf5a12
+                          network: bitcoin
+                          extra_data:
+                            asset: holistic
+                            blockchain_analytics_vendor: Elliptic
+                            hash: 1Fju85RL5veT6Pe5Q1mLLRzTmYwnpeihZr
+                            is_vasp: true
+                            name: Binance
+                            notification_receivers:
+                              - kunming0525@gmail.com
+                            risk_score: null
+                            triggered_rules: Exchange
+                            usd_worth: 8495047799514.421
+                            vasp_code: TEZZTWTP
+                          success: true
         '400':
           description: Bad Request
           content:
@@ -8610,6 +9322,22 @@ components:
               type: string
             extra_info:
               $ref: '#/components/schemas/model.StringObject'
+        network:
+          type: string
+          description: 'WalletConnect network name (e.g. mainnet, arbitrum, polygon, bsc, avalanche, optimism, solana, bitcoin, ton, tron)'
+        verification_method:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+            - both
+          default: satoshi_test
+        signature:
+          type: string
+          description: WalletConnect signature result
+        wallet_name:
+          type: string
+          description: WalletConnect wallet name
     model.OwnershipAsset:
       type: object
       properties:
@@ -8619,12 +9347,21 @@ components:
           type: string
         updated_at:
           type: string
+        asset_type:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+          default: satoshi_test
         txid:
           type: string
         address:
           type: string
         currency_id:
           type: string
+        platform:
+          type: string
+          description: 'Currency platform name (e.g. ethereum, solana)'
         currency_symbol:
           type: string
         currency_name:
@@ -8681,6 +9418,9 @@ components:
           properties:
             currency_id:
               type: string
+            platform:
+              type: string
+              description: 'Currency platform name (e.g. ethereum, solana)'
             vasp_beneficiary_wallet_address:
               type: string
             value:
@@ -8697,6 +9437,22 @@ components:
           type: array
           items:
             type: string
+        wc_wallet_address:
+          type: array
+          items:
+            type: string
+          description: WalletConnect wallet addresses
+        verification_method:
+          type: string
+          enum:
+            - satoshi_test
+            - wallet_connect
+            - both
+          default: satoshi_test
+          description: Ownership verification method
+        network:
+          type: string
+          description: 'WalletConnect network name (e.g. mainnet, arbitrum, polygon, bsc, avalanche, optimism, solana, bitcoin, ton, tron)'
         assets_ignore_kyt:
           type: boolean
       required:
@@ -8758,9 +9514,9 @@ components:
                 format: uuid
               txid:
                 type: string
+                description: 'Transaction identifier on blockchain (required for satoshi_test and both; optional for wallet_connect)'
             required:
               - id
-              - txid
         reject:
           type: array
           items:
@@ -8779,6 +9535,15 @@ components:
               - reject_message
         owner_info:
           $ref: '#/components/schemas/OwnerInfo'
+        signature:
+          type: string
+          description: WalletConnect signature result
+        signed_message:
+          type: string
+          description: The message that was signed
+        wallet_name:
+          type: string
+          description: WalletConnect wallet name
     OwnerInfo:
       type: object
       properties:
