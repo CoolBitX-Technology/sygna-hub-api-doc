@@ -7459,14 +7459,28 @@ paths:
         description: post /vasp-server-status params
         required: true
         content:
-          '*/*':
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      start_at:
+                        type: integer
+                      end_at:
+                        type: integer
             examples:
               Examples:
                 value:
                   data:
                     - type: maintaining
                       start_at: 1730169600000
-                      end_at: 1730168700000
+                      end_at: 1730173200000
       responses:
         '200':
           description: OK
